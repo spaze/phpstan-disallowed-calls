@@ -1,0 +1,21 @@
+{
+	"name": "spaze/phpstan-disallowed-calls",
+	"description": "Disallowed method calls plug-in for PHPStan",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Michal Špaček",
+			"homepage": "https://www.michalspacek.cz",
+			"email": "mail@michalspacek.cz"
+		}
+	],
+	"require": {
+		"php": "^7.0"
+	},
+	"require-dev": {
+		"phpstan/phpstan": "^0.10"
+	},
+	"autoload": {
+		"psr-4": {"Spaze\\PHPStan\\Rules\\Disallowed\\": "src"}
+	}
+}
