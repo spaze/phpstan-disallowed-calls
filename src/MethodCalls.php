@@ -5,10 +5,12 @@ namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleLevelHelper;
 use PHPStan\ShouldNotHappenException;
+use PHPStan\Type\Type;
 
 /**
  * Reports on dynamically calling a forbidden method or two.
@@ -56,30 +58,32 @@ class MethodCalls implements Rule
 	 * @param Node $node
 	 * @param Scope $scope
 	 * @return string[]
-	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
 		/** @var MethodCall $node */
-		if (!is_string($node->name)) {
+		if (!($node->name instanceof Identifier)) {
 			return [];
 		}
 
+		$name = $node->name->name;
 		$typeResult = $this->ruleLevelHelper->findTypeToCheck(
 			$scope,
 			$node->var,
-			sprintf('Call to method %s() on an unknown class %%s.', $node->name)
+			sprintf('Call to method %s() on an unknown class %%s.', $name),
+			static function (Type $type) use ($name): bool {
+				return $type->canCallMethods()->yes() && $type->hasMethod($name)->yes();
+			}
 		);
-		if (count($typeResult->getReferencedClasses()) > 1) {
-			throw new ShouldNotHappenException('One too many referenced classes: ' . implode(', ', $typeResult->getReferencedClasses()));
-		}
 
-		$fullyQualified = current($typeResult->getReferencedClasses()) . "::{$node->name}()";
-		foreach ($this->forbiddenCalls as $forbiddenCall) {
-			if ($fullyQualified === $forbiddenCall['method']) {
-				return [
-					sprintf('Calling %s is forbidden, %s', $fullyQualified, $forbiddenCall['message'] ?? 'because reasons'),
-				];
+		foreach ($typeResult->getReferencedClasses() as $referencedClass) {
+			$fullyQualified = current($typeResult->getReferencedClasses()) . "::{$name}()";
+			foreach ($this->forbiddenCalls as $forbiddenCall) {
+				if ($fullyQualified === $forbiddenCall['method']) {
+					return [
+						sprintf('Calling %s is forbidden, %s', $fullyQualified, $forbiddenCall['message'] ?? 'because reasons'),
+					];
+				}
 			}
 		}
 

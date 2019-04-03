@@ -5,6 +5,7 @@ namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleLevelHelper;
@@ -59,11 +60,12 @@ class StaticCalls implements Rule
 	public function processNode(Node $node, Scope $scope): array
 	{
 		/** @var StaticCall $node */
-		if (!is_string($node->name)) {
+		if (!($node->name instanceof Identifier)) {
 			return [];
 		}
 
-		$fullyQualified = "{$node->class}::{$node->name}()";
+		$name = $node->name->name;
+		$fullyQualified = "{$node->class}::{$name}()";
 		foreach ($this->forbiddenCalls as $forbiddenCall) {
 			if ($fullyQualified === $forbiddenCall['method']) {
 				return [
