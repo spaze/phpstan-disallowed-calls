@@ -26,4 +26,14 @@ services:
                 -
                     method: 'PotentiallyDangerous\Debugger::log()'
                     message: 'use our own logger instead'
+
+    -
+        class: Spaze\PHPStan\Rules\Disallowed\FunctionCalls
+        tags:
+            - phpstan.rules.rule
+        arguments:
+            forbiddenCalls:
+                -
+                    function: 'var_dump()'
+                    message: 'use logger instead'
 ```
