@@ -8,7 +8,6 @@ use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use PHPStan\Rules\RuleLevelHelper;
 
 /**
  * Reports on statically calling a forbidden method or two.
@@ -32,16 +31,12 @@ use PHPStan\Rules\RuleLevelHelper;
 class StaticCalls implements Rule
 {
 
-	/** @var RuleLevelHelper */
-	private $ruleLevelHelper;
-
 	/** @var string[][] */
 	private $forbiddenCalls;
 
 
-	public function __construct(RuleLevelHelper $ruleLevelHelper, array $forbiddenCalls)
+	public function __construct(array $forbiddenCalls)
 	{
-		$this->ruleLevelHelper = $ruleLevelHelper;
 		$this->forbiddenCalls = $forbiddenCalls;
 	}
 
