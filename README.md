@@ -1,6 +1,8 @@
 # phpstan-disallowed-calls
 [PHPStan](https://github.com/phpstan/phpstan) rules to detect disallowed calls, *Work in Progress, this package needs more love*
 
+[![Build Status](https://travis-ci.org/spaze/phpstan-disallowed-calls.svg?branch=master)](https://travis-ci.org/spaze/phpstan-disallowed-calls)
+
 # Configuration
 
 Add the following to `phpstan.neon` config file and update to your needs:
