@@ -1,0 +1,21 @@
+<phpunit
+		bootstrap="bootstrap.php"
+		colors="true"
+		backupGlobals="false"
+		backupStaticAttributes="false"
+		beStrictAboutChangesToGlobalState="true"
+		beStrictAboutOutputDuringTests="true"
+		beStrictAboutTestsThatDoNotTestAnything="true"
+		beStrictAboutTodoAnnotatedTests="true"
+		failOnRisky="true"
+		failOnWarning="true"
+>
+	<filter>
+		<whitelist>
+			<directory suffix=".php">../src</directory>
+		</whitelist>
+	</filter>
+	<logging>
+		<log type="coverage-html" target="tmp/report" lowUpperBound="35" highLowerBound="70"/>
+	</logging>
+</phpunit>
