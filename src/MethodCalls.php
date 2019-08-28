@@ -7,6 +7,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
+use PHPStan\Broker\Broker;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleLevelHelper;
 use PHPStan\ShouldNotHappenException;
@@ -41,9 +42,9 @@ class MethodCalls implements Rule
 	private $forbiddenCalls;
 
 
-	public function __construct(RuleLevelHelper $ruleLevelHelper, array $forbiddenCalls)
+	public function __construct(Broker $broker, array $forbiddenCalls)
 	{
-		$this->ruleLevelHelper = $ruleLevelHelper;
+		$this->ruleLevelHelper = new RuleLevelHelper($broker, true, false, true);
 		$this->forbiddenCalls = $forbiddenCalls;
 	}
 

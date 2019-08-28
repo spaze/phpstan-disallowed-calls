@@ -12,9 +12,8 @@ class MethodCallsTest extends RuleTestCase
 
 	protected function getRule(): Rule
 	{
-		$ruleLevelHelper = new RuleLevelHelper($this->createBroker(), false, false, false);
 		return new MethodCalls(
-			$ruleLevelHelper,
+			$this->createBroker(),
 			[
 				[
 					'method' => 'Waldo\Quux\Blade::runner()',
