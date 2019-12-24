@@ -10,6 +10,3 @@ before_script:
 
 script:
   - vendor/bin/phpunit -c tests/phpunit.xml tests/
-  - >
-    wget https://github.com/maglnet/ComposerRequireChecker/releases/download/2.0.0/composer-require-checker.phar
-    && php composer-require-checker.phar check
