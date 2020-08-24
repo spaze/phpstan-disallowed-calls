@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed;
 
+use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 
@@ -12,21 +13,38 @@ class FunctionCallsTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		return new FunctionCalls(
+			new DisallowedHelper(new FileHelper(__DIR__)),
 			[
 				[
 					'function' => 'var_dump()',
 					'message' => 'use logger instead',
+					'allowIn' => [
+						'data/*-allowed.php',
+						'data/*-allowed.*',
+					],
 				],
 				[
 					'function' => 'print_r()',
 					'message' => 'nope',
+					'allowIn' => [
+						'data/*-allowed.php',
+						'data/*-allowed.*',
+					],
 				],
 				[
 					'function' => 'printf()',
+					'allowIn' => [
+						'data/*-allowed.php',
+						'data/*-allowed.*',
+					],
 				],
 				[
 					'function' => 'Foo\Bar\waldo()',
 					'message' => 'whoa, a namespace',
+					'allowIn' => [
+						'data/*-allowed.php',
+						'data/*-allowed.*',
+					],
 				],
 			]
 		);
@@ -57,6 +75,7 @@ class FunctionCallsTest extends RuleTestCase
 				11,
 			],
 		]);
+		$this->analyse([__DIR__ . '/data/disallowed-calls-allowed.php'], []);
 	}
 
 }

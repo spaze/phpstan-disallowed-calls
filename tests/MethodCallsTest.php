@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed;
 
+use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
-use PHPStan\Rules\RuleLevelHelper;
 use PHPStan\Testing\RuleTestCase;
 
 class MethodCallsTest extends RuleTestCase
@@ -14,10 +14,15 @@ class MethodCallsTest extends RuleTestCase
 	{
 		return new MethodCalls(
 			$this->createBroker(),
+			new DisallowedHelper(new FileHelper(__DIR__)),
 			[
 				[
 					'method' => 'Waldo\Quux\Blade::runner()',
 					'message' => "I've seen tests you people wouldn't believe",
+					'allowIn' => [
+						'data/*-allowed.php',
+						'data/*-allowed.*',
+					],
 				],
 			]
 		);
@@ -32,6 +37,7 @@ class MethodCallsTest extends RuleTestCase
 				25,
 			],
 		]);
+		$this->analyse([__DIR__ . '/data/disallowed-calls-allowed.php'], []);
 	}
 
 }

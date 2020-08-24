@@ -10,7 +10,6 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Broker\Broker;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleLevelHelper;
-use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Type;
 
 /**
@@ -25,6 +24,9 @@ use PHPStan\Type\Type;
  *     -
  *       method: 'Tracy\ILogger::log()'
  *       message: 'use our own logger instead'
+ *       allowIn:
+ *         - optional/path/to/*.tests.php
+ *         - another/file.php
  *     -
  *       method: 'Foo\Bar::baz()'
  *       message: 'waldo instead'
@@ -38,13 +40,17 @@ class MethodCalls implements Rule
 	/** @var RuleLevelHelper */
 	private $ruleLevelHelper;
 
+	/** @var DisallowedHelper */
+	private $disallowedHelper;
+
 	/** @var string[][] */
 	private $forbiddenCalls;
 
 
-	public function __construct(Broker $broker, array $forbiddenCalls)
+	public function __construct(Broker $broker, DisallowedHelper $disallowedHelper, array $forbiddenCalls)
 	{
 		$this->ruleLevelHelper = new RuleLevelHelper($broker, true, false, true);
+		$this->disallowedHelper = $disallowedHelper;
 		$this->forbiddenCalls = $forbiddenCalls;
 	}
 
@@ -80,7 +86,7 @@ class MethodCalls implements Rule
 		foreach ($typeResult->getReferencedClasses() as $referencedClass) {
 			$fullyQualified = current($typeResult->getReferencedClasses()) . "::{$name}()";
 			foreach ($this->forbiddenCalls as $forbiddenCall) {
-				if ($fullyQualified === $forbiddenCall['method']) {
+				if ($fullyQualified === $forbiddenCall['method'] && !$this->disallowedHelper->isAllowed($scope->getFile(), $forbiddenCall)) {
 					return [
 						sprintf('Calling %s is forbidden, %s', $fullyQualified, $forbiddenCall['message'] ?? 'because reasons'),
 					];

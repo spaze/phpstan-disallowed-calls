@@ -19,6 +19,9 @@ use PHPStan\Rules\Rule;
  *     -
  *       function: 'var_dump()'
  *       message: 'use logger instead'
+ *       allowIn:
+ *         - optional/path/to/*.tests.php
+ *         - another/file.php
  *     -
  *       function: 'Foo\Bar\baz()'
  *       message: 'waldo instead'
@@ -29,12 +32,16 @@ use PHPStan\Rules\Rule;
 class FunctionCalls implements Rule
 {
 
+	/** @var DisallowedHelper */
+	private $disallowedHelper;
+
 	/** @var string[][] */
 	private $forbiddenCalls;
 
 
-	public function __construct(array $forbiddenCalls)
+	public function __construct(DisallowedHelper $disallowedHelper, array $forbiddenCalls)
 	{
+		$this->disallowedHelper = $disallowedHelper;
 		$this->forbiddenCalls = $forbiddenCalls;
 	}
 
@@ -58,7 +65,7 @@ class FunctionCalls implements Rule
 
 		$name = $node->name . '()';
 		foreach ($this->forbiddenCalls as $forbiddenCall) {
-			if ($name === $forbiddenCall['function']) {
+			if ($name === $forbiddenCall['function'] && !$this->disallowedHelper->isAllowed($scope->getFile(), $forbiddenCall)) {
 				return [
 					sprintf('Calling %s is forbidden, %s', $name, $forbiddenCall['message'] ?? 'because reasons'),
 				];

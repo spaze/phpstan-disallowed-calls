@@ -21,6 +21,9 @@ use PHPStan\Rules\Rule;
  *     -
  *       method: 'Tracy\Debugger::log()'
  *       message: 'use our own logger instead'
+ *       allowIn:
+ *         - optional/path/to/*.tests.php
+ *         - another/file.php
  *     -
  *       method: 'Foo\Bar::baz()'
  *       message: 'waldo instead'
@@ -31,12 +34,16 @@ use PHPStan\Rules\Rule;
 class StaticCalls implements Rule
 {
 
+	/** @var DisallowedHelper */
+	private $disallowedHelper;
+
 	/** @var string[][] */
 	private $forbiddenCalls;
 
 
-	public function __construct(array $forbiddenCalls)
+	public function __construct(DisallowedHelper $disallowedHelper, array $forbiddenCalls)
 	{
+		$this->disallowedHelper = $disallowedHelper;
 		$this->forbiddenCalls = $forbiddenCalls;
 	}
 
@@ -62,7 +69,7 @@ class StaticCalls implements Rule
 		$name = $node->name->name;
 		$fullyQualified = "{$node->class}::{$name}()";
 		foreach ($this->forbiddenCalls as $forbiddenCall) {
-			if ($fullyQualified === $forbiddenCall['method']) {
+			if ($fullyQualified === $forbiddenCall['method'] && !$this->disallowedHelper->isAllowed($scope->getFile(), $forbiddenCall)) {
 				return [
 					sprintf('Calling %s is forbidden, %s', $fullyQualified, $forbiddenCall['message'] ?? 'because reasons'),
 				];
