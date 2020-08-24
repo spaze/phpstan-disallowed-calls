@@ -35,6 +35,7 @@ Use them to add rules to your `phpstan.neon` config file. Here's an example, upd
 
 ```
 services:
+    - Spaze\PHPStan\Rules\Disallowed\DisallowedHelper
     -
         class: Spaze\PHPStan\Rules\Disallowed\MethodCalls
         tags:
@@ -72,7 +73,7 @@ services:
                     message: 'use logger instead'
 ```
 
-The `message` key is optional.
+The `message` key is optional. Don't forget to add the `DisallowedHelper` service.
 
 ## Example output
 
@@ -100,6 +101,27 @@ ignoreErrors:
             - application/libraries/Tls/CertificateSigningRequest.php
             - application/libraries/Tls/PublicKey.php
 ```
+
+You can also allow some previously disallowed calls using the `allowIn` configuration key, for example:
+
+```
+services:
+    - Spaze\PHPStan\Rules\Disallowed\DisallowedHelper
+    -
+        class: Spaze\PHPStan\Rules\Disallowed\MethodCalls
+        tags:
+            - phpstan.rules.rule
+        arguments:
+            forbiddenCalls:
+                -
+                    method: 'PotentiallyDangerous\Logger::log()'
+                    message: 'use our own logger instead'
+                    allowIn:
+                        - path/to/some/file-*.php
+                        - tests/*.test.php
+```
+
+The paths in `allowIn` are relative to the config file location and support [fnmatch()](https://www.php.net/function.fnmatch) patterns.
 
 ## Running tests
 
