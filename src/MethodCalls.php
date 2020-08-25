@@ -27,6 +27,11 @@ use PHPStan\Type\Type;
  *       allowIn:
  *         - optional/path/to/*.tests.php
  *         - another/file.php
+ *       allowParamsInAllowed:
+ *         1: 'foo'
+ *         2: true
+ *       allowParamsAnywhere:
+ *         2: true
  *     -
  *       method: 'Foo\Bar::baz()'
  *       message: 'waldo instead'
@@ -86,7 +91,7 @@ class MethodCalls implements Rule
 		foreach ($typeResult->getReferencedClasses() as $referencedClass) {
 			$fullyQualified = current($typeResult->getReferencedClasses()) . "::{$name}()";
 			foreach ($this->forbiddenCalls as $forbiddenCall) {
-				if ($fullyQualified === $forbiddenCall['method'] && !$this->disallowedHelper->isAllowed($scope->getFile(), $forbiddenCall)) {
+				if ($fullyQualified === $forbiddenCall['method'] && !$this->disallowedHelper->isAllowed($scope->getFile(), $node->args, $forbiddenCall)) {
 					return [
 						sprintf('Calling %s is forbidden, %s', $fullyQualified, $forbiddenCall['message'] ?? 'because reasons'),
 					];

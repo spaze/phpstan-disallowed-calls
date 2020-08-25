@@ -85,7 +85,7 @@ The `message` key is optional. Don't forget to add the `DisallowedHelper` servic
  ------ --------------------------------------------------------
 ```
 
-## Ignore some calls
+## Allow some previously disallowed calls
 
 Sometimes, the method or the function needs to be called once in your code, for example in a custom wrapper. You can use PHPStan's [`ignoreErrors` feature](https://github.com/phpstan/phpstan#ignore-error-messages-with-regular-expressions) to ignore that one call:
 
@@ -122,6 +122,30 @@ services:
 ```
 
 The paths in `allowIn` are relative to the config file location and support [fnmatch()](https://www.php.net/function.fnmatch) patterns.
+
+You can also narrow down the allowed items when called with some parameters. For example, you want to disallow calling `print_r()` but want to allow `print_r(..., true)`.
+This can be done with optional `allowParamsInAllowed` or `allowParamsAnywhere` configuration keys:
+
+```
+arguments:
+    forbiddenCalls:
+        -
+            method: 'Tracy\ILogger::log()'
+            message: 'use our own logger instead'
+            allowIn:
+                - optional/path/to/*.tests.php
+                - another/file.php
+            allowParamsInAllowed:
+                1: 'foo'
+                2: true
+            allowParamsAnywhere:
+                2: true
+```
+
+When using `allowParamsInAllowed`, calls will be allowed only when they are in one of the `allowIn` paths, and are called with all parameters listed in `allowParamsInAllowed`.
+With `allowParamsAnywhere`, calls are allowed when called with all parameters listed no matter in which file. In the example above, the `log()` method will be disallowed unless called as:
+- `log(..., true)` anywhere
+- `log('foo', true)` in `another/file.php` or `optional/path/to/log.tests.php`
 
 ## Running tests
 

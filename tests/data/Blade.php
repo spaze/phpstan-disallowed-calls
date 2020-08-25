@@ -6,7 +6,7 @@ namespace Waldo\Quux;
 class Blade
 {
 
-	public function runner(): void
+	public function runner(int $everything = 0, bool $yes = false, string $roland = '303'): void
 	{
 	}
 

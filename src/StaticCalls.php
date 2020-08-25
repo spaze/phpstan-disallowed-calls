@@ -24,6 +24,11 @@ use PHPStan\Rules\Rule;
  *       allowIn:
  *         - optional/path/to/*.tests.php
  *         - another/file.php
+ *       allowParamsInAllowed:
+ *         1: 'foo'
+ *         2: true
+ *       allowParamsAnywhere:
+ *         2: true
  *     -
  *       method: 'Foo\Bar::baz()'
  *       message: 'waldo instead'
@@ -69,7 +74,7 @@ class StaticCalls implements Rule
 		$name = $node->name->name;
 		$fullyQualified = "{$node->class}::{$name}()";
 		foreach ($this->forbiddenCalls as $forbiddenCall) {
-			if ($fullyQualified === $forbiddenCall['method'] && !$this->disallowedHelper->isAllowed($scope->getFile(), $forbiddenCall)) {
+			if ($fullyQualified === $forbiddenCall['method'] && !$this->disallowedHelper->isAllowed($scope->getFile(), $node->args, $forbiddenCall)) {
 				return [
 					sprintf('Calling %s is forbidden, %s', $fullyQualified, $forbiddenCall['message'] ?? 'because reasons'),
 				];
