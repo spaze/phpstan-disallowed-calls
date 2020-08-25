@@ -23,6 +23,11 @@ class MethodCallsTest extends RuleTestCase
 						'data/*-allowed.php',
 						'data/*-allowed.*',
 					],
+					'allowParamsInAllowed' => [
+						1 => 42,
+						2 => true,
+						3 => '909',
+					],
 				],
 			]
 		);
@@ -34,10 +39,27 @@ class MethodCallsTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/data/disallowed-calls.php'], [
 			[
 				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe",
-				25,
+				28,
+			],
+			[
+				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe",
+				30,
+			],
+			[
+				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe",
+				31,
 			],
 		]);
-		$this->analyse([__DIR__ . '/data/disallowed-calls-allowed.php'], []);
+		$this->analyse([__DIR__ . '/data/disallowed-calls-allowed.php'], [
+			[
+				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe",
+				29,
+			],
+			[
+				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe",
+				32,
+			],
+		]);
 	}
 
 }

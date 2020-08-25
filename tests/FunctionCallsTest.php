@@ -30,6 +30,9 @@ class FunctionCallsTest extends RuleTestCase
 						'data/*-allowed.php',
 						'data/*-allowed.*',
 					],
+					'allowParamsAnywhere' => [
+						2 => true,
+					]
 				],
 				[
 					'function' => 'printf()',
@@ -73,6 +76,10 @@ class FunctionCallsTest extends RuleTestCase
 			[
 				'Calling Foo\Bar\waldo() is forbidden, whoa, a namespace',
 				11,
+			],
+			[
+				'Calling print_r() is forbidden, nope',
+				35,
 			],
 		]);
 		$this->analyse([__DIR__ . '/data/disallowed-calls-allowed.php'], []);

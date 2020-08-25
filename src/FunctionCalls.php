@@ -22,6 +22,11 @@ use PHPStan\Rules\Rule;
  *       allowIn:
  *         - optional/path/to/*.tests.php
  *         - another/file.php
+ *       allowParamsInAllowed:
+ *         1: 'foo'
+ *         2: true
+ *       allowParamsAnywhere:
+ *         2: true
  *     -
  *       function: 'Foo\Bar\baz()'
  *       message: 'waldo instead'
@@ -65,7 +70,7 @@ class FunctionCalls implements Rule
 
 		$name = $node->name . '()';
 		foreach ($this->forbiddenCalls as $forbiddenCall) {
-			if ($name === $forbiddenCall['function'] && !$this->disallowedHelper->isAllowed($scope->getFile(), $forbiddenCall)) {
+			if ($name === $forbiddenCall['function'] && !$this->disallowedHelper->isAllowed($scope->getFile(), $node->args, $forbiddenCall)) {
 				return [
 					sprintf('Calling %s is forbidden, %s', $name, $forbiddenCall['message'] ?? 'because reasons'),
 				];
