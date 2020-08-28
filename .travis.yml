@@ -7,7 +7,10 @@ php:
   - 7.4
 
 before_script:
-  - composer install
+  - composer validate --strict
+
+install:
+  - composer update --prefer-dist --no-suggest
 
 script:
   - vendor/bin/phpunit -c tests/phpunit.xml tests/
