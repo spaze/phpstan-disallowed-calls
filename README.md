@@ -35,6 +35,15 @@ includes:
 
 ## Configuration
 
+You can start by including `disallowed-dangerous-calls.neon` in your `phpstan.neon`:
+
+```neon
+includes:
+    - vendor/spaze/phpstan-disallowed-calls/disallowed-dangerous-calls.neon
+```
+
+`disallowed-dangerous-calls.neon` can also serve as a template when you'd like to extend the configuration to disallow some other functions or methods, copy it and modify to your needs.
+
 There are three different disallowed types (and configuration keys) that can be disallowed:
 
 1. `disallowedMethodCalls` - for detecting `$object->method()` calls

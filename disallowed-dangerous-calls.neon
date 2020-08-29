@@ -1,0 +1,21 @@
+parameters:
+	disallowedFunctionCalls:
+		-
+			function: 'eval()'
+			message: 'eval is evil, please write more code and do not use eval()'
+		-
+			function: 'extract()'
+			message: 'do not use extract() and especially not on untrusted data'
+		-
+			function: 'print_r()'
+			message: 'use some logger instead'
+			allowParamsAnywhere:
+				2: true
+		-
+			function: 'var_dump()'
+			message: 'use some logger instead'
+		-
+			function: 'var_export()'
+			message: 'use some logger instead'
+			allowParamsAnywhere:
+				2: true
