@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Scalar;
 use PHPStan\File\FileHelper;
 
@@ -23,7 +24,7 @@ class DisallowedHelper
 	/**
 	 * @param string $file
 	 * @param Arg[] $args
-	 * @param string[] $config
+	 * @param array<string, string|array> $config
 	 * @return boolean
 	 */
 	public function isAllowed(string $file, array $args, array $config): bool
@@ -38,7 +39,7 @@ class DisallowedHelper
 
 
 	/**
-	 * @param string[] $config
+	 * @param array<string, string|array> $config
 	 * @param Arg[] $args
 	 * @param string $configKey
 	 * @param boolean $default
@@ -75,9 +76,19 @@ class DisallowedHelper
 		// get it as a bool, only as a string. So to support booleans in the .neon config file we have to convert to a string manually.
 		if (is_bool($value)) {
 			return $this->isDisallowedParam($value ? 'true' : 'false', $arg);
-		} else {
-			return ($value !== ($arg->value instanceof Scalar ? $arg->value->value : (string)$arg->value->name));
 		}
+
+		$argValue = $arg->value;
+
+		if ($argValue instanceof ConstFetch) {
+			$stringValue = $argValue->name->getLast();
+		} elseif ($argValue instanceof Scalar && property_exists($argValue, 'value')) {
+			$stringValue = $argValue->value;
+		} else {
+			return false;
+		}
+
+		return $value !== $stringValue;
 	}
 
 }
