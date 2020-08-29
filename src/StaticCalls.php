@@ -10,29 +10,9 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 
 /**
- * Reports on statically calling a forbidden method or two.
+ * Reports on statically calling a disallowed method or two.
  *
  * Dynamic calls have a different rule, <code>MethodCalls</code>
- *
- * Specify required arguments in a config file, example:
- * <code>
- * arguments:
- *   forbiddenCalls:
- *     -
- *       method: 'Tracy\Debugger::log()'
- *       message: 'use our own logger instead'
- *       allowIn:
- *         - optional/path/to/*.tests.php
- *         - another/file.php
- *       allowParamsInAllowed:
- *         1: 'foo'
- *         2: true
- *       allowParamsAnywhere:
- *         2: true
- *     -
- *       method: 'Foo\Bar::baz()'
- *       message: 'waldo instead'
- * </code>
  *
  * @package spaze\PHPStan\Rules\Disallowed
  */
