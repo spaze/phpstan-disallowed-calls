@@ -10,27 +10,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 
 /**
- * Reports on dynamically calling a forbidden function.
- *
- * Specify required arguments in a config file, example:
- * <code>
- * arguments:
- *   forbiddenCalls:
- *     -
- *       function: 'var_dump()'
- *       message: 'use logger instead'
- *       allowIn:
- *         - optional/path/to/*.tests.php
- *         - another/file.php
- *       allowParamsInAllowed:
- *         1: 'foo'
- *         2: true
- *       allowParamsAnywhere:
- *         2: true
- *     -
- *       function: 'Foo\Bar\baz()'
- *       message: 'waldo instead'
- * </code>
+ * Reports on dynamically calling a disallowed function.
  *
  * @package spaze\PHPStan\Rules\Disallowed
  */
