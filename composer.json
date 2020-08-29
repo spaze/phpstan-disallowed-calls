@@ -29,8 +29,10 @@
 	},
 	"scripts": {
 		"phpunit-dev": "vendor/bin/phpunit --configuration tests/phpunit.xml --colors=always tests/",
+		"phpstan-dev": "vendor/bin/phpstan analyze --level=5 src/",
 		"test": [
-			"@phpunit-dev"
+			"@phpunit-dev",
+			"@phpstan-dev"
 		]
 	}
 }

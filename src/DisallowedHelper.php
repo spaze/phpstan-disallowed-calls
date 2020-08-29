@@ -23,7 +23,7 @@ class DisallowedHelper
 	/**
 	 * @param string $file
 	 * @param Arg[] $args
-	 * @param string[] $config
+	 * @param array<string, string|array> $config
 	 * @return boolean
 	 */
 	public function isAllowed(string $file, array $args, array $config): bool
@@ -38,7 +38,7 @@ class DisallowedHelper
 
 
 	/**
-	 * @param string[] $config
+	 * @param array<string, string|array> $config
 	 * @param Arg[] $args
 	 * @param string $configKey
 	 * @param boolean $default
@@ -76,7 +76,7 @@ class DisallowedHelper
 		if (is_bool($value)) {
 			return $this->isDisallowedParam($value ? 'true' : 'false', $arg);
 		} else {
-			return ($value !== ($arg->value instanceof Scalar ? $arg->value->value : (string)$arg->value->name));
+			return $value !== ($arg->value instanceof Scalar ? $arg->value->value : (string)$arg->value->name);
 		}
 	}
 
