@@ -1,0 +1,50 @@
+parameters:
+	disallowedMethodCalls: []
+	disallowedStaticCalls: []
+	disallowedFunctionCalls: []
+
+parametersSchema:
+	# These should be defined using `structure` with listed keys but it seems to me that PHPStan requires
+	# all keys to be present in a structure but `message`, `allowIn` & `allowParamsInAllowed` are optional.
+	disallowedMethodCalls: listOf(
+		arrayOf(
+			anyOf(
+				string(),
+				listOf(string()),
+				arrayOf(anyOf(int(), string(), bool()))
+			)
+		)
+	)
+	disallowedStaticCalls: listOf(
+		arrayOf(
+			anyOf(
+				string(),
+				listOf(string()),
+				arrayOf(anyOf(int(), string(), bool()))
+			)
+		)
+	)
+	disallowedFunctionCalls: listOf(
+		arrayOf(
+			anyOf(
+				string(),
+				listOf(string()),
+				arrayOf(anyOf(int(), string(), bool()))
+			)
+		)
+	)
+
+services:
+	- Spaze\PHPStan\Rules\Disallowed\DisallowedHelper
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\MethodCalls(forbiddenCalls: %disallowedMethodCalls%)
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\StaticCalls(forbiddenCalls: %disallowedStaticCalls%)
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\FunctionCalls(forbiddenCalls: %disallowedFunctionCalls%)
+		tags:
+			- phpstan.rules.rule

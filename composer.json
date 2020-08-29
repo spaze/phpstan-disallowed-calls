@@ -10,6 +10,13 @@
 			"email": "mail@michalspacek.cz"
 		}
 	],
+	"extra": {
+		"phpstan": {
+			"includes": [
+				"extension.neon"
+			]
+		}
+	},
 	"require": {
 		"php": "^7.1",
 		"phpstan/phpstan": "^0.12"

@@ -23,57 +23,51 @@ composer require --dev spaze/phpstan-disallowed-calls
 
 [PHPStan](https://github.com/phpstan/phpstan), the PHP Static Analysis Tool, is a requirement.
 
+If you use [phpstan/extension-installer](https://github.com/phpstan/extension-installer), you are all set and can skip to configuration.
+
+For manual installation, add this to your `phpstan.neon`:
+
+```
+includes:
+    - vendor/spaze/phpstan-disallowed-calls/extension.neon
+```
+
+
 ## Configuration
 
-There are three different classes that can be used:
+There are three different disallowed types (and configuration keys) that can be disallowed:
 
-1. `MethodCalls` - for detecting `$object->method()` calls
-2. `StaticCalls` - for static calls `Class::method()`
-3. `FunctionCalls` - for functions like `function()`
+1. `disallowedMethodCalls` - for detecting `$object->method()` calls
+2. `disallowedStaticCalls` - for static calls `Class::method()`
+3. `disallowedFunctionCalls` - for functions like `function()`
 
-Use them to add rules to your `phpstan.neon` config file. Here's an example, update to your needs:
+Use them to add rules to your `phpstan.neon` config file. I like to use a separate file (`disallowed-calls.neon`) for these which I'll include later on in the main `phpstan.neon` config file. Here's an example, update to your needs:
 
 ```
-services:
-    - Spaze\PHPStan\Rules\Disallowed\DisallowedHelper
-    -
-        class: Spaze\PHPStan\Rules\Disallowed\MethodCalls
-        tags:
-            - phpstan.rules.rule
-        arguments:
-            forbiddenCalls:
-                -
-                    method: 'PotentiallyDangerous\Logger::log()'
-                    message: 'use our own logger instead'
-                -
-                    method: 'Redis::connect()'
-                    message: 'use our own Redis instead'
+parameters:
+    disallowedMethodCalls:
+        -
+            method: 'PotentiallyDangerous\Logger::log()'
+            message: 'use our own logger instead'
+        -
+            method: 'Redis::connect()'
+            message: 'use our own Redis instead'
 
-    -
-        class: Spaze\PHPStan\Rules\Disallowed\StaticCalls
-        tags:
-            - phpstan.rules.rule
-        arguments:
-            forbiddenCalls:
-                -
-                    method: 'PotentiallyDangerous\Debugger::log()'
-                    message: 'use our own logger instead'
+    disallowedStaticCalls:
+        -
+            method: 'PotentiallyDangerous\Debugger::log()'
+            message: 'use our own logger instead'
 
-    -
-        class: Spaze\PHPStan\Rules\Disallowed\FunctionCalls
-        tags:
-            - phpstan.rules.rule
-        arguments:
-            forbiddenCalls:
-                -
-                    function: 'var_dump()'
-                    message: 'use logger instead'
-                -
-                    function: 'print_r()'
-                    message: 'use logger instead'
+    disallowedFunctionCalls:
+        -
+            function: 'var_dump()'
+            message: 'use logger instead'
+        -
+            function: 'print_r()'
+            message: 'use logger instead'
 ```
 
-The `message` key is optional. Don't forget to add the `DisallowedHelper` service.
+The `message` key is optional.
 
 ## Example output
 
@@ -105,20 +99,14 @@ ignoreErrors:
 You can also allow some previously disallowed calls using the `allowIn` configuration key, for example:
 
 ```
-services:
-    - Spaze\PHPStan\Rules\Disallowed\DisallowedHelper
-    -
-        class: Spaze\PHPStan\Rules\Disallowed\MethodCalls
-        tags:
-            - phpstan.rules.rule
-        arguments:
-            forbiddenCalls:
-                -
-                    method: 'PotentiallyDangerous\Logger::log()'
-                    message: 'use our own logger instead'
-                    allowIn:
-                        - path/to/some/file-*.php
-                        - tests/*.test.php
+parameters:
+    disallowedMethodCalls:
+        -
+            method: 'PotentiallyDangerous\Logger::log()'
+            message: 'use our own logger instead'
+            allowIn:
+                - path/to/some/file-*.php
+                - tests/*.test.php
 ```
 
 The paths in `allowIn` are relative to the config file location and support [fnmatch()](https://www.php.net/function.fnmatch) patterns.
@@ -127,14 +115,14 @@ You can also narrow down the allowed items when called with some parameters. For
 This can be done with optional `allowParamsInAllowed` or `allowParamsAnywhere` configuration keys:
 
 ```
-arguments:
-    forbiddenCalls:
+parameters:
+    disallowedMethodCalls:
         -
-            method: 'Tracy\ILogger::log()'
+            method: 'PotentiallyDangerous\Logger::log()'
             message: 'use our own logger instead'
             allowIn:
-                - optional/path/to/*.tests.php
-                - another/file.php
+                - path/to/some/file-*.php
+                - tests/*.test.php
             allowParamsInAllowed:
                 1: 'foo'
                 2: true
