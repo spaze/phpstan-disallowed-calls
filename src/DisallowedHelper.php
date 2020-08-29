@@ -81,7 +81,7 @@ class DisallowedHelper
 		$argValue = $arg->value;
 
 		if ($argValue instanceof ConstFetch) {
-			$stringValue = $argValue->name->getLast();
+			$stringValue = $argValue->name->toString();
 		} elseif ($argValue instanceof Scalar && property_exists($argValue, 'value')) {
 			$stringValue = $argValue->value;
 		} else {
