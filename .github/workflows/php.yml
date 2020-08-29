@@ -18,19 +18,25 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: OS info
+    - name: Display OS info
       run: cat /etc/os-release
 
-    - name: PHP info
+    - name: Set default PHP version
+      run: sudo update-alternatives --set php /usr/bin/php${{ matrix.php-version }}
+
+    - name: Display PHP info
       run: |
-        php${{ matrix.php-version }} -v
-        php${{ matrix.php-version }} -m
+        php -v
+        php -m
 
     - name: Validate composer.json
-      run: php${{ matrix.php-version }} /usr/bin/composer validate --strict
+      run: composer validate --strict
 
     - name: Install dependencies
-      run: php${{ matrix.php-version }} /usr/bin/composer update --no-progress
+      run: composer update --no-progress
 
     - name: Run tests
-      run: php${{ matrix.php-version }} /usr/bin/composer test
+      run: composer test
+
+    - name: Run static analysis
+      run: vendor/bin/phpstan analyse --level=max src/
