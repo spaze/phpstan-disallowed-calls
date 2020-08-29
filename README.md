@@ -138,8 +138,4 @@ With `allowParamsAnywhere`, calls are allowed when called with all parameters li
 ## Running tests
 
 If you want to contribute (awesome, thanks!), you should add/run tests for your contributions.
-First install dev dependencies by running `composer install`, then run tests with this command:
-
-```
-vendor/bin/phpunit -c tests/phpunit.xml tests/
-```
+First install dev dependencies by running `composer install`, then run PHPUnit tests with `composer test`, see `scripts` in `composer.json`.
