@@ -28,8 +28,10 @@
 		"psr-4": {"Spaze\\PHPStan\\Rules\\Disallowed\\": "src"}
 	},
 	"scripts": {
+		"phpstan-dev": "vendor/bin/phpstan --ansi analyse --configuration phpstan.neon",
 		"phpunit-dev": "vendor/bin/phpunit --configuration tests/phpunit.xml --colors=always tests/",
 		"test": [
+			"@phpstan-dev",
 			"@phpunit-dev"
 		]
 	}
