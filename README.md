@@ -27,7 +27,7 @@ If you use [phpstan/extension-installer](https://github.com/phpstan/extension-in
 
 For manual installation, add this to your `phpstan.neon`:
 
-```
+```neon
 includes:
     - vendor/spaze/phpstan-disallowed-calls/extension.neon
 ```
@@ -52,7 +52,7 @@ There are three different disallowed types (and configuration keys) that can be 
 
 Use them to add rules to your `phpstan.neon` config file. I like to use a separate file (`disallowed-calls.neon`) for these which I'll include later on in the main `phpstan.neon` config file. Here's an example, update to your needs:
 
-```
+```neon
 parameters:
     disallowedMethodCalls:
         -
@@ -92,7 +92,7 @@ The `message` key is optional.
 
 Sometimes, the method or the function needs to be called once in your code, for example in a custom wrapper. You can use PHPStan's [`ignoreErrors` feature](https://github.com/phpstan/phpstan#ignore-error-messages-with-regular-expressions) to ignore that one call:
 
-```
+```neon
 ignoreErrors:
     -
         message: '#^Calling Redis::connect\(\) is forbidden, use our own Redis instead#'  # Needed for the constructor
@@ -107,7 +107,7 @@ ignoreErrors:
 
 You can also allow some previously disallowed calls using the `allowIn` configuration key, for example:
 
-```
+```neon
 parameters:
     disallowedMethodCalls:
         -
@@ -123,7 +123,7 @@ The paths in `allowIn` are relative to the config file location and support [fnm
 You can also narrow down the allowed items when called with some parameters. For example, you want to disallow calling `print_r()` but want to allow `print_r(..., true)`.
 This can be done with optional `allowParamsInAllowed` or `allowParamsAnywhere` configuration keys:
 
-```
+```neon
 parameters:
     disallowedMethodCalls:
         -
