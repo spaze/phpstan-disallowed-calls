@@ -1,0 +1,36 @@
+name: PHP Tests
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version:
+          - 7.1
+          - 7.2
+          - 7.3
+          - 7.4
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: OS info
+      run: cat /etc/os-release
+
+    - name: PHP info
+      run: |
+        php${{ matrix.php-version }} -v
+        php${{ matrix.php-version }} -m
+
+    - name: Validate composer.json
+      run: php${{ matrix.php-version }} /usr/bin/composer validate --strict
+
+    - name: Install dependencies
+      run: php${{ matrix.php-version }} /usr/bin/composer update --no-progress
+
+    - name: Run tests
+      run: php${{ matrix.php-version }} /usr/bin/composer test

@@ -1,7 +1,7 @@
 # Disallowed calls for PHPStan
 [PHPStan](https://github.com/phpstan/phpstan) rules to detect disallowed calls, without running the code.
 
-[![Build Status](https://travis-ci.org/spaze/phpstan-disallowed-calls.svg?branch=master)](https://travis-ci.org/spaze/phpstan-disallowed-calls)
+[![PHP Tests](https://github.com/spaze/phpstan-disallowed-calls/workflows/PHP%20Tests/badge.svg)](https://github.com/spaze/phpstan-disallowed-calls/actions?query=workflow%3A%22PHP+Tests%22)
 
 There are some functions and methods which should not be used in production code. One good example is `var_dump()`,
 it is often used to quickly debug problems but should be removed before commiting the code. And sometimes it's not.
@@ -147,4 +147,4 @@ With `allowParamsAnywhere`, calls are allowed when called with all parameters li
 ## Running tests
 
 If you want to contribute (awesome, thanks!), you should add/run tests for your contributions.
-First install dev dependencies by running `composer install`, then run PHPUnit tests with `composer test`, see `scripts` in `composer.json`.
+First install dev dependencies by running `composer install`, then run PHPUnit tests with `composer test`, see `scripts` in `composer.json`. Tests are also run on GitHub with Actions on each push.
