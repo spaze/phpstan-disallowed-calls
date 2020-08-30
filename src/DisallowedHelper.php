@@ -24,7 +24,7 @@ class DisallowedHelper
 	/**
 	 * @param Scope $scope
 	 * @param Arg[] $args
-	 * @param string[] $config
+	 * @param array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>} $config
 	 * @return boolean
 	 */
 	public function isAllowed(Scope $scope, array $args, array $config): bool
@@ -41,7 +41,7 @@ class DisallowedHelper
 	/**
 	 * @param Scope $scope
 	 * @param Arg[] $args
-	 * @param string[] $config
+	 * @param array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>} $config
 	 * @param string $configKey
 	 * @param boolean $default
 	 * @return boolean

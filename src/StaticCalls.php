@@ -14,7 +14,8 @@ use PHPStan\Rules\Rule;
  *
  * Dynamic calls have a different rule, <code>MethodCalls</code>
  *
- * @package spaze\PHPStan\Rules\Disallowed
+ * @package Spaze\PHPStan\Rules\Disallowed
+ * @implements Rule<StaticCall>
  */
 class StaticCalls implements Rule
 {
@@ -22,10 +23,14 @@ class StaticCalls implements Rule
 	/** @var DisallowedHelper */
 	private $disallowedHelper;
 
-	/** @var string[][] */
+	/** @var array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>}[] */
 	private $forbiddenCalls;
 
 
+	/**
+	 * @param DisallowedHelper $disallowedHelper
+	 * @param array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>}[] $forbiddenCalls
+	 */
 	public function __construct(DisallowedHelper $disallowedHelper, array $forbiddenCalls)
 	{
 		$this->disallowedHelper = $disallowedHelper;

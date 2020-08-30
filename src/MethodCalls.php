@@ -17,7 +17,8 @@ use PHPStan\Type\Type;
  *
  * Static calls have a different rule, <code>StaticCalls</code>
  *
- * @package spaze\PHPStan\Rules\Disallowed
+ * @package Spaze\PHPStan\Rules\Disallowed
+ * @implements Rule<MethodCall>
  */
 class MethodCalls implements Rule
 {
@@ -28,10 +29,15 @@ class MethodCalls implements Rule
 	/** @var DisallowedHelper */
 	private $disallowedHelper;
 
-	/** @var string[][] */
+	/** @var array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>}[] */
 	private $forbiddenCalls;
 
 
+	/**
+	 * @param Broker $broker
+	 * @param DisallowedHelper $disallowedHelper
+	 * @param array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>}[] $forbiddenCalls
+	 */
 	public function __construct(Broker $broker, DisallowedHelper $disallowedHelper, array $forbiddenCalls)
 	{
 		$this->ruleLevelHelper = new RuleLevelHelper($broker, true, false, true);

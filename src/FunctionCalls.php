@@ -12,7 +12,8 @@ use PHPStan\Rules\Rule;
 /**
  * Reports on dynamically calling a disallowed function.
  *
- * @package spaze\PHPStan\Rules\Disallowed
+ * @package Spaze\PHPStan\Rules\Disallowed
+ * @implements Rule<FuncCall>
  */
 class FunctionCalls implements Rule
 {
@@ -20,10 +21,14 @@ class FunctionCalls implements Rule
 	/** @var DisallowedHelper */
 	private $disallowedHelper;
 
-	/** @var string[][] */
+	/** @var array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>}[] */
 	private $forbiddenCalls;
 
 
+	/**
+	 * @param DisallowedHelper $disallowedHelper
+	 * @param array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>}[] $forbiddenCalls
+	 */
 	public function __construct(DisallowedHelper $disallowedHelper, array $forbiddenCalls)
 	{
 		$this->disallowedHelper = $disallowedHelper;
