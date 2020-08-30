@@ -50,7 +50,7 @@ class FunctionCalls implements Rule
 
 		$name = $node->name . '()';
 		foreach ($this->forbiddenCalls as $forbiddenCall) {
-			if ($name === $forbiddenCall['function'] && !$this->disallowedHelper->isAllowed($scope->getFile(), $node->args, $forbiddenCall)) {
+			if ($name === $forbiddenCall['function'] && !$this->disallowedHelper->isAllowed($scope, $node->args, $forbiddenCall)) {
 				return [
 					sprintf('Calling %s is forbidden, %s', $name, $forbiddenCall['message'] ?? 'because reasons'),
 				];

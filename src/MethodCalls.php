@@ -71,7 +71,7 @@ class MethodCalls implements Rule
 		foreach ($typeResult->getReferencedClasses() as $referencedClass) {
 			$fullyQualified = current($typeResult->getReferencedClasses()) . "::{$name}()";
 			foreach ($this->forbiddenCalls as $forbiddenCall) {
-				if ($fullyQualified === $forbiddenCall['method'] && !$this->disallowedHelper->isAllowed($scope->getFile(), $node->args, $forbiddenCall)) {
+				if ($fullyQualified === $forbiddenCall['method'] && !$this->disallowedHelper->isAllowed($scope, $node->args, $forbiddenCall)) {
 					return [
 						sprintf('Calling %s is forbidden, %s', $fullyQualified, $forbiddenCall['message'] ?? 'because reasons'),
 					];

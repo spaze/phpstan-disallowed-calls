@@ -54,7 +54,7 @@ class StaticCalls implements Rule
 		$name = $node->name->name;
 		$fullyQualified = "{$node->class}::{$name}()";
 		foreach ($this->forbiddenCalls as $forbiddenCall) {
-			if ($fullyQualified === $forbiddenCall['method'] && !$this->disallowedHelper->isAllowed($scope->getFile(), $node->args, $forbiddenCall)) {
+			if ($fullyQualified === $forbiddenCall['method'] && !$this->disallowedHelper->isAllowed($scope, $node->args, $forbiddenCall)) {
 				return [
 					sprintf('Calling %s is forbidden, %s', $fullyQualified, $forbiddenCall['message'] ?? 'because reasons'),
 				];
