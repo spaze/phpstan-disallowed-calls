@@ -8,6 +8,7 @@ use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\ShouldNotHappenException;
 
 /**
  * Reports on dynamically calling a disallowed function.
@@ -43,18 +44,23 @@ class FunctionCalls implements Rule
 
 
 	/**
-	 * @param FuncCall $node
+	 * @param Node $node
 	 * @param Scope $scope
 	 * @return string[]
+	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
+		/** @var FuncCall $node */
 		if (!($node->name instanceof Name)) {
 			return [];
 		}
 
 		$name = $node->name . '()';
 		foreach ($this->forbiddenCalls as $forbiddenCall) {
+			if (!isset($forbiddenCall['function'])) {
+				throw new ShouldNotHappenException("Key 'function' missing in disallowedFunctionCalls configuration");
+			}
 			if ($name === $forbiddenCall['function'] && !$this->disallowedHelper->isAllowed($scope, $node->args, $forbiddenCall)) {
 				return [
 					sprintf('Calling %s is forbidden, %s', $name, $forbiddenCall['message'] ?? 'because reasons'),

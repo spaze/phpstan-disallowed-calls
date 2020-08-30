@@ -10,6 +10,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Broker\Broker;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleLevelHelper;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Type;
 
 /**
@@ -56,6 +57,7 @@ class MethodCalls implements Rule
 	 * @param Node $node
 	 * @param Scope $scope
 	 * @return string[]
+	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
@@ -75,8 +77,11 @@ class MethodCalls implements Rule
 		);
 
 		foreach ($typeResult->getReferencedClasses() as $referencedClass) {
-			$fullyQualified = current($typeResult->getReferencedClasses()) . "::{$name}()";
+			$fullyQualified = "{$referencedClass}::{$name}()";
 			foreach ($this->forbiddenCalls as $forbiddenCall) {
+				if (!isset($forbiddenCall['method'])) {
+					throw new ShouldNotHappenException("Key 'method' missing in disallowedMethodCalls configuration");
+				}
 				if ($fullyQualified === $forbiddenCall['method'] && !$this->disallowedHelper->isAllowed($scope, $node->args, $forbiddenCall)) {
 					return [
 						sprintf('Calling %s is forbidden, %s', $fullyQualified, $forbiddenCall['message'] ?? 'because reasons'),

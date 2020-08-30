@@ -4,10 +4,15 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
+use PHPStan\Broker\ClassNotFoundException;
 use PHPStan\Rules\Rule;
+use PHPStan\ShouldNotHappenException;
+use PHPStan\Type\ObjectType;
 
 /**
  * Reports on statically calling a disallowed method or two.
@@ -48,6 +53,8 @@ class StaticCalls implements Rule
 	 * @param Node $node
 	 * @param Scope $scope
 	 * @return string[]
+	 * @throws ShouldNotHappenException
+	 * @throws ClassNotFoundException
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
@@ -56,9 +63,11 @@ class StaticCalls implements Rule
 			return [];
 		}
 
-		$name = $node->name->name;
-		$fullyQualified = "{$node->class}::{$name}()";
+		$fullyQualified = $this->getMethod($node->class, $node->name->name, $scope);
 		foreach ($this->forbiddenCalls as $forbiddenCall) {
+			if (!isset($forbiddenCall['method'])) {
+				throw new ShouldNotHappenException("Key 'method' missing in disallowedStaticCalls configuration");
+			}
 			if ($fullyQualified === $forbiddenCall['method'] && !$this->disallowedHelper->isAllowed($scope, $node->args, $forbiddenCall)) {
 				return [
 					sprintf('Calling %s is forbidden, %s', $fullyQualified, $forbiddenCall['message'] ?? 'because reasons'),
@@ -67,6 +76,26 @@ class StaticCalls implements Rule
 		}
 
 		return [];
+	}
+
+
+	/**
+	 * @param Name|Expr $class
+	 * @param string $methodName
+	 * @param Scope $scope
+	 * @return string
+	 * @throws ClassNotFoundException
+	 */
+	private function getMethod($class, string $methodName, Scope $scope): string
+	{
+		if ($class instanceof Name) {
+			$calledOnType = new ObjectType($scope->resolveName($class));
+		} else {
+			$calledOnType = $scope->getType($class);
+		}
+
+		$method = $calledOnType->getMethod($methodName, $scope);
+		return sprintf('%s::%s()', $method->getDeclaringClass()->getDisplayName(), $method->getName());
 	}
 
 }

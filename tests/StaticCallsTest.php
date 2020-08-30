@@ -31,7 +31,7 @@ class StaticCallsTest extends RuleTestCase
 						'data/*-allowed.php',
 						'data/*-allowed.*',
 					],
-					'allowParamsInAllowed' => '',
+					'allowParamsInAllowed' => [],
 				],
 				[
 					'method' => 'Fiction\Pulp\Royale::withoutCheese()',
