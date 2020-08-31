@@ -79,7 +79,7 @@ class FunctionCallsTest extends RuleTestCase
 			],
 			[
 				'Calling print_r() is forbidden, nope',
-				35,
+				39,
 			],
 		]);
 		$this->analyse([__DIR__ . '/data/disallowed-calls-allowed.php'], []);

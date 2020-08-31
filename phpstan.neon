@@ -1,4 +1,7 @@
 parameters:
 	paths:
 		- src
-	level: 1
+	level: max
+
+includes:
+	- vendor/phpstan/phpstan/conf/bleedingEdge.neon

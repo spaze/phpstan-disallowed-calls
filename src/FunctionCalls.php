@@ -8,11 +8,13 @@ use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\ShouldNotHappenException;
 
 /**
  * Reports on dynamically calling a disallowed function.
  *
- * @package spaze\PHPStan\Rules\Disallowed
+ * @package Spaze\PHPStan\Rules\Disallowed
+ * @implements Rule<FuncCall>
  */
 class FunctionCalls implements Rule
 {
@@ -20,14 +22,18 @@ class FunctionCalls implements Rule
 	/** @var DisallowedHelper */
 	private $disallowedHelper;
 
-	/** @var string[][] */
-	private $forbiddenCalls;
+	/** @var DisallowedCall[] */
+	private $disallowedCalls;
 
 
+	/**
+	 * @param DisallowedHelper $disallowedHelper
+	 * @param array<array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>, allowParamsAnywhere?:array<integer, integer|boolean|string>}> $forbiddenCalls
+	 */
 	public function __construct(DisallowedHelper $disallowedHelper, array $forbiddenCalls)
 	{
 		$this->disallowedHelper = $disallowedHelper;
-		$this->forbiddenCalls = $forbiddenCalls;
+		$this->disallowedCalls = $this->disallowedHelper->createCallsFromConfig($forbiddenCalls);
 	}
 
 
@@ -38,25 +44,18 @@ class FunctionCalls implements Rule
 
 
 	/**
-	 * @param FuncCall $node
+	 * @param Node $node
 	 * @param Scope $scope
 	 * @return string[]
+	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
+		/** @var FuncCall $node */
 		if (!($node->name instanceof Name)) {
 			return [];
 		}
-
-		$name = $node->name . '()';
-		foreach ($this->forbiddenCalls as $forbiddenCall) {
-			if ($name === $forbiddenCall['function'] && !$this->disallowedHelper->isAllowed($scope->getFile(), $node->args, $forbiddenCall)) {
-				return [
-					sprintf('Calling %s is forbidden, %s', $name, $forbiddenCall['message'] ?? 'because reasons'),
-				];
-			}
-		}
-
-		return [];
+		return $this->disallowedHelper->getDisallowedMessage($node, $scope, $node->name . '()', $this->disallowedCalls);
 	}
+
 }

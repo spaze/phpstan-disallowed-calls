@@ -3,9 +3,15 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed;
 
+use PhpParser\Node;
 use PhpParser\Node\Arg;
-use PhpParser\Node\Scalar;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\StaticCall;
+use PHPStan\Analyser\Scope;
 use PHPStan\File\FileHelper;
+use PHPStan\ShouldNotHappenException;
+use PHPStan\Type\ConstantScalarType;
 
 class DisallowedHelper
 {
@@ -21,63 +27,91 @@ class DisallowedHelper
 
 
 	/**
-	 * @param string $file
+	 * @param Scope $scope
 	 * @param Arg[] $args
-	 * @param string[] $config
+	 * @param DisallowedCall $disallowedCall
 	 * @return boolean
 	 */
-	public function isAllowed(string $file, array $args, array $config): bool
+	public function isAllowed(Scope $scope, array $args, DisallowedCall $disallowedCall): bool
 	{
-		foreach (($config['allowIn'] ?? []) as $allowedPath) {
-			if (fnmatch($this->fileHelper->absolutizePath($allowedPath), $file) && $this->hasAllowedParams($config, $args, 'allowParamsInAllowed', true)) {
+		foreach ($disallowedCall->getAllowIn() as $allowedPath) {
+			if (fnmatch($this->fileHelper->absolutizePath($allowedPath), $scope->getFile())
+				&& $this->hasAllowedParams($scope, $args, $disallowedCall->getAllowParamsInAllowed(), true)
+			) {
 				return true;
 			}
 		}
-		return $this->hasAllowedParams($config, $args, 'allowParamsAnywhere', false);
+		return $this->hasAllowedParams($scope, $args, $disallowedCall->getAllowParamsAnywhere(), false);
 	}
 
 
 	/**
-	 * @param string[] $config
+	 * @param Scope $scope
 	 * @param Arg[] $args
-	 * @param string $configKey
+	 * @param array<integer, integer|boolean|string> $allowConfig
 	 * @param boolean $default
 	 * @return boolean
 	 */
-	private function hasAllowedParams(array $config, array $args, string $configKey, bool $default): bool
+	private function hasAllowedParams(Scope $scope, array $args, array $allowConfig, bool $default): bool
 	{
-		if (isset($config[$configKey]) && is_array($config[$configKey])) {
-			$disallowed = false;
-			foreach ($config[$configKey] as $param => $value) {
-				if (isset($args[$param - 1])) {
-					$arg = $args[$param - 1];
-					$disallowed = $disallowed || $this->isDisallowedParam($value, $arg);
-				} else {
-					$disallowed = true;
-				}
+		$disallowed = false;
+		foreach ($allowConfig as $param => $value) {
+			$arg = $args[$param - 1] ?? null;
+			$type = $arg ? $scope->getType($arg->value) : null;
+			if ($arg && $type instanceof ConstantScalarType) {
+				$disallowed = $disallowed || ($value !== $type->getValue());
+			} else {
+				$disallowed = true;
 			}
-			if (count($config[$configKey]) > 0) {
-				return !$disallowed;
-			}
+		}
+		if (count($allowConfig) > 0) {
+			return !$disallowed;
 		}
 		return $default;
 	}
 
 
 	/**
-	 * @param mixed $value
-	 * @param Arg $arg
-	 * @return boolean
+	 * @param array<array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>, allowParamsAnywhere?:array<integer, integer|boolean|string>}> $config
+	 * @return DisallowedCall[]
 	 */
-	private function isDisallowedParam($value, Arg $arg): bool
+	public function createCallsFromConfig(array $config): array
 	{
-		// 2nd param in print_r(..., true) is returned as Node\Expr\ConstFetch by the parser and I can't find a way to
-		// get it as a bool, only as a string. So to support booleans in the .neon config file we have to convert to a string manually.
-		if (is_bool($value)) {
-			return $this->isDisallowedParam($value ? 'true' : 'false', $arg);
-		} else {
-			return ($value !== ($arg->value instanceof Scalar ? $arg->value->value : (string)$arg->value->name));
+		$calls = [];
+		foreach ($config as $disallowedCall) {
+			$call = $disallowedCall['function'] ?? $disallowedCall['method'] ?? null;
+			if (!$call) {
+				throw new ShouldNotHappenException("Either 'method' or 'function' must be set in configuration items");
+			}
+			$calls[] = new DisallowedCall(
+				$call,
+				$disallowedCall['message'] ?? null,
+				$disallowedCall['allowIn'] ?? [],
+				$disallowedCall['allowParamsInAllowed'] ?? [],
+				$disallowedCall['allowParamsAnywhere'] ?? []
+			);
 		}
+		return $calls;
+	}
+
+
+	/**
+	 * @param FuncCall|MethodCall|StaticCall $node
+	 * @param Scope $scope
+	 * @param string $name
+	 * @param DisallowedCall[] $disallowedCalls
+	 * @return string[]
+	 */
+	public function getDisallowedMessage(Node $node, Scope $scope, string $name, array $disallowedCalls): array
+	{
+		foreach ($disallowedCalls as $disallowedCall) {
+			if ($name === $disallowedCall->getCall() && !$this->isAllowed($scope, $node->args, $disallowedCall)) {
+				return [
+					sprintf('Calling %s is forbidden, %s', $name, $disallowedCall->getMessage()),
+				];
+			}
+		}
+		return [];
 	}
 
 }

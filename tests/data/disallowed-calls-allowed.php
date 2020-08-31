@@ -20,7 +20,11 @@ Pulp\Royale::withCheese();
 Pulp\Royale::leBigMac();
 Pulp\Royale::withBadCheese();
 Pulp\Royale::withoutCheese(1, 2, 3);
+$a = 3;
+Pulp\Royale::withoutCheese(1, 2, $a);
 Pulp\Royale::withoutCheese(1, 2, 4);
+$a = 5;
+Pulp\Royale::withoutCheese(1, 2, $a);
 
 
 use Waldo\Quux;

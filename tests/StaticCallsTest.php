@@ -31,7 +31,7 @@ class StaticCallsTest extends RuleTestCase
 						'data/*-allowed.php',
 						'data/*-allowed.*',
 					],
-					'allowParamsInAllowed' => '',
+					'allowParamsInAllowed' => [],
 				],
 				[
 					'method' => 'Fiction\Pulp\Royale::withoutCheese()',
@@ -75,8 +75,21 @@ class StaticCallsTest extends RuleTestCase
 				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese?',
 				21,
 			],
+			[
+				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese?',
+				23,
+			],
+			[
+				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese?',
+				26,
+			],
 		]);
-		$this->analyse([__DIR__ . '/data/disallowed-calls-allowed.php'], []);
+		$this->analyse([__DIR__ . '/data/disallowed-calls-allowed.php'], [
+			[
+				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese?',
+				27,
+			],
+		]);
 	}
 
 }
