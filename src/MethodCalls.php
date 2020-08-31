@@ -30,20 +30,20 @@ class MethodCalls implements Rule
 	/** @var DisallowedHelper */
 	private $disallowedHelper;
 
-	/** @var array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>}[] */
-	private $forbiddenCalls;
+	/** @var DisallowedCall[] */
+	private $disallowedCalls;
 
 
 	/**
 	 * @param Broker $broker
 	 * @param DisallowedHelper $disallowedHelper
-	 * @param array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>}[] $forbiddenCalls
+	 * @param array<array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>, allowParamsAnywhere?:array<integer, integer|boolean|string>}> $forbiddenCalls
 	 */
 	public function __construct(Broker $broker, DisallowedHelper $disallowedHelper, array $forbiddenCalls)
 	{
 		$this->ruleLevelHelper = new RuleLevelHelper($broker, true, false, true);
 		$this->disallowedHelper = $disallowedHelper;
-		$this->forbiddenCalls = $forbiddenCalls;
+		$this->disallowedCalls = $this->disallowedHelper->createCallsFromConfig($forbiddenCalls);
 	}
 
 
@@ -77,16 +77,9 @@ class MethodCalls implements Rule
 		);
 
 		foreach ($typeResult->getReferencedClasses() as $referencedClass) {
-			$fullyQualified = "{$referencedClass}::{$name}()";
-			foreach ($this->forbiddenCalls as $forbiddenCall) {
-				if (!isset($forbiddenCall['method'])) {
-					throw new ShouldNotHappenException("Key 'method' missing in disallowedMethodCalls configuration");
-				}
-				if ($fullyQualified === $forbiddenCall['method'] && !$this->disallowedHelper->isAllowed($scope, $node->args, $forbiddenCall)) {
-					return [
-						sprintf('Calling %s is forbidden, %s', $fullyQualified, $forbiddenCall['message'] ?? 'because reasons'),
-					];
-				}
+			$message = $this->disallowedHelper->getDisallowedMessage($node, $scope, "{$referencedClass}::{$name}()", $this->disallowedCalls);
+			if ($message) {
+				return $message;
 			}
 		}
 

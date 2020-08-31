@@ -22,18 +22,18 @@ class FunctionCalls implements Rule
 	/** @var DisallowedHelper */
 	private $disallowedHelper;
 
-	/** @var array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>}[] */
-	private $forbiddenCalls;
+	/** @var DisallowedCall[] */
+	private $disallowedCalls;
 
 
 	/**
 	 * @param DisallowedHelper $disallowedHelper
-	 * @param array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>}[] $forbiddenCalls
+	 * @param array<array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>, allowParamsAnywhere?:array<integer, integer|boolean|string>}> $forbiddenCalls
 	 */
 	public function __construct(DisallowedHelper $disallowedHelper, array $forbiddenCalls)
 	{
 		$this->disallowedHelper = $disallowedHelper;
-		$this->forbiddenCalls = $forbiddenCalls;
+		$this->disallowedCalls = $this->disallowedHelper->createCallsFromConfig($forbiddenCalls);
 	}
 
 
@@ -55,19 +55,7 @@ class FunctionCalls implements Rule
 		if (!($node->name instanceof Name)) {
 			return [];
 		}
-
-		$name = $node->name . '()';
-		foreach ($this->forbiddenCalls as $forbiddenCall) {
-			if (!isset($forbiddenCall['function'])) {
-				throw new ShouldNotHappenException("Key 'function' missing in disallowedFunctionCalls configuration");
-			}
-			if ($name === $forbiddenCall['function'] && !$this->disallowedHelper->isAllowed($scope, $node->args, $forbiddenCall)) {
-				return [
-					sprintf('Calling %s is forbidden, %s', $name, $forbiddenCall['message'] ?? 'because reasons'),
-				];
-			}
-		}
-
-		return [];
+		return $this->disallowedHelper->getDisallowedMessage($node, $scope, $node->name . '()', $this->disallowedCalls);
 	}
+
 }
