@@ -113,5 +113,4 @@ class DisallowedHelper
 		}
 		return [];
 	}
-
 }

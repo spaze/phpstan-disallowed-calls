@@ -78,5 +78,4 @@ class DisallowedCall
 	{
 		return $this->allowParamsAnywhere;
 	}
-
 }

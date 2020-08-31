@@ -86,5 +86,4 @@ class StaticCalls implements Rule
 		$method = $calledOnType->getMethod($methodName, $scope);
 		return sprintf('%s::%s()', $method->getDeclaringClass()->getDisplayName(), $method->getName());
 	}
-
 }
