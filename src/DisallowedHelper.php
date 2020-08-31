@@ -76,7 +76,7 @@ class DisallowedHelper
 	public function createCallsFromConfig(array $config): array
 	{
 		return array_map(
-			function ($disallowedCall) {
+			static function ($disallowedCall) {
 				$call = $disallowedCall['function'] ?? $disallowedCall['method'] ?? null;
 				if (!$call) {
 					throw new ShouldNotHappenException("Either 'method' or 'function' must be set in configuration items");
