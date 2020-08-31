@@ -57,4 +57,5 @@ class FunctionCalls implements Rule
 		}
 		return $this->disallowedHelper->getDisallowedMessage($node, $scope, $node->name . '()', $this->disallowedCalls);
 	}
+
 }

@@ -85,4 +85,5 @@ class MethodCalls implements Rule
 
 		return [];
 	}
+
 }

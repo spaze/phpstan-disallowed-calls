@@ -31,7 +31,7 @@
 	"scripts": {
 		"phpstan-dev": "vendor/bin/phpstan --ansi analyse --configuration phpstan.neon",
 		"phpunit-dev": "vendor/bin/phpunit --configuration tests/phpunit.xml --colors=always tests/",
-		"phpcs-dev": "vendor/bin/phpcs --standard=PSR2 --exclude=Generic.WhiteSpace.DisallowTabIndent,Generic.Files.LineLength src/",
+		"phpcs-dev": "vendor/bin/phpcs --standard=PSR2 --exclude=Generic.WhiteSpace.DisallowTabIndent,Generic.Files.LineLength,PSR2.Classes.ClassDeclaration src/",
 		"test": [
 			"@phpstan-dev",
 			"@phpunit-dev",
