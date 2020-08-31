@@ -58,13 +58,11 @@ class DisallowedHelper
 		foreach ($allowConfig as $param => $value) {
 			$arg = $args[$param - 1] ?? null;
 			$type = $arg ? $scope->getType($arg->value) : null;
-			if ($arg && $type instanceof ConstantScalarType) {
-				$disallowed = $disallowed || ($value !== $type->getValue());
-			} else {
-				$disallowed = true;
-			}
+			$disallowed = $arg && $type instanceof ConstantScalarType
+				? $disallowed || ($value !== $type->getValue())
+				: true;
 		}
-		if (count($allowConfig) > 0) {
+		if ($allowConfig !== []) {
 			return !$disallowed;
 		}
 		return $default;
@@ -77,21 +75,22 @@ class DisallowedHelper
 	 */
 	public function createCallsFromConfig(array $config): array
 	{
-		$calls = [];
-		foreach ($config as $disallowedCall) {
-			$call = $disallowedCall['function'] ?? $disallowedCall['method'] ?? null;
-			if (!$call) {
-				throw new ShouldNotHappenException("Either 'method' or 'function' must be set in configuration items");
-			}
-			$calls[] = new DisallowedCall(
-				$call,
-				$disallowedCall['message'] ?? null,
-				$disallowedCall['allowIn'] ?? [],
-				$disallowedCall['allowParamsInAllowed'] ?? [],
-				$disallowedCall['allowParamsAnywhere'] ?? []
-			);
-		}
-		return $calls;
+		return array_map(
+			function ($disallowedCall) {
+				$call = $disallowedCall['function'] ?? $disallowedCall['method'] ?? null;
+				if (!$call) {
+					throw new ShouldNotHappenException("Either 'method' or 'function' must be set in configuration items");
+				}
+				return new DisallowedCall(
+					$call,
+					$disallowedCall['message'] ?? null,
+					$disallowedCall['allowIn'] ?? [],
+					$disallowedCall['allowParamsInAllowed'] ?? [],
+					$disallowedCall['allowParamsAnywhere'] ?? []
+				);
+			},
+			$config
+		);
 	}
 
 
