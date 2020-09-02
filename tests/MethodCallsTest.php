@@ -39,25 +39,25 @@ class MethodCallsTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/data/disallowed-calls.php'], [
 			[
 				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe",
-				32,
+				33,
 			],
+			[
+				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe",
+				35,
+			],
+			[
+				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe",
+				36,
+			],
+		]);
+		$this->analyse([__DIR__ . '/data/disallowed-calls-allowed.php'], [
 			[
 				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe",
 				34,
 			],
 			[
 				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe",
-				35,
-			],
-		]);
-		$this->analyse([__DIR__ . '/data/disallowed-calls-allowed.php'], [
-			[
-				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe",
-				33,
-			],
-			[
-				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe",
-				36,
+				37,
 			],
 		]);
 	}

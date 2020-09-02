@@ -25,6 +25,7 @@ Pulp\Royale::withoutCheese(1, 2, $a);
 Pulp\Royale::withoutCheese(1, 2, 4);
 $a = 5;
 Pulp\Royale::withoutCheese(1, 2, $a);
+Pulp\Royale::withMayo();
 
 
 use Waldo\Quux;

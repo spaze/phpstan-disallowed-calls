@@ -64,6 +64,9 @@ class StaticCalls implements Rule
 		}
 
 		$fullyQualified = $this->getMethod($node->class, $node->name->name, $scope);
+		if (!$fullyQualified) {
+			return [];
+		}
 		return $this->disallowedHelper->getDisallowedMessage($node, $scope, $fullyQualified, $this->disallowedCalls);
 	}
 
@@ -72,10 +75,10 @@ class StaticCalls implements Rule
 	 * @param Name|Expr $class
 	 * @param string $methodName
 	 * @param Scope $scope
-	 * @return string
+	 * @return string|null
 	 * @throws ClassNotFoundException
 	 */
-	private function getMethod($class, string $methodName, Scope $scope): string
+	private function getMethod($class, string $methodName, Scope $scope): ?string
 	{
 		if ($class instanceof Name) {
 			$calledOnType = new ObjectType($scope->resolveName($class));
@@ -83,8 +86,12 @@ class StaticCalls implements Rule
 			$calledOnType = $scope->getType($class);
 		}
 
-		$method = $calledOnType->getMethod($methodName, $scope);
-		return sprintf('%s::%s()', $method->getDeclaringClass()->getDisplayName(), $method->getName());
+		if ($calledOnType->canCallMethods()->yes() && $calledOnType->hasMethod($methodName)->yes()) {
+			$method = $calledOnType->getMethod($methodName, $scope);
+			return sprintf('%s::%s()', $method->getDeclaringClass()->getDisplayName(), $method->getName());
+		}
+
+		return null;
 	}
 
 }
