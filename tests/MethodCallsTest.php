@@ -29,6 +29,14 @@ class MethodCallsTest extends RuleTestCase
 						3 => '909',
 					],
 				],
+				[
+					'method' => 'Inheritance\Base::x()',
+					'message' => 'method Base::x() is dangerous',
+					'allowIn' => [
+						'data/*-allowed.php',
+						'data/*-allowed.*',
+					],
+				],
 			]
 		);
 	}
@@ -48,6 +56,10 @@ class MethodCallsTest extends RuleTestCase
 			[
 				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe",
 				36,
+			],
+			[
+				'Calling Inheritance\Sub::x() is forbidden, method Base::x() is dangerous',
+				46,
 			],
 		]);
 		$this->analyse([__DIR__ . '/data/disallowed-calls-allowed.php'], [
