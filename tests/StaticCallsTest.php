@@ -92,7 +92,7 @@ class StaticCallsTest extends RuleTestCase
 				26,
 			],
 			[
-				'Calling Inheritance\Sub::woofer() is forbidden, method Base::woofer() is dangerous',
+				'Calling Inheritance\Base::woofer() (as Inheritance\Sub::woofer()) is forbidden, method Base::woofer() is dangerous',
 				48,
 			],
 		]);

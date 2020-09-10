@@ -5,13 +5,20 @@ namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PhpParser\Node;
 use PhpParser\Node\Arg;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
+use PHPStan\Broker\ClassNotFoundException;
 use PHPStan\File\FileHelper;
+use PHPStan\Reflection\MethodReflection;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ConstantScalarType;
+use PHPStan\Type\ObjectType;
+use PHPStan\Type\TypeWithClassName;
 
 class DisallowedHelper
 {
@@ -74,6 +81,7 @@ class DisallowedHelper
 	/**
 	 * @param array<array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>, allowParamsAnywhere?:array<integer, integer|boolean|string>}> $config
 	 * @return DisallowedCall[]
+	 * @throws ShouldNotHappenException
 	 */
 	public function createCallsFromConfig(array $config): array
 	{
@@ -99,19 +107,60 @@ class DisallowedHelper
 	 * @param FuncCall|MethodCall|StaticCall $node
 	 * @param Scope $scope
 	 * @param string $name
+	 * @param string|null $displayName
 	 * @param DisallowedCall[] $disallowedCalls
 	 * @return string[]
 	 */
-	public function getDisallowedMessage(Node $node, Scope $scope, string $name, array $disallowedCalls): array
+	public function getDisallowedMessage(Node $node, Scope $scope, string $name, ?string $displayName, array $disallowedCalls): array
 	{
 		foreach ($disallowedCalls as $disallowedCall) {
 			if ($name === $disallowedCall->getCall() && !$this->isAllowed($scope, $node->args, $disallowedCall)) {
+				$call = ($displayName && $displayName !== $name ? "{$name} (as {$displayName})" : $name);
 				return [
-					sprintf('Calling %s is forbidden, %s', $name, $disallowedCall->getMessage()),
+					sprintf('Calling %s is forbidden, %s', $call, $disallowedCall->getMessage()),
 				];
 			}
 		}
 		return [];
+	}
+
+
+	/**
+	 * @param Name|Expr $class
+	 * @param Node $node
+	 * @param Scope $scope
+	 * @param DisallowedCall[] $disallowedCalls
+	 * @return string[]
+	 * @throws ClassNotFoundException
+	 */
+	public function getDisallowedMethodMessage($class, Node $node, Scope $scope, array $disallowedCalls): array
+	{
+		/** @var MethodCall|StaticCall $node */
+		if (!($node->name instanceof Identifier)) {
+			return [];
+		}
+
+		if ($class instanceof Name) {
+			$calledOnType = new ObjectType($scope->resolveName($class));
+		} else {
+			$calledOnType = $scope->getType($class);
+		}
+
+		if ($calledOnType->canCallMethods()->yes() && $calledOnType->hasMethod($node->name->name)->yes()) {
+			$method = $calledOnType->getMethod($node->name->name, $scope);
+			$declaredAs = $this->getFullyQualified($method->getDeclaringClass()->getDisplayName(), $method);
+			$calledAs = ($calledOnType instanceof TypeWithClassName ? $this->getFullyQualified($calledOnType->getClassName(), $method) : null);
+		} else {
+			return [];
+		}
+
+		return $this->getDisallowedMessage($node, $scope, $declaredAs, $calledAs, $disallowedCalls);
+	}
+
+
+	private function getFullyQualified(string $class, MethodReflection $method): string
+	{
+		return sprintf('%s::%s()', $class, $method->getName());
 	}
 
 }

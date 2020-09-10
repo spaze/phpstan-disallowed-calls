@@ -13,7 +13,6 @@ class MethodCallsTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		return new MethodCalls(
-			$this->createBroker(),
 			new DisallowedHelper(new FileHelper(__DIR__)),
 			[
 				[
@@ -58,7 +57,7 @@ class MethodCallsTest extends RuleTestCase
 				36,
 			],
 			[
-				'Calling Inheritance\Sub::x() is forbidden, method Base::x() is dangerous',
+				'Calling Inheritance\Base::x() (as Inheritance\Sub::x()) is forbidden, method Base::x() is dangerous',
 				46,
 			],
 		]);
