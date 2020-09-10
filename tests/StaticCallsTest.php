@@ -59,6 +59,22 @@ class StaticCallsTest extends RuleTestCase
 						'data/*-allowed.*',
 					],
 				],
+				[
+					'method' => 'Traits\TestTrait::z()',
+					'message' => 'method TestTrait::z() is dangerous',
+					'allowIn' => [
+						'data/*-allowed.php',
+						'data/*-allowed.*',
+					],
+				],
+				[
+					'method' => 'Traits\AnotherTestClass::zz()',
+					'message' => 'method AnotherTestClass::zz() is dangerous',
+					'allowIn' => [
+						'data/*-allowed.php',
+						'data/*-allowed.*',
+					],
+				],
 			]
 		);
 	}
@@ -94,6 +110,14 @@ class StaticCallsTest extends RuleTestCase
 			[
 				'Calling Inheritance\Base::woofer() (as Inheritance\Sub::woofer()) is forbidden, method Base::woofer() is dangerous',
 				48,
+			],
+			[
+				'Calling Traits\TestTrait::z() (as Traits\TestClass::z()) is forbidden, method TestTrait::z() is dangerous',
+				59,
+			],
+			[
+				'Calling Traits\AnotherTestClass::zz() is forbidden, method AnotherTestClass::zz() is dangerous',
+				60,
 			],
 		]);
 		$this->analyse([__DIR__ . '/data/disallowed-calls-allowed.php'], [

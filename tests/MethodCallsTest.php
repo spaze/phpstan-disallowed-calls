@@ -36,6 +36,22 @@ class MethodCallsTest extends RuleTestCase
 						'data/*-allowed.*',
 					],
 				],
+				[
+					'method' => 'Traits\TestTrait::x()',
+					'message' => 'method TestTrait::x() is dangerous',
+					'allowIn' => [
+						'data/*-allowed.php',
+						'data/*-allowed.*',
+					],
+				],
+				[
+					'method' => 'Traits\AnotherTestClass::y()',
+					'message' => 'method AnotherTestClass::y() is dangerous',
+					'allowIn' => [
+						'data/*-allowed.php',
+						'data/*-allowed.*',
+					],
+				],
 			]
 		);
 	}
@@ -59,6 +75,14 @@ class MethodCallsTest extends RuleTestCase
 			[
 				'Calling Inheritance\Base::x() (as Inheritance\Sub::x()) is forbidden, method Base::x() is dangerous',
 				46,
+			],
+			[
+				'Calling Traits\TestTrait::x() (as Traits\TestClass::x()) is forbidden, method TestTrait::x() is dangerous',
+				55,
+			],
+			[
+				'Calling Traits\AnotherTestClass::y() is forbidden, method AnotherTestClass::y() is dangerous',
+				57,
 			],
 		]);
 		$this->analyse([__DIR__ . '/data/disallowed-calls-allowed.php'], [
