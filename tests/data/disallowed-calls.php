@@ -38,3 +38,11 @@ $blade->runner(42, true, '808');
 print_r('bar bar', true);
 print_r('bar bar baz', true, 303);
 print_r('bar bar was', false);
+
+
+use Inheritance\Sub;
+
+$sub = new Sub();
+$sub->x();
+
+Sub::woofer();

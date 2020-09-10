@@ -13,7 +13,6 @@ class MethodCallsTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		return new MethodCalls(
-			$this->createBroker(),
 			new DisallowedHelper(new FileHelper(__DIR__)),
 			[
 				[
@@ -27,6 +26,14 @@ class MethodCallsTest extends RuleTestCase
 						1 => 42,
 						2 => true,
 						3 => '909',
+					],
+				],
+				[
+					'method' => 'Inheritance\Base::x()',
+					'message' => 'method Base::x() is dangerous',
+					'allowIn' => [
+						'data/*-allowed.php',
+						'data/*-allowed.*',
 					],
 				],
 			]
@@ -48,6 +55,10 @@ class MethodCallsTest extends RuleTestCase
 			[
 				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe",
 				36,
+			],
+			[
+				'Calling Inheritance\Base::x() (as Inheritance\Sub::x()) is forbidden, method Base::x() is dangerous',
+				46,
 			],
 		]);
 		$this->analyse([__DIR__ . '/data/disallowed-calls-allowed.php'], [

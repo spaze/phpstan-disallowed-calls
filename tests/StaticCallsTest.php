@@ -51,6 +51,14 @@ class StaticCallsTest extends RuleTestCase
 						3 => 4,
 					],
 				],
+				[
+					'method' => 'Inheritance\Base::woofer()',
+					'message' => 'method Base::woofer() is dangerous',
+					'allowIn' => [
+						'data/*-allowed.php',
+						'data/*-allowed.*',
+					],
+				],
 			]
 		);
 	}
@@ -82,6 +90,10 @@ class StaticCallsTest extends RuleTestCase
 			[
 				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese?',
 				26,
+			],
+			[
+				'Calling Inheritance\Base::woofer() (as Inheritance\Sub::woofer()) is forbidden, method Base::woofer() is dangerous',
+				48,
 			],
 		]);
 		$this->analyse([__DIR__ . '/data/disallowed-calls-allowed.php'], [

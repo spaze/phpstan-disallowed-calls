@@ -29,6 +29,7 @@ class FunctionCalls implements Rule
 	/**
 	 * @param DisallowedHelper $disallowedHelper
 	 * @param array<array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>, allowParamsAnywhere?:array<integer, integer|boolean|string>}> $forbiddenCalls
+	 * @throws ShouldNotHappenException
 	 */
 	public function __construct(DisallowedHelper $disallowedHelper, array $forbiddenCalls)
 	{
@@ -47,7 +48,6 @@ class FunctionCalls implements Rule
 	 * @param Node $node
 	 * @param Scope $scope
 	 * @return string[]
-	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
@@ -55,7 +55,7 @@ class FunctionCalls implements Rule
 		if (!($node->name instanceof Name)) {
 			return [];
 		}
-		return $this->disallowedHelper->getDisallowedMessage($node, $scope, $node->name . '()', $this->disallowedCalls);
+		return $this->disallowedHelper->getDisallowedMessage($node, $scope, $node->name . '()', null, $this->disallowedCalls);
 	}
 
 }
