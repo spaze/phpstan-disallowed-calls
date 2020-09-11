@@ -46,3 +46,15 @@ $sub = new Sub();
 $sub->x();
 
 Sub::woofer();
+
+
+use Traits\TestClass;
+use Traits\AnotherTestClass;
+
+$testClass = new TestClass();
+$testClass->x();
+$testClassToo = new AnotherTestClass();
+$testClassToo->y();
+
+TestClass::z();
+AnotherTestClass::zz();
