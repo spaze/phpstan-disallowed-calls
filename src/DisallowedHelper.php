@@ -148,12 +148,22 @@ class DisallowedHelper
 
 		if ($calledOnType->canCallMethods()->yes() && $calledOnType->hasMethod($node->name->name)->yes()) {
 			$method = $calledOnType->getMethod($node->name->name, $scope);
-			$declaredAs = $this->getFullyQualified($method->getDeclaringClass()->getDisplayName(), $method);
 			$calledAs = ($calledOnType instanceof TypeWithClassName ? $this->getFullyQualified($calledOnType->getClassName(), $method) : null);
+
+			foreach ($method->getDeclaringClass()->getTraits() as $trait) {
+				if ($trait->hasMethod($method->getName())) {
+					$declaredAs = $this->getFullyQualified($trait->getDisplayName(), $method);
+					$message = $this->getDisallowedMessage($node, $scope, $declaredAs, $calledAs, $disallowedCalls);
+					if ($message) {
+						return $message;
+					}
+				}
+			}
 		} else {
 			return [];
 		}
 
+		$declaredAs = $this->getFullyQualified($method->getDeclaringClass()->getDisplayName(), $method);
 		return $this->getDisallowedMessage($node, $scope, $declaredAs, $calledAs, $disallowedCalls);
 	}
 
