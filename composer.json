@@ -24,17 +24,20 @@
 	"require-dev": {
 		"phpunit/phpunit": "^7.0",
 		"php-parallel-lint/php-parallel-lint": "^1.2",
-		"php-parallel-lint/php-console-highlighter": "^0.5.0"
+		"php-parallel-lint/php-console-highlighter": "^0.5.0",
+		"spaze/coding-standard": "^0.0.3"
 	},
 	"autoload": {
 		"psr-4": {"Spaze\\PHPStan\\Rules\\Disallowed\\": "src"}
 	},
 	"scripts": {
 		"lint": "vendor/bin/parallel-lint --colors src/ tests/",
+		"phpcs": "vendor/bin/phpcs src/ tests/",
 		"phpstan-dev": "vendor/bin/phpstan --ansi analyse --configuration phpstan.neon",
 		"phpunit-dev": "vendor/bin/phpunit --configuration tests/phpunit.xml --colors=always tests/",
 		"test": [
 			"@lint",
+			"@phpcs",
 			"@phpstan-dev",
 			"@phpunit-dev"
 		]
