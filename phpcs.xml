@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<ruleset name="PHPStanDisallowedCallsExtension">
+	<arg name="extensions" value="php"/>
+	<arg name="cache"/>
+	<arg name="colors"/>
+	<arg value="s"/>
+	<arg value="p"/>
+	<rule ref="vendor/spaze/coding-standard/src/ruleset.xml"/>
+	<exclude-pattern>tests/data/</exclude-pattern>
+</ruleset>

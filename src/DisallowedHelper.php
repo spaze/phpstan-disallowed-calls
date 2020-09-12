@@ -42,9 +42,8 @@ class DisallowedHelper
 	public function isAllowed(Scope $scope, array $args, DisallowedCall $disallowedCall): bool
 	{
 		foreach ($disallowedCall->getAllowIn() as $allowedPath) {
-			if (fnmatch($this->fileHelper->absolutizePath($allowedPath), $scope->getFile())
-				&& $this->hasAllowedParams($scope, $args, $disallowedCall->getAllowParamsInAllowed(), true)
-			) {
+			$match = fnmatch($this->fileHelper->absolutizePath($allowedPath), $scope->getFile());
+			if ($match && $this->hasAllowedParams($scope, $args, $disallowedCall->getAllowParamsInAllowed(), true)) {
 				return true;
 			}
 		}
