@@ -58,3 +58,10 @@ $testClassToo->y();
 
 TestClass::z();
 AnotherTestClass::zz();
+
+
+use Constructor\ClassWithConstructor;
+use Constructor\ClassWithoutConstructor;
+
+new ClassWithConstructor();
+new ClassWithoutConstructor();
