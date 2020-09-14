@@ -19,8 +19,8 @@ class MethodCallsTest extends RuleTestCase
 					'method' => 'Waldo\Quux\Blade::runner()',
 					'message' => "I've seen tests you people wouldn't believe",
 					'allowIn' => [
-						'data/*-allowed.php',
-						'data/*-allowed.*',
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
 					],
 					'allowParamsInAllowed' => [
 						1 => 42,
@@ -32,24 +32,24 @@ class MethodCallsTest extends RuleTestCase
 					'method' => 'Inheritance\Base::x()',
 					'message' => 'method Base::x() is dangerous',
 					'allowIn' => [
-						'data/*-allowed.php',
-						'data/*-allowed.*',
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'Traits\TestTrait::x()',
 					'message' => 'method TestTrait::x() is dangerous',
 					'allowIn' => [
-						'data/*-allowed.php',
-						'data/*-allowed.*',
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'Traits\AnotherTestClass::y()',
 					'message' => 'method AnotherTestClass::y() is dangerous',
 					'allowIn' => [
-						'data/*-allowed.php',
-						'data/*-allowed.*',
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
 					],
 				],
 			]
@@ -59,40 +59,43 @@ class MethodCallsTest extends RuleTestCase
 
 	public function testRule(): void
 	{
-		$this->analyse([__DIR__ . '/data/disallowed-calls.php'], [
+		// Based on the configuration above, in this file:
+		$this->analyse([__DIR__ . '/src/disallowed/methodCalls.php'], [
 			[
+				// expect this error message:
 				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe",
-				33,
+				// on this line:
+				9,
 			],
 			[
 				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe",
-				35,
+				10,
 			],
 			[
 				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe",
-				36,
+				13,
 			],
 			[
 				'Calling Inheritance\Base::x() (as Inheritance\Sub::x()) is forbidden, method Base::x() is dangerous',
-				46,
+				21,
 			],
 			[
 				'Calling Traits\TestTrait::x() (as Traits\TestClass::x()) is forbidden, method TestTrait::x() is dangerous',
-				55,
+				25,
 			],
 			[
 				'Calling Traits\AnotherTestClass::y() is forbidden, method AnotherTestClass::y() is dangerous',
-				57,
+				27,
 			],
 		]);
-		$this->analyse([__DIR__ . '/data/disallowed-calls-allowed.php'], [
+		$this->analyse([__DIR__ . '/src/disallowed-allow/methodCalls.php'], [
 			[
 				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe",
-				34,
+				9,
 			],
 			[
 				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe",
-				37,
+				10,
 			],
 		]);
 	}
