@@ -26,3 +26,10 @@ $testClass->x();
 $testClassToo = new Traits\AnotherTestClass();
 $testClassToo->y();
 $testClassToo->zzTop();
+
+// instantiation allowed by path
+use Constructor\ClassWithConstructor;
+use Constructor\ClassWithoutConstructor;
+
+new ClassWithConstructor();
+new ClassWithoutConstructor();

@@ -52,6 +52,22 @@ class MethodCallsTest extends RuleTestCase
 						'src/*-allow/*.*',
 					],
 				],
+				[
+					'method' => 'Constructor\ClassWithConstructor::__construct()',
+					'message' => 'Class ClassWithConstructor should not be created',
+					'allowIn' => [
+						'data/*-allowed.php',
+						'data/*-allowed.*',
+					],
+				],
+				[
+					'method' => 'Constructor\ClassWithoutConstructor::__construct()',
+					'message' => 'Class ClassWithoutConstructor should not be created',
+					'allowIn' => [
+						'data/*-allowed.php',
+						'data/*-allowed.*',
+					],
+				],
 			]
 		);
 	}
@@ -90,6 +106,14 @@ class MethodCallsTest extends RuleTestCase
 			[
 				'Calling Traits\AnotherTestClass::zzTop() is forbidden, method AnotherTestClass::zzTop() is dangerous',
 				28,
+			],
+			[
+				'Calling Constructor\ClassWithConstructor::__construct() is forbidden, Class ClassWithConstructor should not be created',
+				66,
+			],
+			[
+				'Calling Constructor\ClassWithoutConstructor::__construct() is forbidden, Class ClassWithoutConstructor should not be created',
+				67,
 			],
 		]);
 		$this->analyse([__DIR__ . '/src/disallowed-allow/methodCalls.php'], [
