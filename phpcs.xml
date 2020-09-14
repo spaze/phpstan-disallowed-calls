@@ -6,5 +6,5 @@
 	<arg value="s"/>
 	<arg value="p"/>
 	<rule ref="vendor/spaze/coding-standard/src/ruleset.xml"/>
-	<exclude-pattern>tests/data/</exclude-pattern>
+	<exclude-pattern>tests/libs/</exclude-pattern>
 </ruleset>

@@ -12,7 +12,12 @@ but should instead use your custom logger.
 
 This [PHPStan](https://github.com/phpstan/phpstan) extension will detect such usage, if configured. It should be noted that this extension
 is not a way to defend against or detect hostile developers, as they can obfuscate the calls for example. This extension is meant to be
-another pair of eyes, detecting your own mistakes.
+another pair of eyes, detecting your own mistakes, it doesn't aim to detect-all-the-things.
+
+[Tests](tests) will provide examples what is ***currently*** detected. If it's not covered by tests, it might be, but most probably will not be detected.
+`*Test.php` files are the tests, start with those, the analyzed test code is in [src](tests/src), required test classes in [libs](tests/libs).
+
+Feel free to file [issues](https://github.com/spaze/phpstan-disallowed-calls/issues) or create [pull requests](https://github.com/spaze/phpstan-disallowed-calls/pulls) if you need to detect more calls.
 
 ## Installation
 

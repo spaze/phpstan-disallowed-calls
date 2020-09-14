@@ -19,16 +19,16 @@ class FunctionCallsTest extends RuleTestCase
 					'function' => 'var_dump()',
 					'message' => 'use logger instead',
 					'allowIn' => [
-						'data/*-allowed.php',
-						'data/*-allowed.*',
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
 					],
 				],
 				[
 					'function' => 'print_r()',
 					'message' => 'nope',
 					'allowIn' => [
-						'data/*-allowed.php',
-						'data/*-allowed.*',
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
 					],
 					'allowParamsAnywhere' => [
 						2 => true,
@@ -37,16 +37,16 @@ class FunctionCallsTest extends RuleTestCase
 				[
 					'function' => 'printf()',
 					'allowIn' => [
-						'data/*-allowed.php',
-						'data/*-allowed.*',
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
 					],
 				],
 				[
 					'function' => 'Foo\Bar\waldo()',
 					'message' => 'whoa, a namespace',
 					'allowIn' => [
-						'data/*-allowed.php',
-						'data/*-allowed.*',
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
 					],
 				],
 			]
@@ -56,18 +56,21 @@ class FunctionCallsTest extends RuleTestCase
 
 	public function testRule(): void
 	{
-		$this->analyse([__DIR__ . '/data/disallowed-calls.php'], [
+		// Based on the configuration above, in this file:
+		$this->analyse([__DIR__ . '/src/disallowed/functionCalls.php'], [
 			[
+				// expect this error message:
 				'Calling var_dump() is forbidden, use logger instead',
-				6,
-			],
-			[
-				'Calling print_r() is forbidden, nope',
+				// on this line:
 				7,
 			],
 			[
-				'Calling printf() is forbidden, because reasons',
+				'Calling print_r() is forbidden, nope',
 				8,
+			],
+			[
+				'Calling printf() is forbidden, because reasons',
+				9,
 			],
 			[
 				'Calling Foo\Bar\waldo() is forbidden, whoa, a namespace',
@@ -79,10 +82,11 @@ class FunctionCallsTest extends RuleTestCase
 			],
 			[
 				'Calling print_r() is forbidden, nope',
-				40,
+				21,
 			],
 		]);
-		$this->analyse([__DIR__ . '/data/disallowed-calls-allowed.php'], []);
+		// Based on the configuration above, no errors in this file:
+		$this->analyse([__DIR__ . '/src/disallowed-allow/functionCalls.php'], []);
 	}
 
 }

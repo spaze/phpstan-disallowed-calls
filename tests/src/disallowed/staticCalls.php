@@ -1,0 +1,32 @@
+<?php
+declare(strict_types = 1);
+
+use Fiction\Pulp;
+
+// disallowed method
+\Fiction\Pulp\Royale::withCheese();
+Pulp\Royale::withCheese();
+Pulp\Royale::withBadCheese();
+
+// disallowed call, params match allowed but path doesn't
+Pulp\Royale::withoutCheese(1, 2, 3);
+$a = 3;
+Pulp\Royale::withoutCheese(1, 2, $a);
+
+// disallowed call, params don't match allowed
+$a = 5;
+Pulp\Royale::withoutCheese(1, 2, $a);
+
+// allowed, params match allowed params
+Pulp\Royale::withoutCheese(1, 2, 4);
+
+// not a disallowed method
+Pulp\Royale::leBigMac();
+Pulp\Royale::withMayo();
+
+// disallowed parent method
+Inheritance\Sub::woofer();
+
+// disallowed trait method
+Traits\TestClass::z();
+Traits\AnotherTestClass::zz();

@@ -20,16 +20,16 @@ trait TestTrait
 	{
 	}
 
-
-	public static function zz(): void
-	{
-	}
-
 }
 
 
 trait AnotherTrait
 {
+
+	public static function zz(): void
+	{
+	}
+
 }
 
 
