@@ -33,7 +33,7 @@ class DisallowedCall
 	 */
 	public function __construct(string $call, ?string $message, array $allowIn, array $allowParamsInAllowed, array $allowParamsAnywhere)
 	{
-		$this->call = $call;
+		$this->call = (substr($call, -2) === '()' ? $call : $call . '()');
 		$this->message = $message;
 		$this->allowIn = $allowIn;
 		$this->allowParamsInAllowed = $allowParamsInAllowed;
