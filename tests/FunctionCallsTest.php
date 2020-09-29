@@ -35,7 +35,7 @@ class FunctionCallsTest extends RuleTestCase
 					]
 				],
 				[
-					'function' => 'printf()',
+					'function' => 'printf',
 					'allowIn' => [
 						'src/disallowed-allowed/*.php',
 						'src/*-allow/*.*',

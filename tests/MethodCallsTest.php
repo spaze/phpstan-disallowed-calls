@@ -37,7 +37,7 @@ class MethodCallsTest extends RuleTestCase
 					],
 				],
 				[
-					'method' => 'Traits\TestTrait::x()',
+					'method' => 'Traits\TestTrait::x',
 					'message' => 'method TestTrait::x() is dangerous',
 					'allowIn' => [
 						'src/disallowed-allowed/*.php',
