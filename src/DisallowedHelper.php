@@ -114,7 +114,7 @@ class DisallowedHelper
 	{
 		foreach ($disallowedCalls as $disallowedCall) {
 			if ($name === $disallowedCall->getCall() && !$this->isAllowed($scope, $node->args, $disallowedCall)) {
-				$call = ($displayName && $displayName !== $name ? "{$name} (as {$displayName})" : $name);
+				$call = ($displayName && $displayName !== $name ? "{$name}() (as {$displayName}())" : "{$name}()");
 				return [
 					sprintf('Calling %s is forbidden, %s', $call, $disallowedCall->getMessage()),
 				];
@@ -169,7 +169,7 @@ class DisallowedHelper
 
 	private function getFullyQualified(string $class, MethodReflection $method): string
 	{
-		return sprintf('%s::%s()', $class, $method->getName());
+		return sprintf('%s::%s', $class, $method->getName());
 	}
 
 }
