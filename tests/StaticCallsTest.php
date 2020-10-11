@@ -25,7 +25,7 @@ class StaticCallsTest extends RuleTestCase
 					'allowParamsInAllowed' => [],
 				],
 				[
-					'method' => 'Fiction\Pulp\Royale::withBadCheese()',
+					'method' => 'Fiction\Pulp\Royale::withBad*()',
 					'message' => 'a Quarter Pounder with Cheese?',
 					'allowIn' => [
 						'src/disallowed-allowed/*.php',
@@ -95,7 +95,7 @@ class StaticCallsTest extends RuleTestCase
 				8,
 			],
 			[
-				'Calling Fiction\Pulp\Royale::withBadCheese() is forbidden, a Quarter Pounder with Cheese?',
+				'Calling Fiction\Pulp\Royale::withBadCheese() is forbidden, a Quarter Pounder with Cheese? [Fiction\Pulp\Royale::withBadCheese() matches Fiction\Pulp\Royale::withBad*()]',
 				9,
 			],
 			[

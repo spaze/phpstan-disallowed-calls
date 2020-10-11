@@ -33,10 +33,21 @@ trait AnotherTrait
 }
 
 
+trait YetAnotherTrait
+{
+
+	public static function zzTop(): void
+	{
+	}
+
+}
+
+
 final class TestClass
 {
 	use TestTrait;
 	use AnotherTrait;
+	use YetAnotherTrait;
 }
 
 
@@ -44,4 +55,5 @@ final class AnotherTestClass
 {
 	use TestTrait;
 	use AnotherTrait;
+	use YetAnotherTrait;
 }

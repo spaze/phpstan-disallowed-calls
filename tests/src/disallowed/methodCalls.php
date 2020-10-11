@@ -25,3 +25,4 @@ $testClass = new Traits\TestClass();
 $testClass->x();
 $testClassToo = new Traits\AnotherTestClass();
 $testClassToo->y();
+$testClassToo->zzTop();

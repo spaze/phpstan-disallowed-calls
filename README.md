@@ -81,7 +81,16 @@ parameters:
             message: 'use logger instead'
 ```
 
-The `message` key is optional.
+The `message` key is optional. Functions and methods can be specified with or without `()`.
+
+Use wildcard (`*`) to ignore all functions or methods starting with a prefix, for example:
+```neon
+parameters:
+    disallowedFunctionCalls:
+        -
+            function: 'pcntl_*()'
+```
+The wildcard must be the leftmost character of the function or method name, optionally followed by `()`.
 
 ## Example output
 
