@@ -1,0 +1,16 @@
+parameters:
+	disallowedFunctionCalls:
+		# Program execution functions from https://www.php.net/ref.exec
+		-
+			function: 'exec()'
+		-
+			function: 'passthru()'
+		-
+			function: 'proc_open()'
+		-
+			function: 'shell_exec()'
+		-
+			function: 'system()'
+		# Other functions
+		-
+			function: 'pcntl_exec()'
