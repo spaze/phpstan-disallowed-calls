@@ -113,14 +113,28 @@ class DisallowedHelper
 	public function getDisallowedMessage(Node $node, Scope $scope, string $name, ?string $displayName, array $disallowedCalls): array
 	{
 		foreach ($disallowedCalls as $disallowedCall) {
-			if ($name === $disallowedCall->getCall() && !$this->isAllowed($scope, $node->args, $disallowedCall)) {
-				$call = ($displayName && $displayName !== $name ? "{$name}() (as {$displayName}())" : "{$name}()");
+			if ($this->callMatches($disallowedCall, $name) && !$this->isAllowed($scope, $node->args, $disallowedCall)) {
 				return [
-					sprintf('Calling %s is forbidden, %s', $call, $disallowedCall->getMessage()),
+					sprintf(
+						'Calling %s is forbidden, %s%s',
+						($displayName && $displayName !== $name) ? "{$name}() (as {$displayName}())" : "{$name}()",
+						$disallowedCall->getMessage(),
+						$disallowedCall->getCall() !== $name ? " [{$name}() matches {$disallowedCall->getCall()}()]" : ''
+					),
 				];
 			}
 		}
 		return [];
+	}
+
+
+	private function callMatches(DisallowedCall $disallowedCall, string $name): bool
+	{
+		if ($disallowedCall->getCall()[-1] === '*') {
+			return strpos($name, trim($disallowedCall->getCall(), '*')) === 0;
+		} else {
+			return $name === $disallowedCall->getCall();
+		}
 	}
 
 

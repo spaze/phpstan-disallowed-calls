@@ -49,6 +49,20 @@ class FunctionCallsTest extends RuleTestCase
 						'src/*-allow/*.*',
 					],
 				],
+				[
+					'function' => 'shell_*',
+					'allowIn' => [
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
+					],
+				],
+				[
+					'function' => 'exe*()',
+					'allowIn' => [
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
+					],
+				],
 			]
 		);
 	}
@@ -81,8 +95,16 @@ class FunctionCallsTest extends RuleTestCase
 				11,
 			],
 			[
+				'Calling shell_exec() is forbidden, because reasons [shell_exec() matches shell_*()]',
+				12,
+			],
+			[
+				'Calling exec() is forbidden, because reasons [exec() matches exe*()]',
+				13,
+			],
+			[
 				'Calling print_r() is forbidden, nope',
-				21,
+				25,
 			],
 		]);
 		// Based on the configuration above, no errors in this file:
