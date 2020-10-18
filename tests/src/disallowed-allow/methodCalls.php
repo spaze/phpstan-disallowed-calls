@@ -1,6 +1,7 @@
 <?php
 declare(strict_types = 1);
 
+use Constructor\ClassWithConstructor;
 use Waldo\Quux;
 
 $blade = new Quux\Blade();
@@ -27,9 +28,12 @@ $testClassToo = new Traits\AnotherTestClass();
 $testClassToo->y();
 $testClassToo->zzTop();
 
-// instantiation allowed by path
-use Constructor\ClassWithConstructor;
-use Constructor\ClassWithoutConstructor;
-
+// object creation allowed by path
 new ClassWithConstructor();
-new ClassWithoutConstructor();
+// phpcs:ignore PSR12.Classes.ClassInstantiation.MissingParentheses, SlevomatCodingStandard.ControlStructures.NewWithParentheses.MissingParentheses
+new Constructor\ClassWithoutConstructor;
+$classname = Constructor\ClassWithoutConstructor::class;
+new $classname();
+
+// allowed object creation
+new stdClass();
