@@ -41,6 +41,10 @@ services:
 		tags:
 			- phpstan.rules.rule
 	-
+		factory: Spaze\PHPStan\Rules\Disallowed\NewCalls(forbiddenCalls: %disallowedMethodCalls%)
+		tags:
+			- phpstan.rules.rule
+	-
 		factory: Spaze\PHPStan\Rules\Disallowed\StaticCalls(forbiddenCalls: %disallowedStaticCalls%)
 		tags:
 			- phpstan.rules.rule
