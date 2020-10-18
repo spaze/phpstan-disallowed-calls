@@ -25,7 +25,7 @@ class StaticCallsTest extends RuleTestCase
 					'allowParamsInAllowed' => [],
 				],
 				[
-					'method' => 'Fiction\Pulp\Royale::withBad*()',
+					'method' => '\Fiction\Pulp\Royale::withBad*()',
 					'message' => 'a Quarter Pounder with Cheese?',
 					'allowIn' => [
 						'src/disallowed-allowed/*.php',

@@ -16,7 +16,7 @@ class FunctionCallsTest extends RuleTestCase
 			new DisallowedHelper(new FileHelper(__DIR__)),
 			[
 				[
-					'function' => 'var_dump()',
+					'function' => '\var_dump()',
 					'message' => 'use logger instead',
 					'allowIn' => [
 						'src/disallowed-allowed/*.php',
@@ -42,7 +42,7 @@ class FunctionCallsTest extends RuleTestCase
 					],
 				],
 				[
-					'function' => 'Foo\Bar\waldo()',
+					'function' => '\Foo\Bar\waldo()',
 					'message' => 'whoa, a namespace',
 					'allowIn' => [
 						'src/disallowed-allowed/*.php',
