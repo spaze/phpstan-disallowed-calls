@@ -23,3 +23,6 @@ print_r('bar bar baz', true, 303);
 
 // allowed by path
 print_r('bar bar was', false);
+
+// a language construct, allowed by path
+eval('$foo="bar";');

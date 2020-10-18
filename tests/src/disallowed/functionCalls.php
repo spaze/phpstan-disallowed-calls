@@ -23,3 +23,6 @@ print_r('bar bar baz', true, 303);
 
 // disallowed, param #2 is not true
 print_r('bar bar was', false);
+
+// a disallowed language construct
+eval('$foo="bar";');
