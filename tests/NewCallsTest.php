@@ -16,7 +16,7 @@ class NewCallsTest extends RuleTestCase
 			new DisallowedHelper(new FileHelper(__DIR__)),
 			[
 				[
-					'method' => 'Constructor\ClassWithConstructor::__construct()',
+					'method' => '\Constructor\ClassWithConstructor::__construct()',
 					'message' => 'class ClassWithConstructor should not be created',
 					'allowIn' => [
 						'data/*-allowed.php',
