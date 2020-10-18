@@ -109,6 +109,8 @@ parameters:
 ```
 The wildcard must be the leftmost character of the function or method name, optionally followed by `()`.
 
+You can treat `eval()` as a function (although it's a language construct) and disallow it in `disallowedFunctionCalls`.
+
 ## Example output
 
 ```
