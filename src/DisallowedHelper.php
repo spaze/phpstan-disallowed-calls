@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PhpParser\Node;
-use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
@@ -35,34 +34,38 @@ class DisallowedHelper
 
 	/**
 	 * @param Scope $scope
-	 * @param Arg[] $args
+	 * @param FuncCall|MethodCall|StaticCall|null $node
 	 * @param DisallowedCall $disallowedCall
 	 * @return boolean
 	 */
-	public function isAllowed(Scope $scope, array $args, DisallowedCall $disallowedCall): bool
+	private function isAllowed(Scope $scope, ?Node $node, DisallowedCall $disallowedCall): bool
 	{
 		foreach ($disallowedCall->getAllowIn() as $allowedPath) {
 			$match = fnmatch($this->fileHelper->absolutizePath($allowedPath), $scope->getFile());
-			if ($match && $this->hasAllowedParams($scope, $args, $disallowedCall->getAllowParamsInAllowed(), true)) {
+			if ($match && $this->hasAllowedParams($scope, $node, $disallowedCall->getAllowParamsInAllowed(), true)) {
 				return true;
 			}
 		}
-		return $this->hasAllowedParams($scope, $args, $disallowedCall->getAllowParamsAnywhere(), false);
+		return $this->hasAllowedParams($scope, $node, $disallowedCall->getAllowParamsAnywhere(), false);
 	}
 
 
 	/**
 	 * @param Scope $scope
-	 * @param Arg[] $args
+	 * @param FuncCall|MethodCall|StaticCall|null $node
 	 * @param array<integer, integer|boolean|string> $allowConfig
 	 * @param boolean $default
 	 * @return boolean
 	 */
-	private function hasAllowedParams(Scope $scope, array $args, array $allowConfig, bool $default): bool
+	private function hasAllowedParams(Scope $scope, ?Node $node, array $allowConfig, bool $default): bool
 	{
+		if (!$node) {
+			return $default;
+		}
+
 		$disallowed = false;
 		foreach ($allowConfig as $param => $value) {
-			$arg = $args[$param - 1] ?? null;
+			$arg = $node->args[$param - 1] ?? null;
 			$type = $arg ? $scope->getType($arg->value) : null;
 			if ($arg && $type instanceof ConstantScalarType) {
 				$disallowed = $disallowed || ($value !== $type->getValue());
@@ -103,17 +106,17 @@ class DisallowedHelper
 
 
 	/**
-	 * @param FuncCall|MethodCall|StaticCall $node
+	 * @param FuncCall|MethodCall|StaticCall|null $node
 	 * @param Scope $scope
 	 * @param string $name
 	 * @param string|null $displayName
 	 * @param DisallowedCall[] $disallowedCalls
 	 * @return string[]
 	 */
-	public function getDisallowedMessage(Node $node, Scope $scope, string $name, ?string $displayName, array $disallowedCalls): array
+	public function getDisallowedMessage(?Node $node, Scope $scope, string $name, ?string $displayName, array $disallowedCalls): array
 	{
 		foreach ($disallowedCalls as $disallowedCall) {
-			if ($this->callMatches($disallowedCall, $name) && !$this->isAllowed($scope, $node->args, $disallowedCall)) {
+			if ($this->callMatches($disallowedCall, $name) && !$this->isAllowed($scope, $node, $disallowedCall)) {
 				return [
 					sprintf(
 						'Calling %s is forbidden, %s%s',
