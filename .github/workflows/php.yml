@@ -14,6 +14,7 @@ jobs:
           - 7.2
           - 7.3
           - 7.4
+          - 8.0
 
     steps:
     - uses: actions/checkout@v2
@@ -21,8 +22,11 @@ jobs:
     - name: OS info
       run: cat /etc/os-release
 
-    - name: Set default PHP version
-      run: sudo update-alternatives --set php /usr/bin/php${{ matrix.php-version }}
+    - name: "Install PHP"
+      uses: shivammathur/setup-php@v2
+      with:
+        coverage: "none"
+        php-version: "${{ matrix.php-version }}"
 
     - name: PHP info
       run: |
