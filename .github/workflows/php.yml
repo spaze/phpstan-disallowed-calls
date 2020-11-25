@@ -32,11 +32,12 @@ jobs:
       run: |
         php -v
         php -m
+
     - name: Validate composer.json
-      run: composer validate --strict
+      run: composer validate --strict --no-interaction
 
     - name: Install dependencies
-      run: composer update --no-progress
+      run: composer update --no-progress --no-interaction
 
     - name: Run tests
       run: composer test
