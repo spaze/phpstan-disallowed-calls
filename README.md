@@ -1,9 +1,9 @@
 # Disallowed calls for PHPStan
-[PHPStan](https://github.com/phpstan/phpstan) rules to detect disallowed calls, without running the code.
+[PHPStan](https://github.com/phpstan/phpstan) rules to detect disallowed calls and more, without running the code.
 
 [![PHP Tests](https://github.com/spaze/phpstan-disallowed-calls/workflows/PHP%20Tests/badge.svg)](https://github.com/spaze/phpstan-disallowed-calls/actions?query=workflow%3A%22PHP+Tests%22)
 
-There are some functions and methods which should not be used in production code. One good example is `var_dump()`,
+There are some functions, methods, and constants which should not be used in production code. One good example is `var_dump()`,
 it is often used to quickly debug problems but should be removed before commiting the code. And sometimes it's not.
 
 Another example would be a generic logger. Let's say you're using one of the generic logging libraries but you have your own logger
@@ -66,11 +66,12 @@ includes:
 
 ### Custom rules
 
-There are three different disallowed types (and configuration keys) that can be disallowed:
+There are four different disallowed types (and configuration keys) that can be disallowed:
 
 1. `disallowedMethodCalls` - for detecting `$object->method()` calls
 2. `disallowedStaticCalls` - for static calls `Class::method()`
 3. `disallowedFunctionCalls` - for functions like `function()`
+4. `disallowedConstants` - for constants like `DateTime::ISO8601` or `DATE_ISO8601`
 
 Use them to add rules to your `phpstan.neon` config file. I like to use a separate file (`disallowed-calls.neon`) for these which I'll include later on in the main `phpstan.neon` config file. Here's an example, update to your needs:
 
@@ -96,6 +97,14 @@ parameters:
         -
             function: 'print_r()'
             message: 'use logger instead'
+
+    disallowedConstants:
+        -
+            constant: 'DATE_ISO8601'
+            message: 'use DATE_ATOM instead'
+        -
+            constant: 'DateTimeInterface::ISO8601'
+            message: 'use DateTimeInterface::ATOM instead'
 ```
 
 The `message` key is optional. Functions and methods can be specified with or without `()`.
@@ -125,7 +134,7 @@ To disallow naive object creation (`new ClassName()` or `new $classname`), disal
 
 ## Allow some previously disallowed calls
 
-Sometimes, the method or the function needs to be called once in your code, for example in a custom wrapper. You can use PHPStan's [`ignoreErrors` feature](https://github.com/phpstan/phpstan#ignore-error-messages-with-regular-expressions) to ignore that one call:
+Sometimes, the method, the function, or the constant needs to be called or used once in your code, for example in a custom wrapper. You can use PHPStan's [`ignoreErrors` feature](https://github.com/phpstan/phpstan#ignore-error-messages-with-regular-expressions) to ignore that one call:
 
 ```neon
 ignoreErrors:
@@ -140,7 +149,7 @@ ignoreErrors:
             - application/libraries/Tls/PublicKey.php
 ```
 
-You can also allow some previously disallowed calls using the `allowIn` configuration key, for example:
+You can also allow some previously disallowed calls and usages using the `allowIn` configuration key, for example:
 
 ```neon
 parameters:
@@ -155,7 +164,7 @@ parameters:
 
 The paths in `allowIn` are relative to the config file location and support [fnmatch()](https://www.php.net/function.fnmatch) patterns.
 
-You can also narrow down the allowed items when called with some parameters. For example, you want to disallow calling `print_r()` but want to allow `print_r(..., true)`.
+You can also narrow down the allowed items when called with some parameters (doesn't apply to constants for obvious reasons). For example, you want to disallow calling `print_r()` but want to allow `print_r(..., true)`.
 This can be done with optional `allowParamsInAllowed` or `allowParamsAnywhere` configuration keys:
 
 ```neon

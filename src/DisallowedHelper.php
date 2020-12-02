@@ -17,6 +17,7 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
 
 class DisallowedHelper
@@ -106,6 +107,29 @@ class DisallowedHelper
 
 
 	/**
+	 * @param array<array{constant?:string, message?:string, allowIn?:string[]}> $config
+	 * @return DisallowedConstant[]
+	 * @throws ShouldNotHappenException
+	 */
+	public function createConstantsFromConfig(array $config): array
+	{
+		$constants = [];
+		foreach ($config as $disallowedConstant) {
+			$constant = $disallowedConstant['constant'] ?? null;
+			if (!$constant) {
+				throw new ShouldNotHappenException("'constant' must be set in configuration items");
+			}
+			$constants[] = new DisallowedConstant(
+				$constant,
+				$disallowedConstant['message'] ?? null,
+				$disallowedConstant['allowIn'] ?? []
+			);
+		}
+		return $constants;
+	}
+
+
+	/**
 	 * @param FuncCall|MethodCall|StaticCall|null $node
 	 * @param Scope $scope
 	 * @param string $name
@@ -156,12 +180,7 @@ class DisallowedHelper
 			return [];
 		}
 
-		if ($class instanceof Name) {
-			$calledOnType = new ObjectType($scope->resolveName($class));
-		} else {
-			$calledOnType = $scope->getType($class);
-		}
-
+		$calledOnType = $this->resolveType($class, $scope);
 		if ($calledOnType->canCallMethods()->yes() && $calledOnType->hasMethod($node->name->name)->yes()) {
 			$method = $calledOnType->getMethod($node->name->name, $scope);
 			$calledAs = ($calledOnType instanceof TypeWithClassName ? $this->getFullyQualified($calledOnType->getClassName(), $method) : null);
@@ -187,6 +206,58 @@ class DisallowedHelper
 	private function getFullyQualified(string $class, MethodReflection $method): string
 	{
 		return sprintf('%s::%s', $class, $method->getName());
+	}
+
+
+	/**
+	 * @param Name|Expr $class
+	 * @param Scope $scope
+	 * @return Type
+	 */
+	public function resolveType($class, Scope $scope): Type
+	{
+		return $class instanceof Name ? new ObjectType($scope->resolveName($class)) : $scope->getType($class);
+	}
+
+
+	/**
+	 * @param Scope $scope
+	 * @param DisallowedConstant $disallowedConstant
+	 * @return boolean
+	 */
+	private function isAllowedPath(Scope $scope, DisallowedConstant $disallowedConstant): bool
+	{
+		foreach ($disallowedConstant->getAllowIn() as $allowedPath) {
+			if (fnmatch($this->fileHelper->absolutizePath($allowedPath), $scope->getFile())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	/**
+	 * @param string $constant
+	 * @param Scope $scope
+	 * @param string|null $displayName
+	 * @param DisallowedConstant[] $disallowedConstants
+	 * @return string[]
+	 */
+	public function getDisallowedConstantMessage(string $constant, Scope $scope, ?string $displayName, array $disallowedConstants): array
+	{
+		foreach ($disallowedConstants as $disallowedConstant) {
+			if ($disallowedConstant->getConstant() === $constant && !$this->isAllowedPath($scope, $disallowedConstant)) {
+				return [
+					sprintf(
+						'Using %s%s is forbidden, %s',
+						$disallowedConstant->getConstant(),
+						$displayName && $displayName !== $disallowedConstant->getConstant() ? ' (as ' . $displayName . ')' : '',
+						$disallowedConstant->getMessage()
+					),
+				];
+			}
+		}
+		return [];
 	}
 
 }

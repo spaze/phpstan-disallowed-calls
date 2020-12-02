@@ -6,6 +6,11 @@ namespace Waldo\Quux;
 class Blade
 {
 
+	public const RUNNER = 'replicant';
+
+	public const DECKARD = Blade::RUNNER;
+
+
 	public function runner(int $everything = 0, bool $yes = false, string $roland = '303'): void
 	{
 	}

@@ -2,6 +2,7 @@ parameters:
 	disallowedMethodCalls: []
 	disallowedStaticCalls: []
 	disallowedFunctionCalls: []
+	disallowedConstants: []
 
 parametersSchema:
 	# These should be defined using `structure` with listed keys but it seems to me that PHPStan requires
@@ -33,6 +34,15 @@ parametersSchema:
 			)
 		)
 	)
+	disallowedConstants: listOf(
+		arrayOf(
+			anyOf(
+				string(),
+				listOf(string()),
+				arrayOf(anyOf(int(), string(), bool()))
+			)
+		)
+	)
 
 services:
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedHelper
@@ -54,5 +64,13 @@ services:
 			- phpstan.rules.rule
 	-
 		factory: Spaze\PHPStan\Rules\Disallowed\FunctionCalls(forbiddenCalls: %disallowedFunctionCalls%)
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\ConstantUsages(disallowedConstants: %disallowedConstants%)
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\ClassConstantUsages(disallowedConstants: %disallowedConstants%)
 		tags:
 			- phpstan.rules.rule

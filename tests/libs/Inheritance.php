@@ -6,6 +6,11 @@ namespace Inheritance;
 abstract class Base
 {
 
+	public const ALL = 'your';
+
+	public const BELONG = 'us';
+
+
 	public function x(): void
 	{
 	}
