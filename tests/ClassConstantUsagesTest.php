@@ -47,6 +47,14 @@ class ClassConstantUsagesTest extends RuleTestCase
 						'src/*-allow/*.*',
 					],
 				],
+				[
+					'constant' => 'Waldo\Quux\Blade::DECKARD',
+					'message' => 'maybe a replicant',
+					'allowIn' => [
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
+					],
+				],
 			]
 		);
 	}
@@ -77,6 +85,14 @@ class ClassConstantUsagesTest extends RuleTestCase
 			[
 				'Using Waldo\Quux\Blade::RUNNER is forbidden, not a replicant',
 				14,
+			],
+			[
+				'Using Waldo\Quux\Blade::DECKARD is forbidden, maybe a replicant',
+				18,
+			],
+			[
+				'Using Waldo\Quux\Blade::DECKARD is forbidden, maybe a replicant',
+				21,
 			],
 		]);
 		$this->analyse([__DIR__ . '/src/disallowed-allow/constantUsages.php'], []);

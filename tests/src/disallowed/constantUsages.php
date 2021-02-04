@@ -17,6 +17,9 @@ $quux = 'Quux';
 $blade = "\\Waldo\\{$quux}\\Blade";
 $blade::DECKARD;
 
+$orion = new Blade();
+$orion::DECKARD;
+
 // not a disallowed constant usage
 Base::ALL;
 
