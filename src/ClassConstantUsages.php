@@ -11,6 +11,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\TypeWithClassName;
+use PHPStan\Type\VerbosityLevel;
 
 /**
  * Reports on class constant usage.
@@ -68,10 +69,21 @@ class ClassConstantUsages implements Rule
 		}
 
 		$displayName = ($usedOnType instanceof TypeWithClassName ? $this->getFullyQualified($usedOnType->getClassName(), $constant) : null);
-		$className = ($usedOnType instanceof ConstantStringType
-			? ltrim($usedOnType->getValue(), '\\')
-			: $usedOnType->getConstant($constant)->getDeclaringClass()->getDisplayName()
-		);
+		if ($usedOnType instanceof ConstantStringType) {
+			$className = ltrim($usedOnType->getValue(), '\\');
+		} else {
+			if ($usedOnType->hasConstant($constant)->no()) {
+				return [
+					sprintf(
+						'Cannot access constant %s on %s',
+						$constant,
+						$usedOnType->describe(VerbosityLevel::getRecommendedLevelByType($usedOnType))
+					),
+				];
+			} else {
+				$className = $usedOnType->getConstant($constant)->getDeclaringClass()->getDisplayName();
+			}
+		}
 		$constant = $this->getFullyQualified($className, $constant);
 
 		return $this->disallowedHelper->getDisallowedConstantMessage($constant, $scope, $displayName, $this->disallowedConstants);
