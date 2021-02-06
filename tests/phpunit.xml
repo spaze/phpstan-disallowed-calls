@@ -1,4 +1,7 @@
+<?xml version="1.0"?>
 <phpunit
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
 		bootstrap="bootstrap.php"
 		colors="true"
 		backupGlobals="false"
@@ -10,12 +13,13 @@
 		failOnRisky="true"
 		failOnWarning="true"
 >
-	<filter>
-		<whitelist>
+	<coverage>
+		<include>
 			<directory suffix=".php">../src</directory>
-		</whitelist>
-	</filter>
-	<logging>
-		<log type="coverage-html" target="tmp/report" lowUpperBound="35" highLowerBound="70"/>
-	</logging>
+		</include>
+		<report>
+			<html outputDirectory="tmp/report" lowUpperBound="35" highLowerBound="70"/>
+		</report>
+	</coverage>
+	<logging/>
 </phpunit>
