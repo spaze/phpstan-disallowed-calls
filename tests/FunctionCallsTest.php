@@ -56,6 +56,10 @@ class FunctionCallsTest extends RuleTestCase
 						'src/*-allow/*.*',
 					],
 				],
+				// test param overwriting
+				[
+					'function' => 'exe*()',
+				],
 				[
 					'function' => 'exe*()',
 					'allowIn' => [

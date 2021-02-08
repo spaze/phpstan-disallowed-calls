@@ -47,6 +47,11 @@ class ClassConstantUsagesTest extends RuleTestCase
 						'src/*-allow/*.*',
 					],
 				],
+				// test param overwriting
+				[
+					'constant' => 'Waldo\Quux\Blade::DECKARD',
+					'message' => 'maybe a replicant',
+				],
 				[
 					'constant' => 'Waldo\Quux\Blade::DECKARD',
 					'message' => 'maybe a replicant',
