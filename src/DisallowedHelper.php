@@ -94,15 +94,16 @@ class DisallowedHelper
 			if (!$call) {
 				throw new ShouldNotHappenException("Either 'method' or 'function' must be set in configuration items");
 			}
-			$calls[] = new DisallowedCall(
+			$disallowedCall = new DisallowedCall(
 				$call,
 				$disallowedCall['message'] ?? null,
 				$disallowedCall['allowIn'] ?? [],
 				$disallowedCall['allowParamsInAllowed'] ?? [],
 				$disallowedCall['allowParamsAnywhere'] ?? []
 			);
+			$calls[$disallowedCall->getCall()] = $disallowedCall;
 		}
-		return $calls;
+		return array_values($calls);
 	}
 
 
@@ -119,13 +120,14 @@ class DisallowedHelper
 			if (!$constant) {
 				throw new ShouldNotHappenException("'constant' must be set in configuration items");
 			}
-			$constants[] = new DisallowedConstant(
+			$disallowedConstant = new DisallowedConstant(
 				$constant,
 				$disallowedConstant['message'] ?? null,
 				$disallowedConstant['allowIn'] ?? []
 			);
+			$constants[$disallowedConstant->getConstant()] = $disallowedConstant;
 		}
-		return $constants;
+		return array_values($constants);
 	}
 
 
