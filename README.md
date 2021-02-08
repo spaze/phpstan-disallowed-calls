@@ -189,6 +189,19 @@ With `allowParamsAnywhere`, calls are allowed when called with all parameters li
 - `log(..., true)` anywhere
 - `log('foo', true)` in `another/file.php` or `optional/path/to/log.tests.php`
 
+## Detect disallowed calls without any other PHPStan rules
+
+If you want to use this PHPStan extension without running any other PHPStan rules, you can use `phpstan.neon` config file that looks like this (the `customRulesetUsed: true` and the missing `level` key are the important bits):
+
+```neon
+parameters:
+    customRulesetUsed: true
+includes:
+    - vendor/spaze/phpstan-disallowed-calls/extension.neon
+    - vendor/spaze/phpstan-disallowed-calls/disallowed-dangerous-calls.neon
+    - vendor/spaze/phpstan-disallowed-calls/disallowed-execution-calls.neon
+```
+
 ## Running tests
 
 If you want to contribute (awesome, thanks!), you should add/run tests for your contributions.
