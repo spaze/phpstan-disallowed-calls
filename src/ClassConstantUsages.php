@@ -31,7 +31,7 @@ class ClassConstantUsages implements Rule
 
 	/**
 	 * @param DisallowedHelper $disallowedHelper
-	 * @param array<array{function?:string, method?:string, message?:string, allowIn?:string[]}> $disallowedConstants
+	 * @param array<array{class?:string, constant?:string, message?:string, allowIn?:string[]}> $disallowedConstants
 	 * @throws ShouldNotHappenException
 	 */
 	public function __construct(DisallowedHelper $disallowedHelper, array $disallowedConstants)
