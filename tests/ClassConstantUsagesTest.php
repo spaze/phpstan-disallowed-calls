@@ -16,7 +16,8 @@ class ClassConstantUsagesTest extends RuleTestCase
 			new DisallowedHelper(new FileHelper(__DIR__)),
 			[
 				[
-					'constant' => '\Inheritance\Base::BELONG',
+					'class' => '\Inheritance\Base',
+					'constant' => 'BELONG',
 					'message' => 'belong to us',
 					'allowIn' => [
 						'src/disallowed-allowed/*.php',
@@ -24,7 +25,8 @@ class ClassConstantUsagesTest extends RuleTestCase
 					],
 				],
 				[
-					'constant' => 'Inheritance\Base::BELONG',
+					'class' => 'Inheritance\Base',
+					'constant' => 'BELONG',
 					'message' => 'belong to us',
 					'allowIn' => [
 						'src/disallowed-allowed/*.php',
@@ -32,7 +34,8 @@ class ClassConstantUsagesTest extends RuleTestCase
 					],
 				],
 				[
-					'constant' => '\Inheritance\Sub::BELONG',
+					'class' => '\Inheritance\Sub',
+					'constant' => 'BELONG',
 					'message' => 'belong to us',
 					'allowIn' => [
 						'src/disallowed-allowed/*.php',
@@ -40,7 +43,8 @@ class ClassConstantUsagesTest extends RuleTestCase
 					],
 				],
 				[
-					'constant' => 'Waldo\Quux\Blade::RUNNER',
+					'class' => 'Waldo\Quux\Blade',
+					'constant' => 'RUNNER',
 					'message' => 'not a replicant',
 					'allowIn' => [
 						'src/disallowed-allowed/*.php',
@@ -49,11 +53,13 @@ class ClassConstantUsagesTest extends RuleTestCase
 				],
 				// test param overwriting
 				[
-					'constant' => 'Waldo\Quux\Blade::DECKARD',
+					'class' => 'Waldo\Quux\Blade',
+					'constant' => 'DECKARD',
 					'message' => 'maybe a replicant',
 				],
 				[
-					'constant' => 'Waldo\Quux\Blade::DECKARD',
+					'class' => 'Waldo\Quux\Blade',
+					'constant' => 'DECKARD',
 					'message' => 'maybe a replicant',
 					'allowIn' => [
 						'src/disallowed-allowed/*.php',

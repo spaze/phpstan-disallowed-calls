@@ -108,7 +108,7 @@ class DisallowedHelper
 
 
 	/**
-	 * @param array<array{constant?:string, message?:string, allowIn?:string[]}> $config
+	 * @param array<array{class?:string, constant?:string, message?:string, allowIn?:string[]}> $config
 	 * @return DisallowedConstant[]
 	 * @throws ShouldNotHappenException
 	 */
@@ -120,8 +120,9 @@ class DisallowedHelper
 			if (!$constant) {
 				throw new ShouldNotHappenException("'constant' must be set in configuration items");
 			}
+			$class = $disallowedConstant['class'] ?? null;
 			$disallowedConstant = new DisallowedConstant(
-				$constant,
+				$class ? "{$class}::{$constant}" : $constant,
 				$disallowedConstant['message'] ?? null,
 				$disallowedConstant['allowIn'] ?? []
 			);
