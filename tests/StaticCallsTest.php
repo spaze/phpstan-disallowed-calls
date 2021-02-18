@@ -25,7 +25,7 @@ class StaticCallsTest extends RuleTestCase
 					'allowParamsInAllowed' => [],
 				],
 				[
-					'method' => '\Fiction\Pulp\Royale::withBad*()',
+					'method' => '\Fiction\Pulp\*::withBad*()',
 					'message' => 'a Quarter Pounder with Cheese?',
 					'allowIn' => [
 						'src/disallowed-allowed/*.php',
@@ -52,7 +52,7 @@ class StaticCallsTest extends RuleTestCase
 					],
 				],
 				[
-					'method' => 'Inheritance\Base::woofer()',
+					'method' => 'Inheritance\Base::w*f*r()',
 					'message' => 'method Base::woofer() is dangerous',
 					'allowIn' => [
 						'src/disallowed-allowed/*.php',
@@ -95,7 +95,7 @@ class StaticCallsTest extends RuleTestCase
 				8,
 			],
 			[
-				'Calling Fiction\Pulp\Royale::withBadCheese() is forbidden, a Quarter Pounder with Cheese? [Fiction\Pulp\Royale::withBadCheese() matches Fiction\Pulp\Royale::withBad*()]',
+				'Calling Fiction\Pulp\Royale::withBadCheese() is forbidden, a Quarter Pounder with Cheese? [Fiction\Pulp\Royale::withBadCheese() matches Fiction\Pulp\*::withBad*()]',
 				9,
 			],
 			[
@@ -111,7 +111,7 @@ class StaticCallsTest extends RuleTestCase
 				18,
 			],
 			[
-				'Calling Inheritance\Base::woofer() (as Inheritance\Sub::woofer()) is forbidden, method Base::woofer() is dangerous',
+				'Calling Inheritance\Base::woofer() (as Inheritance\Sub::woofer()) is forbidden, method Base::woofer() is dangerous [Inheritance\Base::woofer() matches Inheritance\Base::w*f*r()]',
 				28,
 			],
 			[
