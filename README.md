@@ -129,7 +129,7 @@ parameters:
         -
             function: 'pcntl_*()'
 ```
-The wildcard must be the rightmost character of the function or method name, optionally followed by `()`.
+The wildcard makes most sense when used as the rightmost character of the function or method name, optionally followed by `()`, but you can use it anywhere for example to disallow all functions that end with `y`: `function: '*y()'`. The matching is powered by [`fnmatch`](https://www.php.net/function.fnmatch) so you can use even multiple wildcards if you wish because w*y n*t.
 
 You can treat `eval()` as a function (although it's a language construct) and disallow it in `disallowedFunctionCalls`.
 
