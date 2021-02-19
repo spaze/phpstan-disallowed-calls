@@ -164,7 +164,7 @@ class DisallowedHelper
 			return true;
 		}
 
-		if (fnmatch($disallowedCall->getCall(), $name)) {
+		if (fnmatch($disallowedCall->getCall(), $name, FNM_NOESCAPE)) {
 			return true;
 		}
 
