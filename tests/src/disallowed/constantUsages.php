@@ -26,3 +26,10 @@ Base::ALL;
 // not a constant
 Base::class;
 \Constructor\ClassWithConstructor::class;
+
+// types that support generics
+/**
+ * @var PhpOption\None<string> $none
+ */
+$none = PhpOption\None::create();
+$none::NAME;

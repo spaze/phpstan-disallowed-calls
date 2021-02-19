@@ -75,6 +75,30 @@ class StaticCallsTest extends RuleTestCase
 						'src/*-allow/*.*',
 					],
 				],
+				[
+					'method' => 'PhpOption\Option::*()',
+					'message' => 'do not use PhpOption',
+					'allowIn' => [
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
+					],
+				],
+				[
+					'method' => 'PhpOption\Some::create()',
+					'message' => 'do not use PhpOption',
+					'allowIn' => [
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
+					],
+				],
+				[
+					'method' => 'PhpOption\None::*()',
+					'message' => 'do not use PhpOption',
+					'allowIn' => [
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
+					],
+				],
 			]
 		);
 	}
@@ -121,6 +145,18 @@ class StaticCallsTest extends RuleTestCase
 			[
 				'Calling Traits\AnotherTestClass::zz() is forbidden, method AnotherTestClass::zz() is dangerous',
 				32,
+			],
+			[
+				'Calling PhpOption\Option::fromArraysValue() is forbidden, do not use PhpOption [PhpOption\Option::fromArraysValue() matches PhpOption\Option::*()]',
+				35,
+			],
+			[
+				'Calling PhpOption\None::create() is forbidden, do not use PhpOption [PhpOption\None::create() matches PhpOption\None::*()]',
+				36,
+			],
+			[
+				'Calling PhpOption\Some::create() is forbidden, do not use PhpOption',
+				37,
 			],
 		]);
 		$this->analyse([__DIR__ . '/src/disallowed-allow/staticCalls.php'], [

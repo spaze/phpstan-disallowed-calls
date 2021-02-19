@@ -205,7 +205,7 @@ class DisallowedHelper
 			return [];
 		}
 
-		$declaredAs = $this->getFullyQualified($method->getDeclaringClass()->getDisplayName(), $method);
+		$declaredAs = $this->getFullyQualified($method->getDeclaringClass()->getDisplayName(false), $method);
 		return $this->getDisallowedMessage($node, $scope, $declaredAs, $calledAs, $disallowedCalls);
 	}
 
