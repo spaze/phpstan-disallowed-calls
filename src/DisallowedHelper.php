@@ -160,11 +160,15 @@ class DisallowedHelper
 
 	private function callMatches(DisallowedCall $disallowedCall, string $name): bool
 	{
-		if ($disallowedCall->getCall()[-1] === '*') {
-			return strpos($name, trim($disallowedCall->getCall(), '*')) === 0;
-		} else {
-			return $name === $disallowedCall->getCall();
+		if ($name === $disallowedCall->getCall()) {
+			return true;
 		}
+
+		if (fnmatch($disallowedCall->getCall(), $name)) {
+			return true;
+		}
+
+		return false;
 	}
 
 
