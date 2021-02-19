@@ -67,12 +67,13 @@ includes:
 
 ### Custom rules
 
-There are four different disallowed types (and configuration keys) that can be disallowed:
+There are five different disallowed types (and configuration keys) that can be disallowed:
 
 1. `disallowedMethodCalls` - for detecting `$object->method()` calls
 2. `disallowedStaticCalls` - for static calls `Class::method()`
 3. `disallowedFunctionCalls` - for functions like `function()`
 4. `disallowedConstants` - for constants like `DATE_ISO8601` or `DateTime::ISO8601` (which needs to be split to `class: DateTime` & `constant: ISO8601` in the configuration, see below)
+5. `disallowedNamespaces` - for usages of classes from a namespace
 
 Use them to add rules to your `phpstan.neon` config file. I like to use a separate file (`disallowed-calls.neon`) for these which I'll include later on in the main `phpstan.neon` config file. Here's an example, update to your needs:
 
@@ -107,6 +108,16 @@ parameters:
             class: 'DateTimeInterface'
             constant: 'ISO8601'
             message: 'use DateTimeInterface::ATOM instead'
+
+    disallowedNamespaces:
+        -
+            namespace: 'Symfony\Component\HttpFoundation\RequestStack'
+            message: 'pass Request via controller instead'
+            allowIn:
+                - tests/*
+        -
+            namespace: 'Assert\*'
+            message: 'use Webmozart\Assert instead'
 ```
 
 The `message` key is optional. Functions and methods can be specified with or without `()`. Omitting `()` is not recommended though to avoid confusing method calls with class constants.
@@ -122,7 +133,7 @@ parameters:
 ```
 Using the fully-qualified name would result in the constant being replaced with its actual value. Otherwise, the extension would see `constant: "Y-m-d\TH:i:sO"` instead of `constant: DateTimeInterface::ISO8601` for example.
 
-Use wildcard (`*`) to ignore all functions or methods starting with a prefix, for example:
+Use wildcard (`*`) to ignore all functions, methods, namespaces starting with a prefix, for example:
 ```neon
 parameters:
     disallowedFunctionCalls:
