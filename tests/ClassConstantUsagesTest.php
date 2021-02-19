@@ -66,6 +66,15 @@ class ClassConstantUsagesTest extends RuleTestCase
 						'src/*-allow/*.*',
 					],
 				],
+				[
+					'class' => 'PhpOption\Option',
+					'constant' => 'NAME',
+					'message' => 'no PhpOption',
+					'allowIn' => [
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
+					],
+				],
 			]
 		);
 	}
@@ -104,6 +113,10 @@ class ClassConstantUsagesTest extends RuleTestCase
 			[
 				'Using Waldo\Quux\Blade::DECKARD is forbidden, maybe a replicant',
 				21,
+			],
+			[
+				'Using PhpOption\Option::NAME is forbidden, no PhpOption',
+				35,
 			],
 		]);
 		$this->analyse([__DIR__ . '/src/disallowed-allow/constantUsages.php'], []);

@@ -52,6 +52,22 @@ class MethodCallsTest extends RuleTestCase
 						'src/*-allow/*.*',
 					],
 				],
+				[
+					'method' => 'PhpOption\None::getIterator()',
+					'message' => 'no PhpOption',
+					'allowIn' => [
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
+					],
+				],
+				[
+					'method' => 'PhpOption\Some::getIterator()',
+					'message' => 'no PhpOption',
+					'allowIn' => [
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
+					],
+				],
 			]
 		);
 	}
@@ -90,6 +106,14 @@ class MethodCallsTest extends RuleTestCase
 			[
 				'Calling Traits\AnotherTestClass::zzTop() is forbidden, method AnotherTestClass::zzTop() is dangerous',
 				29,
+			],
+			[
+				'Calling PhpOption\None::getIterator() is forbidden, no PhpOption',
+				46,
+			],
+			[
+				'Calling PhpOption\Some::getIterator() is forbidden, no PhpOption',
+				52,
 			],
 		]);
 		$this->analyse([__DIR__ . '/src/disallowed-allow/methodCalls.php'], [

@@ -30,3 +30,8 @@ Inheritance\Sub::woofer();
 // disallowed trait method
 Traits\TestClass::z();
 Traits\AnotherTestClass::zz();
+
+// types that support generics
+PhpOption\Option::fromArraysValue([]);
+PhpOption\None::create();
+PhpOption\Some::create('value');
