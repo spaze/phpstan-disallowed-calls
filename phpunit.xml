@@ -2,7 +2,7 @@
 <phpunit
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
-		bootstrap="bootstrap.php"
+		bootstrap="tests/bootstrap.php"
 		colors="true"
 		backupGlobals="false"
 		backupStaticAttributes="false"
@@ -15,11 +15,16 @@
 >
 	<coverage>
 		<include>
-			<directory suffix=".php">../src</directory>
+			<directory suffix=".php">src</directory>
 		</include>
 		<report>
 			<html outputDirectory="tmp/report" lowUpperBound="35" highLowerBound="70"/>
 		</report>
 	</coverage>
+	<testsuites>
+		<testsuite name="main">
+			<directory>tests</directory>
+		</testsuite>
+	</testsuites>
 	<logging/>
 </phpunit>
