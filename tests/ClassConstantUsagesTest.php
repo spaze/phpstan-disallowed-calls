@@ -95,6 +95,15 @@ class ClassConstantUsagesTest extends RuleTestCase
 						'src/*-allow/*.*',
 					],
 				],
+				[
+					'class' => 'DateTime',
+					'constant' => 'RSS',
+					'message' => 'no RSS',
+					'allowIn' => [
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
+					],
+				],
 			]
 		);
 	}
@@ -172,6 +181,10 @@ class ClassConstantUsagesTest extends RuleTestCase
 			[
 				'Using DateTimeInterface::RFC* (as DateTimeInterface::RFC3339) is forbidden, no RFC',
 				11,
+			],
+			[
+				'Using DateTime::RSS is forbidden, no RSS',
+				16,
 			],
 		]);
 	}

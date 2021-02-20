@@ -68,9 +68,11 @@ class ClassConstantUsages implements Rule
 			return [];
 		}
 
+		$classNames = [];
+
 		$displayName = ($usedOnType instanceof TypeWithClassName ? $this->getFullyQualified($usedOnType->getClassName(), $constant) : null);
 		if ($usedOnType instanceof ConstantStringType) {
-			$className = ltrim($usedOnType->getValue(), '\\');
+			$classNames[] = ltrim($usedOnType->getValue(), '\\');
 		} else {
 			if ($usedOnType->hasConstant($constant)->no()) {
 				return [
@@ -81,12 +83,29 @@ class ClassConstantUsages implements Rule
 					),
 				];
 			} else {
-				$className = $usedOnType->getConstant($constant)->getDeclaringClass()->getDisplayName();
+				$classNames[] = $usedOnType->getConstant($constant)->getDeclaringClass()->getDisplayName();
+
+				if ($usedOnType instanceof TypeWithClassName) {
+					$classNames[] = $usedOnType->getClassName();
+				}
 			}
 		}
-		$constant = $this->getFullyQualified($className, $constant);
 
-		return $this->disallowedHelper->getDisallowedConstantMessage($constant, $scope, $displayName, $this->disallowedConstants);
+		foreach ($classNames as $className) {
+			$errors = $this->disallowedHelper->getDisallowedConstantMessage(
+				$this->getFullyQualified($className, $constant),
+				$scope,
+				$displayName,
+				$this->disallowedConstants
+			);
+
+			// return immeditely on error (to prevent duplicate errors)
+			if ($errors !== []) {
+				return $errors;
+			}
+		}
+
+		return [];
 	}
 
 
