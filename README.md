@@ -67,7 +67,7 @@ includes:
 
 ### Custom rules
 
-There are five different disallowed types (and configuration keys) that can be disallowed:
+There are several different types (and configuration keys) that can be disallowed:
 
 1. `disallowedMethodCalls` - for detecting `$object->method()` calls
 2. `disallowedStaticCalls` - for static calls `Class::method()`
