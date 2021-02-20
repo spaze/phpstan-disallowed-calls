@@ -72,7 +72,7 @@ There are several different types (and configuration keys) that can be disallowe
 1. `disallowedMethodCalls` - for detecting `$object->method()` calls
 2. `disallowedStaticCalls` - for static calls `Class::method()`
 3. `disallowedFunctionCalls` - for functions like `function()`
-4. `disallowedConstants` - for constants like `DATE_ISO8601` or `DateTime::ISO8601` (which needs to be split to `class: DateTime` & `constant: ISO8601` in the configuration, see below)
+4. `disallowedConstants` - for constants like `DATE_ISO8601` or `DateTime::ISO8601` (which needs to be split to `class: DateTime` & `constant: ISO8601` in the configuration, see notes below)
 5. `disallowedNamespaces` - for usages of classes from a namespace
 
 Use them to add rules to your `phpstan.neon` config file. I like to use a separate file (`disallowed-calls.neon`) for these which I'll include later on in the main `phpstan.neon` config file. Here's an example, update to your needs:
@@ -122,17 +122,6 @@ parameters:
 
 The `message` key is optional. Functions and methods can be specified with or without `()`. Omitting `()` is not recommended though to avoid confusing method calls with class constants.
 
-Class constants have to be specified using two keys: `class` and `constant`:
-```neon
-parameters:
-    disallowedConstants:
-        -
-            class: 'DateTimeInterface'
-            constant: 'ISO8601'
-            message: 'use DateTimeInterface::ATOM instead'
-```
-Using the fully-qualified name would result in the constant being replaced with its actual value. Otherwise, the extension would see `constant: "Y-m-d\TH:i:sO"` instead of `constant: DateTimeInterface::ISO8601` for example.
-
 Use wildcard (`*`) to ignore all functions, methods, namespaces starting with a prefix, for example:
 ```neon
 parameters:
@@ -145,6 +134,24 @@ The wildcard makes most sense when used as the rightmost character of the functi
 You can treat `eval()` as a function (although it's a language construct) and disallow it in `disallowedFunctionCalls`.
 
 To disallow naive object creation (`new ClassName()` or `new $classname`), disallow `NameSpace\ClassName::__construct` in `disallowedMethodCalls`. Works even when there's no constructor defined in that class.
+
+### Disallowing constants
+
+Constants are a special breed. First, a constant needs to be disallowed on the declaring class. That means, that instead of disallowing `Date::ISO8601` or `DateTimeImmutable::ISO8601`, you need to disallow `DateTimeInterface::ISO8601`.
+The reason for this is that one might expect that disallowing e.g. `Date::ISO8601` (disallowing on a "used on" class) would also disallow `DateTimeImmutable::ISO8601`, which unfortunately wouldn't be the case.
+
+Second, disallowing constants doesn't support wildcards. The only real-world use case I could think of is the `Date*::CONSTANT` case and that can be easily solved by disallowing `DateTimeInterface::CONSTANT` already.
+
+Last but not least, class constants have to be specified using two keys: `class` and `constant`:
+```neon
+parameters:
+    disallowedConstants:
+        -
+            class: 'DateTimeInterface'
+            constant: 'ISO8601'
+            message: 'use DateTimeInterface::ATOM instead'
+```
+Using the fully-qualified name would result in the constant being replaced with its actual value. Otherwise, the extension would see `constant: "Y-m-d\TH:i:sO"` instead of `constant: DateTimeInterface::ISO8601` for example.
 
 ## Example output
 
