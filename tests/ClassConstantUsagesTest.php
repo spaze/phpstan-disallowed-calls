@@ -138,28 +138,42 @@ class ClassConstantUsagesTest extends RuleTestCase
 				'Using PhpOption\Option::NAME is forbidden, no PhpOption',
 				35,
 			],
+		]);
+		$this->analyse([__DIR__ . '/src/disallowed-allow/constantUsages.php'], []);
+	}
+
+
+	public function testRulePHP72AndHigher(): void
+	{
+		if (!version_compare(PHP_VERSION, '7.2', '>=')) {
+			$this->markTestSkipped('These tests require PHP 7.2');
+		}
+
+		// Based on the configuration above, in this file:
+		$this->analyse([__DIR__ . '/src/disallowed/constantUsagesPHP72.php'], [
 			[
+				// expect this error message:
 				'Using DateTime*::ISO8601 (as DateTime::ISO8601) is forbidden, use DateTimeInterface::ATOM instead',
-				38,
+				// on this line:
+				5,
 			],
 			[
 				'Using DateTime*::ISO8601 (as DateTimeImmutable::ISO8601) is forbidden, use DateTimeInterface::ATOM instead',
-				39,
+				6,
 			],
 			[
 				'Using DateTime*::ISO8601 (as DateTimeInterface::ISO8601) is forbidden, use DateTimeInterface::ATOM instead',
-				40,
+				7,
 			],
 			[
 				'Using DateTimeInterface::RFC* (as DateTimeInterface::RFC1123) is forbidden, no RFC',
-				43,
+				10,
 			],
 			[
 				'Using DateTimeInterface::RFC* (as DateTimeInterface::RFC3339) is forbidden, no RFC',
-				44,
+				11,
 			],
 		]);
-		$this->analyse([__DIR__ . '/src/disallowed-allow/constantUsages.php'], []);
 	}
 
 }

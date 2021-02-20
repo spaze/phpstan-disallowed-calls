@@ -60,7 +60,7 @@ class ConstantUsagesTest extends RuleTestCase
 			],
 			[
 				'Using FILTER_FLAG_*_FRACTION (as FILTER_FLAG_ALLOW_FRACTION) is forbidden, the cake is a lie',
-				47,
+				38,
 			],
 		]);
 		$this->analyse([__DIR__ . '/src/disallowed-allow/constantUsages.php'], []);
