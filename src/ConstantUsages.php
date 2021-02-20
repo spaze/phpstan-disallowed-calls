@@ -51,7 +51,7 @@ class ConstantUsages implements Rule
 	public function processNode(Node $node, Scope $scope): array
 	{
 		/** @var ConstFetch $node */
-		return $this->disallowedHelper->getDisallowedConstantMessage((string)$node->name, $scope, null, $this->disallowedConstants);
+		return $this->disallowedHelper->getDisallowedConstantMessage((string)$node->name, $scope, (string)$node->name, $this->disallowedConstants);
 	}
 
 }

@@ -31,6 +31,14 @@ class ConstantUsagesTest extends RuleTestCase
 						'src/*-allow/*.*',
 					],
 				],
+				[
+					'constant' => 'FILTER_FLAG_*_FRACTION',
+					'message' => 'the cake is a lie',
+					'allowIn' => [
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
+					],
+				],
 			]
 		);
 	}
@@ -49,6 +57,10 @@ class ConstantUsagesTest extends RuleTestCase
 			[
 				'Using FILTER_FLAG_NO_PRIV_RANGE is forbidden, the cake is a lie',
 				9,
+			],
+			[
+				'Using FILTER_FLAG_*_FRACTION (as FILTER_FLAG_ALLOW_FRACTION) is forbidden, the cake is a lie',
+				47,
 			],
 		]);
 		$this->analyse([__DIR__ . '/src/disallowed-allow/constantUsages.php'], []);

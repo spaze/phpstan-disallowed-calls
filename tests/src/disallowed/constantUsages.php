@@ -33,3 +33,15 @@ Base::class;
  */
 $none = PhpOption\None::create();
 $none::NAME;
+
+// disallowed constants with class wildcard
+echo DateTime::ISO8601;
+echo DateTimeImmutable::ISO8601;
+echo DateTimeInterface::ISO8601;
+
+// disallowed class constants with wildcard in constant
+echo DateTimeInterface::RFC1123;
+echo DateTimeInterface::RFC3339;
+
+// global constant wildcard
+echo FILTER_FLAG_ALLOW_FRACTION;

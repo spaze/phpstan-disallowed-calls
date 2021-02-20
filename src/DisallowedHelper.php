@@ -253,7 +253,7 @@ class DisallowedHelper
 	public function getDisallowedConstantMessage(string $constant, Scope $scope, ?string $displayName, array $disallowedConstants): array
 	{
 		foreach ($disallowedConstants as $disallowedConstant) {
-			if ($disallowedConstant->getConstant() === $constant && !$this->isAllowedPath($scope, $disallowedConstant)) {
+			if ($this->matches($disallowedConstant->getConstant(), $constant) && !$this->isAllowedPath($scope, $disallowedConstant)) {
 				return [
 					sprintf(
 						'Using %s%s is forbidden, %s',

@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed;
 
+use DateTime;
+use DateTimeInterface;
 use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
@@ -75,6 +77,24 @@ class ClassConstantUsagesTest extends RuleTestCase
 						'src/*-allow/*.*',
 					],
 				],
+				[
+					'class' => 'DateTime*',
+					'constant' => 'ISO8601',
+					'message' => 'use DateTimeInterface::ATOM instead',
+					'allowIn' => [
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
+					],
+				],
+				[
+					'class' => 'DateTimeInterface',
+					'constant' => 'RFC*',
+					'message' => 'no RFC',
+					'allowIn' => [
+						'src/disallowed-allowed/*.php',
+						'src/*-allow/*.*',
+					],
+				],
 			]
 		);
 	}
@@ -117,6 +137,26 @@ class ClassConstantUsagesTest extends RuleTestCase
 			[
 				'Using PhpOption\Option::NAME is forbidden, no PhpOption',
 				35,
+			],
+			[
+				'Using DateTime*::ISO8601 (as DateTime::ISO8601) is forbidden, use DateTimeInterface::ATOM instead',
+				38,
+			],
+			[
+				'Using DateTime*::ISO8601 (as DateTimeImmutable::ISO8601) is forbidden, use DateTimeInterface::ATOM instead',
+				39,
+			],
+			[
+				'Using DateTime*::ISO8601 (as DateTimeInterface::ISO8601) is forbidden, use DateTimeInterface::ATOM instead',
+				40,
+			],
+			[
+				'Using DateTimeInterface::RFC* (as DateTimeInterface::RFC1123) is forbidden, no RFC',
+				43,
+			],
+			[
+				'Using DateTimeInterface::RFC* (as DateTimeInterface::RFC3339) is forbidden, no RFC',
+				44,
 			],
 		]);
 		$this->analyse([__DIR__ . '/src/disallowed-allow/constantUsages.php'], []);
