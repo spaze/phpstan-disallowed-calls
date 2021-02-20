@@ -230,5 +230,7 @@ includes:
 If you want to contribute (awesome, thanks!), you should add/run tests for your contributions.
 First install dev dependencies by running `composer install`, then run PHPUnit tests with `composer test`, see `scripts` in `composer.json`. Tests are also run on GitHub with Actions on each push.
 
+You can fix coding style issues automatically by running `composer cs-fix`.
+
 ## See also
 There's a similar project with a slightly different configuration, created almost at the same time (just a few days difference): [PHPStan Banned Code](https://github.com/ekino/phpstan-banned-code).
