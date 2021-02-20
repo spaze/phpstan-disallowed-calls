@@ -35,7 +35,7 @@
 		"phpcs": "vendor/bin/phpcs src/ tests/",
 		"cs-fix": "vendor/bin/phpcbf src/ tests/",
 		"phpstan-dev": "vendor/bin/phpstan --ansi analyse --configuration phpstan.neon",
-		"phpunit-dev": "vendor/bin/phpunit --configuration tests/phpunit.xml --colors=always tests/",
+		"phpunit-dev": "vendor/bin/phpunit --colors=always",
 		"test": [
 			"@lint",
 			"@phpcs",
