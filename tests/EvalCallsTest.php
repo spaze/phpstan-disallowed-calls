@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed;
 
-use PHPStan\File\FileHelper;
+use PHPStan\File\FileHelper as PHPStanFileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 
@@ -13,7 +13,7 @@ class EvalCallsTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		return new EvalCalls(
-			new DisallowedHelper(new FileHelper(__DIR__)),
+			new DisallowedHelper(new FileHelper(new PHPStanFileHelper(__DIR__))),
 			[
 				[
 					'function' => 'eval()',

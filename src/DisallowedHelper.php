@@ -12,7 +12,6 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Broker\ClassNotFoundException;
-use PHPStan\File\FileHelper;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ConstantScalarType;

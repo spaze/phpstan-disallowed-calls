@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed;
 
-use PHPStan\File\FileHelper;
+use PHPStan\File\FileHelper as PHPStanFileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 
@@ -12,7 +12,7 @@ class ClassConstantInvalidUsagesTest extends RuleTestCase
 
 	protected function getRule(): Rule
 	{
-		return new ClassConstantUsages(new DisallowedHelper(new FileHelper(__DIR__)), []);
+		return new ClassConstantUsages(new DisallowedHelper(new FileHelper(new PHPStanFileHelper(__DIR__))), []);
 	}
 
 
