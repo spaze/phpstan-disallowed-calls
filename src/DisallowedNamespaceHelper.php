@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PHPStan\Analyser\Scope;
-use PHPStan\File\FileHelper;
 
 class DisallowedNamespaceHelper
 {
