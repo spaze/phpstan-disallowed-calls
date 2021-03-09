@@ -241,3 +241,6 @@ You can fix coding style issues automatically by running `composer cs-fix`.
 
 ## See also
 There's a similar project with a slightly different configuration, created almost at the same time (just a few days difference): [PHPStan Banned Code](https://github.com/ekino/phpstan-banned-code).
+
+## Framework or package-specific configurations
+- For [Nette Framework](https://github.com/spaze/phpstan-disallowed-calls-nette)
