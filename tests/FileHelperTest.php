@@ -14,7 +14,7 @@ class FileHelperTest extends TestCase
 	private $fileHelper;
 
 
-	public function setUp(): void
+	protected function setUp(): void
 	{
 		$this->fileHelper = new FileHelper(new PHPStanFileHelper(__DIR__));
 	}
