@@ -131,7 +131,10 @@ parameters:
 ```
 The wildcard makes most sense when used as the rightmost character of the function or method name, optionally followed by `()`, but you can use it anywhere for example to disallow all functions that end with `y`: `function: '*y()'`. The matching is powered by [`fnmatch`](https://www.php.net/function.fnmatch) so you can use even multiple wildcards if you wish because w*y n*t.
 
-You can treat `eval()` as a function (although it's a language construct) and disallow it in `disallowedFunctionCalls`.
+You can treat some language constructs as functions and disallow it in `disallowedFunctionCalls`. Currently detected language constructs are:
+- `die()`
+- `eval()`
+- `exit()`
 
 To disallow naive object creation (`new ClassName()` or `new $classname`), disallow `NameSpace\ClassName::__construct` in `disallowedMethodCalls`. Works even when there's no constructor defined in that class.
 
