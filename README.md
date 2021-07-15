@@ -133,6 +133,7 @@ The wildcard makes most sense when used as the rightmost character of the functi
 
 You can treat some language constructs as functions and disallow it in `disallowedFunctionCalls`. Currently detected language constructs are:
 - `die()`
+- `empty()`
 - `eval()`
 - `exit()`
 
