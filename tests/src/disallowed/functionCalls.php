@@ -26,3 +26,16 @@ print_r('bar bar was', false);
 
 // a disallowed language construct
 eval('$foo="bar";');
+if (random_int(0, 1) === 1) {
+	die('hard');
+}
+if (random_int(0, 1) === 1) {
+	die;
+}
+if (random_int(0, 1) === 1) {
+	exit('through the gift shop');
+}
+if (random_int(0, 1) === 1) {
+	exit;
+}
+empty($bottle);
