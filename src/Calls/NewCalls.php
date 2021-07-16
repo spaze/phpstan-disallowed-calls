@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed;
+namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr;
@@ -11,6 +11,8 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ConstantScalarType;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
 
 /**
  * Reports on creating objects (calling constructors).

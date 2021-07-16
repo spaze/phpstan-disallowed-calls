@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed;
+namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
@@ -9,6 +9,8 @@ use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
 
 /**
  * Reports on dynamically calling a disallowed function.

@@ -1,21 +1,26 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed;
+namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\Exit_;
+use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Broker\ClassNotFoundException;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
 
 /**
- * Reports on dynamically calling exit() & die().
+ * Reports on statically calling a disallowed method or two.
+ *
+ * Dynamic calls have a different rule, <code>MethodCalls</code>
  *
  * @package Spaze\PHPStan\Rules\Disallowed
- * @implements Rule<Exit_>
+ * @implements Rule<StaticCall>
  */
-class ExitDieCalls implements Rule
+class StaticCalls implements Rule
 {
 
 	/** @var DisallowedHelper */
@@ -41,7 +46,7 @@ class ExitDieCalls implements Rule
 
 	public function getNodeType(): string
 	{
-		return Exit_::class;
+		return StaticCall::class;
 	}
 
 
@@ -49,11 +54,12 @@ class ExitDieCalls implements Rule
 	 * @param Node $node
 	 * @param Scope $scope
 	 * @return string[]
+	 * @throws ClassNotFoundException
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		$kind = $node->getAttribute('kind', Exit_::KIND_DIE) === Exit_::KIND_EXIT ? 'exit' : 'die';
-		return $this->disallowedHelper->getDisallowedMessage(null, $scope, $kind, $kind, $this->disallowedCalls);
+		/** @var StaticCall $node */
+		return $this->disallowedHelper->getDisallowedMethodMessage($node->class, $node, $scope, $this->disallowedCalls);
 	}
 
 }

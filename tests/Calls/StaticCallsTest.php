@@ -1,11 +1,13 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed;
+namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
 use PHPStan\File\FileHelper as PHPStanFileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
+use Spaze\PHPStan\Rules\Disallowed\FileHelper;
 
 class StaticCallsTest extends RuleTestCase
 {
@@ -107,7 +109,7 @@ class StaticCallsTest extends RuleTestCase
 	public function testRule(): void
 	{
 		// Based on the configuration above, in this file:
-		$this->analyse([__DIR__ . '/src/disallowed/staticCalls.php'], [
+		$this->analyse([__DIR__ . '/../src/disallowed/staticCalls.php'], [
 			[
 				// expect this error message:
 				'Calling Fiction\Pulp\Royale::withCheese() is forbidden, a Quarter Pounder with Cheese?',

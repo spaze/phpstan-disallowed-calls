@@ -59,42 +59,42 @@ services:
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedHelper
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceHelper
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\NamespaceUsages(forbiddenNamespaces: %disallowedNamespaces%)
+		factory: Spaze\PHPStan\Rules\Disallowed\Usages\NamespaceUsages(forbiddenNamespaces: %disallowedNamespaces%)
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\MethodCalls(forbiddenCalls: %disallowedMethodCalls%)
+		factory: Spaze\PHPStan\Rules\Disallowed\Calls\MethodCalls(forbiddenCalls: %disallowedMethodCalls%)
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\NewCalls(forbiddenCalls: %disallowedMethodCalls%)
+		factory: Spaze\PHPStan\Rules\Disallowed\Calls\NewCalls(forbiddenCalls: %disallowedMethodCalls%)
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\StaticCalls(forbiddenCalls: %disallowedStaticCalls%)
+		factory: Spaze\PHPStan\Rules\Disallowed\Calls\StaticCalls(forbiddenCalls: %disallowedStaticCalls%)
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\EvalCalls(forbiddenCalls: %disallowedFunctionCalls%)
+		factory: Spaze\PHPStan\Rules\Disallowed\Calls\EvalCalls(forbiddenCalls: %disallowedFunctionCalls%)
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\EmptyCalls(forbiddenCalls: %disallowedFunctionCalls%)
+		factory: Spaze\PHPStan\Rules\Disallowed\Calls\EmptyCalls(forbiddenCalls: %disallowedFunctionCalls%)
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\ExitDieCalls(forbiddenCalls: %disallowedFunctionCalls%)
+		factory: Spaze\PHPStan\Rules\Disallowed\Calls\ExitDieCalls(forbiddenCalls: %disallowedFunctionCalls%)
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\FunctionCalls(forbiddenCalls: %disallowedFunctionCalls%)
+		factory: Spaze\PHPStan\Rules\Disallowed\Calls\FunctionCalls(forbiddenCalls: %disallowedFunctionCalls%)
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\ConstantUsages(disallowedConstants: %disallowedConstants%)
+		factory: Spaze\PHPStan\Rules\Disallowed\Usages\ConstantUsages(disallowedConstants: %disallowedConstants%)
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\ClassConstantUsages(disallowedConstants: %disallowedConstants%)
+		factory: Spaze\PHPStan\Rules\Disallowed\Usages\ClassConstantUsages(disallowedConstants: %disallowedConstants%)
 		tags:
 			- phpstan.rules.rule

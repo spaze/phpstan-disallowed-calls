@@ -1,11 +1,13 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed;
+namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
 use PHPStan\File\FileHelper as PHPStanFileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceHelper;
+use Spaze\PHPStan\Rules\Disallowed\FileHelper;
 
 class NamespaceUsagesTest extends RuleTestCase
 {
@@ -71,7 +73,7 @@ class NamespaceUsagesTest extends RuleTestCase
 	public function testRule(): void
 	{
 		// Based on the configuration above, in this file:
-		$this->analyse([__DIR__ . '/src/disallowed/namespaceUsages.php'], [
+		$this->analyse([__DIR__ . '/../src/disallowed/namespaceUsages.php'], [
 			[
 				// Based on the configuration above, in this file:
 				'Namespace Framework\SomeInterface is forbidden, no framework some [Framework\SomeInterface matches Framew*rk\Some*]',

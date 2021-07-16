@@ -1,24 +1,23 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed;
+namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Expr\Empty_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Broker\ClassNotFoundException;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
 
 /**
- * Reports on statically calling a disallowed method or two.
- *
- * Dynamic calls have a different rule, <code>MethodCalls</code>
+ * Reports on dynamically calling empty().
  *
  * @package Spaze\PHPStan\Rules\Disallowed
- * @implements Rule<StaticCall>
+ * @implements Rule<Empty_>
  */
-class StaticCalls implements Rule
+class EmptyCalls implements Rule
 {
 
 	/** @var DisallowedHelper */
@@ -44,7 +43,7 @@ class StaticCalls implements Rule
 
 	public function getNodeType(): string
 	{
-		return StaticCall::class;
+		return Empty_::class;
 	}
 
 
@@ -52,12 +51,10 @@ class StaticCalls implements Rule
 	 * @param Node $node
 	 * @param Scope $scope
 	 * @return string[]
-	 * @throws ClassNotFoundException
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		/** @var StaticCall $node */
-		return $this->disallowedHelper->getDisallowedMethodMessage($node->class, $node, $scope, $this->disallowedCalls);
+		return $this->disallowedHelper->getDisallowedMessage(null, $scope, 'empty', 'empty', $this->disallowedCalls);
 	}
 
 }
