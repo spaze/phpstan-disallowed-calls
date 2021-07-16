@@ -30,7 +30,9 @@ class MethodCalls implements Rule
 
 	/**
 	 * @param DisallowedHelper $disallowedHelper
-	 * @param array<array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>, allowParamsAnywhere?:array<integer, integer|boolean|string>}> $forbiddenCalls
+	 * @param array $forbiddenCalls
+	 * @phpstan-param ForbiddenCallsConfig $forbiddenCalls
+	 * @noinspection PhpUndefinedClassInspection ForbiddenCallsConfig is a type alias defined in PHPStan config
 	 * @throws ShouldNotHappenException
 	 */
 	public function __construct(DisallowedHelper $disallowedHelper, array $forbiddenCalls)

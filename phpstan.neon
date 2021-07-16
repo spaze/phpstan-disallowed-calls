@@ -2,6 +2,8 @@ parameters:
 	paths:
 		- src
 	level: max
+	typeAliases:
+		ForbiddenCallsConfig: 'array<array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>, allowParamsAnywhere?:array<integer, integer|boolean|string>}>'
 
 includes:
 	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
