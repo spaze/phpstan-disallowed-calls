@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed;
+namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\ClassConstFetch;
@@ -13,6 +13,8 @@ use PhpParser\Node\Stmt\TraitUse;
 use PhpParser\Node\Stmt\UseUse;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespace;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceHelper;
 
 /**
  * @implements Rule<Node>

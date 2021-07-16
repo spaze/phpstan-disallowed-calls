@@ -1,11 +1,13 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed;
+namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
 use PHPStan\File\FileHelper as PHPStanFileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
+use Spaze\PHPStan\Rules\Disallowed\FileHelper;
 
 class MethodCallsTest extends RuleTestCase
 {
@@ -19,8 +21,8 @@ class MethodCallsTest extends RuleTestCase
 					'method' => 'Waldo\Quux\Blade::run*()',
 					'message' => "I've seen tests you people wouldn't believe",
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 					'allowParamsInAllowed' => [
 						1 => 42,
@@ -32,40 +34,40 @@ class MethodCallsTest extends RuleTestCase
 					'method' => 'Inheritance\Base::x*()',
 					'message' => 'Base::x*() methods are dangerous',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'Traits\TestTrait::*',
 					'message' => 'all TestTrait methods are dangerous',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'Traits\AnotherTestClass::zzTop()',
 					'message' => 'method AnotherTestClass::zzTop() is dangerous',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'PhpOption\None::getIterator()',
 					'message' => 'no PhpOption',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'PhpOption\Some::getIterator()',
 					'message' => 'no PhpOption',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 			]
@@ -76,7 +78,7 @@ class MethodCallsTest extends RuleTestCase
 	public function testRule(): void
 	{
 		// Based on the configuration above, in this file:
-		$this->analyse([__DIR__ . '/src/disallowed/methodCalls.php'], [
+		$this->analyse([__DIR__ . '/../src/disallowed/methodCalls.php'], [
 			[
 				// expect this error message:
 				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe [Waldo\Quux\Blade::runner() matches Waldo\Quux\Blade::run*()]",
@@ -116,7 +118,7 @@ class MethodCallsTest extends RuleTestCase
 				52,
 			],
 		]);
-		$this->analyse([__DIR__ . '/src/disallowed-allow/methodCalls.php'], [
+		$this->analyse([__DIR__ . '/../src/disallowed-allow/methodCalls.php'], [
 			[
 				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe [Waldo\Quux\Blade::runner() matches Waldo\Quux\Blade::run*()]",
 				10,

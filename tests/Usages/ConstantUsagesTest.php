@@ -1,11 +1,13 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed;
+namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
 use PHPStan\File\FileHelper as PHPStanFileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
+use Spaze\PHPStan\Rules\Disallowed\FileHelper;
 
 class ConstantUsagesTest extends RuleTestCase
 {
@@ -19,16 +21,16 @@ class ConstantUsagesTest extends RuleTestCase
 					'constant' => 'FILTER_FLAG_NO_PRIV_RANGE',
 					'message' => 'the cake is a lie',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				[
 					'constant' => '\FILTER_FLAG_NO_PRIV_RANGE',
 					'message' => 'the cake is a lie',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 			]
@@ -39,7 +41,7 @@ class ConstantUsagesTest extends RuleTestCase
 	public function testRule(): void
 	{
 		// Based on the configuration above, in this file:
-		$this->analyse([__DIR__ . '/src/disallowed/constantUsages.php'], [
+		$this->analyse([__DIR__ . '/../src/disallowed/constantUsages.php'], [
 			[
 				// expect this error message:
 				'Using FILTER_FLAG_NO_PRIV_RANGE is forbidden, the cake is a lie',
@@ -51,7 +53,7 @@ class ConstantUsagesTest extends RuleTestCase
 				9,
 			],
 		]);
-		$this->analyse([__DIR__ . '/src/disallowed-allow/constantUsages.php'], []);
+		$this->analyse([__DIR__ . '/../src/disallowed-allow/constantUsages.php'], []);
 	}
 
 }

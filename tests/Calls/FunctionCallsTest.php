@@ -1,11 +1,13 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed;
+namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
 use PHPStan\File\FileHelper as PHPStanFileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
+use Spaze\PHPStan\Rules\Disallowed\FileHelper;
 
 class FunctionCallsTest extends RuleTestCase
 {
@@ -19,16 +21,16 @@ class FunctionCallsTest extends RuleTestCase
 					'function' => '\var_dump()',
 					'message' => 'use logger instead',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				[
 					'function' => 'print_r()',
 					'message' => 'nope',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 					'allowParamsAnywhere' => [
 						2 => true,
@@ -37,23 +39,23 @@ class FunctionCallsTest extends RuleTestCase
 				[
 					'function' => 'printf',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				[
 					'function' => '\Foo\Bar\waldo()',
 					'message' => 'whoa, a namespace',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				[
 					'function' => 'shell_*',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				// test param overwriting
@@ -63,8 +65,8 @@ class FunctionCallsTest extends RuleTestCase
 				[
 					'function' => 'exe*()',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 			]
@@ -75,7 +77,7 @@ class FunctionCallsTest extends RuleTestCase
 	public function testRule(): void
 	{
 		// Based on the configuration above, in this file:
-		$this->analyse([__DIR__ . '/src/disallowed/functionCalls.php'], [
+		$this->analyse([__DIR__ . '/../src/disallowed/functionCalls.php'], [
 			[
 				// expect this error message:
 				'Calling var_dump() is forbidden, use logger instead',
@@ -112,7 +114,7 @@ class FunctionCallsTest extends RuleTestCase
 			],
 		]);
 		// Based on the configuration above, no errors in this file:
-		$this->analyse([__DIR__ . '/src/disallowed-allow/functionCalls.php'], []);
+		$this->analyse([__DIR__ . '/../src/disallowed-allow/functionCalls.php'], []);
 	}
 
 }

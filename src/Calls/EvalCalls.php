@@ -1,21 +1,23 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed;
+namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\Empty_;
+use PhpParser\Node\Expr\Eval_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
 
 /**
- * Reports on dynamically calling empty().
+ * Reports on dynamically calling eval().
  *
  * @package Spaze\PHPStan\Rules\Disallowed
- * @implements Rule<Empty_>
+ * @implements Rule<Eval_>
  */
-class EmptyCalls implements Rule
+class EvalCalls implements Rule
 {
 
 	/** @var DisallowedHelper */
@@ -41,7 +43,7 @@ class EmptyCalls implements Rule
 
 	public function getNodeType(): string
 	{
-		return Empty_::class;
+		return Eval_::class;
 	}
 
 
@@ -52,7 +54,7 @@ class EmptyCalls implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedHelper->getDisallowedMessage(null, $scope, 'empty', 'empty', $this->disallowedCalls);
+		return $this->disallowedHelper->getDisallowedMessage(null, $scope, 'eval', 'eval', $this->disallowedCalls);
 	}
 
 }

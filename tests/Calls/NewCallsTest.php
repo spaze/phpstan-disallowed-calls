@@ -1,11 +1,13 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed;
+namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
 use PHPStan\File\FileHelper as PHPStanFileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
+use Spaze\PHPStan\Rules\Disallowed\FileHelper;
 
 class NewCallsTest extends RuleTestCase
 {
@@ -39,7 +41,7 @@ class NewCallsTest extends RuleTestCase
 	public function testRule(): void
 	{
 		// Based on the configuration above, in this file:
-		$this->analyse([__DIR__ . '/src/disallowed/methodCalls.php'], [
+		$this->analyse([__DIR__ . '/../src/disallowed/methodCalls.php'], [
 			[
 				'Calling Constructor\ClassWithConstructor::__construct() is forbidden, class ClassWithConstructor should not be created',
 				32,
@@ -54,7 +56,7 @@ class NewCallsTest extends RuleTestCase
 			],
 		]);
 		// Based on the configuration above, no errors in this file:
-		$this->analyse([__DIR__ . '/src/disallowed-allow/functionCalls.php'], []);
+		$this->analyse([__DIR__ . '/../src/disallowed-allow/functionCalls.php'], []);
 	}
 
 }

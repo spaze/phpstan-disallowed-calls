@@ -1,21 +1,23 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed;
+namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\Eval_;
+use PhpParser\Node\Expr\Exit_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
 
 /**
- * Reports on dynamically calling eval().
+ * Reports on dynamically calling exit() & die().
  *
  * @package Spaze\PHPStan\Rules\Disallowed
- * @implements Rule<Eval_>
+ * @implements Rule<Exit_>
  */
-class EvalCalls implements Rule
+class ExitDieCalls implements Rule
 {
 
 	/** @var DisallowedHelper */
@@ -41,7 +43,7 @@ class EvalCalls implements Rule
 
 	public function getNodeType(): string
 	{
-		return Eval_::class;
+		return Exit_::class;
 	}
 
 
@@ -52,7 +54,8 @@ class EvalCalls implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedHelper->getDisallowedMessage(null, $scope, 'eval', 'eval', $this->disallowedCalls);
+		$kind = $node->getAttribute('kind', Exit_::KIND_DIE) === Exit_::KIND_EXIT ? 'exit' : 'die';
+		return $this->disallowedHelper->getDisallowedMessage(null, $scope, $kind, $kind, $this->disallowedCalls);
 	}
 
 }

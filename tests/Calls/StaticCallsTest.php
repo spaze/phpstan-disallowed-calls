@@ -1,11 +1,13 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed;
+namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
 use PHPStan\File\FileHelper as PHPStanFileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
+use Spaze\PHPStan\Rules\Disallowed\FileHelper;
 
 class StaticCallsTest extends RuleTestCase
 {
@@ -19,8 +21,8 @@ class StaticCallsTest extends RuleTestCase
 					'method' => 'Fiction\Pulp\Royale::withCheese()',
 					'message' => 'a Quarter Pounder with Cheese?',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 					'allowParamsInAllowed' => [],
 				],
@@ -28,8 +30,8 @@ class StaticCallsTest extends RuleTestCase
 					'method' => '\Fiction\Pulp\*::withBad*()',
 					'message' => 'a Quarter Pounder with Cheese?',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 					'allowParamsInAllowed' => [],
 				],
@@ -37,8 +39,8 @@ class StaticCallsTest extends RuleTestCase
 					'method' => 'Fiction\Pulp\Royale::withoutCheese',
 					'message' => 'a Quarter Pounder without Cheese?',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 					'allowParamsInAllowed' => [
 						1 => 1,
@@ -55,48 +57,48 @@ class StaticCallsTest extends RuleTestCase
 					'method' => 'Inheritance\Base::w*f*r()',
 					'message' => 'method Base::woofer() is dangerous',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'Traits\TestTrait::z()',
 					'message' => 'method TestTrait::z() is dangerous',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'Traits\AnotherTestClass::zz()',
 					'message' => 'method AnotherTestClass::zz() is dangerous',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'PhpOption\Option::*()',
 					'message' => 'do not use PhpOption',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'PhpOption\Some::create()',
 					'message' => 'do not use PhpOption',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'PhpOption\None::*()',
 					'message' => 'do not use PhpOption',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 			]
@@ -107,7 +109,7 @@ class StaticCallsTest extends RuleTestCase
 	public function testRule(): void
 	{
 		// Based on the configuration above, in this file:
-		$this->analyse([__DIR__ . '/src/disallowed/staticCalls.php'], [
+		$this->analyse([__DIR__ . '/../src/disallowed/staticCalls.php'], [
 			[
 				// expect this error message:
 				'Calling Fiction\Pulp\Royale::withCheese() is forbidden, a Quarter Pounder with Cheese?',
@@ -159,7 +161,7 @@ class StaticCallsTest extends RuleTestCase
 				37,
 			],
 		]);
-		$this->analyse([__DIR__ . '/src/disallowed-allow/staticCalls.php'], [
+		$this->analyse([__DIR__ . '/../src/disallowed-allow/staticCalls.php'], [
 			[
 				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese?',
 				18,

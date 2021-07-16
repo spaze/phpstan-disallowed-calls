@@ -1,11 +1,13 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed;
+namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
 use PHPStan\File\FileHelper as PHPStanFileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
+use Spaze\PHPStan\Rules\Disallowed\FileHelper;
 
 class ClassConstantUsagesTest extends RuleTestCase
 {
@@ -20,8 +22,8 @@ class ClassConstantUsagesTest extends RuleTestCase
 					'constant' => 'BELONG',
 					'message' => 'belong to us',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				[
@@ -29,8 +31,8 @@ class ClassConstantUsagesTest extends RuleTestCase
 					'constant' => 'BELONG',
 					'message' => 'belong to us',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				[
@@ -38,8 +40,8 @@ class ClassConstantUsagesTest extends RuleTestCase
 					'constant' => 'BELONG',
 					'message' => 'belong to us',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				[
@@ -47,8 +49,8 @@ class ClassConstantUsagesTest extends RuleTestCase
 					'constant' => 'RUNNER',
 					'message' => 'not a replicant',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				// test param overwriting
@@ -62,8 +64,8 @@ class ClassConstantUsagesTest extends RuleTestCase
 					'constant' => 'DECKARD',
 					'message' => 'maybe a replicant',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				[
@@ -71,8 +73,8 @@ class ClassConstantUsagesTest extends RuleTestCase
 					'constant' => 'NAME',
 					'message' => 'no PhpOption',
 					'allowIn' => [
-						'src/disallowed-allowed/*.php',
-						'src/*-allow/*.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 			]
@@ -83,7 +85,7 @@ class ClassConstantUsagesTest extends RuleTestCase
 	public function testRule(): void
 	{
 		// Based on the configuration above, in this file:
-		$this->analyse([__DIR__ . '/src/disallowed/constantUsages.php'], [
+		$this->analyse([__DIR__ . '/../src/disallowed/constantUsages.php'], [
 			[
 				// expect this error message:
 				'Using Inheritance\Base::BELONG (as Inheritance\Sub::BELONG) is forbidden, belong to us',
@@ -119,7 +121,7 @@ class ClassConstantUsagesTest extends RuleTestCase
 				35,
 			],
 		]);
-		$this->analyse([__DIR__ . '/src/disallowed-allow/constantUsages.php'], []);
+		$this->analyse([__DIR__ . '/../src/disallowed-allow/constantUsages.php'], []);
 	}
 
 }
