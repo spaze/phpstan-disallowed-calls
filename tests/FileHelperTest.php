@@ -35,7 +35,10 @@ class FileHelperTest extends TestCase
 	{
 		yield ['src', __DIR__ . '/src'];
 		yield ['src/*', __DIR__ . '/src/*'];
+		yield ['../src/*', str_replace(basename(__DIR__) . '/../', '', __DIR__ . '/../src/*')];
+		yield ['src/foo/../*', __DIR__ . '/src/*'];
 		yield ['*/src', '*/src'];
+		yield ['*/../src', '*/../src'];
 	}
 
 }

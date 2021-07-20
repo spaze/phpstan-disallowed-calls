@@ -30,7 +30,7 @@ class FileHelper
 			return $path;
 		}
 
-		return $this->fileHelper->absolutizePath($path);
+		return $this->fileHelper->normalizePath($this->fileHelper->absolutizePath($path));
 	}
 
 }
