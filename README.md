@@ -50,7 +50,7 @@ includes:
 `disallowed-dangerous-calls.neon` can also serve as a template when you'd like to extend the configuration to disallow some other functions or methods, copy it and modify to your needs.
 You can also allow a previously disallowed dangerous call in a defined path (see below) in your own config by using the same `call` or `method` key.
 
-If you want to disable program execution functions (`exec()`, `shell_exec()` & friends), include `disallowed-execution-calls.neon`:
+If you want to disallow program execution functions (`exec()`, `shell_exec()` & friends) including the backtick operator (`` `...` ``, disallowed when `shell_exec()` is disallowed), include `disallowed-execution-calls.neon`:
 
 ```neon
 includes:

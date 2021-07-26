@@ -8,7 +8,7 @@ parameters:
 		-
 			function: 'proc_open()'
 		-
-			function: 'shell_exec()'
+			function: 'shell_exec()'  # also disallows the backtick operator `...`
 		-
 			function: 'system()'
 		# Other functions

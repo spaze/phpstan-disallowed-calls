@@ -41,3 +41,6 @@ if (random_int(0, 1) === 1) {
 empty($bottle);
 echo "hello";
 print "hello";
+
+// backtick operator disallowed when shell_exec() is disallowed
+`ls`;

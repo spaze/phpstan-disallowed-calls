@@ -99,6 +99,10 @@ services:
 		tags:
 			- phpstan.rules.rule
 	-
+		factory: Spaze\PHPStan\Rules\Disallowed\Calls\ShellExecCalls(forbiddenCalls: %disallowedFunctionCalls%)
+		tags:
+			- phpstan.rules.rule
+	-
 		factory: Spaze\PHPStan\Rules\Disallowed\Usages\ConstantUsages(disallowedConstants: %disallowedConstants%)
 		tags:
 			- phpstan.rules.rule
