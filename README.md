@@ -133,9 +133,11 @@ The wildcard makes most sense when used as the rightmost character of the functi
 
 You can treat some language constructs as functions and disallow it in `disallowedFunctionCalls`. Currently detected language constructs are:
 - `die()`
+- `echo()`
 - `empty()`
 - `eval()`
 - `exit()`
+- `print()`
 
 To disallow naive object creation (`new ClassName()` or `new $classname`), disallow `NameSpace\ClassName::__construct` in `disallowedMethodCalls`. Works even when there's no constructor defined in that class.
 
