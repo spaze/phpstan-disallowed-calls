@@ -39,3 +39,5 @@ if (random_int(0, 1) === 1) {
 	exit;
 }
 empty($bottle);
+echo "hello";
+print "hello";
