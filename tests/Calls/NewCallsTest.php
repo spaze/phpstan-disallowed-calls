@@ -21,16 +21,16 @@ class NewCallsTest extends RuleTestCase
 					'method' => '\Constructor\ClassWithConstructor::__construct()',
 					'message' => 'class ClassWithConstructor should not be created',
 					'allowIn' => [
-						'data/*-allowed.php',
-						'data/*-allowed.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'Constructor\ClassWithoutConstructor::__construct()',
 					'message' => 'class ClassWithoutConstructor should not be created',
 					'allowIn' => [
-						'data/*-allowed.php',
-						'data/*-allowed.*',
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 			]
@@ -56,7 +56,7 @@ class NewCallsTest extends RuleTestCase
 			],
 		]);
 		// Based on the configuration above, no errors in this file:
-		$this->analyse([__DIR__ . '/../src/disallowed-allow/functionCalls.php'], []);
+		$this->analyse([__DIR__ . '/../src/disallowed-allow/methodCalls.php'], []);
 	}
 
 }
