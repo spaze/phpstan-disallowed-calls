@@ -37,3 +37,16 @@ new $classname();
 
 // allowed object creation
 new stdClass();
+
+// types that support generics
+/**
+ * @var PhpOption\None<string> $none
+ */
+$none = PhpOption\None::create();
+$none->getIterator();
+
+/**
+ * @var PhpOption\Some<string> $some
+ */
+$some = PhpOption\Some::create('value');
+$some->getIterator();
