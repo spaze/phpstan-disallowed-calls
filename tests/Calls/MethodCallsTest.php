@@ -70,6 +70,18 @@ class MethodCallsTest extends RuleTestCase
 						'../src/*-allow/*.*',
 					],
 				],
+				// test disallowed param values
+				[
+					'function' => 'DateTime::format()',
+					'message' => 'why too kay',
+					'allowIn' => [
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
+					],
+					'allowExceptParams' => [
+						1 => 'y',
+					],
+				],
 			]
 		);
 	}
@@ -116,6 +128,10 @@ class MethodCallsTest extends RuleTestCase
 			[
 				'Calling PhpOption\Some::getIterator() is forbidden, no PhpOption',
 				52,
+			],
+			[
+				'Calling DateTime::format() is forbidden, why too kay',
+				55,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/methodCalls.php'], [
