@@ -33,6 +33,17 @@ class NewCallsTest extends RuleTestCase
 						'../src/*-allow/*.*',
 					],
 				],
+				[
+					'function' => 'DateTime::__construct()',
+					'message' => 'no future',
+					'allowIn' => [
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
+					],
+					'allowExceptCaseInsensitiveParams' => [
+						1 => 'tomorrow',
+					],
+				],
 			]
 		);
 	}
@@ -54,6 +65,10 @@ class NewCallsTest extends RuleTestCase
 				'Calling Constructor\ClassWithoutConstructor::__construct() is forbidden, class ClassWithoutConstructor should not be created',
 				36,
 			],
+			[
+				'Calling DateTime::__construct() is forbidden, no future',
+				57,
+			]
 		]);
 		// Based on the configuration above, no errors in this file:
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/methodCalls.php'], []);

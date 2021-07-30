@@ -64,7 +64,7 @@ class NewCalls implements Rule
 		} else {
 			return [];
 		}
-		return $this->disallowedHelper->getDisallowedMessage(null, $scope, $name, $name, $this->disallowedCalls);
+		return $this->disallowedHelper->getDisallowedMessage($node, $scope, $name, $name, $this->disallowedCalls);
 	}
 
 }

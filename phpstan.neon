@@ -4,7 +4,7 @@ parameters:
 	level: max
 	typeAliases:
 		ForbiddenCallsConfig: 'array<array{function?:string, method?:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>, allowParamsAnywhere?:array<integer, integer|boolean|string>, allowExceptParams?:array<integer, integer|boolean|string>, allowExceptCaseInsensitiveParams?:array<integer, integer|boolean|string>}>'
-		ForbiddenCalls: 'PhpParser\Node\Expr\FuncCall|PhpParser\Node\Expr\MethodCall|PhpParser\Node\Expr\StaticCall'
+		ForbiddenCalls: 'PhpParser\Node\Expr\FuncCall|PhpParser\Node\Expr\MethodCall|PhpParser\Node\Expr\StaticCall|PhpParser\Node\Expr\New_'
 
 includes:
 	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
