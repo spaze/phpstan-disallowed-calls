@@ -51,7 +51,7 @@ class StaticCalls implements Rule
 
 
 	/**
-	 * @param Node $node
+	 * @param StaticCall $node
 	 * @param Scope $scope
 	 * @return string[]
 	 * @throws ClassNotFoundException

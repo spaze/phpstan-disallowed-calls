@@ -48,7 +48,7 @@ class EvalCalls implements Rule
 
 
 	/**
-	 * @param Node $node
+	 * @param Eval_ $node
 	 * @param Scope $scope
 	 * @return string[]
 	 */

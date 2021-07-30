@@ -5,8 +5,6 @@ namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
@@ -237,6 +235,8 @@ class DisallowedHelper
 	/**
 	 * @param Name|Expr $class
 	 * @param Node $node
+	 * @phpstan-param ForbiddenCalls $node
+	 * @noinspection PhpUndefinedClassInspection ForbiddenCalls is a type alias defined in PHPStan config
 	 * @param Scope $scope
 	 * @param DisallowedCall[] $disallowedCalls
 	 * @return string[]
@@ -244,8 +244,7 @@ class DisallowedHelper
 	 */
 	public function getDisallowedMethodMessage($class, Node $node, Scope $scope, array $disallowedCalls): array
 	{
-		/** @var MethodCall|StaticCall $node */
-		if (!($node->name instanceof Identifier)) {
+		if (!isset($node->name) || !($node->name instanceof Identifier)) {
 			return [];
 		}
 

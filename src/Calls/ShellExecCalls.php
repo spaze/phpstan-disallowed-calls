@@ -52,7 +52,7 @@ class ShellExecCalls implements Rule
 
 
 	/**
-	 * @param Node $node
+	 * @param ShellExec $node
 	 * @param Scope $scope
 	 * @return string[]
 	 */
