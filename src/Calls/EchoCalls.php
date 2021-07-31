@@ -48,7 +48,7 @@ class EchoCalls implements Rule
 
 
 	/**
-	 * @param Node $node
+	 * @param Echo_ $node
 	 * @param Scope $scope
 	 * @return string[]
 	 */

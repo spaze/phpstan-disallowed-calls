@@ -46,7 +46,7 @@ class ConstantUsages implements Rule
 
 
 	/**
-	 * @param Node $node
+	 * @param ConstFetch $node
 	 * @param Scope $scope
 	 * @return string[]
 	 */

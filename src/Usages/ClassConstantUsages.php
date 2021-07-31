@@ -50,7 +50,7 @@ class ClassConstantUsages implements Rule
 
 
 	/**
-	 * @param Node $node
+	 * @param ClassConstFetch $node
 	 * @param Scope $scope
 	 * @return string[]
 	 * @throws ShouldNotHappenException

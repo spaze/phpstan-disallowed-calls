@@ -49,13 +49,12 @@ class FunctionCalls implements Rule
 
 
 	/**
-	 * @param Node $node
+	 * @param FuncCall $node
 	 * @param Scope $scope
 	 * @return string[]
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		/** @var FuncCall $node */
 		if (!($node->name instanceof Name)) {
 			return [];
 		}

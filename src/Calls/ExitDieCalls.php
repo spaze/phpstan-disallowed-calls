@@ -48,7 +48,7 @@ class ExitDieCalls implements Rule
 
 
 	/**
-	 * @param Node $node
+	 * @param Exit_ $node
 	 * @param Scope $scope
 	 * @return string[]
 	 */

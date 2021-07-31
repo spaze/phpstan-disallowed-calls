@@ -51,13 +51,12 @@ class NewCalls implements Rule
 
 
 	/**
-	 * @param Node $node
+	 * @param New_ $node
 	 * @param Scope $scope
 	 * @return string[]
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		/** @var New_ $node */
 		if ($node->class instanceof Name) {
 			$name = "{$node->class}::__construct";
 		} elseif ($node->class instanceof Expr && $scope->getType($node->class) instanceof ConstantScalarType) {
@@ -65,7 +64,7 @@ class NewCalls implements Rule
 		} else {
 			return [];
 		}
-		return $this->disallowedHelper->getDisallowedMessage(null, $scope, $name, $name, $this->disallowedCalls);
+		return $this->disallowedHelper->getDisallowedMessage($node, $scope, $name, $name, $this->disallowedCalls);
 	}
 
 }

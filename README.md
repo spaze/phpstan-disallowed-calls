@@ -225,6 +225,33 @@ With `allowParamsAnywhere`, calls are allowed when called with all parameters li
 - `log(..., true)` anywhere
 - `log('foo', true)` in `another/file.php` or `optional/path/to/log.tests.php`
 
+## Allow calls except when a param has a specified value
+
+Sometimes, it's handy to disallow a function or a method call only when a parameter matches but allow it otherwise. For example the `hash()` function, it's fine using it with algorithm families like SHA-2 & SHA-3 (not for passwords though) but you'd like PHPStan to report when it's used with MD5 like `hash('md5', ...)`.
+You can use `allowExceptParams` & `allowExceptCaseInsensitiveParams` config options to disallow only some calls:
+
+```neon
+parameters:
+    disallowedFunctionCalls:
+        -
+            function: 'hash()'
+            allowExceptCaseInsensitiveParams:
+            	1: 'md5'
+```
+
+This will disallow `hash()` call where the first parameter is `'md5'`. `allowExceptCaseInsensitiveParams` is used because the first parameter of `hash()` is case-insensitive (so you can also use `'MD5'`, or even `'Md5'` & `'mD5'` if you wish).
+To disallow only exact matches, use `allowExceptParams`:
+
+```neon
+parameters:
+    disallowedFunctionCalls:
+        -
+            function: 'foo()'
+            allowExceptParams:
+            	2: 'baz'
+```
+will disallow `foo('bar', 'baz')` but not `foo('bar', 'BAZ')`.
+
 ## Detect disallowed calls without any other PHPStan rules
 
 If you want to use this PHPStan extension without running any other PHPStan rules, you can use `phpstan.neon` config file that looks like this (the `customRulesetUsed: true` and the missing `level` key are the important bits):

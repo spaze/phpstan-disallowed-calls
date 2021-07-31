@@ -50,3 +50,8 @@ $none->getIterator();
  */
 $some = PhpOption\Some::create('value');
 $some->getIterator();
+
+// disallowed value in an otherwise allowed param
+(new DateTime())->format('y');
+(new DateTime())->format('Y');
+new DateTime('tOmOrRoW');

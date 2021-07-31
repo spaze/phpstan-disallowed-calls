@@ -48,7 +48,7 @@ class PrintCalls implements Rule
 
 
 	/**
-	 * @param Node $node
+	 * @param Print_ $node
 	 * @param Scope $scope
 	 * @return string[]
 	 */

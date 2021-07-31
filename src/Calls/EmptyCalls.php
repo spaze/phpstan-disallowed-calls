@@ -48,7 +48,7 @@ class EmptyCalls implements Rule
 
 
 	/**
-	 * @param Node $node
+	 * @param Empty_ $node
 	 * @param Scope $scope
 	 * @return string[]
 	 */

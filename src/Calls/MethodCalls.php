@@ -51,14 +51,13 @@ class MethodCalls implements Rule
 
 
 	/**
-	 * @param Node $node
+	 * @param MethodCall $node
 	 * @param Scope $scope
 	 * @return string[]
 	 * @throws ClassNotFoundException
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		/** @var MethodCall $node */
 		return $this->disallowedHelper->getDisallowedMethodMessage($node->var, $node, $scope, $this->disallowedCalls);
 	}
 

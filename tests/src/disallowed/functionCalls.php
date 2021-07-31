@@ -44,3 +44,9 @@ print "hello";
 
 // backtick operator disallowed when shell_exec() is disallowed
 `ls`;
+
+// disallowed value in an otherwise allowed param
+hash('md4', 'biiig nope');
+hash('md5', 'nope');
+hash('Md5', 'nOpE');
+hash('sha256', 'oh yeah but not for passwords tho');

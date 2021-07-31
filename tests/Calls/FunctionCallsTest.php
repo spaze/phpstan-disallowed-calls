@@ -69,6 +69,29 @@ class FunctionCallsTest extends RuleTestCase
 						'../src/*-allow/*.*',
 					],
 				],
+				// test disallowed param values
+				[
+					'function' => 'hash()',
+					'message' => 'MD4 very bad',
+					'allowIn' => [
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
+					],
+					'allowExceptParams' => [
+						1 => 'md4',
+					],
+				],
+				[
+					'function' => 'hash()',
+					'message' => 'MD5 bad',
+					'allowIn' => [
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
+					],
+					'allowExceptCaseInsensitiveParams' => [
+						1 => 'MD5',
+					],
+				],
 			]
 		);
 	}
@@ -111,6 +134,18 @@ class FunctionCallsTest extends RuleTestCase
 			[
 				'Calling print_r() is forbidden, nope',
 				25,
+			],
+			[
+				'Calling hash() is forbidden, MD4 very bad',
+				49,
+			],
+			[
+				'Calling hash() is forbidden, MD5 bad',
+				50,
+			],
+			[
+				'Calling hash() is forbidden, MD5 bad',
+				51,
 			],
 		]);
 		// Based on the configuration above, no errors in this file:
