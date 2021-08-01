@@ -10,11 +10,11 @@ use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Broker\ClassNotFoundException;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
+use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParam;
 
 class DisallowedHelper
 {
@@ -60,7 +60,7 @@ class DisallowedHelper
 	 * @param Expr|null $node
 	 * @phpstan-param ForbiddenCalls|null $node
 	 * @noinspection PhpUndefinedClassInspection ForbiddenCalls is a type alias defined in PHPStan config
-	 * @param array<integer, integer|boolean|string> $allowConfig
+	 * @param array<integer, DisallowedCallParam> $allowConfig
 	 * @return boolean
 	 */
 	private function hasAllowedParams(Scope $scope, ?Node $node, array $allowConfig): bool
@@ -71,7 +71,10 @@ class DisallowedHelper
 
 		foreach ($allowConfig as $param => $value) {
 			$type = $this->getArgType($node, $scope, $param);
-			if (!$type instanceof ConstantScalarType || $value !== $type->getValue()) {
+			if (!$type instanceof ConstantScalarType) {
+				return false;
+			}
+			if (!$value->matches($type)) {
 				return false;
 			}
 		}
@@ -95,18 +98,8 @@ class DisallowedHelper
 
 		foreach ($disallowedCall->getAllowExceptParams() as $param => $value) {
 			$type = $this->getArgType($node, $scope, $param);
-			if ($type instanceof ConstantScalarType && $value === $type->getValue()) {
+			if ($type instanceof ConstantScalarType && $value->matches($type)) {
 				return true;
-			}
-		}
-		foreach ($disallowedCall->getAllowExceptCaseInsensitiveParams() as $param => $value) {
-			$type = $this->getArgType($node, $scope, $param);
-			if ($type instanceof ConstantScalarType) {
-				$a = is_string($value) ? strtolower($value) : $value;
-				$b = $type instanceof ConstantStringType ? strtolower($type->getValue()) : $type->getValue();
-				if ($a === $b) {
-					return true;
-				}
 			}
 		}
 		return false;
@@ -169,8 +162,7 @@ class DisallowedHelper
 	private function callMatches(Scope $scope, ?Node $node, DisallowedCall $disallowedCall, string $name): bool
 	{
 		if ($name === $disallowedCall->getCall() || fnmatch($disallowedCall->getCall(), $name, FNM_NOESCAPE)) {
-			$noAllowExceptParams = count($disallowedCall->getAllowExceptParams()) === 0 && count($disallowedCall->getAllowExceptCaseInsensitiveParams()) === 0;
-			return $noAllowExceptParams || $this->matchesAllowExceptParam($scope, $node, $disallowedCall);
+			return count($disallowedCall->getAllowExceptParams()) === 0 || $this->matchesAllowExceptParam($scope, $node, $disallowedCall);
 		}
 		return false;
 	}
