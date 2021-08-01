@@ -9,6 +9,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
 
 /**
@@ -29,15 +30,16 @@ class EchoCalls implements Rule
 
 	/**
 	 * @param DisallowedHelper $disallowedHelper
+	 * @param DisallowedCallFactory $disallowedCallFactory
 	 * @param array $forbiddenCalls
 	 * @phpstan-param ForbiddenCallsConfig $forbiddenCalls
 	 * @noinspection PhpUndefinedClassInspection ForbiddenCallsConfig is a type alias defined in PHPStan config
 	 * @throws ShouldNotHappenException
 	 */
-	public function __construct(DisallowedHelper $disallowedHelper, array $forbiddenCalls)
+	public function __construct(DisallowedHelper $disallowedHelper, DisallowedCallFactory $disallowedCallFactory, array $forbiddenCalls)
 	{
 		$this->disallowedHelper = $disallowedHelper;
-		$this->disallowedCalls = $this->disallowedHelper->createCallsFromConfig($forbiddenCalls);
+		$this->disallowedCalls = $disallowedCallFactory->createFromConfig($forbiddenCalls);
 	}
 
 

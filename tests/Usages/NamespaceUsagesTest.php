@@ -6,6 +6,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 use PHPStan\File\FileHelper as PHPStanFileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceHelper;
 use Spaze\PHPStan\Rules\Disallowed\FileHelper;
 
@@ -16,6 +17,7 @@ class NamespaceUsagesTest extends RuleTestCase
 	{
 		return new NamespaceUsages(
 			new DisallowedNamespaceHelper(new FileHelper(new PHPStanFileHelper(__DIR__))),
+			new DisallowedNamespaceFactory(),
 			[
 				[
 					'namespace' => 'Framew*rk\Some*',

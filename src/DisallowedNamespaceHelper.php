@@ -36,25 +36,6 @@ class DisallowedNamespaceHelper
 
 
 	/**
-	 * @param array<array{namespace:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>, allowParamsAnywhere?:array<integer, integer|boolean|string>}> $config
-	 * @return DisallowedNamespace[]
-	 */
-	public function createDisallowedNamespacesFromConfig(array $config): array
-	{
-		$disallowedNamespaces = [];
-		foreach ($config as $disallowed) {
-			$disallowed = new DisallowedNamespace(
-				$disallowed['namespace'],
-				$disallowed['message'] ?? null,
-				$disallowed['allowIn'] ?? []
-			);
-			$disallowedNamespaces[$disallowed->getNamespace()] = $disallowed;
-		}
-		return array_values($disallowedNamespaces);
-	}
-
-
-	/**
 	 * @param string $namespace
 	 * @param Scope $scope
 	 * @param DisallowedNamespace[] $disallowedNamespaces

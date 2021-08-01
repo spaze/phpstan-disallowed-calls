@@ -10,7 +10,6 @@ use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Broker\ClassNotFoundException;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\ObjectType;
@@ -126,61 +125,6 @@ class DisallowedHelper
 	{
 		$arg = $node->args[$param - 1] ?? null;
 		return $arg ? $scope->getType($arg->value) : null;
-	}
-
-
-	/**
-	 * @param array $config
-	 * @phpstan-param ForbiddenCallsConfig $config
-	 * @noinspection PhpUndefinedClassInspection ForbiddenCallsConfig is a type alias defined in PHPStan config
-	 * @return DisallowedCall[]
-	 * @throws ShouldNotHappenException
-	 */
-	public function createCallsFromConfig(array $config): array
-	{
-		$calls = [];
-		foreach ($config as $disallowedCall) {
-			$call = $disallowedCall['function'] ?? $disallowedCall['method'] ?? null;
-			if (!$call) {
-				throw new ShouldNotHappenException("Either 'method' or 'function' must be set in configuration items");
-			}
-			$disallowedCall = new DisallowedCall(
-				$call,
-				$disallowedCall['message'] ?? null,
-				$disallowedCall['allowIn'] ?? [],
-				$disallowedCall['allowParamsInAllowed'] ?? [],
-				$disallowedCall['allowParamsAnywhere'] ?? [],
-				$disallowedCall['allowExceptParams'] ?? [],
-				$disallowedCall['allowExceptCaseInsensitiveParams'] ?? []
-			);
-			$calls[$disallowedCall->getKey()] = $disallowedCall;
-		}
-		return array_values($calls);
-	}
-
-
-	/**
-	 * @param array<array{class?:string, constant?:string, message?:string, allowIn?:string[]}> $config
-	 * @return DisallowedConstant[]
-	 * @throws ShouldNotHappenException
-	 */
-	public function createConstantsFromConfig(array $config): array
-	{
-		$constants = [];
-		foreach ($config as $disallowedConstant) {
-			$constant = $disallowedConstant['constant'] ?? null;
-			if (!$constant) {
-				throw new ShouldNotHappenException("'constant' must be set in configuration items");
-			}
-			$class = $disallowedConstant['class'] ?? null;
-			$disallowedConstant = new DisallowedConstant(
-				$class ? "{$class}::{$constant}" : $constant,
-				$disallowedConstant['message'] ?? null,
-				$disallowedConstant['allowIn'] ?? []
-			);
-			$constants[$disallowedConstant->getConstant()] = $disallowedConstant;
-		}
-		return array_values($constants);
 	}
 
 

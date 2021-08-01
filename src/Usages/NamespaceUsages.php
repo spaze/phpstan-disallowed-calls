@@ -14,6 +14,7 @@ use PhpParser\Node\Stmt\UseUse;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespace;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceHelper;
 
 /**
@@ -31,12 +32,13 @@ class NamespaceUsages implements Rule
 
 	/**
 	 * @param DisallowedNamespaceHelper $disallowedNamespaceHelper
+	 * @param DisallowedNamespaceFactory $disallowNamespaceFactory
 	 * @param array<array{namespace:string, message?:string, allowIn?:string[]}> $forbiddenNamespaces
 	 */
-	public function __construct(DisallowedNamespaceHelper $disallowedNamespaceHelper, array $forbiddenNamespaces)
+	public function __construct(DisallowedNamespaceHelper $disallowedNamespaceHelper, DisallowedNamespaceFactory $disallowNamespaceFactory, array $forbiddenNamespaces)
 	{
 		$this->disallowedHelper  = $disallowedNamespaceHelper;
-		$this->disallowedNamespace = $this->disallowedHelper->createDisallowedNamespacesFromConfig($forbiddenNamespaces);
+		$this->disallowedNamespace = $disallowNamespaceFactory->createFromConfig($forbiddenNamespaces);
 	}
 
 

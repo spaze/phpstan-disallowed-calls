@@ -6,6 +6,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 use PHPStan\File\FileHelper as PHPStanFileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
 use Spaze\PHPStan\Rules\Disallowed\FileHelper;
 
@@ -16,6 +17,7 @@ class NewCallsTest extends RuleTestCase
 	{
 		return new NewCalls(
 			new DisallowedHelper(new FileHelper(new PHPStanFileHelper(__DIR__))),
+			new DisallowedCallFactory(),
 			[
 				[
 					'method' => '\Constructor\ClassWithConstructor::__construct()',

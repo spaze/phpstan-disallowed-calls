@@ -56,7 +56,10 @@ parametersSchema:
 
 services:
 	- Spaze\PHPStan\Rules\Disallowed\FileHelper
+	- Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory
+	- Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedHelper
+	- Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceHelper
 	-
 		factory: Spaze\PHPStan\Rules\Disallowed\Usages\NamespaceUsages(forbiddenNamespaces: %disallowedNamespaces%)

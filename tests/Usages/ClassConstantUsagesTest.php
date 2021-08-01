@@ -6,6 +6,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 use PHPStan\File\FileHelper as PHPStanFileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
 use Spaze\PHPStan\Rules\Disallowed\FileHelper;
 
@@ -16,6 +17,7 @@ class ClassConstantUsagesTest extends RuleTestCase
 	{
 		return new ClassConstantUsages(
 			new DisallowedHelper(new FileHelper(new PHPStanFileHelper(__DIR__))),
+			new DisallowedConstantFactory(),
 			[
 				[
 					'class' => '\Inheritance\Base',

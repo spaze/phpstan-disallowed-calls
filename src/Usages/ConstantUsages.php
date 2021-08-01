@@ -9,6 +9,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstant;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
 
 /**
@@ -29,13 +30,14 @@ class ConstantUsages implements Rule
 
 	/**
 	 * @param DisallowedHelper $disallowedHelper
+	 * @param DisallowedConstantFactory $disallowedConstantFactory
 	 * @param array<array{constant?:string, message?:string, allowIn?:string[]}> $disallowedConstants
 	 * @throws ShouldNotHappenException
 	 */
-	public function __construct(DisallowedHelper $disallowedHelper, array $disallowedConstants)
+	public function __construct(DisallowedHelper $disallowedHelper, DisallowedConstantFactory $disallowedConstantFactory, array $disallowedConstants)
 	{
 		$this->disallowedHelper = $disallowedHelper;
-		$this->disallowedConstants = $this->disallowedHelper->createConstantsFromConfig($disallowedConstants);
+		$this->disallowedConstants = $disallowedConstantFactory->createFromConfig($disallowedConstants);
 	}
 
 
