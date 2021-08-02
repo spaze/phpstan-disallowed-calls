@@ -4,8 +4,8 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed;
 
 use Generator;
-use PHPUnit\Framework\TestCase;
 use PHPStan\File\FileHelper as PHPStanFileHelper;
+use PHPUnit\Framework\TestCase;
 
 class FileHelperTest extends TestCase
 {

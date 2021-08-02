@@ -95,11 +95,11 @@ class NamespaceUsagesTest extends RuleTestCase
 				9,
 			],
 			[
-				'Namespace Waldo\Quux\Blade is forbidden, no blade',
+				'Namespace Waldo\Foo\Bar is forbidden, no FooBar',
 				10,
 			],
 			[
-				'Namespace Waldo\Foo\Bar is forbidden, no FooBar',
+				'Namespace Waldo\Quux\Blade is forbidden, no blade',
 				11,
 			],
 			[
@@ -112,19 +112,19 @@ class NamespaceUsagesTest extends RuleTestCase
 			],
 			[
 				'Namespace Traits\TestTrait is forbidden, no TestTrait',
-				17,
+				16,
 			],
 			[
 				'Namespace Waldo\Quux\Blade is forbidden, no blade',
-				20,
+				22,
 			],
 			[
 				'Namespace Inheritance\Sub is forbidden, no sub',
-				28,
+				30,
 			],
 			[
 				'Namespace Waldo\Foo\Bar is forbidden, no FooBar',
-				34,
+				36,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/namespaceUsages.php'], []);

@@ -7,14 +7,16 @@ use Framework\SomeInterface;
 use Inheritance\Base;
 use Inheritance\Sub;
 use Traits\TestTrait;
-use Waldo\Quux\Blade;
 use Waldo\Foo\Bar;
+use Waldo\Quux\Blade;
 
 class Service extends Base implements SomeInterface
 {
-	private $blade;
 
 	use TestTrait;
+
+
+	private $blade;
 
 
 	public function __construct(Blade $blade)
