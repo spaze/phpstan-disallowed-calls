@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PHPStan\ShouldNotHappenException;
+use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamWithAnyValue;
 use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamWithCaseInsensitiveValue;
 use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamWithValue;
 
@@ -30,8 +31,14 @@ class DisallowedCallFactory
 			foreach ($disallowedCall['allowParamsInAllowed'] ?? [] as $param => $value) {
 				$allowParamsInAllowed[$param] = new DisallowedCallParamWithValue($value);
 			}
+			foreach ($disallowedCall['allowParamsInAllowedAnyValue'] ?? [] as $param) {
+				$allowParamsInAllowed[$param] = new DisallowedCallParamWithAnyValue();
+			}
 			foreach ($disallowedCall['allowParamsAnywhere'] ?? [] as $param => $value) {
 				$allowParamsAnywhere[$param] = new DisallowedCallParamWithValue($value);
+			}
+			foreach ($disallowedCall['allowParamsAnywhereAnyValue'] ?? [] as $param) {
+				$allowParamsAnywhere[$param] = new DisallowedCallParamWithAnyValue();
 			}
 			foreach ($disallowedCall['allowExceptParams'] ?? [] as $param => $value) {
 				$allowExceptParams[$param] = new DisallowedCallParamWithValue($value);

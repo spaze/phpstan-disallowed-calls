@@ -50,3 +50,13 @@ hash('md4', 'biiig nope');
 hash('md5', 'nope');
 hash('Md5', 'nOpE');
 hash('sha256', 'oh yeah but not for passwords tho');
+
+// second param needed
+setcookie('foo', 'bar');
+setcookie('foo', 'bar', 0);
+setcookie('foo', 'bar', 0, '/');
+
+// second param needed, any value
+header('foo: bar');
+header('foo: bar', true);
+header('foo: bar', false, 303);

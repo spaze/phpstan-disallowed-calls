@@ -225,6 +225,29 @@ With `allowParamsAnywhere`, calls are allowed when called with all parameters li
 - `log(..., true)` anywhere
 - `log('foo', true)` in `another/file.php` or `optional/path/to/log.tests.php`
 
+Use `allowParamsInAllowedAnyValue` and `allowParamsAnywhereAnyValue` if you don't care about the parameter's value but want to make sure the parameter is passed.
+Following the previous example:
+
+```neon
+parameters:
+    disallowedMethodCalls:
+        -
+            method: 'PotentiallyDangerous\Logger::log()'
+            message: 'use our own logger instead'
+            allowIn:
+                - path/to/some/file-*.php
+                - tests/*.test.php
+            allowParamsInAllowedAnyValue:
+                - 2
+            allowParamsAnywhereAnyValue:
+                - 1
+```
+means that you should use (`...` means any value):
+- `log(...)` anywhere
+- `log(..., ...)` in `another/file.php` or `optional/path/to/log.tests.php`
+
+Such configuration only makes sense when both the parameters of `log()` are optional. If they are required, omitting them would result in an error already detected by PHPStan itself.
+
 ## Allow calls except when a param has a specified value
 
 Sometimes, it's handy to disallow a function or a method call only when a parameter matches but allow it otherwise. For example the `hash()` function, it's fine using it with algorithm families like SHA-2 & SHA-3 (not for passwords though) but you'd like PHPStan to report when it's used with MD5 like `hash('md5', ...)`.
