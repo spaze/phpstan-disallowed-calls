@@ -39,17 +39,16 @@ class DisallowedHelper
 	 */
 	private function isAllowed(Scope $scope, ?Node $node, DisallowedCall $disallowedCall): bool
 	{
-		$hasAllowParamsAnywhere = $disallowedCall->getAllowParamsAnywhere() && $this->hasAllowedParams($scope, $node, $disallowedCall->getAllowParamsAnywhere());
 		foreach ($disallowedCall->getAllowIn() as $allowedPath) {
 			if (fnmatch($this->fileHelper->absolutizePath($allowedPath), $scope->getFile())) {
 				if ($disallowedCall->getAllowParamsInAllowed()) {
-					return $hasAllowParamsAnywhere || $this->hasAllowedParams($scope, $node, $disallowedCall->getAllowParamsInAllowed());
+					return $this->hasAllowedParams($scope, $node, $disallowedCall->getAllowParamsInAllowed());
 				}
 				return true;
 			}
 		}
 		if ($disallowedCall->getAllowParamsAnywhere()) {
-			return $hasAllowParamsAnywhere;
+			return $this->hasAllowedParams($scope, $node, $disallowedCall->getAllowParamsAnywhere());
 		}
 		return false;
 	}

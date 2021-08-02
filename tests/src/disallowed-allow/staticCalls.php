@@ -17,7 +17,7 @@ Pulp\Royale::withoutCheese(1, 2, $a);
 $a = 5;
 Pulp\Royale::withoutCheese(1, 2, $a);
 
-// allowed by path or with these params
+// allowed by path but params don't match allowed
 Pulp\Royale::withoutCheese(1, 2, 4);
 
 // not a disallowed method
