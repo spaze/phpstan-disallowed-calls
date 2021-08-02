@@ -168,6 +168,10 @@ class StaticCallsTest extends RuleTestCase
 				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese?',
 				18,
 			],
+			[
+				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese?',
+				21,
+			],
 		]);
 	}
 
