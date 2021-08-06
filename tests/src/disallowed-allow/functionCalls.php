@@ -49,6 +49,8 @@ print "hello";
 hash('md4', 'biiig nope');
 hash('md5', 'nope');
 hash('Md5', 'nOpE');
+hash('sha1', 'nah');
+hash('SHA1', 'NAH');
 hash('sha256', 'oh yeah but not for passwords tho');
 
 // third param needed

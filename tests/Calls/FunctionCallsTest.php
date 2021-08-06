@@ -85,6 +85,17 @@ class FunctionCallsTest extends RuleTestCase
 				],
 				[
 					'function' => 'hash()',
+					'message' => 'SHA-1 bad soon™',
+					'allowIn' => [
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
+					],
+					'allowExceptParams' => [
+						1 => 'sha1',
+					],
+				],
+				[
+					'function' => 'hash()',
 					'message' => 'MD5 bad',
 					'allowIn' => [
 						'../src/disallowed-allowed/*.php',
@@ -92,6 +103,17 @@ class FunctionCallsTest extends RuleTestCase
 					],
 					'allowExceptCaseInsensitiveParams' => [
 						1 => 'MD5',
+					],
+				],
+				[
+					'function' => 'hash()',
+					'message' => 'SHA-1 bad SOON™',
+					'allowIn' => [
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
+					],
+					'allowExceptCaseInsensitiveParams' => [
+						1 => 'SHA1',
 					],
 				],
 				[
@@ -176,31 +198,39 @@ class FunctionCallsTest extends RuleTestCase
 				51,
 			],
 			[
+				'Calling hash() is forbidden, SHA-1 bad soon™',
+				52,
+			],
+			[
+				'Calling hash() is forbidden, SHA-1 bad SOON™',
+				53,
+			],
+			[
 				'Calling setcookie() is forbidden, because reasons',
-				55,
+				57,
 			],
 			[
 				'Calling header() is forbidden, because reasons',
-				60,
+				62,
 			],
 		]);
 		// Based on the configuration above, no errors in this file:
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/functionCalls.php'], [
 			[
 				'Calling setcookie() is forbidden, because reasons',
-				55,
+				57,
 			],
 			[
 				'Calling setcookie() is forbidden, because reasons',
-				56,
+				58,
 			],
 			[
 				'Calling header() is forbidden, because reasons',
-				60,
+				62,
 			],
 			[
 				'Calling header() is forbidden, because reasons',
-				61,
+				63,
 			],
 		]);
 	}
