@@ -9,6 +9,7 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Broker\ClassNotFoundException;
+use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\ObjectType;
@@ -39,18 +40,44 @@ class DisallowedHelper
 	 */
 	private function isAllowed(Scope $scope, ?Node $node, DisallowedCall $disallowedCall): bool
 	{
+		foreach ($disallowedCall->getAllowInCalls() as $call) {
+			if ($scope->getFunction() instanceof MethodReflection) {
+				$name = $this->getFullyQualified($scope->getFunction()->getDeclaringClass()->getDisplayName(false), $scope->getFunction());
+			} elseif ($scope->getFunction() instanceof FunctionReflection) {
+				$name = $scope->getFunction()->getName();
+			} else {
+				$name = '';
+			}
+			if (fnmatch($call, $name, FNM_NOESCAPE)) {
+				return $this->hasAllowedParamsInAllowed($scope, $node, $disallowedCall);
+			}
+		}
 		foreach ($disallowedCall->getAllowIn() as $allowedPath) {
 			if (fnmatch($this->fileHelper->absolutizePath($allowedPath), $scope->getFile())) {
-				if ($disallowedCall->getAllowParamsInAllowed()) {
-					return $this->hasAllowedParams($scope, $node, $disallowedCall->getAllowParamsInAllowed());
-				}
-				return true;
+				return $this->hasAllowedParamsInAllowed($scope, $node, $disallowedCall);
 			}
 		}
 		if ($disallowedCall->getAllowParamsAnywhere()) {
 			return $this->hasAllowedParams($scope, $node, $disallowedCall->getAllowParamsAnywhere());
 		}
 		return false;
+	}
+
+
+	/**
+	 * @param Scope $scope
+	 * @param Expr|null $node
+	 * @phpstan-param ForbiddenCalls|null $node
+	 * @noinspection PhpUndefinedClassInspection ForbiddenCalls is a type alias defined in PHPStan config
+	 * @param DisallowedCall $disallowedCall
+	 * @return boolean
+	 */
+	private function hasAllowedParamsInAllowed(Scope $scope, ?Node $node, DisallowedCall $disallowedCall): bool
+	{
+		if ($disallowedCall->getAllowParamsInAllowed()) {
+			return $this->hasAllowedParams($scope, $node, $disallowedCall->getAllowParamsInAllowed());
+		}
+		return true;
 	}
 
 

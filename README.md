@@ -201,6 +201,20 @@ parameters:
 
 The paths in `allowIn` are relative to the config file location and support [fnmatch()](https://www.php.net/function.fnmatch) patterns.
 
+To allow a previously disallowed method or function only when called from a different method or function in any file, use `allowInFunctions` (or `allowInMethods` alias):
+
+```neon
+parameters:
+    disallowedMethodCalls:
+        -
+            method: 'PotentiallyDangerous\Logger::log()'
+            message: 'use our own logger instead'
+            allowInMethods:
+                - Foo\Bar\Baz::method()
+```
+
+The function or method names support [fnmatch()](https://www.php.net/function.fnmatch) patterns.
+
 You can also narrow down the allowed items when called with some parameters (doesn't apply to constants for obvious reasons). For example, you want to disallow calling `print_r()` but want to allow `print_r(..., true)`.
 This can be done with optional `allowParamsInAllowed` or `allowParamsAnywhere` configuration keys:
 

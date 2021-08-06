@@ -17,6 +17,9 @@ class DisallowedCall
 	/** @var string[] */
 	private $allowIn;
 
+	/** @var string[] */
+	private $allowInCalls;
+
 	/** @var array<integer, DisallowedCallParam> */
 	private $allowParamsInAllowed;
 
@@ -33,16 +36,17 @@ class DisallowedCall
 	 * @param string $call
 	 * @param string|null $message
 	 * @param string[] $allowIn
+	 * @param string[] $allowInCalls
 	 * @param array<integer, DisallowedCallParam> $allowParamsInAllowed
 	 * @param array<integer, DisallowedCallParam> $allowParamsAnywhere
 	 * @param array<integer, DisallowedCallParam> $allowExceptParams
 	 */
-	public function __construct(string $call, ?string $message, array $allowIn, array $allowParamsInAllowed, array $allowParamsAnywhere, array $allowExceptParams)
+	public function __construct(string $call, ?string $message, array $allowIn, array $allowInCalls, array $allowParamsInAllowed, array $allowParamsAnywhere, array $allowExceptParams)
 	{
-		$call = substr($call, -2) === '()' ? substr($call, 0, -2) : $call;
-		$this->call = ltrim($call, '\\');
+		$this->call = $call;
 		$this->message = $message;
 		$this->allowIn = $allowIn;
+		$this->allowInCalls = $allowInCalls;
 		$this->allowParamsInAllowed = $allowParamsInAllowed;
 		$this->allowParamsAnywhere = $allowParamsAnywhere;
 		$this->allowExceptParams = $allowExceptParams;
@@ -67,6 +71,15 @@ class DisallowedCall
 	public function getAllowIn(): array
 	{
 		return $this->allowIn;
+	}
+
+
+	/**
+	 * @return string[]
+	 */
+	public function getAllowInCalls(): array
+	{
+		return $this->allowInCalls;
 	}
 
 
