@@ -65,6 +65,11 @@ includes:
     - vendor/spaze/phpstan-disallowed-calls/disallowed-execution-calls.neon
 ```
 
+To disallow some insecure or potentially insecure calls (like `md5()`, `sha1()`, `mysql_query()`), include `disallowed-insecure-calls.neon`:
+```neon
+includes:
+    - vendor/spaze/phpstan-disallowed-calls/disallowed-insecure-calls.neon
+```
 ### Custom rules
 
 There are several different types (and configuration keys) that can be disallowed:
