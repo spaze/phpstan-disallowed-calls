@@ -66,10 +66,19 @@ includes:
 ```
 
 To disallow some insecure or potentially insecure calls (like `md5()`, `sha1()`, `mysql_query()`), include `disallowed-insecure-calls.neon`:
+
 ```neon
 includes:
     - vendor/spaze/phpstan-disallowed-calls/disallowed-insecure-calls.neon
 ```
+
+Some function calls are better when done for example with some parameters set to a defined value ("strict calls"). For example `in_array()` better also check for types to prevent some type juggling bugs. Include `disallowed-loose-calls.neon` to disallow calls without such parameters set ("loose calls").
+
+```neon
+includes:
+    - vendor/spaze/phpstan-disallowed-calls/disallowed-loose-calls.neon
+```
+
 ### Custom rules
 
 There are several different types (and configuration keys) that can be disallowed:
