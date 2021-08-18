@@ -52,6 +52,9 @@ class FunctionCallsTest extends RuleTestCase
 						'../src/disallowed-allowed/*.php',
 						'../src/*-allow/*.*',
 					],
+					'allowExceptParamsInAllowed' => [
+						1 => 123,
+					],
 				],
 				[
 					'function' => 'shell_*',
@@ -216,6 +219,10 @@ class FunctionCallsTest extends RuleTestCase
 		]);
 		// Based on the configuration above, no errors in this file:
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/functionCalls.php'], [
+			[
+				'Calling Foo\Bar\waldo() is forbidden, whoa, a namespace',
+				11,
+			],
 			[
 				'Calling setcookie() is forbidden, because reasons',
 				57,

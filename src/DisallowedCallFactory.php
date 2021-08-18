@@ -4,8 +4,9 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PHPStan\ShouldNotHappenException;
+use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamExceptCaseInsensitiveValue;
+use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamExceptValue;
 use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamWithAnyValue;
-use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamWithCaseInsensitiveValue;
 use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamWithValue;
 
 class DisallowedCallFactory
@@ -27,7 +28,7 @@ class DisallowedCallFactory
 				throw new ShouldNotHappenException("Either 'method' or 'function' must be set in configuration items");
 			}
 
-			$allowInCalls = $allowParamsInAllowed = $allowParamsAnywhere = $allowExceptParams = [];
+			$allowInCalls = $allowParamsInAllowed = $allowParamsAnywhere = $allowExceptParamsInAllowed = $allowExceptParams = [];
 			foreach ($disallowedCall['allowInFunctions'] ?? $disallowedCall['allowInMethods'] ?? [] as $allowedCall) {
 				$allowInCalls[] = $this->normalizeCall($allowedCall);
 			}
@@ -43,11 +44,14 @@ class DisallowedCallFactory
 			foreach ($disallowedCall['allowParamsAnywhereAnyValue'] ?? [] as $param) {
 				$allowParamsAnywhere[$param] = new DisallowedCallParamWithAnyValue();
 			}
+			foreach ($disallowedCall['allowExceptParamsInAllowed'] ?? [] as $param => $value) {
+				$allowExceptParamsInAllowed[$param] = new DisallowedCallParamExceptValue($value);
+			}
 			foreach ($disallowedCall['allowExceptParams'] ?? [] as $param => $value) {
-				$allowExceptParams[$param] = new DisallowedCallParamWithValue($value);
+				$allowExceptParams[$param] = new DisallowedCallParamExceptValue($value);
 			}
 			foreach ($disallowedCall['allowExceptCaseInsensitiveParams'] ?? [] as $param => $value) {
-				$allowExceptParams[$param] = new DisallowedCallParamWithCaseInsensitiveValue($value);
+				$allowExceptParams[$param] = new DisallowedCallParamExceptCaseInsensitiveValue($value);
 			}
 			$disallowedCall = new DisallowedCall(
 				$this->normalizeCall($call),
@@ -56,6 +60,7 @@ class DisallowedCallFactory
 				$allowInCalls,
 				$allowParamsInAllowed,
 				$allowParamsAnywhere,
+				$allowExceptParamsInAllowed,
 				$allowExceptParams
 			);
 			$calls[$disallowedCall->getKey()] = $disallowedCall;

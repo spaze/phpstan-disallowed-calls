@@ -3,10 +3,9 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Params;
 
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ConstantScalarType;
 
-class DisallowedCallParamWithCaseInsensitiveValue implements DisallowedCallParam
+class DisallowedCallParamExceptValue implements DisallowedCallParam
 {
 
 	/** @var integer|boolean|string */
@@ -24,9 +23,7 @@ class DisallowedCallParamWithCaseInsensitiveValue implements DisallowedCallParam
 
 	public function matches(ConstantScalarType $type): bool
 	{
-		$a = is_string($this->value) ? strtolower($this->value) : $this->value;
-		$b = $type instanceof ConstantStringType ? strtolower($type->getValue()) : $type->getValue();
-		return $a === $b;
+		return $this->value !== $type->getValue();
 	}
 
 

@@ -3,7 +3,7 @@ parameters:
 		- src
 	level: max
 	typeAliases:
-		ForbiddenCallsConfig: 'array<array{function?:string, method?:string, message?:string, allowIn?:string[], allowInFunctions?:string[], allowInMethods?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>, allowParamsInAllowedAnyValue?:array<integer, integer>, allowParamsAnywhere?:array<integer, integer|boolean|string>, allowParamsAnywhereAnyValue?:array<integer, integer>, allowExceptParams?:array<integer, integer|boolean|string>, allowExceptCaseInsensitiveParams?:array<integer, integer|boolean|string>}>'
+		ForbiddenCallsConfig: 'array<array{function?:string, method?:string, message?:string, allowIn?:string[], allowInFunctions?:string[], allowInMethods?:string[], allowParamsInAllowed?:array<integer, integer|boolean|string>, allowParamsInAllowedAnyValue?:array<integer, integer>, allowParamsAnywhere?:array<integer, integer|boolean|string>, allowParamsAnywhereAnyValue?:array<integer, integer>, allowExceptParamsInAllowed?:array<integer, integer|boolean|string>, allowExceptParams?:array<integer, integer|boolean|string>, allowExceptCaseInsensitiveParams?:array<integer, integer|boolean|string>}>'
 		ForbiddenCalls: 'PhpParser\Node\Expr\FuncCall|PhpParser\Node\Expr\MethodCall|PhpParser\Node\Expr\StaticCall|PhpParser\Node\Expr\New_'
 
 includes:
