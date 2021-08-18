@@ -279,7 +279,7 @@ Such configuration only makes sense when both the parameters of `log()` are opti
 ## Allow calls except when a param has a specified value
 
 Sometimes, it's handy to disallow a function or a method call only when a parameter matches but allow it otherwise. For example the `hash()` function, it's fine using it with algorithm families like SHA-2 & SHA-3 (not for passwords though) but you'd like PHPStan to report when it's used with MD5 like `hash('md5', ...)`.
-You can use `allowExceptParams` & `allowExceptCaseInsensitiveParams` config options to disallow only some calls:
+You can use `allowExceptParams`, `allowExceptCaseInsensitiveParams`, `allowExceptParamsInAllowed` config options to disallow only some calls:
 
 ```neon
 parameters:
@@ -302,6 +302,23 @@ parameters:
             	2: 'baz'
 ```
 will disallow `foo('bar', 'baz')` but not `foo('bar', 'BAZ')`.
+
+It's also possible to disallow functions and methods previously allowed by path (using `allowIn`) or by function/method name (`allowInMethods`) when they're called with specified parameters, and allow when called with any other parameter. This is done using the `allowExceptParamsInAllowed` config option.
+
+Take this example configuration:
+
+```neon
+parameters:
+    disallowedFunctionCalls:
+        -
+            function: 'waldo()'
+            allowIn:
+                - 'views/*'
+            allowExceptParamsInAllowed:
+                2: 'quux'
+```
+
+Calling `waldo()` is disallowed, and allowed back again only when the file is in the `views/` subdirectory **and** `waldo()` is called in the file with a 2nd parameter being the string `quux`.
 
 ## Detect disallowed calls without any other PHPStan rules
 

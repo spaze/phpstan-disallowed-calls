@@ -57,8 +57,11 @@ class DisallowedHelper
 				return $this->hasAllowedParamsInAllowed($scope, $node, $disallowedCall);
 			}
 		}
+		if ($disallowedCall->getAllowExceptParams()) {
+			return $this->hasAllowedParams($scope, $node, $disallowedCall->getAllowExceptParams(), false);
+		}
 		if ($disallowedCall->getAllowParamsAnywhere()) {
-			return $this->hasAllowedParams($scope, $node, $disallowedCall->getAllowParamsAnywhere());
+			return $this->hasAllowedParams($scope, $node, $disallowedCall->getAllowParamsAnywhere(), true);
 		}
 		return false;
 	}
@@ -74,8 +77,11 @@ class DisallowedHelper
 	 */
 	private function hasAllowedParamsInAllowed(Scope $scope, ?Node $node, DisallowedCall $disallowedCall): bool
 	{
+		if ($disallowedCall->getAllowExceptParamsInAllowed()) {
+			return $this->hasAllowedParams($scope, $node, $disallowedCall->getAllowExceptParamsInAllowed(), false);
+		}
 		if ($disallowedCall->getAllowParamsInAllowed()) {
-			return $this->hasAllowedParams($scope, $node, $disallowedCall->getAllowParamsInAllowed());
+			return $this->hasAllowedParams($scope, $node, $disallowedCall->getAllowParamsInAllowed(), true);
 		}
 		return true;
 	}
@@ -87,9 +93,10 @@ class DisallowedHelper
 	 * @phpstan-param ForbiddenCalls|null $node
 	 * @noinspection PhpUndefinedClassInspection ForbiddenCalls is a type alias defined in PHPStan config
 	 * @param array<integer, DisallowedCallParam> $allowConfig
+	 * @param bool $paramsRequired
 	 * @return boolean
 	 */
-	private function hasAllowedParams(Scope $scope, ?Node $node, array $allowConfig): bool
+	private function hasAllowedParams(Scope $scope, ?Node $node, array $allowConfig, bool $paramsRequired): bool
 	{
 		if (!$node) {
 			return true;
@@ -98,37 +105,13 @@ class DisallowedHelper
 		foreach ($allowConfig as $param => $value) {
 			$type = $this->getArgType($node, $scope, $param);
 			if (!$type instanceof ConstantScalarType) {
-				return false;
+				return !$paramsRequired;
 			}
 			if (!$value->matches($type)) {
 				return false;
 			}
 		}
 		return true;
-	}
-
-
-	/**
-	 * @param Scope $scope
-	 * @param Expr|null $node
-	 * @phpstan-param ForbiddenCalls|null $node
-	 * @noinspection PhpUndefinedClassInspection ForbiddenCalls is a type alias defined in PHPStan config
-	 * @param DisallowedCall $disallowedCall
-	 * @return boolean
-	 */
-	private function matchesAllowExceptParam(Scope $scope, ?Node $node, DisallowedCall $disallowedCall): bool
-	{
-		if (!$node) {
-			return false;
-		}
-
-		foreach ($disallowedCall->getAllowExceptParams() as $param => $value) {
-			$type = $this->getArgType($node, $scope, $param);
-			if ($type instanceof ConstantScalarType && $value->matches($type)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 
@@ -161,7 +144,7 @@ class DisallowedHelper
 	public function getDisallowedMessage(?Node $node, Scope $scope, string $name, ?string $displayName, array $disallowedCalls, ?string $message = null): array
 	{
 		foreach ($disallowedCalls as $disallowedCall) {
-			if ($this->callMatches($scope, $node, $disallowedCall, $name) && !$this->isAllowed($scope, $node, $disallowedCall)) {
+			if ($this->callMatches($disallowedCall, $name) && !$this->isAllowed($scope, $node, $disallowedCall)) {
 				return [
 					sprintf(
 						$message ?? 'Calling %s is forbidden, %s%s',
@@ -177,18 +160,15 @@ class DisallowedHelper
 
 
 	/**
-	 * @param Scope $scope
-	 * @param Expr|null $node
-	 * @phpstan-param ForbiddenCalls|null $node
 	 * @noinspection PhpUndefinedClassInspection ForbiddenCalls is a type alias defined in PHPStan config
 	 * @param DisallowedCall $disallowedCall
 	 * @param string $name
 	 * @return bool
 	 */
-	private function callMatches(Scope $scope, ?Node $node, DisallowedCall $disallowedCall, string $name): bool
+	private function callMatches(DisallowedCall $disallowedCall, string $name): bool
 	{
 		if ($name === $disallowedCall->getCall() || fnmatch($disallowedCall->getCall(), $name, FNM_NOESCAPE)) {
-			return count($disallowedCall->getAllowExceptParams()) === 0 || $this->matchesAllowExceptParam($scope, $node, $disallowedCall);
+			return true;
 		}
 		return false;
 	}

@@ -8,7 +8,7 @@ var_dump('foo', true);
 print_r('bar');
 \printf('foobar');
 \Foo\Bar\waldo();
-waldo();
+waldo(123);
 shell_exec('foo --bar');
 exec('bar --foo');
 
