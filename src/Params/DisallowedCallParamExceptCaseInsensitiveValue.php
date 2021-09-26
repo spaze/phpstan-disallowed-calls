@@ -9,12 +9,12 @@ use PHPStan\Type\ConstantScalarType;
 class DisallowedCallParamExceptCaseInsensitiveValue implements DisallowedCallParam
 {
 
-	/** @var integer|boolean|string */
+	/** @var int|bool|string */
 	private $value;
 
 
 	/**
-	 * @param integer|boolean|string $value
+	 * @param int|bool|string $value
 	 */
 	public function __construct($value)
 	{
@@ -31,7 +31,7 @@ class DisallowedCallParamExceptCaseInsensitiveValue implements DisallowedCallPar
 
 
 	/**
-	 * @return integer|boolean|string
+	 * @return int|bool|string
 	 */
 	public function getValue()
 	{

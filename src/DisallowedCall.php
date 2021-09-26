@@ -20,16 +20,16 @@ class DisallowedCall
 	/** @var string[] */
 	private $allowInCalls;
 
-	/** @var array<integer, DisallowedCallParam> */
+	/** @var array<int, DisallowedCallParam> */
 	private $allowParamsInAllowed;
 
-	/** @var array<integer, DisallowedCallParam> */
+	/** @var array<int, DisallowedCallParam> */
 	private $allowParamsAnywhere;
 
-	/** @var array<integer, DisallowedCallParam> */
+	/** @var array<int, DisallowedCallParam> */
 	private $allowExceptParamsInAllowed;
 
-	/** @var array<integer, DisallowedCallParam> */
+	/** @var array<int, DisallowedCallParam> */
 	private $allowExceptParams;
 
 
@@ -40,10 +40,10 @@ class DisallowedCall
 	 * @param string|null $message
 	 * @param string[] $allowIn
 	 * @param string[] $allowInCalls
-	 * @param array<integer, DisallowedCallParam> $allowParamsInAllowed
-	 * @param array<integer, DisallowedCallParam> $allowParamsAnywhere
-	 * @param array<integer, DisallowedCallParam> $allowExceptParamsInAllowed
-	 * @param array<integer, DisallowedCallParam> $allowExceptParams
+	 * @param array<int, DisallowedCallParam> $allowParamsInAllowed
+	 * @param array<int, DisallowedCallParam> $allowParamsAnywhere
+	 * @param array<int, DisallowedCallParam> $allowExceptParamsInAllowed
+	 * @param array<int, DisallowedCallParam> $allowExceptParams
 	 */
 	public function __construct(string $call, ?string $message, array $allowIn, array $allowInCalls, array $allowParamsInAllowed, array $allowParamsAnywhere, array $allowExceptParamsInAllowed, array $allowExceptParams)
 	{
@@ -89,7 +89,7 @@ class DisallowedCall
 
 
 	/**
-	 * @return array<integer, DisallowedCallParam>
+	 * @return array<int, DisallowedCallParam>
 	 */
 	public function getAllowParamsInAllowed(): array
 	{
@@ -98,7 +98,7 @@ class DisallowedCall
 
 
 	/**
-	 * @return array<integer, DisallowedCallParam>
+	 * @return array<int, DisallowedCallParam>
 	 */
 	public function getAllowParamsAnywhere(): array
 	{
@@ -107,7 +107,7 @@ class DisallowedCall
 
 
 	/**
-	 * @return array<integer, DisallowedCallParam>
+	 * @return array<int, DisallowedCallParam>
 	 */
 	public function getAllowExceptParamsInAllowed(): array
 	{
@@ -116,7 +116,7 @@ class DisallowedCall
 
 
 	/**
-	 * @return array<integer, DisallowedCallParam>
+	 * @return array<int, DisallowedCallParam>
 	 */
 	public function getAllowExceptParams(): array
 	{

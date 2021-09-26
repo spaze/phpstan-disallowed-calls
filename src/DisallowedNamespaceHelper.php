@@ -21,7 +21,7 @@ class DisallowedNamespaceHelper
 	/**
 	 * @param Scope $scope
 	 * @param DisallowedNamespace $disallowedNamespace
-	 * @return boolean
+	 * @return bool
 	 */
 	private function isAllowed(Scope $scope, DisallowedNamespace $disallowedNamespace): bool
 	{

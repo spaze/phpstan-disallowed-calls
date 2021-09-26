@@ -36,7 +36,7 @@ class DisallowedHelper
 	 * @phpstan-param ForbiddenCalls|null $node
 	 * @noinspection PhpUndefinedClassInspection ForbiddenCalls is a type alias defined in PHPStan config
 	 * @param DisallowedCall $disallowedCall
-	 * @return boolean
+	 * @return bool
 	 */
 	private function isAllowed(Scope $scope, ?Node $node, DisallowedCall $disallowedCall): bool
 	{
@@ -73,7 +73,7 @@ class DisallowedHelper
 	 * @phpstan-param ForbiddenCalls|null $node
 	 * @noinspection PhpUndefinedClassInspection ForbiddenCalls is a type alias defined in PHPStan config
 	 * @param DisallowedCall $disallowedCall
-	 * @return boolean
+	 * @return bool
 	 */
 	private function hasAllowedParamsInAllowed(Scope $scope, ?Node $node, DisallowedCall $disallowedCall): bool
 	{
@@ -92,9 +92,9 @@ class DisallowedHelper
 	 * @param Expr|null $node
 	 * @phpstan-param ForbiddenCalls|null $node
 	 * @noinspection PhpUndefinedClassInspection ForbiddenCalls is a type alias defined in PHPStan config
-	 * @param array<integer, DisallowedCallParam> $allowConfig
+	 * @param array<int, DisallowedCallParam> $allowConfig
 	 * @param bool $paramsRequired
-	 * @return boolean
+	 * @return bool
 	 */
 	private function hasAllowedParams(Scope $scope, ?Node $node, array $allowConfig, bool $paramsRequired): bool
 	{
@@ -233,7 +233,7 @@ class DisallowedHelper
 	/**
 	 * @param Scope $scope
 	 * @param DisallowedConstant $disallowedConstant
-	 * @return boolean
+	 * @return bool
 	 */
 	private function isAllowedPath(Scope $scope, DisallowedConstant $disallowedConstant): bool
 	{
