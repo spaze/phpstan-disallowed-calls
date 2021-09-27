@@ -5,6 +5,7 @@ namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
@@ -116,16 +117,16 @@ class DisallowedHelper
 
 
 	/**
-	 * @param Expr $node
+	 * @param CallLike $node
 	 * @phpstan-param ForbiddenCalls $node
 	 * @noinspection PhpUndefinedClassInspection ForbiddenCalls is a type alias defined in PHPStan config
 	 * @param Scope $scope
 	 * @param int $param
 	 * @return Type|null
 	 */
-	private function getArgType(Node $node, Scope $scope, int $param): ?Type
+	private function getArgType(CallLike $node, Scope $scope, int $param): ?Type
 	{
-		$arg = $node->args[$param - 1] ?? null;
+		$arg = $node->getArgs()[$param - 1] ?? null;
 		return $arg ? $scope->getType($arg->value) : null;
 	}
 
