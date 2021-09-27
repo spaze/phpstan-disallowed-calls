@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed;
 
-use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Identifier;
@@ -31,15 +30,7 @@ class DisallowedHelper
 	}
 
 
-	/**
-	 * @param Scope $scope
-	 * @param Expr|null $node
-	 * @phpstan-param ForbiddenCalls|null $node
-	 * @noinspection PhpUndefinedClassInspection ForbiddenCalls is a type alias defined in PHPStan config
-	 * @param DisallowedCall $disallowedCall
-	 * @return bool
-	 */
-	private function isAllowed(Scope $scope, ?Node $node, DisallowedCall $disallowedCall): bool
+	private function isAllowed(Scope $scope, ?CallLike $node, DisallowedCall $disallowedCall): bool
 	{
 		foreach ($disallowedCall->getAllowInCalls() as $call) {
 			if ($scope->getFunction() instanceof MethodReflection) {
@@ -68,15 +59,7 @@ class DisallowedHelper
 	}
 
 
-	/**
-	 * @param Scope $scope
-	 * @param Expr|null $node
-	 * @phpstan-param ForbiddenCalls|null $node
-	 * @noinspection PhpUndefinedClassInspection ForbiddenCalls is a type alias defined in PHPStan config
-	 * @param DisallowedCall $disallowedCall
-	 * @return bool
-	 */
-	private function hasAllowedParamsInAllowed(Scope $scope, ?Node $node, DisallowedCall $disallowedCall): bool
+	private function hasAllowedParamsInAllowed(Scope $scope, ?CallLike $node, DisallowedCall $disallowedCall): bool
 	{
 		if ($disallowedCall->getAllowExceptParamsInAllowed()) {
 			return $this->hasAllowedParams($scope, $node, $disallowedCall->getAllowExceptParamsInAllowed(), false);
@@ -90,14 +73,12 @@ class DisallowedHelper
 
 	/**
 	 * @param Scope $scope
-	 * @param Expr|null $node
-	 * @phpstan-param ForbiddenCalls|null $node
-	 * @noinspection PhpUndefinedClassInspection ForbiddenCalls is a type alias defined in PHPStan config
+	 * @param CallLike|null $node
 	 * @param array<int, DisallowedCallParam> $allowConfig
 	 * @param bool $paramsRequired
 	 * @return bool
 	 */
-	private function hasAllowedParams(Scope $scope, ?Node $node, array $allowConfig, bool $paramsRequired): bool
+	private function hasAllowedParams(Scope $scope, ?CallLike $node, array $allowConfig, bool $paramsRequired): bool
 	{
 		if (!$node) {
 			return true;
@@ -116,14 +97,6 @@ class DisallowedHelper
 	}
 
 
-	/**
-	 * @param CallLike $node
-	 * @phpstan-param ForbiddenCalls $node
-	 * @noinspection PhpUndefinedClassInspection ForbiddenCalls is a type alias defined in PHPStan config
-	 * @param Scope $scope
-	 * @param int $param
-	 * @return Type|null
-	 */
 	private function getArgType(CallLike $node, Scope $scope, int $param): ?Type
 	{
 		$arg = $node->getArgs()[$param - 1] ?? null;
@@ -132,9 +105,7 @@ class DisallowedHelper
 
 
 	/**
-	 * @param Expr|null $node
-	 * @phpstan-param ForbiddenCalls|null $node
-	 * @noinspection PhpUndefinedClassInspection ForbiddenCalls is a type alias defined in PHPStan config
+	 * @param CallLike|null $node
 	 * @param Scope $scope
 	 * @param string $name
 	 * @param string|null $displayName
@@ -142,7 +113,7 @@ class DisallowedHelper
 	 * @param string|null $message
 	 * @return string[]
 	 */
-	public function getDisallowedMessage(?Node $node, Scope $scope, string $name, ?string $displayName, array $disallowedCalls, ?string $message = null): array
+	public function getDisallowedMessage(?CallLike $node, Scope $scope, string $name, ?string $displayName, array $disallowedCalls, ?string $message = null): array
 	{
 		foreach ($disallowedCalls as $disallowedCall) {
 			if ($this->callMatches($disallowedCall, $name) && !$this->isAllowed($scope, $node, $disallowedCall)) {
@@ -160,12 +131,6 @@ class DisallowedHelper
 	}
 
 
-	/**
-	 * @noinspection PhpUndefinedClassInspection ForbiddenCalls is a type alias defined in PHPStan config
-	 * @param DisallowedCall $disallowedCall
-	 * @param string $name
-	 * @return bool
-	 */
 	private function callMatches(DisallowedCall $disallowedCall, string $name): bool
 	{
 		if ($name === $disallowedCall->getCall() || fnmatch($disallowedCall->getCall(), $name, FNM_NOESCAPE)) {
@@ -177,15 +142,13 @@ class DisallowedHelper
 
 	/**
 	 * @param Name|Expr $class
-	 * @param Node $node
-	 * @phpstan-param ForbiddenCalls $node
-	 * @noinspection PhpUndefinedClassInspection ForbiddenCalls is a type alias defined in PHPStan config
+	 * @param CallLike $node
 	 * @param Scope $scope
 	 * @param DisallowedCall[] $disallowedCalls
 	 * @return string[]
 	 * @throws ClassNotFoundException
 	 */
-	public function getDisallowedMethodMessage($class, Node $node, Scope $scope, array $disallowedCalls): array
+	public function getDisallowedMethodMessage($class, CallLike $node, Scope $scope, array $disallowedCalls): array
 	{
 		if (!isset($node->name) || !($node->name instanceof Identifier)) {
 			return [];
