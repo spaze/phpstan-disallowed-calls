@@ -145,10 +145,16 @@ class DisallowedHelper
 	{
 		foreach ($disallowedCalls as $disallowedCall) {
 			if ($this->callMatches($disallowedCall, $name) && !$this->isAllowed($scope, $node, $disallowedCall)) {
+				if ($disallowedCall->hasRemainingAllowCount()) {
+					$disallowedCall->trackAllowedCall();
+					return [];
+				}
+
 				return [
 					sprintf(
-						$message ?? 'Calling %s is forbidden, %s%s',
+						$message ?? 'Calling %s%s is forbidden, %s%s',
 						($displayName && $displayName !== $name) ? "{$name}() (as {$displayName}())" : "{$name}()",
+						$disallowedCall->getAllowCount() > 0 ? sprintf(' more than %s', $disallowedCall->getAllowCount() === 1 ? 'once' : sprintf('%d times', $disallowedCall->getAllowCount())) : '',
 						$disallowedCall->getMessage(),
 						$disallowedCall->getCall() !== $name ? " [{$name}() matches {$disallowedCall->getCall()}()]" : ''
 					),
