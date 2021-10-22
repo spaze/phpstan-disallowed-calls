@@ -32,6 +32,12 @@ class DisallowedCall
 	/** @var array<int, DisallowedCallParam> */
 	private $allowExceptParams;
 
+	/** @var int */
+	private $allowCount;
+
+	/** @var int */
+	private $timesAllowed = 0;
+
 
 	/**
 	 * DisallowedCall constructor.
@@ -44,8 +50,9 @@ class DisallowedCall
 	 * @param array<int, DisallowedCallParam> $allowParamsAnywhere
 	 * @param array<int, DisallowedCallParam> $allowExceptParamsInAllowed
 	 * @param array<int, DisallowedCallParam> $allowExceptParams
+	 * @param int $allowCount
 	 */
-	public function __construct(string $call, ?string $message, array $allowIn, array $allowInCalls, array $allowParamsInAllowed, array $allowParamsAnywhere, array $allowExceptParamsInAllowed, array $allowExceptParams)
+	public function __construct(string $call, ?string $message, array $allowIn, array $allowInCalls, array $allowParamsInAllowed, array $allowParamsAnywhere, array $allowExceptParamsInAllowed, array $allowExceptParams, int $allowCount)
 	{
 		$this->call = $call;
 		$this->message = $message;
@@ -55,6 +62,7 @@ class DisallowedCall
 		$this->allowParamsAnywhere = $allowParamsAnywhere;
 		$this->allowExceptParamsInAllowed = $allowExceptParamsInAllowed;
 		$this->allowExceptParams = $allowExceptParams;
+		$this->allowCount = $allowCount;
 	}
 
 
@@ -121,6 +129,24 @@ class DisallowedCall
 	public function getAllowExceptParams(): array
 	{
 		return $this->allowExceptParams;
+	}
+
+
+	public function getAllowCount(): int
+	{
+		return $this->allowCount;
+	}
+
+
+	public function hasRemainingAllowCount(): bool
+	{
+		return $this->allowCount > $this->timesAllowed;
+	}
+
+
+	public function trackAllowedCall(): void
+	{
+		$this->timesAllowed++;
 	}
 
 

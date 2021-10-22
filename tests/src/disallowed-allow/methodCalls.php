@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 
 use Constructor\ClassWithConstructor;
+use Fiction\Pulp\GeneratedClass;
 use Waldo\Quux;
 
 $blade = new Quux\Blade();
@@ -55,3 +56,11 @@ $some->getIterator();
 (new DateTime())->format('y');
 (new DateTime())->format('Y');
 new DateTime('tOmOrRoW');
+
+$class = new GeneratedClass();
+$class->execute();
+$class->executeOrThrow();
+$class->execute();
+$class->executeOrThrow();
+$class->canBeCalledOnce();
+$class->canBeCalledOnce();
