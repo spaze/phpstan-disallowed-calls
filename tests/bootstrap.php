@@ -4,7 +4,6 @@ declare(strict_types = 1);
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/libs/Bar.php';
 require_once __DIR__ . '/libs/Blade.php';
-require_once __DIR__ . '/libs/GeneratedClass.php';
 require_once __DIR__ . '/libs/Constructor.php';
 require_once __DIR__ . '/libs/Inheritance.php';
 require_once __DIR__ . '/libs/Royale.php';
