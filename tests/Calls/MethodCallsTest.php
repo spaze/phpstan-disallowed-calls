@@ -85,7 +85,7 @@ class MethodCallsTest extends RuleTestCase
 					],
 				],
 				[
-					'function' => 'Fiction\Pulp\GeneratedClass::execute*()',
+					'function' => 'GeneratedCode\AccountQuery::execute*()',
 					'message' => 'use another generated class',
 					'allowCount' => 2,
 					'allowIn' => [
@@ -94,7 +94,7 @@ class MethodCallsTest extends RuleTestCase
 					],
 				],
 				[
-					'function' => 'Fiction\Pulp\GeneratedClass::canBeCalledOnce()',
+					'function' => 'GeneratedCode\AccountQuery::canBeCalledOnce()',
 					'message' => 'use another generated class',
 					'allowCount' => 1,
 					'allowIn' => [
@@ -115,65 +115,65 @@ class MethodCallsTest extends RuleTestCase
 				// expect this error message:
 				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe [Waldo\Quux\Blade::runner() matches Waldo\Quux\Blade::run*()]",
 				// on this line:
-				11,
-			],
-			[
-				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe [Waldo\Quux\Blade::runner() matches Waldo\Quux\Blade::run*()]",
 				12,
 			],
 			[
 				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe [Waldo\Quux\Blade::runner() matches Waldo\Quux\Blade::run*()]",
-				15,
+				13,
+			],
+			[
+				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe [Waldo\Quux\Blade::runner() matches Waldo\Quux\Blade::run*()]",
+				16,
 			],
 			[
 				'Calling Inheritance\Base::x() (as Inheritance\Sub::x()) is forbidden, Base::x*() methods are dangerous [Inheritance\Base::x() matches Inheritance\Base::x*()]',
-				23,
+				24,
 			],
 			[
 				'Calling Traits\TestTrait::x() (as Traits\TestClass::x()) is forbidden, all TestTrait methods are dangerous [Traits\TestTrait::x() matches Traits\TestTrait::*()]',
-				27,
+				28,
 			],
 			[
 				'Calling Traits\TestTrait::y() (as Traits\AnotherTestClass::y()) is forbidden, all TestTrait methods are dangerous [Traits\TestTrait::y() matches Traits\TestTrait::*()]',
-				29,
-			],
-			[
-				'Calling Traits\AnotherTestClass::zzTop() is forbidden, method AnotherTestClass::zzTop() is dangerous',
 				30,
 			],
 			[
+				'Calling Traits\AnotherTestClass::zzTop() is forbidden, method AnotherTestClass::zzTop() is dangerous',
+				31,
+			],
+			[
 				'Calling PhpOption\None::getIterator() is forbidden, no PhpOption',
-				47,
+				48,
 			],
 			[
 				'Calling PhpOption\Some::getIterator() is forbidden, no PhpOption',
-				53,
+				54,
 			],
 			[
 				'Calling DateTime::format() is forbidden, why too kay',
-				56,
+				57,
 			],
 			[
-				'Calling Fiction\Pulp\GeneratedClass::execute() more than 2 times is forbidden, use another generated class [Fiction\Pulp\GeneratedClass::execute() matches Fiction\Pulp\GeneratedClass::execute*()]',
-				63,
-			],
-			[
-				'Calling Fiction\Pulp\GeneratedClass::executeOrThrow() more than 2 times is forbidden, use another generated class [Fiction\Pulp\GeneratedClass::executeOrThrow() matches Fiction\Pulp\GeneratedClass::execute*()]',
+				'Calling GeneratedCode\AccountQuery::execute() more than 2 times is forbidden, use another generated class [GeneratedCode\AccountQuery::execute() matches GeneratedCode\AccountQuery::execute*()]',
 				64,
 			],
 			[
-				'Calling Fiction\Pulp\GeneratedClass::canBeCalledOnce() more than once is forbidden, use another generated class',
-				66,
+				'Calling GeneratedCode\AccountQuery::executeOrThrow() more than 2 times is forbidden, use another generated class [GeneratedCode\AccountQuery::executeOrThrow() matches GeneratedCode\AccountQuery::execute*()]',
+				65,
+			],
+			[
+				'Calling GeneratedCode\AccountQuery::canBeCalledOnce() more than once is forbidden, use another generated class',
+				67,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/methodCalls.php'], [
 			[
 				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe [Waldo\Quux\Blade::runner() matches Waldo\Quux\Blade::run*()]",
-				11,
+				12,
 			],
 			[
 				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe [Waldo\Quux\Blade::runner() matches Waldo\Quux\Blade::run*()]",
-				12,
+				13,
 			],
 		]);
 	}

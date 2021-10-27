@@ -2,7 +2,8 @@
 declare(strict_types = 1);
 
 use Constructor\ClassWithConstructor;
-use Fiction\Pulp\GeneratedClass;
+use GeneratedCode\AccountQuery;
+use GeneratedCode\UserQuery;
 use Waldo\Quux;
 
 $blade = new Quux\Blade();
@@ -57,10 +58,10 @@ $some->getIterator();
 (new DateTime())->format('Y');
 new DateTime('tOmOrRoW');
 
-$class = new GeneratedClass();
-$class->execute();
-$class->executeOrThrow();
-$class->execute();
-$class->executeOrThrow();
-$class->canBeCalledOnce();
-$class->canBeCalledOnce();
+$accountQuery = new AccountQuery();
+$accountQuery->execute();
+$accountQuery->executeOrThrow();
+$accountQuery->execute();
+$accountQuery->executeOrThrow();
+$accountQuery->canBeCalledOnce();
+$accountQuery->canBeCalledOnce();
