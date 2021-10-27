@@ -281,12 +281,30 @@ Use `allowCount` if you want to limit a method to be called max *N* times:
 parameters:
     disallowedMethodCalls:
         -
-            method: 'SomeGeneratedClass::execute()'
+            method: 'Some\GeneratedClass::execute()'
             message: 'generated classes can only be used once, create a new class for another usecase'
             allowCount: 1
 ```
 
-Now `SomeGeneratedClass::execute()` can only be called once in the analyzed code and it doesn't matter where or with which parameters. Currently, `allowCount` can be used with methods & functions, but doesn't work with namespaces or constants.
+Now `Some\GeneratedClass::execute()` can only be called once in the analyzed code and it doesn't matter where or with which parameters.
+Currently, `allowCount` can be used with methods & functions, but doesn't work with namespaces or constants.
+
+It's important to know that internally, allows are tracked based on the fully qualified class name of the method.
+This allows you to define a rule like this:
+```neon
+parameters:
+    disallowedMethodCalls:
+        -
+            method: 'Some\Generated*::execute*()'
+            message: 'generated classes can only be used once, create a new class for another usecase'
+            allowCount: 1
+```
+
+Now, the following calls are allowed once:
+* `Some\GeneratedAccountQuery::execute()`
+* `Some\GeneratedUserQuery::execute()`
+
+But another call to `Some\GeneratedAccountQuery::execute()` or `Some\GeneratedAccountQuery::executeSomethingElse()` will be blocked.
 
 ## Allow calls except when a param has a specified value
 

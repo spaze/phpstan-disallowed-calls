@@ -35,8 +35,8 @@ class DisallowedCall
 	/** @var int */
 	private $allowCount;
 
-	/** @var int */
-	private $timesAllowed = 0;
+	/** @var array<string, int> */
+	private $timesAllowed = [];
 
 
 	/**
@@ -138,15 +138,20 @@ class DisallowedCall
 	}
 
 
-	public function hasRemainingAllowCount(): bool
+	public function hasRemainingAllowCount(string $fqcn): bool
 	{
-		return $this->allowCount > $this->timesAllowed;
+		$timesAllowed = $this->timesAllowed[$fqcn] ?? 0;
+
+		return $this->allowCount > $timesAllowed;
 	}
 
 
-	public function trackAllowedCall(): void
+	public function trackAllowedCall(string $fqcn): void
 	{
-		$this->timesAllowed++;
+		if (!isset($this->timesAllowed[$fqcn])) {
+			$this->timesAllowed[$fqcn] = 0;
+		}
+		$this->timesAllowed[$fqcn]++;
 	}
 
 

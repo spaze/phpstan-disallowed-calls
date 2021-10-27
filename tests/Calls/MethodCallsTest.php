@@ -174,6 +174,14 @@ class MethodCallsTest extends RuleTestCase
 				'Calling GeneratedCode\AccountQuery::canBeCalledOnce() more than once is forbidden, use another generated class',
 				67,
 			],
+			[
+				'Calling GeneratedCode\AccountQuery::something() more than once is forbidden, use another generated class [GeneratedCode\AccountQuery::something() matches GeneratedCode\*Query::some*()]',
+				69,
+			],
+			[
+				'Calling GeneratedCode\UserQuery::something() more than once is forbidden, use another generated class [GeneratedCode\UserQuery::something() matches GeneratedCode\*Query::some*()]',
+				73,
+			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/methodCalls.php'], [
 			[

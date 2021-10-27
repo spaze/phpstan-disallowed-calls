@@ -9,4 +9,5 @@ class UserQuery
 	public function executeOrThrow() {}
 	public function canBeCalledOnce() {}
 	public function someOtherMethod() {}
+	public function something() {}
 }

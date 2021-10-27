@@ -143,10 +143,12 @@ class DisallowedHelper
 	 */
 	public function getDisallowedMessage(?Node $node, Scope $scope, string $name, ?string $displayName, array $disallowedCalls, ?string $message = null): array
 	{
+		[$declaredClass] = explode('::', $name);
+
 		foreach ($disallowedCalls as $disallowedCall) {
 			if ($this->callMatches($disallowedCall, $name) && !$this->isAllowed($scope, $node, $disallowedCall)) {
-				if ($disallowedCall->hasRemainingAllowCount()) {
-					$disallowedCall->trackAllowedCall();
+				if ($disallowedCall->hasRemainingAllowCount($declaredClass)) {
+					$disallowedCall->trackAllowedCall($declaredClass);
 					return [];
 				}
 
