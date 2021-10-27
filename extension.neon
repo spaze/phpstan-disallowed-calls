@@ -22,8 +22,7 @@ parametersSchema:
 			anyOf(
 				string(),
 				listOf(string()),
-				arrayOf(anyOf(int(), string(), bool())),
-				int()
+				arrayOf(anyOf(int(), string(), bool()))
 			)
 		)
 	)
