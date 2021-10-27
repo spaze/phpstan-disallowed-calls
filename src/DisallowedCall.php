@@ -138,20 +138,20 @@ class DisallowedCall
 	}
 
 
-	public function hasRemainingAllowCount(string $fqcn): bool
+	public function hasRemainingAllowCount(string $fqcn, string $calledFrom): bool
 	{
-		$timesAllowed = $this->timesAllowed[$fqcn] ?? 0;
+		$timesAllowed = $this->timesAllowed[$fqcn] ?? [];
 
-		return $this->allowCount > $timesAllowed;
+		return $this->allowCount > count($timesAllowed);
 	}
 
 
-	public function trackAllowedCall(string $fqcn): void
+	public function trackAllowedCall(string $fqcn, string $calledFrom): void
 	{
 		if (!isset($this->timesAllowed[$fqcn])) {
-			$this->timesAllowed[$fqcn] = 0;
+			$this->timesAllowed[$fqcn] = [];
 		}
-		$this->timesAllowed[$fqcn]++;
+		$this->timesAllowed[$fqcn][$calledFrom] = true;
 	}
 
 

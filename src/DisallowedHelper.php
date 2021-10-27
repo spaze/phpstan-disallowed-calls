@@ -147,8 +147,8 @@ class DisallowedHelper
 
 		foreach ($disallowedCalls as $disallowedCall) {
 			if ($this->callMatches($disallowedCall, $name) && !$this->isAllowed($scope, $node, $disallowedCall)) {
-				if ($disallowedCall->hasRemainingAllowCount($declaredClass)) {
-					$disallowedCall->trackAllowedCall($declaredClass);
+				if ($disallowedCall->hasRemainingAllowCount($declaredClass, $scope->getFile())) {
+					$disallowedCall->trackAllowedCall($declaredClass, $scope->getFile());
 					return [];
 				}
 
