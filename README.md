@@ -276,18 +276,6 @@ means that you should use (`...` means any value):
 
 Such configuration only makes sense when both the parameters of `log()` are optional. If they are required, omitting them would result in an error already detected by PHPStan itself.
 
-Use `allowCount` if you want to limit a method to be called max *N* times:
-```neon
-parameters:
-    disallowedMethodCalls:
-        -
-            method: 'SomeGeneratedClass::execute()'
-            message: 'generated classes can only be used once, create a new class for another usecase'
-            allowCount: 1
-```
-
-Now `SomeGeneratedClass::execute()` can only be called once in the analyzed code and it doesn't matter where or with which parameters. Currently, `allowCount` can be used with methods & functions, but doesn't work with namespaces or constants.
-
 ## Allow calls except when a param has a specified value
 
 Sometimes, it's handy to disallow a function or a method call only when a parameter matches but allow it otherwise. For example the `hash()` function, it's fine using it with algorithm families like SHA-2 & SHA-3 (not for passwords though) but you'd like PHPStan to report when it's used with MD5 like `hash('md5', ...)`.

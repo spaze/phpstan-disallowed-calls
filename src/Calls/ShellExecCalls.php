@@ -66,7 +66,7 @@ class ShellExecCalls implements Rule
 			'shell_exec',
 			null,
 			$this->disallowedCalls,
-			'Using the backtick operator (`...`) is forbidden because shell_exec() is forbidden, %3$s%4$s'
+			'Using the backtick operator (`...`) is forbidden because shell_exec() is forbidden, %2$s%3$s'
 		);
 	}
 
