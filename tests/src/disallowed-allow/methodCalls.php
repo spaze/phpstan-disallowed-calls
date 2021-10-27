@@ -65,3 +65,7 @@ $accountQuery->execute();
 $accountQuery->executeOrThrow();
 $accountQuery->canBeCalledOnce();
 $accountQuery->canBeCalledOnce();
+$accountQuery->someOtherMethod();
+
+$userQuery = new UserQuery();
+$userQuery->someOtherMethod();

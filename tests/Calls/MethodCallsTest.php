@@ -102,6 +102,15 @@ class MethodCallsTest extends RuleTestCase
 						'../src/*-allow/*.*',
 					],
 				],
+				[
+					'function' => 'GeneratedCode\*Query::some*()',
+					'message' => 'use another generated class',
+					'allowCount' => 1,
+					'allowIn' => [
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
+					],
+				],
 			]
 		);
 	}
