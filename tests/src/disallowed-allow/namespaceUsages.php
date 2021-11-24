@@ -8,7 +8,7 @@ use Inheritance\Base;
 use Inheritance\Sub;
 use Traits\TestTrait;
 use Waldo\Foo\Bar;
-use Waldo\Quux\Blade;
+use Waldo\Quux\blade;
 
 class Service extends Base implements SomeInterface
 {
@@ -19,6 +19,7 @@ class Service extends Base implements SomeInterface
 	private $blade;
 
 
+	// phpcs:ignore SlevomatCodingStandard.Namespaces.UnusedUses.MismatchingCaseSensitivity
 	public function __construct(Blade $blade)
 	{
 		$this->blade = $blade;

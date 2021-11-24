@@ -52,7 +52,7 @@ class NamespaceUsagesTest extends RuleTestCase
 					],
 				],
 				[
-					'namespace' => 'Waldo\Foo\Bar',
+					'namespace' => 'Waldo\Foo\bar',
 					'message' => 'no FooBar',
 					'allowIn' => [
 						'../src/disallowed-allowed/*.php',
@@ -95,11 +95,11 @@ class NamespaceUsagesTest extends RuleTestCase
 				9,
 			],
 			[
-				'Namespace Waldo\Foo\Bar is forbidden, no FooBar',
+				'Namespace Waldo\Foo\Bar is forbidden, no FooBar [Waldo\Foo\Bar matches Waldo\Foo\bar]',
 				10,
 			],
 			[
-				'Namespace Waldo\Quux\Blade is forbidden, no blade',
+				'Namespace Waldo\Quux\blade is forbidden, no blade [Waldo\Quux\blade matches Waldo\Quux\Blade]',
 				11,
 			],
 			[
@@ -115,16 +115,16 @@ class NamespaceUsagesTest extends RuleTestCase
 				16,
 			],
 			[
-				'Namespace Waldo\Quux\Blade is forbidden, no blade',
-				22,
+				'Namespace Waldo\Quux\blade is forbidden, no blade [Waldo\Quux\blade matches Waldo\Quux\Blade]',
+				23,
 			],
 			[
 				'Namespace Inheritance\Sub is forbidden, no sub',
-				30,
+				31,
 			],
 			[
-				'Namespace Waldo\Foo\Bar is forbidden, no FooBar',
-				36,
+				'Namespace Waldo\Foo\Bar is forbidden, no FooBar [Waldo\Foo\Bar matches Waldo\Foo\bar]',
+				37,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/namespaceUsages.php'], []);
