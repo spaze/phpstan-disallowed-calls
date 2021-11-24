@@ -38,7 +38,7 @@ class StaticCallsTest extends RuleTestCase
 					'allowParamsInAllowed' => [],
 				],
 				[
-					'method' => 'Fiction\Pulp\Royale::withoutCheese',
+					'method' => 'Fiction\Pulp\Royale::WithoutCheese',
 					'message' => 'a Quarter Pounder without Cheese?',
 					'allowIn' => [
 						'../src/disallowed-allowed/*.php',
@@ -123,19 +123,19 @@ class StaticCallsTest extends RuleTestCase
 				8,
 			],
 			[
-				'Calling Fiction\Pulp\Royale::withBadCheese() is forbidden, a Quarter Pounder with Cheese? [Fiction\Pulp\Royale::withBadCheese() matches Fiction\Pulp\*::withBad*()]',
+				'Calling Fiction\Pulp\Royale::WithBadCheese() is forbidden, a Quarter Pounder with Cheese? [Fiction\Pulp\Royale::WithBadCheese() matches Fiction\Pulp\*::withBad*()]',
 				9,
 			],
 			[
-				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese?',
+				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese? [Fiction\Pulp\Royale::withoutCheese() matches Fiction\Pulp\Royale::WithoutCheese()]',
 				12,
 			],
 			[
-				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese?',
+				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese? [Fiction\Pulp\Royale::withoutCheese() matches Fiction\Pulp\Royale::WithoutCheese()]',
 				14,
 			],
 			[
-				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese?',
+				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese? [Fiction\Pulp\Royale::withoutCheese() matches Fiction\Pulp\Royale::WithoutCheese()]',
 				18,
 			],
 			[
@@ -165,11 +165,11 @@ class StaticCallsTest extends RuleTestCase
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/staticCalls.php'], [
 			[
-				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese?',
+				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese? [Fiction\Pulp\Royale::withoutCheese() matches Fiction\Pulp\Royale::WithoutCheese()]',
 				18,
 			],
 			[
-				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese?',
+				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese? [Fiction\Pulp\Royale::withoutCheese() matches Fiction\Pulp\Royale::WithoutCheese()]',
 				21,
 			],
 		]);

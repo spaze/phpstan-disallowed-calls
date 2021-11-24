@@ -5,13 +5,13 @@ use Fiction\Pulp;
 
 // allowed by path
 \Fiction\Pulp\Royale::withCheese();
-Pulp\Royale::withCheese();
+Pulp\Royale::WithCheese();
 Pulp\Royale::withBadCheese();
 
 // allowed by path and only with these params
 Pulp\Royale::withoutCheese(1, 2, 3);
 $a = 3;
-Pulp\Royale::withoutCheese(1, 2, $a);
+Pulp\Royale::WithoutCheese(1, 2, $a);
 
 // disallowed call, allowed by path but params don't match allowed
 $a = 5;
