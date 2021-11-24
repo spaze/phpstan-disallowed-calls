@@ -161,7 +161,7 @@ class FunctionCallsTest extends RuleTestCase
 				7,
 			],
 			[
-				'Calling print_r() is forbidden, nope',
+				'Calling print_R() is forbidden, nope [print_R() matches print_r()]',
 				8,
 			],
 			[

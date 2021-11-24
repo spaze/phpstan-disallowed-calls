@@ -28,7 +28,7 @@ class FunctionCallsAllowInMethodsTest extends RuleTestCase
 				[
 					'function' => 'sha1_file()',
 					'allowInFunctions' => [
-						'\\Fiction\\Pulp\\Royale::withoutCheese()',
+						'\\Fiction\\Pulp\\Royale::WithoutCheese()',
 					],
 					'allowParamsInAllowed' => [
 						2 => true,
