@@ -320,6 +320,10 @@ parameters:
 
 Calling `waldo()` is disallowed, and allowed back again only when the file is in the `views/` subdirectory **and** `waldo()` is called in the file with a 2nd parameter being the string `quux`.
 
+## Case-(in)sensitivity
+
+Function names, method names, namespaces are matched irrespective of their case (disallowing `print_r` will also find `print_R` calls), while anything else like constants, file names, paths are not.
+
 ## Detect disallowed calls without any other PHPStan rules
 
 If you want to use this PHPStan extension without running any other PHPStan rules, you can use `phpstan.neon` config file that looks like this (the `customRulesetUsed: true` and the missing `level` key are the important bits):

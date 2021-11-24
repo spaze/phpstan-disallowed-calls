@@ -33,6 +33,30 @@ class MethodCallsTest extends RuleTestCase
 					],
 				],
 				[
+					'method' => 'Waldo\Quux\Blade::movie()',
+					'message' => 'was good',
+					'allowIn' => [
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
+					],
+				],
+				[
+					'method' => 'Waldo\Quux\Blade::sequel()',
+					'message' => 'too',
+					'allowIn' => [
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
+					],
+				],
+				[
+					'method' => 'Waldo\Quux\Blade::Trinity()',
+					'message' => 'holy trinity',
+					'allowIn' => [
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
+					],
+				],
+				[
 					'method' => 'Inheritance\Base::x*()',
 					'message' => 'Base::x*() methods are dangerous',
 					'allowIn' => [
@@ -134,6 +158,30 @@ class MethodCallsTest extends RuleTestCase
 			[
 				'Calling DateTime::format() is forbidden, why too kay',
 				55,
+			],
+			[
+				'Calling Waldo\Quux\Blade::movie() is forbidden, was good',
+				60,
+			],
+			[
+				'Calling Waldo\Quux\Blade::movie() is forbidden, was good',
+				61,
+			],
+			[
+				'Calling Waldo\Quux\Blade::Sequel() is forbidden, too [Waldo\Quux\Blade::Sequel() matches Waldo\Quux\Blade::sequel()]',
+				62,
+			],
+			[
+				'Calling Waldo\Quux\Blade::Sequel() is forbidden, too [Waldo\Quux\Blade::Sequel() matches Waldo\Quux\Blade::sequel()]',
+				63,
+			],
+			[
+				'Calling Waldo\Quux\Blade::trinity() is forbidden, holy trinity [Waldo\Quux\Blade::trinity() matches Waldo\Quux\Blade::Trinity()]',
+				64,
+			],
+			[
+				'Calling Waldo\Quux\Blade::trinity() is forbidden, holy trinity [Waldo\Quux\Blade::trinity() matches Waldo\Quux\Blade::Trinity()]',
+				65,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/methodCalls.php'], [

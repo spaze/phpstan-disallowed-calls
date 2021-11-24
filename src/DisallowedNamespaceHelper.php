@@ -72,7 +72,7 @@ class DisallowedNamespaceHelper
 			return true;
 		}
 
-		if (fnmatch($pattern, $value, FNM_NOESCAPE)) {
+		if (fnmatch($pattern, $value, FNM_NOESCAPE | FNM_CASEFOLD)) {
 			return true;
 		}
 

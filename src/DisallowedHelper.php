@@ -40,7 +40,7 @@ class DisallowedHelper
 			} else {
 				$name = '';
 			}
-			if (fnmatch($call, $name, FNM_NOESCAPE)) {
+			if (fnmatch($call, $name, FNM_NOESCAPE | FNM_CASEFOLD)) {
 				return $this->hasAllowedParamsInAllowed($scope, $node, $disallowedCall);
 			}
 		}
@@ -133,7 +133,7 @@ class DisallowedHelper
 
 	private function callMatches(DisallowedCall $disallowedCall, string $name): bool
 	{
-		if ($name === $disallowedCall->getCall() || fnmatch($disallowedCall->getCall(), $name, FNM_NOESCAPE)) {
+		if ($name === $disallowedCall->getCall() || fnmatch($disallowedCall->getCall(), $name, FNM_NOESCAPE | FNM_CASEFOLD)) {
 			return true;
 		}
 		return false;

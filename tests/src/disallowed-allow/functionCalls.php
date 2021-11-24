@@ -5,7 +5,7 @@ use function Foo\Bar\waldo;
 
 // allowed by path
 var_dump('foo', true);
-print_r('bar');
+print_R('bar');
 \printf('foobar');
 \Foo\Bar\waldo();
 waldo(123);

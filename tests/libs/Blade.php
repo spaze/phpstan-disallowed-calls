@@ -20,4 +20,19 @@ class Blade
 	{
 	}
 
+
+	public function movie(): void
+	{
+	}
+
+
+	public function Sequel(): void
+	{
+	}
+
+
+	public function trinity(): void
+	{
+	}
+
 }

@@ -16,7 +16,7 @@ class Royale
 	}
 
 
-	public static function withBadCheese(): void
+	public static function WithBadCheese(): void
 	{
 		$foo = md5_file(__FILE__);
 	}

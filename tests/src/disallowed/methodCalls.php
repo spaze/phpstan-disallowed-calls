@@ -26,7 +26,7 @@ $testClass = new Traits\TestClass();
 $testClass->x();
 $testClassToo = new Traits\AnotherTestClass();
 $testClassToo->y();
-$testClassToo->zzTop();
+$testClassToo->zZTop();
 
 // disallowed object creation
 new ClassWithConstructor();
@@ -55,3 +55,11 @@ $some->getIterator();
 (new DateTime())->format('y');
 (new DateTime())->format('Y');
 new DateTime('tOmOrRoW');
+
+// disallowed case-insensitive methods
+$blade->movie();
+$blade->Movie();
+$blade->sequel();
+$blade->Sequel();
+$blade->trinity();
+$blade->Trinity();
