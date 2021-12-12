@@ -70,7 +70,7 @@ class NewCallsTest extends RuleTestCase
 			[
 				'Calling DateTime::__construct() is forbidden, no future',
 				57,
-			]
+			],
 		]);
 		// Based on the configuration above, no errors in this file:
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/methodCalls.php'], []);

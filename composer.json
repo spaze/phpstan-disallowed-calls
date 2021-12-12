@@ -44,5 +44,10 @@
 			"@phpstan-dev",
 			"@phpunit-dev"
 		]
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
 	}
 }
