@@ -36,7 +36,7 @@ class FunctionCallsTest extends RuleTestCase
 					],
 					'allowParamsAnywhere' => [
 						2 => true,
-					]
+					],
 				],
 				[
 					'function' => 'printf',
