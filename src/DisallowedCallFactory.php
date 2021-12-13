@@ -61,7 +61,8 @@ class DisallowedCallFactory
 				$allowParamsInAllowed,
 				$allowParamsAnywhere,
 				$allowExceptParamsInAllowed,
-				$allowExceptParams
+				$allowExceptParams,
+				$disallowedCall['errorIdentifier'] ?? ''
 			);
 			$calls[$disallowedCall->getKey()] = $disallowedCall;
 		}

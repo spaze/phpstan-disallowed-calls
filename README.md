@@ -100,6 +100,7 @@ parameters:
         -
             method: 'Redis::connect()'
             message: 'use our own Redis instead'
+            errorIdentifier: 'redis.connect'
 
     disallowedStaticCalls:
         -
@@ -135,6 +136,8 @@ parameters:
 ```
 
 The `message` key is optional. Functions and methods can be specified with or without `()`. Omitting `()` is not recommended though to avoid confusing method calls with class constants.
+
+The `errorIdentifier` key is optional. It can be used to provide a unique identifier to the PHPStan error.
 
 Use wildcard (`*`) to ignore all functions, methods, namespaces starting with a prefix, for example:
 ```neon

@@ -7,6 +7,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\ShellExec;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
@@ -56,7 +57,7 @@ class ShellExecCalls implements Rule
 	/**
 	 * @param ShellExec $node
 	 * @param Scope $scope
-	 * @return string[]
+	 * @return RuleError[]
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
