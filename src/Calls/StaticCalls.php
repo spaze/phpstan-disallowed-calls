@@ -8,6 +8,7 @@ use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Broker\ClassNotFoundException;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
@@ -55,7 +56,7 @@ class StaticCalls implements Rule
 	/**
 	 * @param StaticCall $node
 	 * @param Scope $scope
-	 * @return string[]
+	 * @return RuleError[]
 	 * @throws ClassNotFoundException
 	 */
 	public function processNode(Node $node, Scope $scope): array

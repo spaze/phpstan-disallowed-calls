@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ConstantScalarType;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
@@ -55,7 +56,7 @@ class NewCalls implements Rule
 	/**
 	 * @param New_ $node
 	 * @param Scope $scope
-	 * @return string[]
+	 * @return RuleError[]
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{

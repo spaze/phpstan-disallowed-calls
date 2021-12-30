@@ -8,6 +8,8 @@ use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\TypeWithClassName;
@@ -54,7 +56,7 @@ class ClassConstantUsages implements Rule
 	/**
 	 * @param ClassConstFetch $node
 	 * @param Scope $scope
-	 * @return string[]
+	 * @return RuleError[]
 	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array
@@ -78,11 +80,11 @@ class ClassConstantUsages implements Rule
 		} else {
 			if ($usedOnType->hasConstant($constant)->no()) {
 				return [
-					sprintf(
+					RuleErrorBuilder::message(sprintf(
 						'Cannot access constant %s on %s',
 						$constant,
 						$usedOnType->describe(VerbosityLevel::getRecommendedLevelByType($usedOnType))
-					),
+					))->build(),
 				];
 			} else {
 				$className = $usedOnType->getConstant($constant)->getDeclaringClass()->getDisplayName();

@@ -9,7 +9,7 @@ class DisallowedConstantFactory
 {
 
 	/**
-	 * @param array<array{class?:string, constant?:string, message?:string, allowIn?:string[]}> $config
+	 * @param array<array{class?:string, constant?:string, message?:string, allowIn?:string[], errorIdentifier?:string}> $config
 	 * @return DisallowedConstant[]
 	 * @throws ShouldNotHappenException
 	 */
@@ -25,7 +25,8 @@ class DisallowedConstantFactory
 			$disallowedConstant = new DisallowedConstant(
 				$class ? "{$class}::{$constant}" : $constant,
 				$disallowedConstant['message'] ?? null,
-				$disallowedConstant['allowIn'] ?? []
+				$disallowedConstant['allowIn'] ?? [],
+				$disallowedConstant['errorIdentifier'] ?? ''
 			);
 			$constants[$disallowedConstant->getConstant()] = $disallowedConstant;
 		}

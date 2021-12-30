@@ -4,6 +4,8 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
 
 class DisallowedNamespaceHelper
 {
@@ -39,7 +41,7 @@ class DisallowedNamespaceHelper
 	 * @param string $namespace
 	 * @param Scope $scope
 	 * @param DisallowedNamespace[] $disallowedNamespaces
-	 * @return string[]
+	 * @return RuleError[]
 	 */
 	public function getDisallowedMessage(string $namespace, Scope $scope, array $disallowedNamespaces): array
 	{
@@ -53,12 +55,14 @@ class DisallowedNamespaceHelper
 			}
 
 			return [
-				sprintf(
+				RuleErrorBuilder::message(sprintf(
 					'Namespace %s is forbidden, %s%s',
 					$namespace,
 					$disallowedNamespace->getMessage(),
 					$disallowedNamespace->getNamespace() !== $namespace ? " [{$namespace} matches {$disallowedNamespace->getNamespace()}]" : ''
-				),
+				))
+					->identifier($disallowedNamespace->getErrorIdentifier())
+					->build(),
 			];
 		}
 
