@@ -11,10 +11,14 @@ class IsAllowedFileHelper
 	/** @var FileHelper */
 	private $fileHelper;
 
+	/** @var string|null */
+	private $allowInRootDir;
 
-	public function __construct(FileHelper $fileHelper)
+
+	public function __construct(FileHelper $fileHelper, ?string $allowInRootDir = null)
 	{
 		$this->fileHelper = $fileHelper;
+		$this->allowInRootDir = $allowInRootDir !== null ? $this->fileHelper->normalizePath($fileHelper->absolutizePath($allowInRootDir)) : null;
 	}
 
 
@@ -30,6 +34,9 @@ class IsAllowedFileHelper
 			return $path;
 		}
 
+		if ($this->allowInRootDir !== null) {
+			$path = rtrim($this->allowInRootDir, '/') . '/' . ltrim($path, '/');
+		}
 		return $this->fileHelper->normalizePath($this->fileHelper->absolutizePath($path));
 	}
 
