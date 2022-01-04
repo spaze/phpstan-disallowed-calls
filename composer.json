@@ -36,13 +36,13 @@
 		"lint": "vendor/bin/parallel-lint --colors src/ tests/",
 		"phpcs": "vendor/bin/phpcs src/ tests/",
 		"cs-fix": "vendor/bin/phpcbf src/ tests/",
-		"phpstan-dev": "vendor/bin/phpstan --ansi analyse --configuration phpstan.neon",
-		"phpunit-dev": "vendor/bin/phpunit --colors=always",
+		"phpstan": "vendor/bin/phpstan --ansi analyse --configuration phpstan.neon",
+		"phpunit": "vendor/bin/phpunit --colors=always",
 		"test": [
 			"@lint",
 			"@phpcs",
-			"@phpstan-dev",
-			"@phpunit-dev"
+			"@phpstan",
+			"@phpunit"
 		]
 	},
 	"config": {
