@@ -216,7 +216,23 @@ parameters:
                 - tests/*.test.php
 ```
 
-The paths in `allowIn` are relative to the config file location and support [fnmatch()](https://www.php.net/function.fnmatch) patterns.
+Paths in `allowIn` support [fnmatch()](https://www.php.net/function.fnmatch) patterns.
+
+Relative paths in `allowIn` are resolved based on the current working directory. When running PHPStan from a directory or subdirectory which is not your "root" directory, the paths will probably not work.
+Use `allowInRootDir` in that case to specify an absolute root directory for all `allowIn` paths. Absolute paths might change between machines (for example your local development machine and a continous integration machine) but you
+can use [`%rootDir%`](https://phpstan.org/config-reference#expanding-paths) to start with PHPStan's root directory (usually `/something/something/vendor/phpstan/phpstan`) and then `..` from there to your "root" directory.
+
+For example when PHPStan is installed in `/home/foo/vendor/phpstan/phpstan` and you're using a configuration like this:
+```neon
+parameters:
+    allowInRootDir: %rootDir%/../../..
+    disallowedMethodCalls:
+        -
+            method: 'PotentiallyDangerous\Logger::log()'
+            allowIn:
+                - path/to/some/file-*.php
+```
+then `Logger::log()` will be allowed in `/home/foo/path/to/some/file-bar.php`.
 
 To allow a previously disallowed method or function only when called from a different method or function in any file, use `allowInFunctions` (or `allowInMethods` alias):
 

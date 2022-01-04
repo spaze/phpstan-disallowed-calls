@@ -22,13 +22,13 @@ use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParam;
 class DisallowedHelper
 {
 
-	/** @var FileHelper */
-	private $fileHelper;
+	/** @var IsAllowedFileHelper */
+	private $isAllowedFileHelper;
 
 
-	public function __construct(FileHelper $fileHelper)
+	public function __construct(IsAllowedFileHelper $isAllowedFileHelper)
 	{
-		$this->fileHelper = $fileHelper;
+		$this->isAllowedFileHelper = $isAllowedFileHelper;
 	}
 
 
@@ -47,7 +47,7 @@ class DisallowedHelper
 			}
 		}
 		foreach ($disallowedCall->getAllowIn() as $allowedPath) {
-			if (fnmatch($this->fileHelper->absolutizePath($allowedPath), $scope->getFile())) {
+			if (fnmatch($this->isAllowedFileHelper->absolutizePath($allowedPath), $scope->getFile())) {
 				return $this->hasAllowedParamsInAllowed($scope, $node, $disallowedCall);
 			}
 		}
@@ -206,7 +206,7 @@ class DisallowedHelper
 	private function isAllowedPath(Scope $scope, DisallowedConstant $disallowedConstant): bool
 	{
 		foreach ($disallowedConstant->getAllowIn() as $allowedPath) {
-			if (fnmatch($this->fileHelper->absolutizePath($allowedPath), $scope->getFile())) {
+			if (fnmatch($this->isAllowedFileHelper->absolutizePath($allowedPath), $scope->getFile())) {
 				return true;
 			}
 		}
