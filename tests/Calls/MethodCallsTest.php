@@ -3,12 +3,12 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
-use PHPStan\File\FileHelper as PHPStanFileHelper;
+use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
-use Spaze\PHPStan\Rules\Disallowed\FileHelper;
+use Spaze\PHPStan\Rules\Disallowed\IsAllowedFileHelper;
 
 class MethodCallsTest extends RuleTestCase
 {
@@ -16,7 +16,7 @@ class MethodCallsTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		return new MethodCalls(
-			new DisallowedHelper(new FileHelper(new PHPStanFileHelper(__DIR__))),
+			new DisallowedHelper(new IsAllowedFileHelper(new FileHelper(__DIR__))),
 			new DisallowedCallFactory(),
 			[
 				[

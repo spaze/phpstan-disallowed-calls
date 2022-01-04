@@ -4,19 +4,19 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed;
 
 use Generator;
-use PHPStan\File\FileHelper as PHPStanFileHelper;
+use PHPStan\File\FileHelper;
 use PHPUnit\Framework\TestCase;
 
-class FileHelperTest extends TestCase
+class IsAllowedFileHelperTest extends TestCase
 {
 
-	/** @var FileHelper */
-	private $fileHelper;
+	/** @var IsAllowedFileHelper */
+	private $isAllowedHelper;
 
 
 	protected function setUp(): void
 	{
-		$this->fileHelper = new FileHelper(new PHPStanFileHelper(__DIR__));
+		$this->isAllowedHelper = new IsAllowedFileHelper(new FileHelper(__DIR__));
 	}
 
 
@@ -27,7 +27,7 @@ class FileHelperTest extends TestCase
 	 */
 	public function testAbsolutizePath(string $input, string $output): void
 	{
-		$this->assertSame($output, $this->fileHelper->absolutizePath($input));
+		$this->assertSame($output, $this->isAllowedHelper->absolutizePath($input));
 	}
 
 

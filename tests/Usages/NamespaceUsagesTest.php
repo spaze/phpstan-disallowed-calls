@@ -3,12 +3,12 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
-use PHPStan\File\FileHelper as PHPStanFileHelper;
+use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceHelper;
-use Spaze\PHPStan\Rules\Disallowed\FileHelper;
+use Spaze\PHPStan\Rules\Disallowed\IsAllowedFileHelper;
 
 class NamespaceUsagesTest extends RuleTestCase
 {
@@ -16,7 +16,7 @@ class NamespaceUsagesTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		return new NamespaceUsages(
-			new DisallowedNamespaceHelper(new FileHelper(new PHPStanFileHelper(__DIR__))),
+			new DisallowedNamespaceHelper(new IsAllowedFileHelper(new FileHelper(__DIR__))),
 			new DisallowedNamespaceFactory(),
 			[
 				[

@@ -3,16 +3,16 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed;
 
-use PHPStan\File\FileHelper as PHPStanFileHelper;
+use PHPStan\File\FileHelper;
 
-class FileHelper
+class IsAllowedFileHelper
 {
 
-	/** @var PHPStanFileHelper */
+	/** @var FileHelper */
 	private $fileHelper;
 
 
-	public function __construct(PHPStanFileHelper $fileHelper)
+	public function __construct(FileHelper $fileHelper)
 	{
 		$this->fileHelper = $fileHelper;
 	}

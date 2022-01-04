@@ -10,13 +10,13 @@ use PHPStan\Rules\RuleErrorBuilder;
 class DisallowedNamespaceHelper
 {
 
-	/** @var FileHelper */
-	private $fileHelper;
+	/** @var IsAllowedFileHelper */
+	private $isAllowedFileHelper;
 
 
-	public function __construct(FileHelper $fileHelper)
+	public function __construct(IsAllowedFileHelper $isAllowedFileHelper)
 	{
-		$this->fileHelper = $fileHelper;
+		$this->isAllowedFileHelper = $isAllowedFileHelper;
 	}
 
 
@@ -28,7 +28,7 @@ class DisallowedNamespaceHelper
 	private function isAllowed(Scope $scope, DisallowedNamespace $disallowedNamespace): bool
 	{
 		foreach ($disallowedNamespace->getAllowIn() as $allowedPath) {
-			$match = fnmatch($this->fileHelper->absolutizePath($allowedPath), $scope->getFile());
+			$match = fnmatch($this->isAllowedFileHelper->absolutizePath($allowedPath), $scope->getFile());
 			if ($match) {
 				return true;
 			}

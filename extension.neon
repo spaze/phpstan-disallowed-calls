@@ -55,7 +55,7 @@ parametersSchema:
 	)
 
 services:
-	- Spaze\PHPStan\Rules\Disallowed\FileHelper
+	- Spaze\PHPStan\Rules\Disallowed\IsAllowedFileHelper
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedHelper
