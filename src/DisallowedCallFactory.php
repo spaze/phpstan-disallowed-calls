@@ -44,13 +44,13 @@ class DisallowedCallFactory
 			foreach ($disallowedCall['allowParamsAnywhereAnyValue'] ?? [] as $param) {
 				$allowParamsAnywhere[$param] = new DisallowedCallParamWithAnyValue();
 			}
-			foreach ($disallowedCall['allowExceptParamsInAllowed'] ?? [] as $param => $value) {
+			foreach ($disallowedCall['allowExceptParamsInAllowed'] ?? $disallowedCall['disallowParamsInAllowed'] ?? [] as $param => $value) {
 				$allowExceptParamsInAllowed[$param] = new DisallowedCallParamExceptValue($value);
 			}
-			foreach ($disallowedCall['allowExceptParams'] ?? [] as $param => $value) {
+			foreach ($disallowedCall['allowExceptParams'] ?? $disallowedCall['disallowParams'] ?? [] as $param => $value) {
 				$allowExceptParams[$param] = new DisallowedCallParamExceptValue($value);
 			}
-			foreach ($disallowedCall['allowExceptCaseInsensitiveParams'] ?? [] as $param => $value) {
+			foreach ($disallowedCall['allowExceptCaseInsensitiveParams'] ?? $disallowedCall['disallowCaseInsensitiveParams'] ?? [] as $param => $value) {
 				$allowExceptParams[$param] = new DisallowedCallParamExceptCaseInsensitiveValue($value);
 			}
 			$disallowedCall = new DisallowedCall(

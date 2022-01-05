@@ -93,7 +93,7 @@ class FunctionCallsTest extends RuleTestCase
 						'../src/disallowed-allowed/*.php',
 						'../src/*-allow/*.*',
 					],
-					'allowExceptParams' => [
+					'disallowParams' => [
 						1 => 'sha1',
 					],
 				],
