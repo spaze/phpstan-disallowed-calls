@@ -9,7 +9,7 @@ parameters:
 parametersSchema:
 	allowInRootDir: schema(string(), nullable())
 	# These should be defined using `structure` with listed keys but it seems to me that PHPStan requires
-	# all keys to be present in a structure but `message` & `allow*` are optional.
+	# all keys to be present in a structure but `message` & `allow*`/`disallow*` are optional.
 	disallowedNamespaces: listOf(
 		arrayOf(
 			anyOf(

@@ -298,7 +298,7 @@ Such configuration only makes sense when both the parameters of `log()` are opti
 ## Allow calls except when a param has a specified value
 
 Sometimes, it's handy to disallow a function or a method call only when a parameter matches but allow it otherwise. For example the `hash()` function, it's fine using it with algorithm families like SHA-2 & SHA-3 (not for passwords though) but you'd like PHPStan to report when it's used with MD5 like `hash('md5', ...)`.
-You can use `allowExceptParams`, `allowExceptCaseInsensitiveParams`, `allowExceptParamsInAllowed` config options to disallow only some calls:
+You can use `allowExceptParams` (or `disallowParams`), `allowExceptCaseInsensitiveParams` (or `disallowCaseInsensitiveParams`), `allowExceptParamsInAllowed` (or `disallowParamsInAllowed`) config options to disallow only some calls:
 
 ```neon
 parameters:
