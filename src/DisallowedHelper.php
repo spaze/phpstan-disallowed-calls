@@ -47,7 +47,8 @@ class DisallowedHelper
 			}
 		}
 		foreach ($disallowedCall->getAllowIn() as $allowedPath) {
-			if (fnmatch($this->isAllowedFileHelper->absolutizePath($allowedPath), $scope->getFile())) {
+			$file = $scope->getTraitReflection() ? $scope->getTraitReflection()->getFileName() : $scope->getFile();
+			if ($file !== null && fnmatch($this->isAllowedFileHelper->absolutizePath($allowedPath), $file)) {
 				return $this->hasAllowedParamsInAllowed($scope, $node, $disallowedCall);
 			}
 		}
