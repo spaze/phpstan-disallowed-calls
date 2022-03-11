@@ -5,6 +5,7 @@ parameters:
 	disallowedStaticCalls: []
 	disallowedFunctionCalls: []
 	disallowedConstants: []
+	disallowedSuperglobals: []
 
 parametersSchema:
 	allowInRootDir: schema(string(), nullable())
@@ -55,6 +56,15 @@ parametersSchema:
 			)
 		)
 	)
+	disallowedSuperglobals: listOf(
+		arrayOf(
+			anyOf(
+				string(),
+				listOf(string()),
+				arrayOf(anyOf(int(), string(), bool()))
+			)
+		)
+	)
 
 services:
 	- Spaze\PHPStan\Rules\Disallowed\IsAllowedFileHelper(allowInRootDir: %allowInRootDir%)
@@ -63,6 +73,8 @@ services:
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedHelper
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceHelper
+	- Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalFactory
+	- Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalHelper
 	-
 		factory: Spaze\PHPStan\Rules\Disallowed\Usages\NamespaceUsages(forbiddenNamespaces: %disallowedNamespaces%)
 		tags:
@@ -113,5 +125,9 @@ services:
 			- phpstan.rules.rule
 	-
 		factory: Spaze\PHPStan\Rules\Disallowed\Usages\ClassConstantUsages(disallowedConstants: %disallowedConstants%)
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\Usages\SuperglobalUsages(disallowedSuperglobals: %disallowedSuperglobals%)
 		tags:
 			- phpstan.rules.rule
