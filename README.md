@@ -88,6 +88,7 @@ There are several different types (and configuration keys) that can be disallowe
 3. `disallowedFunctionCalls` - for functions like `function()`
 4. `disallowedConstants` - for constants like `DATE_ISO8601` or `DateTime::ISO8601` (which needs to be split to `class: DateTime` & `constant: ISO8601` in the configuration, see notes below)
 5. `disallowedNamespaces` - for usages of classes from a namespace
+6. `disallowedSuperglobals` - for usages of superglobal variables like `$GLOBALS` or `$_POST`
 
 Use them to add rules to your `phpstan.neon` config file. I like to use a separate file (`disallowed-calls.neon`) for these which I'll include later on in the main `phpstan.neon` config file. Here's an example, update to your needs:
 
@@ -133,6 +134,11 @@ parameters:
         -
             namespace: 'Assert\*'
             message: 'use Webmozart\Assert instead'
+
+    disallowedSuperglobals:
+        -
+            superglobal: '$_GET'
+            message: 'use the Request methods instead'
 ```
 
 The `message` key is optional. Functions and methods can be specified with or without `()`. Omitting `()` is not recommended though to avoid confusing method calls with class constants.
