@@ -7,7 +7,7 @@ class DisallowedNamespaceFactory
 {
 
 	/**
-	 * @param array<array{namespace:string, message?:string, allowIn?:string[], allowParamsInAllowed?:array<int, int|bool|string>, allowParamsAnywhere?:array<int, int|bool|string>, errorIdentifier?:string}> $config
+	 * @param array<array{namespace:string, message?:string, allowIn?:string[], errorIdentifier?:string}> $config
 	 * @return DisallowedNamespace[]
 	 */
 	public function createFromConfig(array $config): array
