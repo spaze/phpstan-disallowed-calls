@@ -23,7 +23,7 @@ class DisallowedSuperglobalHelper
 	private function isAllowedPath(Scope $scope, DisallowedSuperglobal $disallowedSuperglobal): bool
 	{
 		foreach ($disallowedSuperglobal->getAllowIn() as $allowedPath) {
-			if (fnmatch($this->isAllowedFileHelper->absolutizePath($allowedPath), $scope->getFile())) {
+			if ($this->isAllowedFileHelper->matches($scope, $allowedPath)) {
 				return true;
 			}
 		}

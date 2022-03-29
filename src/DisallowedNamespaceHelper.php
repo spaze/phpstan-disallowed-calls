@@ -28,8 +28,7 @@ class DisallowedNamespaceHelper
 	private function isAllowed(Scope $scope, DisallowedNamespace $disallowedNamespace): bool
 	{
 		foreach ($disallowedNamespace->getAllowIn() as $allowedPath) {
-			$match = fnmatch($this->isAllowedFileHelper->absolutizePath($allowedPath), $scope->getFile());
-			if ($match) {
+			if ($this->isAllowedFileHelper->matches($scope, $allowedPath)) {
 				return true;
 			}
 		}

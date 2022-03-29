@@ -9,4 +9,5 @@ require_once __DIR__ . '/libs/Inheritance.php';
 require_once __DIR__ . '/libs/Royale.php';
 require_once __DIR__ . '/libs/SomeInterface.php';
 require_once __DIR__ . '/libs/Option.php';
+require_once __DIR__ . '/libs/TestTrait.php';
 require_once __DIR__ . '/libs/Traits.php';
