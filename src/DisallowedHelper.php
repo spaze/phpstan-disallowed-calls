@@ -47,8 +47,7 @@ class DisallowedHelper
 			}
 		}
 		foreach ($disallowedCall->getAllowIn() as $allowedPath) {
-			$file = $scope->getTraitReflection() ? $scope->getTraitReflection()->getFileName() : $scope->getFile();
-			if ($file !== null && fnmatch($this->isAllowedFileHelper->absolutizePath($allowedPath), $file)) {
+			if ($this->isAllowedFileHelper->matches($scope, $allowedPath)) {
 				return $this->hasAllowedParamsInAllowed($scope, $node, $disallowedCall);
 			}
 		}
@@ -207,7 +206,7 @@ class DisallowedHelper
 	private function isAllowedPath(Scope $scope, DisallowedConstant $disallowedConstant): bool
 	{
 		foreach ($disallowedConstant->getAllowIn() as $allowedPath) {
-			if (fnmatch($this->isAllowedFileHelper->absolutizePath($allowedPath), $scope->getFile())) {
+			if ($this->isAllowedFileHelper->matches($scope, $allowedPath)) {
 				return true;
 			}
 		}
