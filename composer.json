@@ -1,7 +1,7 @@
 {
 	"name": "spaze/phpstan-disallowed-calls",
 	"type": "phpstan-extension",
-	"description": "Disallowed method and function calls plug-in for PHPStan",
+	"description": "PHPStan rules to detect disallowed method & function calls, constant, namespace & superglobal usages",
 	"license": "MIT",
 	"authors": [
 		{
