@@ -3,11 +3,11 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed;
 
-class DisallowedSuperglobal
+class DisallowedVariable
 {
 
 	/** @var string */
-	private $superglobal;
+	private $variable;
 
 	/** @var string|null */
 	private $message;
@@ -20,23 +20,23 @@ class DisallowedSuperglobal
 
 
 	/**
-	 * @param string $superglobal
+	 * @param string $variable
 	 * @param string|null $message
 	 * @param string[] $allowIn
 	 * @param string $errorIdentifier
 	 */
-	public function __construct(string $superglobal, ?string $message, array $allowIn, string $errorIdentifier)
+	public function __construct(string $variable, ?string $message, array $allowIn, string $errorIdentifier)
 	{
-		$this->superglobal = $superglobal;
+		$this->variable = $variable;
 		$this->message = $message;
 		$this->allowIn = $allowIn;
 		$this->errorIdentifier = $errorIdentifier;
 	}
 
 
-	public function getSuperglobal(): string
+	public function getVariable(): string
 	{
-		return $this->superglobal;
+		return $this->variable;
 	}
 
 

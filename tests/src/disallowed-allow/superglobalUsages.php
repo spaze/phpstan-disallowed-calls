@@ -13,17 +13,8 @@ function useSuperglobals()
 }
 
 
-function useVariableNotInScope()
+function useNonGlobalVariable()
 {
-	// should not be allowed, since it's not defined in this scope
-	echo $TEST_GLOBAL_VARIABLE;
-}
-
-
-function useVariableInScope()
-{
-	$TEST_GLOBAL_VARIABLE = '1234';
-
-	// should be allowed, since it's defined in the current scope
-	echo $TEST_GLOBAL_VARIABLE;
+	$randomVar = 'foo';
+	echo $randomVar;
 }

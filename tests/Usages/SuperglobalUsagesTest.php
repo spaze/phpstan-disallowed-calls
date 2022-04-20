@@ -7,7 +7,7 @@ use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalFactory;
-use Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalHelper;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedVariableHelper;
 use Spaze\PHPStan\Rules\Disallowed\IsAllowedFileHelper;
 
 class SuperglobalUsagesTest extends RuleTestCase
@@ -15,10 +15,9 @@ class SuperglobalUsagesTest extends RuleTestCase
 
 	protected function getRule(): Rule
 	{
-		return new SuperglobalUsages(
-			new DisallowedSuperglobalHelper(new IsAllowedFileHelper(new FileHelper(__DIR__))),
-			new DisallowedSuperglobalFactory(),
-			[
+		return new VariableUsages(
+			new DisallowedVariableHelper(new IsAllowedFileHelper(new FileHelper(__DIR__))),
+			(new DisallowedSuperglobalFactory())->getDisallowedVariables([
 				[
 					'superglobal' => '$GLOBALS',
 					'message' => 'the cake is a lie',
@@ -35,15 +34,7 @@ class SuperglobalUsagesTest extends RuleTestCase
 						'../src/*-allow/*.*',
 					],
 				],
-				[
-					'superglobal' => '$TEST_GLOBAL_VARIABLE',
-					'message' => 'the cake is a lie',
-					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
-						'../src/*-allow/*.*',
-					],
-				],
-			]
+			])
 		);
 	}
 
@@ -65,10 +56,6 @@ class SuperglobalUsagesTest extends RuleTestCase
 			[
 				'Using $_GET is forbidden, the cake is a lie',
 				12,
-			],
-			[
-				'Using $TEST_GLOBAL_VARIABLE is forbidden, the cake is a lie',
-				19,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/superglobalUsages.php'], []);

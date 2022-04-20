@@ -74,7 +74,7 @@ services:
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceHelper
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalFactory
-	- Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalHelper
+	- Spaze\PHPStan\Rules\Disallowed\DisallowedVariableHelper
 	-
 		factory: Spaze\PHPStan\Rules\Disallowed\Usages\NamespaceUsages(forbiddenNamespaces: %disallowedNamespaces%)
 		tags:
@@ -128,6 +128,6 @@ services:
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\Usages\SuperglobalUsages(disallowedSuperglobals: %disallowedSuperglobals%)
+		factory: Spaze\PHPStan\Rules\Disallowed\Usages\VariableUsages(disallowedVariables: @Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalFactory::getDisallowedVariables(%disallowedSuperglobals%))
 		tags:
 			- phpstan.rules.rule
