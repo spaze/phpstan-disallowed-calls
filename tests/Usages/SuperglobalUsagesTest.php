@@ -34,14 +34,6 @@ class SuperglobalUsagesTest extends RuleTestCase
 						'../src/*-allow/*.*',
 					],
 				],
-				[
-					'superglobal' => '$TEST_GLOBAL_VARIABLE',
-					'message' => 'the cake is a lie',
-					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
-						'../src/*-allow/*.*',
-					],
-				],
 			])
 		);
 	}
@@ -64,10 +56,6 @@ class SuperglobalUsagesTest extends RuleTestCase
 			[
 				'Using $_GET is forbidden, the cake is a lie',
 				12,
-			],
-			[
-				'Using $TEST_GLOBAL_VARIABLE is forbidden, the cake is a lie',
-				19,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/superglobalUsages.php'], []);

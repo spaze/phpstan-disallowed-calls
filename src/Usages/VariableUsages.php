@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
@@ -46,17 +45,6 @@ class VariableUsages implements Rule
 	}
 
 
-	private function isVariableBeingAssigned(Variable $variable): bool
-	{
-		$parentNode = $variable->getAttribute('parent');
-		if (!($parentNode instanceof Assign)) {
-			return false;
-		}
-
-		return $variable === $parentNode->var;
-	}
-
-
 	/**
 	 * @param Variable $node
 	 * @param Scope $scope
@@ -69,18 +57,8 @@ class VariableUsages implements Rule
 			throw new ShouldNotHappenException(sprintf('$node should be %s but is %s', Variable::class, get_class($node)));
 		}
 
-		// If it's an assignment, allow it since it might define the variable in the current scope.
-		if ($this->isVariableBeingAssigned($node)) {
-			return [];
-		}
-
 		$variableName = $node->name;
 		if (!is_string($variableName)) {
-			return [];
-		}
-
-		$definedVariables = $scope->getDefinedVariables();
-		if (in_array($variableName, $definedVariables, true)) {
 			return [];
 		}
 
