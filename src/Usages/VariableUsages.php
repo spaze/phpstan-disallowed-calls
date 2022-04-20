@@ -10,36 +10,33 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
-use Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobal;
-use Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalFactory;
-use Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalHelper;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedVariable;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedVariableHelper;
 
 /**
- * Reports on global usage.
+ * Reports on a variable name usage.
  *
  * @package Spaze\PHPStan\Rules\Disallowed
  * @implements Rule<Variable>
  */
-class SuperglobalUsages implements Rule
+class VariableUsages implements Rule
 {
 
-	/** @var DisallowedSuperglobalHelper */
+	/** @var DisallowedVariableHelper */
 	private $disallowedHelper;
 
-	/** @var DisallowedSuperglobal[] */
-	private $disallowedSuperglobals;
+	/** @var DisallowedVariable[] */
+	private $disallowedVariables;
 
 
 	/**
-	 * @param DisallowedSuperglobalHelper $disallowedSuperglobalHelper
-	 * @param DisallowedSuperglobalFactory $disallowedSuperglobalFactory
-	 * @param array<array{superglobal?:string, message?:string}> $disallowedSuperglobals
-	 * @throws ShouldNotHappenException
+	 * @param DisallowedVariableHelper $disallowedVariableHelper
+	 * @param DisallowedVariable[] $disallowedVariables
 	 */
-	public function __construct(DisallowedSuperglobalHelper $disallowedSuperglobalHelper, DisallowedSuperglobalFactory $disallowedSuperglobalFactory, array $disallowedSuperglobals)
+	public function __construct(DisallowedVariableHelper $disallowedVariableHelper, array $disallowedVariables)
 	{
-		$this->disallowedHelper = $disallowedSuperglobalHelper;
-		$this->disallowedSuperglobals = $disallowedSuperglobalFactory->createFromConfig($disallowedSuperglobals);
+		$this->disallowedHelper = $disallowedVariableHelper;
+		$this->disallowedVariables = $disallowedVariables;
 	}
 
 
@@ -87,7 +84,7 @@ class SuperglobalUsages implements Rule
 			return [];
 		}
 
-		return $this->disallowedHelper->getDisallowedMessage('$' . $variableName, $scope, $this->disallowedSuperglobals);
+		return $this->disallowedHelper->getDisallowedMessage('$' . $variableName, $scope, $this->disallowedVariables);
 	}
 
 }
