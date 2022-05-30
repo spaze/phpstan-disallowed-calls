@@ -12,3 +12,7 @@ $monster::COOKIE;
 /** @var class-string $monster */
 $monster = DateTime::class;
 $monster::COOKIE;
+
+/** @var class-string<DateTimeZone> $tz */
+$tz = DateTimeZone::class;
+$tz::UTC;

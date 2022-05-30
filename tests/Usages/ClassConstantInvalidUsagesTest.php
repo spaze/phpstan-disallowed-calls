@@ -41,6 +41,10 @@ class ClassConstantInvalidUsagesTest extends RuleTestCase
 				'Cannot access constant COOKIE on class-string',
 				14,
 			],
+			[
+				'Cannot access constant UTC on class-string<DateTimeZone>',
+				18,
+			],
 		]);
 	}
 
