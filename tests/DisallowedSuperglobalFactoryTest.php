@@ -29,16 +29,16 @@ class DisallowedSuperglobalFactoryTest extends PHPStanTestCase
 
 	public function superglobalsProvider(): Generator
 	{
-		yield ['$GLOBALS', null, null];
-		yield ['$_SERVER', null, null];
-		yield ['$_GET', null, null];
-		yield ['$_POST', null, null];
-		yield ['$_FILES', null, null];
-		yield ['$_COOKIE', null, null];
-		yield ['$_SESSION', null, null];
-		yield ['$_REQUEST', null, null];
-		yield ['$_ENV', null, null];
-		yield ['$foo', ShouldNotHappenException::class, '$foo is not a superglobal variable'];
+		yield ['$GLOBALS', null];
+		yield ['$_SERVER', null];
+		yield ['$_GET', null];
+		yield ['$_POST', null];
+		yield ['$_FILES', null];
+		yield ['$_COOKIE', null];
+		yield ['$_SESSION', null];
+		yield ['$_REQUEST', null];
+		yield ['$_ENV', null];
+		yield ['$foo', ShouldNotHappenException::class];
 	}
 
 }
