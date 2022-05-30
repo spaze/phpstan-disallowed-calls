@@ -15,22 +15,25 @@ class DisallowedConstantFactory
 	 */
 	public function createFromConfig(array $config): array
 	{
-		$constants = [];
-		foreach ($config as $disallowedConstant) {
-			$constant = $disallowedConstant['constant'] ?? null;
-			if (!$constant) {
+		$disallowedConstants = [];
+		foreach ($config as $disallowed) {
+			$constants = $disallowed['constant'] ?? null;
+			unset($disallowed['constant']);
+			if (!$constants) {
 				throw new ShouldNotHappenException("'constant' must be set in configuration items");
 			}
-			$class = $disallowedConstant['class'] ?? null;
-			$disallowedConstant = new DisallowedConstant(
-				$class ? "{$class}::{$constant}" : $constant,
-				$disallowedConstant['message'] ?? null,
-				$disallowedConstant['allowIn'] ?? [],
-				$disallowedConstant['errorIdentifier'] ?? ''
-			);
-			$constants[$disallowedConstant->getConstant()] = $disallowedConstant;
+			foreach ((array)$constants as $constant) {
+				$class = $disallowed['class'] ?? null;
+				$disallowedConstant = new DisallowedConstant(
+					$class ? "{$class}::{$constant}" : $constant,
+					$disallowed['message'] ?? null,
+					$disallowed['allowIn'] ?? [],
+					$disallowed['errorIdentifier'] ?? ''
+				);
+				$disallowedConstants[$disallowedConstant->getConstant()] = $disallowedConstant;
+			}
 		}
-		return array_values($constants);
+		return array_values($disallowedConstants);
 	}
 
 }

@@ -7,6 +7,7 @@ use Waldo\Quux\Blade;
 // allowed by path
 FILTER_FLAG_NO_PRIV_RANGE;
 \FILTER_FLAG_NO_PRIV_RANGE;
+FILTER_FLAG_NO_RES_RANGE;
 \Inheritance\Sub::BELONG;
 \Inheritance\Base::BELONG;
 Base::BELONG;
@@ -19,6 +20,7 @@ $blade::DECKARD;
 
 $orion = new Blade();
 $orion::DECKARD;
+$orion::WESLEY;
 
 // not a disallowed constant usage
 Base::ALL;

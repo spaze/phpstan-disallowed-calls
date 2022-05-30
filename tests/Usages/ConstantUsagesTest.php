@@ -20,7 +20,10 @@ class ConstantUsagesTest extends RuleTestCase
 			new DisallowedConstantFactory(),
 			[
 				[
-					'constant' => 'FILTER_FLAG_NO_PRIV_RANGE',
+					'constant' => [
+						'FILTER_FLAG_NO_PRIV_RANGE',
+						'FILTER_FLAG_NO_RES_RANGE',
+					],
 					'message' => 'the cake is a lie',
 					'allowIn' => [
 						'../src/disallowed-allowed/*.php',
@@ -53,6 +56,10 @@ class ConstantUsagesTest extends RuleTestCase
 			[
 				'Using FILTER_FLAG_NO_PRIV_RANGE is forbidden, the cake is a lie',
 				9,
+			],
+			[
+				'Using FILTER_FLAG_NO_RES_RANGE is forbidden, the cake is a lie',
+				10,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/constantUsages.php'], []);

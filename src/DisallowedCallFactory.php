@@ -21,52 +21,54 @@ class DisallowedCallFactory
 	 */
 	public function createFromConfig(array $config): array
 	{
-		$calls = [];
-		foreach ($config as $disallowedCall) {
-			$call = $disallowedCall['function'] ?? $disallowedCall['method'] ?? null;
-			if (!$call) {
+		$disallowedCalls = [];
+		foreach ($config as $disallowed) {
+			$calls = $disallowed['function'] ?? $disallowed['method'] ?? null;
+			unset($disallowed['function'], $disallowed['method']);
+			if (!$calls) {
 				throw new ShouldNotHappenException("Either 'method' or 'function' must be set in configuration items");
 			}
-
-			$allowInCalls = $allowParamsInAllowed = $allowParamsAnywhere = $allowExceptParamsInAllowed = $allowExceptParams = [];
-			foreach ($disallowedCall['allowInFunctions'] ?? $disallowedCall['allowInMethods'] ?? [] as $allowedCall) {
-				$allowInCalls[] = $this->normalizeCall($allowedCall);
+			foreach ((array)$calls as $call) {
+				$allowInCalls = $allowParamsInAllowed = $allowParamsAnywhere = $allowExceptParamsInAllowed = $allowExceptParams = [];
+				foreach ($disallowed['allowInFunctions'] ?? $disallowed['allowInMethods'] ?? [] as $allowedCall) {
+					$allowInCalls[] = $this->normalizeCall($allowedCall);
+				}
+				foreach ($disallowed['allowParamsInAllowed'] ?? [] as $param => $value) {
+					$allowParamsInAllowed[$param] = new DisallowedCallParamWithValue($value);
+				}
+				foreach ($disallowed['allowParamsInAllowedAnyValue'] ?? [] as $param) {
+					$allowParamsInAllowed[$param] = new DisallowedCallParamWithAnyValue();
+				}
+				foreach ($disallowed['allowParamsAnywhere'] ?? [] as $param => $value) {
+					$allowParamsAnywhere[$param] = new DisallowedCallParamWithValue($value);
+				}
+				foreach ($disallowed['allowParamsAnywhereAnyValue'] ?? [] as $param) {
+					$allowParamsAnywhere[$param] = new DisallowedCallParamWithAnyValue();
+				}
+				foreach ($disallowed['allowExceptParamsInAllowed'] ?? $disallowed['disallowParamsInAllowed'] ?? [] as $param => $value) {
+					$allowExceptParamsInAllowed[$param] = new DisallowedCallParamExceptValue($value);
+				}
+				foreach ($disallowed['allowExceptParams'] ?? $disallowed['disallowParams'] ?? [] as $param => $value) {
+					$allowExceptParams[$param] = new DisallowedCallParamExceptValue($value);
+				}
+				foreach ($disallowed['allowExceptCaseInsensitiveParams'] ?? $disallowed['disallowCaseInsensitiveParams'] ?? [] as $param => $value) {
+					$allowExceptParams[$param] = new DisallowedCallParamExceptCaseInsensitiveValue($value);
+				}
+				$disallowedCall = new DisallowedCall(
+					$this->normalizeCall($call),
+					$disallowed['message'] ?? null,
+					$disallowed['allowIn'] ?? [],
+					$allowInCalls,
+					$allowParamsInAllowed,
+					$allowParamsAnywhere,
+					$allowExceptParamsInAllowed,
+					$allowExceptParams,
+					$disallowed['errorIdentifier'] ?? ''
+				);
+				$disallowedCalls[$disallowedCall->getKey()] = $disallowedCall;
 			}
-			foreach ($disallowedCall['allowParamsInAllowed'] ?? [] as $param => $value) {
-				$allowParamsInAllowed[$param] = new DisallowedCallParamWithValue($value);
-			}
-			foreach ($disallowedCall['allowParamsInAllowedAnyValue'] ?? [] as $param) {
-				$allowParamsInAllowed[$param] = new DisallowedCallParamWithAnyValue();
-			}
-			foreach ($disallowedCall['allowParamsAnywhere'] ?? [] as $param => $value) {
-				$allowParamsAnywhere[$param] = new DisallowedCallParamWithValue($value);
-			}
-			foreach ($disallowedCall['allowParamsAnywhereAnyValue'] ?? [] as $param) {
-				$allowParamsAnywhere[$param] = new DisallowedCallParamWithAnyValue();
-			}
-			foreach ($disallowedCall['allowExceptParamsInAllowed'] ?? $disallowedCall['disallowParamsInAllowed'] ?? [] as $param => $value) {
-				$allowExceptParamsInAllowed[$param] = new DisallowedCallParamExceptValue($value);
-			}
-			foreach ($disallowedCall['allowExceptParams'] ?? $disallowedCall['disallowParams'] ?? [] as $param => $value) {
-				$allowExceptParams[$param] = new DisallowedCallParamExceptValue($value);
-			}
-			foreach ($disallowedCall['allowExceptCaseInsensitiveParams'] ?? $disallowedCall['disallowCaseInsensitiveParams'] ?? [] as $param => $value) {
-				$allowExceptParams[$param] = new DisallowedCallParamExceptCaseInsensitiveValue($value);
-			}
-			$disallowedCall = new DisallowedCall(
-				$this->normalizeCall($call),
-				$disallowedCall['message'] ?? null,
-				$disallowedCall['allowIn'] ?? [],
-				$allowInCalls,
-				$allowParamsInAllowed,
-				$allowParamsAnywhere,
-				$allowExceptParamsInAllowed,
-				$allowExceptParams,
-				$disallowedCall['errorIdentifier'] ?? ''
-			);
-			$calls[$disallowedCall->getKey()] = $disallowedCall;
 		}
-		return array_values($calls);
+		return array_values($disallowedCalls);
 	}
 
 

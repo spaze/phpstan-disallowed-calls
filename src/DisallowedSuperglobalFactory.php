@@ -31,24 +31,27 @@ class DisallowedSuperglobalFactory implements DisallowedVariableFactory
 	 */
 	public function getDisallowedVariables(array $config): array
 	{
-		$superglobals = [];
-		foreach ($config as $disallowedSuperglobal) {
-			$superglobal = $disallowedSuperglobal['superglobal'] ?? null;
-			if (!$superglobal) {
+		$disallowedSuperglobals = [];
+		foreach ($config as $disallowed) {
+			$superglobals = $disallowed['superglobal'] ?? null;
+			unset($disallowed['superglobal']);
+			if (!$superglobals) {
 				throw new ShouldNotHappenException("'superglobal' must be set in configuration items");
 			}
-			if (!in_array($superglobal, self::SUPERGLOBALS, true)) {
-				throw new ShouldNotHappenException("{$superglobal} is not a superglobal variable");
+			foreach ((array)$superglobals as $superglobal) {
+				if (!in_array($superglobal, self::SUPERGLOBALS, true)) {
+					throw new ShouldNotHappenException("{$superglobal} is not a superglobal variable");
+				}
+				$disallowedSuperglobal = new DisallowedVariable(
+					$superglobal,
+					$disallowed['message'] ?? null,
+					$disallowed['allowIn'] ?? [],
+					$disallowed['errorIdentifier'] ?? ''
+				);
+				$disallowedSuperglobals[$disallowedSuperglobal->getVariable()] = $disallowedSuperglobal;
 			}
-			$disallowedSuperglobal = new DisallowedVariable(
-				$superglobal,
-				$disallowedSuperglobal['message'] ?? null,
-				$disallowedSuperglobal['allowIn'] ?? [],
-				$disallowedSuperglobal['errorIdentifier'] ?? ''
-			);
-			$superglobals[$disallowedSuperglobal->getVariable()] = $disallowedSuperglobal;
 		}
-		return array_values($superglobals);
+		return array_values($disallowedSuperglobals);
 	}
 
 }

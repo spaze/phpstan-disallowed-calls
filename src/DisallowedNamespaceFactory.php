@@ -14,13 +14,15 @@ class DisallowedNamespaceFactory
 	{
 		$disallowedNamespaces = [];
 		foreach ($config as $disallowed) {
-			$disallowed = new DisallowedNamespace(
-				$disallowed['namespace'],
-				$disallowed['message'] ?? null,
-				$disallowed['allowIn'] ?? [],
-				$disallowed['errorIdentifier'] ?? ''
-			);
-			$disallowedNamespaces[$disallowed->getNamespace()] = $disallowed;
+			foreach ((array)$disallowed['namespace'] as $namespace) {
+				$disallowedNamespace = new DisallowedNamespace(
+					$namespace,
+					$disallowed['message'] ?? null,
+					$disallowed['allowIn'] ?? [],
+					$disallowed['errorIdentifier'] ?? ''
+				);
+				$disallowedNamespaces[$disallowedNamespace->getNamespace()] = $disallowedNamespace;
+			}
 		}
 		return array_values($disallowedNamespaces);
 	}

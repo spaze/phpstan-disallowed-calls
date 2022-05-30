@@ -10,6 +10,7 @@ function useSuperglobals()
 
 	// Assigning the global to another variable should also cause an error, but it's allowed here by path
 	$fields = $_GET;
+	$fields = $_POST;
 }
 
 
