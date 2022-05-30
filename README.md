@@ -143,6 +143,23 @@ parameters:
 
 The `message` key is optional. Functions and methods can be specified with or without `()`. Omitting `()` is not recommended though to avoid confusing method calls with class constants.
 
+If you want to disallow multiple calls, constants, class constants (same-class only), namespaces or variables that share the same `message` and other config keys, you can use a list or an array to specify them all:
+```neon
+parameters:
+    disallowedFunctionCalls:
+        -
+            function:
+                - 'var_dump()'
+                - 'print_r()'
+            message: 'use logger instead'
+
+    disallowedConstants:
+        -
+            class: 'DateTimeInterface'
+            constant: ['ISO8601', 'RFC3339', 'W3C']
+            message: 'use DateTimeInterface::ATOM instead'
+```
+
 The `errorIdentifier` key is optional. It can be used to provide a unique identifier to the PHPStan error.
 
 Use wildcard (`*`) to ignore all functions, methods, namespaces starting with a prefix, for example:

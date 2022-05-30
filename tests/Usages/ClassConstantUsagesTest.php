@@ -48,7 +48,10 @@ class ClassConstantUsagesTest extends RuleTestCase
 				],
 				[
 					'class' => 'Waldo\Quux\Blade',
-					'constant' => 'RUNNER',
+					'constant' => [
+						'RUNNER',
+						'WESLEY',
+					],
 					'message' => 'not a replicant',
 					'allowIn' => [
 						'../src/disallowed-allowed/*.php',
@@ -92,10 +95,6 @@ class ClassConstantUsagesTest extends RuleTestCase
 				// expect this error message:
 				'Using Inheritance\Base::BELONG (as Inheritance\Sub::BELONG) is forbidden, belong to us',
 				// on this line:
-				10,
-			],
-			[
-				'Using Inheritance\Base::BELONG is forbidden, belong to us',
 				11,
 			],
 			[
@@ -103,7 +102,7 @@ class ClassConstantUsagesTest extends RuleTestCase
 				12,
 			],
 			[
-				'Using Waldo\Quux\Blade::RUNNER is forbidden, not a replicant',
+				'Using Inheritance\Base::BELONG is forbidden, belong to us',
 				13,
 			],
 			[
@@ -111,16 +110,24 @@ class ClassConstantUsagesTest extends RuleTestCase
 				14,
 			],
 			[
-				'Using Waldo\Quux\Blade::DECKARD is forbidden, maybe a replicant',
-				18,
+				'Using Waldo\Quux\Blade::RUNNER is forbidden, not a replicant',
+				15,
 			],
 			[
 				'Using Waldo\Quux\Blade::DECKARD is forbidden, maybe a replicant',
-				21,
+				19,
+			],
+			[
+				'Using Waldo\Quux\Blade::DECKARD is forbidden, maybe a replicant',
+				22,
+			],
+			[
+				'Using Waldo\Quux\Blade::WESLEY is forbidden, not a replicant',
+				23,
 			],
 			[
 				'Using PhpOption\Option::NAME is forbidden, no PhpOption',
-				35,
+				37,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/constantUsages.php'], []);

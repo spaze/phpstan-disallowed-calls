@@ -28,16 +28,11 @@ class NamespaceUsagesTest extends RuleTestCase
 					],
 				],
 				[
-					'namespace' => 'Inheritance\Base',
-					'message' => 'no inheritance Base',
-					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
-						'../src/*-allow/*.*',
+					'namespace' => [
+						'Inheritance\Base',
+						'Inheritance\Sub',
 					],
-				],
-				[
-					'namespace' => 'Inheritance\Sub',
-					'message' => 'no sub',
+					'message' => 'no inheritance sub base',
 					'allowIn' => [
 						'../src/disallowed-allowed/*.php',
 						'../src/*-allow/*.*',
@@ -83,11 +78,11 @@ class NamespaceUsagesTest extends RuleTestCase
 				6,
 			],
 			[
-				'Namespace Inheritance\Base is forbidden, no inheritance Base',
+				'Namespace Inheritance\Base is forbidden, no inheritance sub base',
 				7,
 			],
 			[
-				'Namespace Inheritance\Sub is forbidden, no sub',
+				'Namespace Inheritance\Sub is forbidden, no inheritance sub base',
 				8,
 			],
 			[
@@ -103,7 +98,7 @@ class NamespaceUsagesTest extends RuleTestCase
 				11,
 			],
 			[
-				'Namespace Inheritance\Base is forbidden, no inheritance Base',
+				'Namespace Inheritance\Base is forbidden, no inheritance sub base',
 				13,
 			],
 			[
@@ -119,7 +114,7 @@ class NamespaceUsagesTest extends RuleTestCase
 				23,
 			],
 			[
-				'Namespace Inheritance\Sub is forbidden, no sub',
+				'Namespace Inheritance\Sub is forbidden, no inheritance sub base',
 				31,
 			],
 			[

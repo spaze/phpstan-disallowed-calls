@@ -20,14 +20,10 @@ class ExitDieCallsTest extends RuleTestCase
 			new DisallowedCallFactory(),
 			[
 				[
-					'function' => 'die()',
-					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
-						'../src/*-allow/*.*',
+					'function' => [
+						'die()',
+						'exit()',
 					],
-				],
-				[
-					'function' => 'exit()',
 					'allowIn' => [
 						'../src/disallowed-allowed/*.php',
 						'../src/*-allow/*.*',
