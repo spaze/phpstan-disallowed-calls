@@ -1,6 +1,7 @@
 parameters:
 	allowInRootDir: null
 	disallowedNamespaces: []
+	disallowedClasses: []
 	disallowedMethodCalls: []
 	disallowedStaticCalls: []
 	disallowedFunctionCalls: []
@@ -12,6 +13,15 @@ parametersSchema:
 	# These should be defined using `structure` with listed keys but it seems to me that PHPStan requires
 	# all keys to be present in a structure but `message` & `allow*`/`disallow*` are optional.
 	disallowedNamespaces: listOf(
+		arrayOf(
+			anyOf(
+				string(),
+				listOf(string()),
+				arrayOf(anyOf(int(), string(), bool()))
+			)
+		)
+	)
+	disallowedClasses: listOf(
 		arrayOf(
 			anyOf(
 				string(),
@@ -77,6 +87,10 @@ services:
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedVariableHelper
 	-
 		factory: Spaze\PHPStan\Rules\Disallowed\Usages\NamespaceUsages(forbiddenNamespaces: %disallowedNamespaces%)
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\Usages\NamespaceUsages(forbiddenNamespaces: %disallowedClasses%)
 		tags:
 			- phpstan.rules.rule
 	-
