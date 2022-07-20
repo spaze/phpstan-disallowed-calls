@@ -96,7 +96,7 @@ Use them to add rules to your `phpstan.neon` config file. I like to use a separa
 parameters:
     disallowedMethodCalls:
         -
-            method: 'PotentiallyDangerous\Logger::log()'
+            method: 'PotentiallyDangerous\Logger::log()'  # `function` is an alias of `method`
             message: 'use our own logger instead'
         -
             method: 'Redis::connect()'
@@ -110,7 +110,7 @@ parameters:
 
     disallowedFunctionCalls:
         -
-            function: 'var_dump()'
+            function: 'var_dump()'  # `method` is an alias of `function`
             message: 'use logger instead'
         -
             function: 'print_r()'
