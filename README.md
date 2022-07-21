@@ -87,7 +87,7 @@ There are several different types (and configuration keys) that can be disallowe
 2. `disallowedStaticCalls` - for static calls `Class::method()`
 3. `disallowedFunctionCalls` - for functions like `function()`
 4. `disallowedConstants` - for constants like `DATE_ISO8601` or `DateTime::ISO8601` (which needs to be split to `class: DateTime` & `constant: ISO8601` in the configuration, see notes below)
-5. `disallowedNamespaces` - for usages of classes from a namespace
+5. `disallowedNamespaces` or `disallowedClasses` - for usages of classes or classes from a namespace
 6. `disallowedSuperglobals` - for usages of superglobal variables like `$GLOBALS` or `$_POST`
 
 Use them to add rules to your `phpstan.neon` config file. I like to use a separate file (`disallowed-calls.neon`) for these which I'll include later on in the main `phpstan.neon` config file. Here's an example, update to your needs:
@@ -125,14 +125,14 @@ parameters:
             constant: 'ISO8601'
             message: 'use DateTimeInterface::ATOM instead'
 
-    disallowedNamespaces:
+    disallowedNamespaces:  # `disallowedClasses` is an alias of `disallowedNamespaces`
         -
-            namespace: 'Symfony\Component\HttpFoundation\RequestStack'
+            class: 'Symfony\Component\HttpFoundation\RequestStack'  # `class` is an alias of `namespace`
             message: 'pass Request via controller instead'
             allowIn:
                 - tests/*
         -
-            namespace: 'Assert\*'
+            namespace: 'Assert\*'  # `namespace` is an alias of `class`
             message: 'use Webmozart\Assert instead'
 
     disallowedSuperglobals:
@@ -143,7 +143,7 @@ parameters:
 
 The `message` key is optional. Functions and methods can be specified with or without `()`. Omitting `()` is not recommended though to avoid confusing method calls with class constants.
 
-If you want to disallow multiple calls, constants, class constants (same-class only), namespaces or variables that share the same `message` and other config keys, you can use a list or an array to specify them all:
+If you want to disallow multiple calls, constants, class constants (same-class only), classes, namespaces or variables that share the same `message` and other config keys, you can use a list or an array to specify them all:
 ```neon
 parameters:
     disallowedFunctionCalls:
@@ -162,7 +162,7 @@ parameters:
 
 The `errorIdentifier` key is optional. It can be used to provide a unique identifier to the PHPStan error.
 
-Use wildcard (`*`) to ignore all functions, methods, namespaces starting with a prefix, for example:
+Use wildcard (`*`) to ignore all functions, methods, classes, namespaces starting with a prefix, for example:
 ```neon
 parameters:
     disallowedFunctionCalls:
@@ -364,7 +364,7 @@ Calling `waldo()` is disallowed, and allowed back again only when the file is in
 
 ## Case-(in)sensitivity
 
-Function names, method names, namespaces are matched irrespective of their case (disallowing `print_r` will also find `print_R` calls), while anything else like constants, file names, paths are not.
+Function names, method names, class names, namespaces are matched irrespective of their case (disallowing `print_r` will also find `print_R` calls), while anything else like constants, file names, paths are not.
 
 ## Detect disallowed calls without any other PHPStan rules
 

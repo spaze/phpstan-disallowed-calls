@@ -47,7 +47,7 @@ class NamespaceUsagesTest extends RuleTestCase
 					],
 				],
 				[
-					'namespace' => 'Waldo\Foo\bar',
+					'class' => 'Waldo\Foo\bar',
 					'message' => 'no FooBar',
 					'allowIn' => [
 						'../src/disallowed-allowed/*.php',
