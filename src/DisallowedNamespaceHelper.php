@@ -38,11 +38,12 @@ class DisallowedNamespaceHelper
 
 	/**
 	 * @param string $namespace
+	 * @param string $description
 	 * @param Scope $scope
 	 * @param DisallowedNamespace[] $disallowedNamespaces
 	 * @return RuleError[]
 	 */
-	public function getDisallowedMessage(string $namespace, Scope $scope, array $disallowedNamespaces): array
+	public function getDisallowedMessage(string $namespace, string $description, Scope $scope, array $disallowedNamespaces): array
 	{
 		foreach ($disallowedNamespaces as $disallowedNamespace) {
 			if ($this->isAllowed($scope, $disallowedNamespace)) {
@@ -55,7 +56,8 @@ class DisallowedNamespaceHelper
 
 			return [
 				RuleErrorBuilder::message(sprintf(
-					'Namespace %s is forbidden, %s%s',
+					'%s %s is forbidden, %s%s',
+					$description,
 					$namespace,
 					$disallowedNamespace->getMessage(),
 					$disallowedNamespace->getNamespace() !== $namespace ? " [{$namespace} matches {$disallowedNamespace->getNamespace()}]" : ''

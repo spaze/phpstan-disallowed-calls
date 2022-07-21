@@ -106,11 +106,11 @@ class NamespaceUsagesTest extends RuleTestCase
 				13,
 			],
 			[
-				'Namespace Traits\TestTrait is forbidden, no TestTrait',
+				'Trait Traits\TestTrait is forbidden, no TestTrait',
 				16,
 			],
 			[
-				'Namespace Waldo\Quux\blade is forbidden, no blade [Waldo\Quux\blade matches Waldo\Quux\Blade]',
+				'Class Waldo\Quux\blade is forbidden, no blade [Waldo\Quux\blade matches Waldo\Quux\Blade]',
 				23,
 			],
 			[
@@ -118,7 +118,7 @@ class NamespaceUsagesTest extends RuleTestCase
 				31,
 			],
 			[
-				'Namespace Waldo\Foo\Bar is forbidden, no FooBar [Waldo\Foo\Bar matches Waldo\Foo\bar]',
+				'Class Waldo\Foo\Bar is forbidden, no FooBar [Waldo\Foo\Bar matches Waldo\Foo\bar]',
 				37,
 			],
 		]);
