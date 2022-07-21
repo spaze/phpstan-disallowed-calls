@@ -37,4 +37,10 @@ class Service extends Base implements SomeInterface
 		return Bar::NAME;
 	}
 
+
+	public function callNew()
+	{
+		return new Bar();
+	}
+
 }
