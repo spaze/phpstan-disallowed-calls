@@ -121,6 +121,10 @@ class NamespaceUsagesTest extends RuleTestCase
 				'Class Waldo\Foo\Bar is forbidden, no FooBar [Waldo\Foo\Bar matches Waldo\Foo\bar]',
 				37,
 			],
+			[
+				'Class Waldo\Foo\Bar is forbidden, no FooBar [Waldo\Foo\Bar matches Waldo\Foo\bar]',
+				43,
+			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/namespaceUsages.php'], []);
 	}

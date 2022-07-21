@@ -5,6 +5,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\ClassConstFetch;
+use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
@@ -76,6 +77,9 @@ class NamespaceUsages implements Rule
 			foreach ($node->implements as $implement) {
 				$namespaces[] = $implement->toString();
 			}
+		} elseif ($node instanceof New_ && $node->class instanceof Name) {
+			$description = 'Class';
+			$namespaces = [$node->class->toString()];
 		} elseif ($node instanceof TraitUse) {
 			$description = 'Trait';
 			$namespaces = [];
