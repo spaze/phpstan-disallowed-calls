@@ -24,3 +24,12 @@ namespace MyNamespace {
 	}
 
 }
+
+namespace {
+
+	use function MyNamespace\__ as alias;
+
+	alias();
+
+}
+
