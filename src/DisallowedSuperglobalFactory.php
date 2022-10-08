@@ -25,7 +25,7 @@ class DisallowedSuperglobalFactory implements DisallowedVariableFactory
 
 
 	/**
-	 * @param array<array{superglobal?:string, message?:string, allowIn?:string[], errorIdentifier?:string}> $config
+	 * @param array<array{superglobal?:string, message?:string, allowIn?:string[], errorIdentifier?:string, errorTip?:string}> $config
 	 * @return DisallowedVariable[]
 	 * @throws ShouldNotHappenException
 	 */
@@ -46,7 +46,8 @@ class DisallowedSuperglobalFactory implements DisallowedVariableFactory
 					$superglobal,
 					$disallowed['message'] ?? null,
 					$disallowed['allowIn'] ?? [],
-					$disallowed['errorIdentifier'] ?? null
+					$disallowed['errorIdentifier'] ?? null,
+					$disallowed['errorTip'] ?? null
 				);
 				$disallowedSuperglobals[$disallowedSuperglobal->getVariable()] = $disallowedSuperglobal;
 			}

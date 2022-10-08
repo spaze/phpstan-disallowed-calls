@@ -25,6 +25,7 @@ class SuperglobalUsagesTest extends RuleTestCase
 						'../src/disallowed-allowed/*.php',
 						'../src/*-allow/*.*',
 					],
+					'errorTip' => 'So long and thanks for all the tips',
 				],
 				[
 					'superglobal' => [
@@ -51,6 +52,7 @@ class SuperglobalUsagesTest extends RuleTestCase
 				'Using $GLOBALS is forbidden, the cake is a lie',
 				// on this line:
 				8,
+				'So long and thanks for all the tips',
 			],
 			[
 				'Using $_GET is forbidden, the cake is a lie',

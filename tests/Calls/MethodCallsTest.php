@@ -107,6 +107,7 @@ class MethodCallsTest extends RuleTestCase
 					'allowExceptParams' => [
 						1 => 'y',
 					],
+					'errorTip' => '2038 is approaching fast',
 				],
 			]
 		);
@@ -158,6 +159,7 @@ class MethodCallsTest extends RuleTestCase
 			[
 				'Calling DateTime::format() is forbidden, why too kay',
 				55,
+				'2038 is approaching fast',
 			],
 			[
 				'Calling Waldo\Quux\Blade::movie() is forbidden, was good',

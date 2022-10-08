@@ -98,6 +98,7 @@ parameters:
         -
             method: 'PotentiallyDangerous\Logger::log()'  # `function` is an alias of `method`
             message: 'use our own logger instead'
+            errorTip: 'see https://our-docs.example/logging on how logging should be used'
         -
             method: 'Redis::connect()'
             message: 'use our own Redis instead'
@@ -159,6 +160,8 @@ parameters:
             constant: ['ISO8601', 'RFC3339', 'W3C']
             message: 'use DateTimeInterface::ATOM instead'
 ```
+
+The optional `errorTip` key can be used to show an additional message prefixed with 💡 that's rendered below the error message in the analysis result.
 
 The `errorIdentifier` key is optional. It can be used to provide a unique identifier to the PHPStan error.
 
