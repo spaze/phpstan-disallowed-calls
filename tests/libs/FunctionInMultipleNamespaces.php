@@ -23,6 +23,9 @@ namespace MyNamespace {
 		return __();  // The __ used here is MyNamespace\__
 	}
 
+	printf('oo');
+	\printf('oo');
+
 }
 
 namespace {
@@ -30,6 +33,8 @@ namespace {
 	use function MyNamespace\__ as alias;
 
 	alias();
+	printf('oo');
+	\printf('oo');
 
 }
 
