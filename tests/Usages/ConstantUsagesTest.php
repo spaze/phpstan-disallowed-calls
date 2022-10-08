@@ -37,6 +37,7 @@ class ConstantUsagesTest extends RuleTestCase
 						'../src/disallowed-allowed/*.php',
 						'../src/*-allow/*.*',
 					],
+					'errorTip' => 'Use https://github.com/mlocati/ip-lib instead',
 				],
 			]
 		);
@@ -52,10 +53,12 @@ class ConstantUsagesTest extends RuleTestCase
 				'Using FILTER_FLAG_NO_PRIV_RANGE is forbidden, the cake is a lie',
 				// on this line:
 				8,
+				'Use https://github.com/mlocati/ip-lib instead',
 			],
 			[
 				'Using FILTER_FLAG_NO_PRIV_RANGE is forbidden, the cake is a lie',
 				9,
+				'Use https://github.com/mlocati/ip-lib instead',
 			],
 			[
 				'Using FILTER_FLAG_NO_RES_RANGE is forbidden, the cake is a lie',

@@ -128,6 +128,9 @@ class DisallowedHelper
 				if ($disallowedCall->getErrorIdentifier()) {
 					$errorBuilder->identifier($disallowedCall->getErrorIdentifier());
 				}
+				if ($disallowedCall->getErrorTip()) {
+					$errorBuilder->tip($disallowedCall->getErrorTip());
+				}
 				return [
 					$errorBuilder->build(),
 				];
@@ -235,6 +238,9 @@ class DisallowedHelper
 				));
 				if ($disallowedConstant->getErrorIdentifier()) {
 					$errorBuilder->identifier($disallowedConstant->getErrorIdentifier());
+				}
+				if ($disallowedConstant->getErrorTip()) {
+					$errorBuilder->tip($disallowedConstant->getErrorTip());
 				}
 				return [
 					$errorBuilder->build(),

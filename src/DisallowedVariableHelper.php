@@ -49,6 +49,9 @@ class DisallowedVariableHelper
 				if ($disallowedVariable->getErrorIdentifier()) {
 					$errorBuilder->identifier($disallowedVariable->getErrorIdentifier());
 				}
+				if ($disallowedVariable->getErrorTip()) {
+					$errorBuilder->tip($disallowedVariable->getErrorTip());
+				}
 				return [
 					$errorBuilder->build(),
 				];

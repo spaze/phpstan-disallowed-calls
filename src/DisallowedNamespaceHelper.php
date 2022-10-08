@@ -64,6 +64,9 @@ class DisallowedNamespaceHelper
 			if ($disallowedNamespace->getErrorIdentifier()) {
 				$errorBuilder->identifier($disallowedNamespace->getErrorIdentifier());
 			}
+			if ($disallowedNamespace->getErrorTip()) {
+				$errorBuilder->tip($disallowedNamespace->getErrorTip());
+			}
 			return [
 				$errorBuilder->build(),
 			];

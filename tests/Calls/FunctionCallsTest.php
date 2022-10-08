@@ -26,6 +26,7 @@ class FunctionCallsTest extends RuleTestCase
 						'../src/disallowed-allowed/*.php',
 						'../src/*-allow/*.*',
 					],
+					'errorTip' => 'See docs',
 				],
 				[
 					'function' => 'print_r()',
@@ -159,6 +160,7 @@ class FunctionCallsTest extends RuleTestCase
 				'Calling var_dump() is forbidden, use logger instead',
 				// on this line:
 				7,
+				'See docs',
 			],
 			[
 				'Calling print_R() is forbidden, nope [print_R() matches print_r()]',

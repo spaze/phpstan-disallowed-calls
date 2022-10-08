@@ -26,6 +26,7 @@ class NamespaceUsagesTest extends RuleTestCase
 						'../src/disallowed-allowed/*.php',
 						'../src/*-allow/*.*',
 					],
+					'errorTip' => 'Work more on your frames',
 				],
 				[
 					'namespace' => [
@@ -76,6 +77,7 @@ class NamespaceUsagesTest extends RuleTestCase
 				'Namespace Framework\SomeInterface is forbidden, no framework some [Framework\SomeInterface matches Framew*rk\Some*]',
 				// on this line:
 				6,
+				'Work more on your frames',
 			],
 			[
 				'Namespace Inheritance\Base is forbidden, no inheritance sub base',
@@ -104,6 +106,7 @@ class NamespaceUsagesTest extends RuleTestCase
 			[
 				'Namespace Framework\SomeInterface is forbidden, no framework some [Framework\SomeInterface matches Framew*rk\Some*]',
 				13,
+				'Work more on your frames',
 			],
 			[
 				'Trait Traits\TestTrait is forbidden, no TestTrait',
