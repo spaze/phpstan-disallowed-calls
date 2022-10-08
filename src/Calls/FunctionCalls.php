@@ -66,7 +66,11 @@ class FunctionCalls implements Rule
 		if (!$name instanceof Name) {
 			throw new ShouldNotHappenException();
 		}
-		return $this->disallowedHelper->getDisallowedMessage($node, $scope, (string)$name, (string)$node->name, $this->disallowedCalls);
+		$displayName = $node->name->getAttribute('originalName') ?? $node->name;
+		if (!$displayName instanceof Name) {
+			throw new ShouldNotHappenException();
+		}
+		return $this->disallowedHelper->getDisallowedMessage($node, $scope, (string)$name, (string)$displayName, $this->disallowedCalls);
 	}
 
 }

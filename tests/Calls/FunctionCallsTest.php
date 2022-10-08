@@ -173,7 +173,7 @@ class FunctionCallsTest extends RuleTestCase
 				10,
 			],
 			[
-				'Calling Foo\Bar\waldo() is forbidden, whoa, a namespace',
+				'Calling Foo\Bar\waldo() (as waldo()) is forbidden, whoa, a namespace',
 				11,
 			],
 			[
@@ -220,7 +220,7 @@ class FunctionCallsTest extends RuleTestCase
 		// Based on the configuration above, no errors in this file:
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/functionCalls.php'], [
 			[
-				'Calling Foo\Bar\waldo() is forbidden, whoa, a namespace',
+				'Calling Foo\Bar\waldo() (as waldo()) is forbidden, whoa, a namespace',
 				11,
 			],
 			[

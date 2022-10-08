@@ -38,13 +38,17 @@ class FunctionCallsInMultipleNamespacesTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/../libs/FunctionInMultipleNamespaces.php'], [
 			[
 				// expect this error message:
-				'Calling __() is forbidden, use MyNamespace\__ instead',
+				'Calling __() (as alias()) is forbidden, use MyNamespace\__ instead',
 				// on this line:
 				18,
 			],
 			[
 				'Calling MyNamespace\__() (as __()) is forbidden, ha ha ha nope',
 				23,
+			],
+			[
+				'Calling MyNamespace\__() (as alias()) is forbidden, ha ha ha nope',
+				32,
 			],
 		]);
 	}
