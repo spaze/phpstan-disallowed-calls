@@ -15,7 +15,7 @@ class DisallowedVariable
 	/** @var string[] */
 	private $allowIn;
 
-	/** @var string */
+	/** @var string|null */
 	private $errorIdentifier;
 
 
@@ -23,9 +23,9 @@ class DisallowedVariable
 	 * @param string $variable
 	 * @param string|null $message
 	 * @param string[] $allowIn
-	 * @param string $errorIdentifier
+	 * @param string|null $errorIdentifier
 	 */
-	public function __construct(string $variable, ?string $message, array $allowIn, string $errorIdentifier)
+	public function __construct(string $variable, ?string $message, array $allowIn, ?string $errorIdentifier)
 	{
 		$this->variable = $variable;
 		$this->message = $message;
@@ -55,7 +55,7 @@ class DisallowedVariable
 	}
 
 
-	public function getErrorIdentifier(): string
+	public function getErrorIdentifier(): ?string
 	{
 		return $this->errorIdentifier;
 	}

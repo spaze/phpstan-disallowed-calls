@@ -26,7 +26,7 @@ class DisallowedNamespaceFactory
 					$namespace,
 					$disallowed['message'] ?? null,
 					$disallowed['allowIn'] ?? [],
-					$disallowed['errorIdentifier'] ?? ''
+					$disallowed['errorIdentifier'] ?? null
 				);
 				$disallowedNamespaces[$disallowedNamespace->getNamespace()] = $disallowedNamespace;
 			}

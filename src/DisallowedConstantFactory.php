@@ -28,7 +28,7 @@ class DisallowedConstantFactory
 					$class ? "{$class}::{$constant}" : $constant,
 					$disallowed['message'] ?? null,
 					$disallowed['allowIn'] ?? [],
-					$disallowed['errorIdentifier'] ?? ''
+					$disallowed['errorIdentifier'] ?? null
 				);
 				$disallowedConstants[$disallowedConstant->getConstant()] = $disallowedConstant;
 			}

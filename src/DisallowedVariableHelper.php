@@ -41,14 +41,16 @@ class DisallowedVariableHelper
 	{
 		foreach ($disallowedVariables as $disallowedVariable) {
 			if ($disallowedVariable->getVariable() === $variable && !$this->isAllowedPath($scope, $disallowedVariable)) {
+				$errorBuilder = RuleErrorBuilder::message(sprintf(
+					'Using %s is forbidden, %s',
+					$disallowedVariable->getVariable(),
+					$disallowedVariable->getMessage()
+				));
+				if ($disallowedVariable->getErrorIdentifier()) {
+					$errorBuilder->identifier($disallowedVariable->getErrorIdentifier());
+				}
 				return [
-					RuleErrorBuilder::message(sprintf(
-						'Using %s is forbidden, %s',
-						$disallowedVariable->getVariable(),
-						$disallowedVariable->getMessage()
-					))
-						->identifier($disallowedVariable->getErrorIdentifier())
-						->build(),
+					$errorBuilder->build(),
 				];
 			}
 		}

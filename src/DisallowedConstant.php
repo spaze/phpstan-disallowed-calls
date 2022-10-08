@@ -15,7 +15,7 @@ class DisallowedConstant
 	/** @var string[] */
 	private $allowIn;
 
-	/** @var string */
+	/** @var string|null */
 	private $errorIdentifier;
 
 
@@ -25,9 +25,9 @@ class DisallowedConstant
 	 * @param string $constant
 	 * @param string|null $message
 	 * @param string[] $allowIn
-	 * @param string $errorIdentifier
+	 * @param string|null $errorIdentifier
 	 */
-	public function __construct(string $constant, ?string $message, array $allowIn, string $errorIdentifier)
+	public function __construct(string $constant, ?string $message, array $allowIn, ?string $errorIdentifier)
 	{
 		$this->constant = ltrim($constant, '\\');
 		$this->message = $message;
@@ -57,7 +57,7 @@ class DisallowedConstant
 	}
 
 
-	public function getErrorIdentifier(): string
+	public function getErrorIdentifier(): ?string
 	{
 		return $this->errorIdentifier;
 	}
