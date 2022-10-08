@@ -46,7 +46,7 @@ class DisallowedSuperglobalFactory implements DisallowedVariableFactory
 					$superglobal,
 					$disallowed['message'] ?? null,
 					$disallowed['allowIn'] ?? [],
-					$disallowed['errorIdentifier'] ?? ''
+					$disallowed['errorIdentifier'] ?? null
 				);
 				$disallowedSuperglobals[$disallowedSuperglobal->getVariable()] = $disallowedSuperglobal;
 			}

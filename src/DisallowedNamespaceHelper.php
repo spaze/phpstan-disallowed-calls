@@ -54,16 +54,18 @@ class DisallowedNamespaceHelper
 				continue;
 			}
 
+			$errorBuilder = RuleErrorBuilder::message(sprintf(
+				'%s %s is forbidden, %s%s',
+				$description,
+				$namespace,
+				$disallowedNamespace->getMessage(),
+				$disallowedNamespace->getNamespace() !== $namespace ? " [{$namespace} matches {$disallowedNamespace->getNamespace()}]" : ''
+			));
+			if ($disallowedNamespace->getErrorIdentifier()) {
+				$errorBuilder->identifier($disallowedNamespace->getErrorIdentifier());
+			}
 			return [
-				RuleErrorBuilder::message(sprintf(
-					'%s %s is forbidden, %s%s',
-					$description,
-					$namespace,
-					$disallowedNamespace->getMessage(),
-					$disallowedNamespace->getNamespace() !== $namespace ? " [{$namespace} matches {$disallowedNamespace->getNamespace()}]" : ''
-				))
-					->identifier($disallowedNamespace->getErrorIdentifier())
-					->build(),
+				$errorBuilder->build(),
 			];
 		}
 

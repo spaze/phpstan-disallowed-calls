@@ -15,7 +15,7 @@ class DisallowedNamespace
 	/** @var string[] */
 	private $allowIn;
 
-	/** @var string */
+	/** @var string|null */
 	private $errorIdentifier;
 
 
@@ -23,9 +23,9 @@ class DisallowedNamespace
 	 * @param string $namespace
 	 * @param string|null $message
 	 * @param string[] $allowIn
-	 * @param string $errorIdentifier
+	 * @param string|null $errorIdentifier
 	 */
-	public function __construct(string $namespace, ?string $message, array $allowIn, string $errorIdentifier)
+	public function __construct(string $namespace, ?string $message, array $allowIn, ?string $errorIdentifier)
 	{
 		$this->namespace = ltrim($namespace, '\\');
 		$this->message = $message;
@@ -55,7 +55,7 @@ class DisallowedNamespace
 	}
 
 
-	public function getErrorIdentifier(): string
+	public function getErrorIdentifier(): ?string
 	{
 		return $this->errorIdentifier;
 	}

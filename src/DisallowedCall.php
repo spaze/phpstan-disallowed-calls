@@ -32,7 +32,7 @@ class DisallowedCall
 	/** @var array<int, DisallowedCallParam> */
 	private $allowExceptParams;
 
-	/** @var string */
+	/** @var string|null */
 	private $errorIdentifier;
 
 
@@ -47,9 +47,9 @@ class DisallowedCall
 	 * @param array<int, DisallowedCallParam> $allowParamsAnywhere
 	 * @param array<int, DisallowedCallParam> $allowExceptParamsInAllowed
 	 * @param array<int, DisallowedCallParam> $allowExceptParams
-	 * @param string $errorIdentifier
+	 * @param string|null $errorIdentifier
 	 */
-	public function __construct(string $call, ?string $message, array $allowIn, array $allowInCalls, array $allowParamsInAllowed, array $allowParamsAnywhere, array $allowExceptParamsInAllowed, array $allowExceptParams, string $errorIdentifier)
+	public function __construct(string $call, ?string $message, array $allowIn, array $allowInCalls, array $allowParamsInAllowed, array $allowParamsAnywhere, array $allowExceptParamsInAllowed, array $allowExceptParams, ?string $errorIdentifier)
 	{
 		$this->call = $call;
 		$this->message = $message;
@@ -129,7 +129,7 @@ class DisallowedCall
 	}
 
 
-	public function getErrorIdentifier(): string
+	public function getErrorIdentifier(): ?string
 	{
 		return $this->errorIdentifier;
 	}
