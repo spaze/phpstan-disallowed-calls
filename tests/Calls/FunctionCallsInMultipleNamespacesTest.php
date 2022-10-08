@@ -27,6 +27,9 @@ class FunctionCallsInMultipleNamespacesTest extends RuleTestCase
 					'function' => 'MyNamespace\__()',
 					'message' => 'ha ha ha nope',
 				],
+				[
+					'function' => 'printf()',
+				],
 			]
 		);
 	}
@@ -47,8 +50,24 @@ class FunctionCallsInMultipleNamespacesTest extends RuleTestCase
 				23,
 			],
 			[
+				'Calling printf() is forbidden, because reasons',
+				26,
+			],
+			[
+				'Calling printf() is forbidden, because reasons',
+				27,
+			],
+			[
 				'Calling MyNamespace\__() (as alias()) is forbidden, ha ha ha nope',
-				32,
+				35,
+			],
+			[
+				'Calling printf() is forbidden, because reasons',
+				36,
+			],
+			[
+				'Calling printf() is forbidden, because reasons',
+				37,
 			],
 		]);
 	}

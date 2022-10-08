@@ -62,15 +62,21 @@ class FunctionCalls implements Rule
 		if (!($node->name instanceof Name)) {
 			return [];
 		}
-		$name = $node->name->getAttribute('namespacedName') ?? $node->name;
-		if (!$name instanceof Name) {
+		$namespacedName = $node->name->getAttribute('namespacedName');
+		if ($namespacedName !== null && !($namespacedName instanceof Name)) {
 			throw new ShouldNotHappenException();
 		}
-		$displayName = $node->name->getAttribute('originalName') ?? $node->name;
-		if (!$displayName instanceof Name) {
+		$displayName = $node->name->getAttribute('originalName');
+		if ($displayName !== null && !($displayName instanceof Name)) {
 			throw new ShouldNotHappenException();
 		}
-		return $this->disallowedHelper->getDisallowedMessage($node, $scope, (string)$name, (string)$displayName, $this->disallowedCalls);
+		foreach ([$namespacedName, $node->name] as $name) {
+			$message = $this->disallowedHelper->getDisallowedMessage($node, $scope, (string)$name, (string)($displayName ?? $node->name), $this->disallowedCalls);
+			if ($message) {
+				return $message;
+			}
+		}
+		return [];
 	}
 
 }
