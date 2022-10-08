@@ -55,13 +55,18 @@ class FunctionCalls implements Rule
 	 * @param FuncCall $node
 	 * @param Scope $scope
 	 * @return RuleError[]
+	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
 		if (!($node->name instanceof Name)) {
 			return [];
 		}
-		return $this->disallowedHelper->getDisallowedMessage($node, $scope, (string)$node->name, (string)$node->name, $this->disallowedCalls);
+		$name = $node->name->getAttribute('namespacedName') ?? $node->name;
+		if (!$name instanceof Name) {
+			throw new ShouldNotHappenException();
+		}
+		return $this->disallowedHelper->getDisallowedMessage($node, $scope, (string)$name, (string)$node->name, $this->disallowedCalls);
 	}
 
 }
