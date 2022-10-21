@@ -73,7 +73,7 @@ class NamespaceUsagesTest extends RuleTestCase
 		// Based on the configuration above, in this file:
 		$this->analyse([__DIR__ . '/../src/disallowed/namespaceUsages.php'], [
 			[
-				// Based on the configuration above, in this file:
+				// expect this error message:
 				'Namespace Framework\SomeInterface is forbidden, no framework some [Framework\SomeInterface matches Framew*rk\Some*]',
 				// on this line:
 				6,
