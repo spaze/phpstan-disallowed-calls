@@ -7,11 +7,14 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\IntersectionType;
 use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
+use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\TraitUse;
 use PhpParser\Node\Stmt\UseUse;
+use PhpParser\Node\UnionType;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
@@ -60,6 +63,17 @@ class NamespaceUsages implements Rule
 		if ($node instanceof FullyQualified) {
 			$description = 'Class';
 			$namespaces = [$node->toString()];
+		} elseif ($node instanceof NullableType && $node->type instanceof FullyQualified) {
+			$description = 'Class';
+			$namespaces = [$node->type->toString()];
+		} elseif ($node instanceof UnionType || $node instanceof IntersectionType) {
+			$description = 'Class';
+			$namespaces = [];
+			foreach ($node->types as $type) {
+				if ($type instanceof FullyQualified) {
+					$namespaces[] = $type->toString();
+				}
+			}
 		} elseif ($node instanceof UseUse) {
 			$namespaces = [$node->name->toString()];
 		} elseif ($node instanceof StaticCall && $node->class instanceof Name) {
