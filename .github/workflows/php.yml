@@ -10,33 +10,33 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - 7.2
-          - 7.3
-          - 7.4
-          - 8.0
-          - 8.1
+          - "7.2"
+          - "7.3"
+          - "7.4"
+          - "8.0"
+          - "8.1"
         run:
           - composer lint
           - composer phpcs
           - composer phpstan
           - composer phpunit
         exclude:
-          - php-version: 7.2
+          - php-version: "7.2"
             run: composer lint
-          - php-version: 7.3
+          - php-version: "7.3"
             run: composer lint
-          - php-version: 7.4
+          - php-version: "7.4"
             run: composer lint
-          - php-version: 8.0
+          - php-version: "8.0"
             run: composer lint
         include:
-          - php-version: 7.2
+          - php-version: "7.2"
             run: composer lint -- --exclude tests/libs/TypesEverywhere.php
-          - php-version: 7.3
+          - php-version: "7.3"
             run: composer lint -- --exclude tests/libs/TypesEverywhere.php
-          - php-version: 7.4
+          - php-version: "7.4"
             run: composer lint -- --exclude tests/libs/TypesEverywhere.php
-          - php-version: 8.0
+          - php-version: "8.0"
             run: composer lint -- --exclude tests/libs/TypesEverywhere.php
 
     steps:
