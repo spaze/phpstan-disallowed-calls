@@ -56,6 +56,14 @@ class IsAllowedFileHelper
 				return true;
 			}
 		}
+		if ($disallowed->getAllowExceptIn()) {
+			foreach ($disallowed->getAllowExceptIn() as $allowedExceptPath) {
+				if ($this->matches($scope, $allowedExceptPath)) {
+					return false;
+				}
+			}
+			return true;
+		}
 		return false;
 	}
 

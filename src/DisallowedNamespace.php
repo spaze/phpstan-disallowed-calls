@@ -15,6 +15,9 @@ class DisallowedNamespace implements Disallowed
 	/** @var string[] */
 	private $allowIn;
 
+	/** @var string[] */
+	private $allowExceptIn;
+
 	/** @var string|null */
 	private $errorIdentifier;
 
@@ -26,6 +29,7 @@ class DisallowedNamespace implements Disallowed
 	 * @param string $namespace
 	 * @param string|null $message
 	 * @param string[] $allowIn
+	 * @param string[] $allowExceptIn
 	 * @param string|null $errorIdentifier
 	 * @param string|null $errorTip
 	 */
@@ -33,12 +37,14 @@ class DisallowedNamespace implements Disallowed
 		string $namespace,
 		?string $message,
 		array $allowIn,
+		array $allowExceptIn,
 		?string $errorIdentifier,
 		?string $errorTip
 	) {
 		$this->namespace = ltrim($namespace, '\\');
 		$this->message = $message;
 		$this->allowIn = $allowIn;
+		$this->allowExceptIn = $allowExceptIn;
 		$this->errorIdentifier = $errorIdentifier;
 		$this->errorTip = $errorTip;
 	}
@@ -60,6 +66,13 @@ class DisallowedNamespace implements Disallowed
 	public function getAllowIn(): array
 	{
 		return $this->allowIn;
+	}
+
+
+	/** @inheritDoc */
+	public function getAllowExceptIn(): array
+	{
+		return $this->allowExceptIn;
 	}
 
 

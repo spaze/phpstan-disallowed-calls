@@ -35,3 +35,6 @@ Base::class;
  */
 $none = PhpOption\None::create();
 $none::NAME;
+
+// not disallowed by path
+PHP_EOL;

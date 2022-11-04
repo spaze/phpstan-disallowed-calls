@@ -260,6 +260,18 @@ parameters:
 ```
 then `Logger::log()` will be allowed in `/home/foo/path/to/some/file-bar.php`.
 
+If you need to disallow a methods or a function call, a constant, a namespace, a class, or a superglobal usage only in certain paths, as an inverse of `allowIn`, you can use `allowExceptIn` (or the `disallowIn` alias):
+```neon
+parameters:
+    allowInRootDir: %rootDir%/../../..
+    disallowedMethodCalls:
+        -
+            method: 'PotentiallyDangerous\Logger::log()'
+            allowExceptIn:
+                - path/to/some/dir/*.php
+```
+This will disallow `PotentiallyDangerous\Logger::log()` calls in `%rootDir%/../../../path/to/some/dir/*.php`.
+
 To allow a previously disallowed method or function only when called from a different method or function in any file, use `allowInFunctions` (or `allowInMethods` alias):
 
 ```neon

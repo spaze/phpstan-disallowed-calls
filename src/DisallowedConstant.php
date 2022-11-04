@@ -15,6 +15,9 @@ class DisallowedConstant implements Disallowed
 	/** @var string[] */
 	private $allowIn;
 
+	/** @var string[] */
+	private $allowExceptIn;
+
 	/** @var string|null */
 	private $errorIdentifier;
 
@@ -23,11 +26,10 @@ class DisallowedConstant implements Disallowed
 
 
 	/**
-	 * DisallowedCall constructor.
-	 *
 	 * @param string $constant
 	 * @param string|null $message
 	 * @param string[] $allowIn
+	 * @param string[] $allowExceptIn
 	 * @param string|null $errorIdentifier
 	 * @param string|null $errorTip
 	 */
@@ -35,12 +37,14 @@ class DisallowedConstant implements Disallowed
 		string $constant,
 		?string $message,
 		array $allowIn,
+		array $allowExceptIn,
 		?string $errorIdentifier,
 		?string $errorTip
 	) {
 		$this->constant = ltrim($constant, '\\');
 		$this->message = $message;
 		$this->allowIn = $allowIn;
+		$this->allowExceptIn = $allowExceptIn;
 		$this->errorIdentifier = $errorIdentifier;
 		$this->errorTip = $errorTip;
 	}
@@ -62,6 +66,13 @@ class DisallowedConstant implements Disallowed
 	public function getAllowIn(): array
 	{
 		return $this->allowIn;
+	}
+
+
+	/** @inheritDoc */
+	public function getAllowExceptIn(): array
+	{
+		return $this->allowExceptIn;
 	}
 
 

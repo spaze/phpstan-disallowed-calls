@@ -38,6 +38,14 @@ class SuperglobalUsagesTest extends RuleTestCase
 						'../src/*-allow/*.*',
 					],
 				],
+				// test disallowed paths
+				[
+					'superglobal' => '$_REQUEST',
+					'message' => 'so $_GET or $_POST?',
+					'disallowIn' => [
+						'../src/disallowed/*.php',
+					],
+				],
 			])
 		);
 	}
@@ -65,6 +73,10 @@ class SuperglobalUsagesTest extends RuleTestCase
 			[
 				'Using $_POST is forbidden, the cake is a lie',
 				13,
+			],
+			[
+				'Using $_REQUEST is forbidden, so $_GET or $_POST?',
+				26,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/superglobalUsages.php'], []);

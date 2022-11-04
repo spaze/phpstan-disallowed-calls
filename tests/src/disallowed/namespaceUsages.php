@@ -9,6 +9,7 @@ use Inheritance\Sub;
 use Traits\TestTrait;
 use Waldo\Foo\Bar;
 use Waldo\Quux\blade;
+use ZipArchive;
 
 class Service extends Base implements SomeInterface
 {
@@ -41,6 +42,12 @@ class Service extends Base implements SomeInterface
 	public function callNew()
 	{
 		return new Bar();
+	}
+
+
+	public function disallowedByPath()
+	{
+		return ZipArchive::EM_TRAD_PKWARE;
 	}
 
 }

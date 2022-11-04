@@ -7,7 +7,7 @@ interface DisallowedVariableFactory
 {
 
 	/**
-	 * @param array<array{variable?:string, message?:string, allowIn?:string[], errorIdentifier?:string}> $config
+	 * @param array<array{variable?:string, message?:string, allowIn?:string[], allowExceptIn?:string[], disallowIn?:string[], errorIdentifier?:string}> $config
 	 * @return DisallowedVariable[]
 	 */
 	public function getDisallowedVariables(array $config): array;

@@ -109,6 +109,14 @@ class MethodCallsTest extends RuleTestCase
 					],
 					'errorTip' => '2038 is approaching fast',
 				],
+				// test disallowed paths
+				[
+					'method' => 'Waldo\Quux\Blade::andSorcery()',
+					'message' => 'use magic',
+					'allowExceptIn' => [
+						'../src/disallowed/*.php',
+					],
+				],
 			]
 		);
 	}
@@ -184,6 +192,10 @@ class MethodCallsTest extends RuleTestCase
 			[
 				'Calling Waldo\Quux\Blade::trinity() is forbidden, holy trinity [Waldo\Quux\Blade::trinity() matches Waldo\Quux\Blade::Trinity()]',
 				65,
+			],
+			[
+				'Calling Waldo\Quux\Blade::andSorcery() is forbidden, use magic',
+				68,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/methodCalls.php'], [

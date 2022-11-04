@@ -63,3 +63,6 @@ $blade->sequel();
 $blade->Sequel();
 $blade->trinity();
 $blade->Trinity();
+
+// not disallowed by path
+$blade->andSorcery();

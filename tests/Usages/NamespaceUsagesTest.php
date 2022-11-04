@@ -63,6 +63,14 @@ class NamespaceUsagesTest extends RuleTestCase
 						'../src/*-allow/*.*',
 					],
 				],
+				// test disallowed paths
+				[
+					'namespace' => 'ZipArchive',
+					'message' => 'use clippy instead of zippy',
+					'disallowIn' => [
+						'../src/disallowed/*.php',
+					],
+				],
 			]
 		);
 	}
@@ -100,33 +108,41 @@ class NamespaceUsagesTest extends RuleTestCase
 				11,
 			],
 			[
+				'Namespace ZipArchive is forbidden, use clippy instead of zippy',
+				12,
+			],
+			[
 				'Namespace Inheritance\Base is forbidden, no inheritance sub base',
-				13,
+				14,
 			],
 			[
 				'Namespace Framework\SomeInterface is forbidden, no framework some [Framework\SomeInterface matches Framew*rk\Some*]',
-				13,
+				14,
 				'Work more on your frames',
 			],
 			[
 				'Trait Traits\TestTrait is forbidden, no TestTrait',
-				16,
+				17,
 			],
 			[
 				'Class Waldo\Quux\blade is forbidden, no blade [Waldo\Quux\blade matches Waldo\Quux\Blade]',
-				23,
+				24,
 			],
 			[
 				'Namespace Inheritance\Sub is forbidden, no inheritance sub base',
-				31,
+				32,
 			],
 			[
 				'Class Waldo\Foo\Bar is forbidden, no FooBar [Waldo\Foo\Bar matches Waldo\Foo\bar]',
-				37,
+				38,
 			],
 			[
 				'Class Waldo\Foo\Bar is forbidden, no FooBar [Waldo\Foo\Bar matches Waldo\Foo\bar]',
-				43,
+				44,
+			],
+			[
+				'Class ZipArchive is forbidden, use clippy instead of zippy',
+				50,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/namespaceUsages.php'], []);

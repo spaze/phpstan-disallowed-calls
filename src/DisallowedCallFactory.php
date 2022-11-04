@@ -58,6 +58,7 @@ class DisallowedCallFactory
 					$this->normalizeCall($call),
 					$disallowed['message'] ?? null,
 					$disallowed['allowIn'] ?? [],
+					$disallowed['allowExceptIn'] ?? $disallowed['disallowIn'] ?? [],
 					$allowInCalls,
 					$allowParamsInAllowed,
 					$allowParamsAnywhere,

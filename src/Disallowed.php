@@ -11,4 +11,10 @@ interface Disallowed
 	 */
 	public function getAllowIn(): array;
 
+
+	/**
+	 * @return string[]
+	 */
+	public function getAllowExceptIn(): array;
+
 }
