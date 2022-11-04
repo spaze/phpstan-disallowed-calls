@@ -20,17 +20,6 @@ class DisallowedVariableHelper
 	}
 
 
-	private function isAllowedPath(Scope $scope, DisallowedVariable $disallowedVariable): bool
-	{
-		foreach ($disallowedVariable->getAllowIn() as $allowedPath) {
-			if ($this->isAllowedFileHelper->matches($scope, $allowedPath)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-
 	/**
 	 * @param string $variable
 	 * @param Scope $scope
@@ -40,7 +29,7 @@ class DisallowedVariableHelper
 	public function getDisallowedMessage(string $variable, Scope $scope, array $disallowedVariables): array
 	{
 		foreach ($disallowedVariables as $disallowedVariable) {
-			if ($disallowedVariable->getVariable() === $variable && !$this->isAllowedPath($scope, $disallowedVariable)) {
+			if ($disallowedVariable->getVariable() === $variable && !$this->isAllowedFileHelper->isAllowedPath($scope, $disallowedVariable)) {
 				$errorBuilder = RuleErrorBuilder::message(sprintf(
 					'Using %s is forbidden, %s',
 					$disallowedVariable->getVariable(),

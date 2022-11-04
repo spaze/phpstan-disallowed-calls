@@ -21,22 +21,6 @@ class DisallowedNamespaceHelper
 
 
 	/**
-	 * @param Scope $scope
-	 * @param DisallowedNamespace $disallowedNamespace
-	 * @return bool
-	 */
-	private function isAllowed(Scope $scope, DisallowedNamespace $disallowedNamespace): bool
-	{
-		foreach ($disallowedNamespace->getAllowIn() as $allowedPath) {
-			if ($this->isAllowedFileHelper->matches($scope, $allowedPath)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-
-	/**
 	 * @param string $namespace
 	 * @param string $description
 	 * @param Scope $scope
@@ -46,7 +30,7 @@ class DisallowedNamespaceHelper
 	public function getDisallowedMessage(string $namespace, string $description, Scope $scope, array $disallowedNamespaces): array
 	{
 		foreach ($disallowedNamespaces as $disallowedNamespace) {
-			if ($this->isAllowed($scope, $disallowedNamespace)) {
+			if ($this->isAllowedFileHelper->isAllowedPath($scope, $disallowedNamespace)) {
 				continue;
 			}
 

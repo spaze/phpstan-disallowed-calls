@@ -5,7 +5,7 @@ namespace Spaze\PHPStan\Rules\Disallowed;
 
 use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParam;
 
-class DisallowedCall
+class DisallowedCall implements Disallowed
 {
 
 	/** @var string */
@@ -90,9 +90,7 @@ class DisallowedCall
 	}
 
 
-	/**
-	 * @return string[]
-	 */
+	/** @inheritDoc */
 	public function getAllowIn(): array
 	{
 		return $this->allowIn;

@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed;
 
-class DisallowedConstant
+class DisallowedConstant implements Disallowed
 {
 
 	/** @var string */
@@ -58,9 +58,7 @@ class DisallowedConstant
 	}
 
 
-	/**
-	 * @return string[]
-	 */
+	/** @inheritDoc */
 	public function getAllowIn(): array
 	{
 		return $this->allowIn;

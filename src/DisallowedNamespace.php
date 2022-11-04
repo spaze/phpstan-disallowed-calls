@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed;
 
-class DisallowedNamespace
+class DisallowedNamespace implements Disallowed
 {
 
 	/** @var string */
@@ -56,9 +56,7 @@ class DisallowedNamespace
 	}
 
 
-	/**
-	 * @return string[]
-	 */
+	/** @inheritDoc */
 	public function getAllowIn(): array
 	{
 		return $this->allowIn;
