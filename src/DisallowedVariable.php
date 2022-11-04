@@ -15,6 +15,9 @@ class DisallowedVariable implements Disallowed
 	/** @var string[] */
 	private $allowIn;
 
+	/** @var string[] */
+	private $allowExceptIn;
+
 	/** @var string|null */
 	private $errorIdentifier;
 
@@ -26,6 +29,7 @@ class DisallowedVariable implements Disallowed
 	 * @param string $variable
 	 * @param string|null $message
 	 * @param string[] $allowIn
+	 * @param string[] $allowExceptIn
 	 * @param string|null $errorIdentifier
 	 * @param string|null $errorTip
 	 */
@@ -33,12 +37,14 @@ class DisallowedVariable implements Disallowed
 		string $variable,
 		?string $message,
 		array $allowIn,
+		array $allowExceptIn,
 		?string $errorIdentifier,
 		?string $errorTip
 	) {
 		$this->variable = $variable;
 		$this->message = $message;
 		$this->allowIn = $allowIn;
+		$this->allowExceptIn = $allowExceptIn;
 		$this->errorIdentifier = $errorIdentifier;
 		$this->errorTip = $errorTip;
 	}
@@ -60,6 +66,13 @@ class DisallowedVariable implements Disallowed
 	public function getAllowIn(): array
 	{
 		return $this->allowIn;
+	}
+
+
+	/** @inheritDoc */
+	public function getAllowExceptIn(): array
+	{
+		return $this->allowExceptIn;
 	}
 
 

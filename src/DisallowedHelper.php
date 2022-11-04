@@ -51,6 +51,14 @@ class DisallowedHelper
 				return $this->hasAllowedParamsInAllowed($scope, $node, $disallowedCall);
 			}
 		}
+		if ($disallowedCall->getAllowExceptIn()) {
+			foreach ($disallowedCall->getAllowExceptIn() as $allowedExceptPath) {
+				if ($this->isAllowedFileHelper->matches($scope, $allowedExceptPath)) {
+					return false;
+				}
+			}
+			return true;
+		}
 		if ($disallowedCall->getAllowExceptParams()) {
 			return $this->hasAllowedParams($scope, $node, $disallowedCall->getAllowExceptParams(), false);
 		}

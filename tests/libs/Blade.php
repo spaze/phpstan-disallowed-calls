@@ -37,4 +37,9 @@ class Blade
 	{
 	}
 
+
+	public function andSorcery(): void
+	{
+	}
+
 }

@@ -18,6 +18,9 @@ class DisallowedCall implements Disallowed
 	private $allowIn;
 
 	/** @var string[] */
+	private $allowExceptIn;
+
+	/** @var string[] */
 	private $allowInCalls;
 
 	/** @var array<int, DisallowedCallParam> */
@@ -40,11 +43,10 @@ class DisallowedCall implements Disallowed
 
 
 	/**
-	 * DisallowedCall constructor.
-	 *
 	 * @param string $call
 	 * @param string|null $message
 	 * @param string[] $allowIn
+	 * @param string[] $allowExceptIn
 	 * @param string[] $allowInCalls
 	 * @param array<int, DisallowedCallParam> $allowParamsInAllowed
 	 * @param array<int, DisallowedCallParam> $allowParamsAnywhere
@@ -57,6 +59,7 @@ class DisallowedCall implements Disallowed
 		string $call,
 		?string $message,
 		array $allowIn,
+		array $allowExceptIn,
 		array $allowInCalls,
 		array $allowParamsInAllowed,
 		array $allowParamsAnywhere,
@@ -68,6 +71,7 @@ class DisallowedCall implements Disallowed
 		$this->call = $call;
 		$this->message = $message;
 		$this->allowIn = $allowIn;
+		$this->allowExceptIn = $allowExceptIn;
 		$this->allowInCalls = $allowInCalls;
 		$this->allowParamsInAllowed = $allowParamsInAllowed;
 		$this->allowParamsAnywhere = $allowParamsAnywhere;
@@ -94,6 +98,13 @@ class DisallowedCall implements Disallowed
 	public function getAllowIn(): array
 	{
 		return $this->allowIn;
+	}
+
+
+	/** @inheritDoc */
+	public function getAllowExceptIn(): array
+	{
+		return $this->allowExceptIn;
 	}
 
 

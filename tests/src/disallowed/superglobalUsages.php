@@ -19,3 +19,9 @@ function useNonGlobalVariable()
 	$randomVar = 'foo';
 	echo $randomVar;
 }
+
+
+function disallowedByPath()
+{
+	$foo = $_REQUEST;
+}

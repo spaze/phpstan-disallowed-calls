@@ -39,6 +39,13 @@ class ConstantUsagesTest extends RuleTestCase
 					],
 					'errorTip' => 'Use https://github.com/mlocati/ip-lib instead',
 				],
+				// test disallowed paths
+				[
+					'constant' => 'PHP_EOL',
+					'allowExceptIn' => [
+						'../src/disallowed/*.php',
+					],
+				],
 			]
 		);
 	}
@@ -63,6 +70,10 @@ class ConstantUsagesTest extends RuleTestCase
 			[
 				'Using FILTER_FLAG_NO_RES_RANGE is forbidden, the cake is a lie',
 				10,
+			],
+			[
+				'Using PHP_EOL is forbidden, because reasons',
+				40,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/constantUsages.php'], []);
