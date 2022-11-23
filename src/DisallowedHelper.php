@@ -97,7 +97,7 @@ class DisallowedHelper
 	/**
 	 * @param Scope $scope
 	 * @param CallLike|null $node
-	 * @param array<int, DisallowedCallParam> $allowConfig
+	 * @param array<int|string, DisallowedCallParam> $allowConfig
 	 * @param bool $paramsRequired
 	 * @return bool
 	 */
@@ -120,10 +120,26 @@ class DisallowedHelper
 	}
 
 
-	private function getArgType(CallLike $node, Scope $scope, int $param): ?Type
+	/**
+	 * @param CallLike $node
+	 * @param Scope $scope
+	 * @param int|string $param
+	 * @return Type|null
+	 */
+	private function getArgType(CallLike $node, Scope $scope, $param): ?Type
 	{
-		$arg = $node->getArgs()[$param - 1] ?? null;
-		return $arg ? $scope->getType($arg->value) : null;
+		if (is_numeric($param)) {
+			$arg = $node->getArgs()[$param - 1] ?? null;
+		} elseif (is_string($param)) {
+			foreach ($node->getArgs() as $a) {
+				if ($a->name && $a->name->name === $param) {
+					$arg = $a;
+					break;
+				}
+			}
+		}
+
+		return isset($arg) ? $scope->getType($arg->value) : null;
 	}
 
 

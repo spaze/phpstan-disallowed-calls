@@ -389,6 +389,20 @@ parameters:
 
 Calling `waldo()` is disallowed, and allowed back again only when the file is in the `views/` subdirectory **and** `waldo()` is called in the file with a 2nd parameter being the string `quux`.
 
+Named parameters are partially supported:
+
+```neon
+parameters:
+    disallowedFunctionCalls:
+        -
+            function: 'json_decode()'
+            message: 'set the $flags parameter to `JSON_THROW_ON_ERROR` to throw a JsonException'
+            allowParamsAnywhere:
+                flags: ::JSON_THROW_ON_ERROR
+```
+
+Currently, this will only allow a call like `json_decode($foo, flags: JSON_THROW_ON_ERROR)` but won't allow "positional" call like `json_decode($foo, null, 512, JSON_THROW_ON_ERROR)` even though it's technically the same parameter.
+
 ## Case-(in)sensitivity
 
 Function names, method names, class names, namespaces are matched irrespective of their case (disallowing `print_r` will also find `print_R` calls), while anything else like constants, file names, paths are not.
