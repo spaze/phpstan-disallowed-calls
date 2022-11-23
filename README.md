@@ -284,6 +284,18 @@ parameters:
                 - Foo\Bar\Baz::method()
 ```
 
+And vice versa, if you need to disallow a method or a function call only when done from a particular method or function, use `allowExceptInFunctions` (with aliases `allowExceptInMethods`, `disallowInFunctions`, `disallowInMethods`):
+
+```neon
+parameters:
+    disallowedMethodCalls:
+        -
+            method: 'Controller::redirect()'
+            message: 'redirect in startup() instead'
+            allowExceptInMethods:
+                - Controller\Foo\Bar\*::__construct()
+```
+
 The function or method names support [fnmatch()](https://www.php.net/function.fnmatch) patterns.
 
 You can also narrow down the allowed items when called with some parameters (doesn't apply to constants for obvious reasons). For example, you want to disallow calling `print_r()` but want to allow `print_r(..., true)`.

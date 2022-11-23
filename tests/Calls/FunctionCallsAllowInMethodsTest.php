@@ -34,6 +34,12 @@ class FunctionCallsAllowInMethodsTest extends RuleTestCase
 						2 => true,
 					],
 				],
+				[
+					'function' => 'sha1()',
+					'allowExceptInFunctions' => [
+						'\\Fiction\\Pulp\\Royale::__construct()',
+					],
+				],
 			]
 		);
 	}
@@ -41,8 +47,15 @@ class FunctionCallsAllowInMethodsTest extends RuleTestCase
 
 	public function testRule(): void
 	{
-		// Based on the configuration above, no errors in this file:
-		$this->analyse([__DIR__ . '/../libs/Royale.php'], []);
+		// Based on the configuration above, in this file:
+		$this->analyse([__DIR__ . '/../libs/Royale.php'], [
+			[
+				// expect this error message:
+				'Calling sha1() is forbidden, because reasons',
+				// on this line:
+				11,
+			],
+		]);
 	}
 
 }
