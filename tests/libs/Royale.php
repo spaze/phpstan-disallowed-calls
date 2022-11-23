@@ -6,8 +6,15 @@ namespace Fiction\Pulp;
 class Royale
 {
 
+	public function __construct()
+	{
+		$foo = sha1('they got the metric system there');
+	}
+
+
 	public static function leBigMac(): void
 	{
+		$foo = sha1("Big Mac's a Big Mac, but they call it");
 	}
 
 

@@ -29,9 +29,12 @@ class DisallowedCallFactory
 				throw new ShouldNotHappenException("Either 'method' or 'function' must be set in configuration items");
 			}
 			foreach ((array)$calls as $call) {
-				$allowInCalls = $allowParamsInAllowed = $allowParamsAnywhere = $allowExceptParamsInAllowed = $allowExceptParams = [];
+				$allowInCalls = $allowExceptInCalls = $allowParamsInAllowed = $allowParamsAnywhere = $allowExceptParamsInAllowed = $allowExceptParams = [];
 				foreach ($disallowed['allowInFunctions'] ?? $disallowed['allowInMethods'] ?? [] as $allowedCall) {
 					$allowInCalls[] = $this->normalizeCall($allowedCall);
+				}
+				foreach ($disallowed['allowExceptInFunctions'] ?? $disallowed['allowExceptInMethods'] ?? $disallowed['disallowInFunctions'] ?? $disallowed['disallowInMethods'] ?? [] as $disallowedCall) {
+					$allowExceptInCalls[] = $this->normalizeCall($disallowedCall);
 				}
 				foreach ($disallowed['allowParamsInAllowed'] ?? [] as $param => $value) {
 					$allowParamsInAllowed[$param] = new DisallowedCallParamWithValue($value);
@@ -60,6 +63,7 @@ class DisallowedCallFactory
 					$disallowed['allowIn'] ?? [],
 					$disallowed['allowExceptIn'] ?? $disallowed['disallowIn'] ?? [],
 					$allowInCalls,
+					$allowExceptInCalls,
 					$allowParamsInAllowed,
 					$allowParamsAnywhere,
 					$allowExceptParamsInAllowed,

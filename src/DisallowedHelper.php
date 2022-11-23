@@ -35,15 +35,13 @@ class DisallowedHelper
 	private function isAllowed(Scope $scope, ?CallLike $node, DisallowedCall $disallowedCall): bool
 	{
 		foreach ($disallowedCall->getAllowInCalls() as $call) {
-			if ($scope->getFunction() instanceof MethodReflection) {
-				$name = $this->getFullyQualified($scope->getFunction()->getDeclaringClass()->getDisplayName(false), $scope->getFunction());
-			} elseif ($scope->getFunction() instanceof FunctionReflection) {
-				$name = $scope->getFunction()->getName();
-			} else {
-				$name = '';
-			}
-			if (fnmatch($call, $name, FNM_NOESCAPE | FNM_CASEFOLD)) {
+			if ($this->callMatches($scope, $call)) {
 				return $this->hasAllowedParamsInAllowed($scope, $node, $disallowedCall);
+			}
+		}
+		foreach ($disallowedCall->getAllowExceptInCalls() as $call) {
+			if (!$this->callMatches($scope, $call)) {
+				return true;
 			}
 		}
 		foreach ($disallowedCall->getAllowIn() as $allowedPath) {
@@ -66,6 +64,19 @@ class DisallowedHelper
 			return $this->hasAllowedParams($scope, $node, $disallowedCall->getAllowParamsAnywhere(), true);
 		}
 		return false;
+	}
+
+
+	private function callMatches(Scope $scope, string $call): bool
+	{
+		if ($scope->getFunction() instanceof MethodReflection) {
+			$name = $this->getFullyQualified($scope->getFunction()->getDeclaringClass()->getDisplayName(false), $scope->getFunction());
+		} elseif ($scope->getFunction() instanceof FunctionReflection) {
+			$name = $scope->getFunction()->getName();
+		} else {
+			$name = '';
+		}
+		return fnmatch($call, $name, FNM_NOESCAPE | FNM_CASEFOLD);
 	}
 
 
@@ -126,7 +137,8 @@ class DisallowedHelper
 	public function getDisallowedMessage(?CallLike $node, Scope $scope, string $name, ?string $displayName, array $disallowedCalls, ?string $message = null): array
 	{
 		foreach ($disallowedCalls as $disallowedCall) {
-			if ($this->callMatches($disallowedCall, $name) && !$this->isAllowed($scope, $node, $disallowedCall)) {
+			$callMatches = $name === $disallowedCall->getCall() || fnmatch($disallowedCall->getCall(), $name, FNM_NOESCAPE | FNM_CASEFOLD);
+			if ($callMatches && !$this->isAllowed($scope, $node, $disallowedCall)) {
 				$errorBuilder = RuleErrorBuilder::message(sprintf(
 					$message ?? 'Calling %s is forbidden, %s%s',
 					($displayName && $displayName !== $name) ? "{$name}() (as {$displayName}())" : "{$name}()",
@@ -145,15 +157,6 @@ class DisallowedHelper
 			}
 		}
 		return [];
-	}
-
-
-	private function callMatches(DisallowedCall $disallowedCall, string $name): bool
-	{
-		if ($name === $disallowedCall->getCall() || fnmatch($disallowedCall->getCall(), $name, FNM_NOESCAPE | FNM_CASEFOLD)) {
-			return true;
-		}
-		return false;
 	}
 
 

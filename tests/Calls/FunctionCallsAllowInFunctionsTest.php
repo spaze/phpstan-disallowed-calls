@@ -25,6 +25,12 @@ class FunctionCallsAllowInFunctionsTest extends RuleTestCase
 						'\\Foo\\Bar\\Waldo\\qu*x()',
 					],
 				],
+				[
+					'function' => 'sha*()',
+					'allowExceptInFunctions' => [
+						'\\Foo\\Bar\\Waldo\\fred()',
+					],
+				],
 			]
 		);
 	}
@@ -32,8 +38,15 @@ class FunctionCallsAllowInFunctionsTest extends RuleTestCase
 
 	public function testRule(): void
 	{
-		// Based on the configuration above, no errors in this file:
-		$this->analyse([__DIR__ . '/../libs/Functions.php'], []);
+		// Based on the configuration above, in this file:
+		$this->analyse([__DIR__ . '/../libs/Functions.php'], [
+			[
+				// expect this error message:
+				'Calling sha1() is forbidden, because reasons [sha1() matches sha*()]',
+				// on this line:
+				15,
+			],
+		]);
 	}
 
 }
