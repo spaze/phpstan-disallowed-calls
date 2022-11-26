@@ -37,6 +37,8 @@
 	},
 	"scripts": {
 		"lint": "vendor/bin/parallel-lint --colors src/ tests/",
+		"lint-7.x": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/libs/TypesEverywhere.php",
+		"lint-8.0": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/libs/TypesEverywhere.php",
 		"phpcs": "vendor/bin/phpcs src/ tests/",
 		"cs-fix": "vendor/bin/phpcbf src/ tests/",
 		"phpstan": "vendor/bin/phpstan --ansi analyse --configuration phpstan.neon",
