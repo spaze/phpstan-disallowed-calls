@@ -5,6 +5,8 @@ namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\CallLike;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
@@ -162,7 +164,7 @@ class DisallowedHelper
 
 	/**
 	 * @param Name|Expr $class
-	 * @param CallLike $node
+	 * @param MethodCall|StaticCall $node
 	 * @param Scope $scope
 	 * @param DisallowedCall[] $disallowedCalls
 	 * @return RuleError[]
