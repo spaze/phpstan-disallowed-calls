@@ -36,6 +36,14 @@ class NewCallsTest extends RuleTestCase
 					],
 				],
 				[
+					'method' => 'Inheritance\Base::__construct()',
+					'message' => 'all your base are belong to us',
+					'allowIn' => [
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
+					],
+				],
+				[
 					'function' => 'DateTime::__construct()',
 					'message' => 'no future',
 					'allowIn' => [
@@ -55,6 +63,10 @@ class NewCallsTest extends RuleTestCase
 	{
 		// Based on the configuration above, in this file:
 		$this->analyse([__DIR__ . '/../src/disallowed/methodCalls.php'], [
+			[
+				'Calling Inheritance\Base::__construct() (as Inheritance\Sub::__construct()) is forbidden, all your base are belong to us',
+				19,
+			],
 			[
 				'Calling Constructor\ClassWithConstructor::__construct() is forbidden, class ClassWithConstructor should not be created',
 				32,
