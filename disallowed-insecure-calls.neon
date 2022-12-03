@@ -43,6 +43,18 @@ parameters:
 			allowExceptCaseInsensitiveParams:
 				1: 'sha1'
 		-
+			function: 'rand()'
+			message: 'it is not a cryptographically secure generator, use random_int() instead'
+		-
+			function: 'mt_rand()'
+			message: 'it is not a cryptographically secure generator, use random_int() instead'
+		-
+			function: 'lcg_value()'
+			message: 'it is not a cryptographically secure generator, use random_int() instead'
+		-
+			function: 'uniqid()'
+			message: 'it is not a cryptographically secure generator, use random_bytes() instead'
+		-
 			function: 'mysql_query()'
 			message: 'use PDO::prepare() with variable binding/parametrized queries to prevent SQL Injection vulnerability'
 		-
