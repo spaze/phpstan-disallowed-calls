@@ -14,3 +14,23 @@ function fred(): void
 {
 	$foo = sha1('foo');
 }
+
+
+function foo(string $name, string $value = '', int $expires = 0, string $path = ''): bool
+{
+}
+
+
+function bar(string $name = '', string $value = '', int $expires = 0, string $path = ''): bool
+{
+}
+
+
+function baz(string $name = '', string $value = '', int $expires = 0, string $path = ''): bool
+{
+}
+
+
+function waldo(string $name = '', string $value = '', int $expires = 0, string $path = ''): bool
+{
+}

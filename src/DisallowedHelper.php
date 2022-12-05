@@ -107,12 +107,12 @@ class DisallowedHelper
 			return true;
 		}
 
-		foreach ($allowConfig as $param => $value) {
+		foreach ($allowConfig as $param) {
 			$type = $this->getArgType($node, $scope, $param);
 			if (!$type instanceof ConstantScalarType) {
 				return !$paramsRequired;
 			}
-			if (!$value->matches($type)) {
+			if (!$param->matches($type)) {
 				return false;
 			}
 		}
@@ -120,26 +120,18 @@ class DisallowedHelper
 	}
 
 
-	/**
-	 * @param CallLike $node
-	 * @param Scope $scope
-	 * @param int|string $param
-	 * @return Type|null
-	 */
-	private function getArgType(CallLike $node, Scope $scope, $param): ?Type
+	private function getArgType(CallLike $node, Scope $scope, DisallowedCallParam $param): ?Type
 	{
-		if (is_numeric($param)) {
-			$arg = $node->getArgs()[$param - 1] ?? null;
-		} elseif (is_string($param)) {
-			foreach ($node->getArgs() as $a) {
-				if ($a->name && $a->name->name === $param) {
-					$arg = $a;
-					break;
-				}
+		foreach ($node->getArgs() as $arg) {
+			if ($arg->name && $arg->name->name === $param->getName()) {
+				$found = $arg;
+				break;
 			}
 		}
-
-		return isset($arg) ? $scope->getType($arg->value) : null;
+		if (!isset($found)) {
+			$found = $node->getArgs()[$param->getPosition() - 1] ?? null;
+		}
+		return isset($found) ? $scope->getType($found->value) : null;
 	}
 
 
