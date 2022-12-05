@@ -23,3 +23,8 @@ mysqli_real_query();
 (new mysqli())->query('SELECT * FROM users WHERE id = 1 OR 1');
 (new mysqli())->multi_query('SELECT * FROM users WHERE id = 2 OR 1');
 (new mysqli())->real_query('SELECT * FROM users WHERE id = 3 OR 1');
+
+rand();
+mt_rand();
+lcg_value();
+uniqid();

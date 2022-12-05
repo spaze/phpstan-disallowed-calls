@@ -47,6 +47,10 @@ class InsecureConfigFunctionCallsTest extends RuleTestCase
 			['Calling mysqli_query() is forbidden, use PDO::prepare() with variable binding/parametrized queries to prevent SQL Injection vulnerability', 19],
 			['Calling mysqli_multi_query() is forbidden, use PDO::prepare() with variable binding/parametrized queries to prevent SQL Injection vulnerability', 20],
 			['Calling mysqli_real_query() is forbidden, use PDO::prepare() with variable binding/parametrized queries to prevent SQL Injection vulnerability', 21],
+			['Calling rand() is forbidden, it is not a cryptographically secure generator, use random_int() instead', 27],
+			['Calling mt_rand() is forbidden, it is not a cryptographically secure generator, use random_int() instead', 28],
+			['Calling lcg_value() is forbidden, it is not a cryptographically secure generator, use random_int() instead', 29],
+			['Calling uniqid() is forbidden, it is not a cryptographically secure generator, use random_bytes() instead', 30],
 		]);
 	}
 
