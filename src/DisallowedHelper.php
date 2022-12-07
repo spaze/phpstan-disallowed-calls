@@ -97,7 +97,7 @@ class DisallowedHelper
 	/**
 	 * @param Scope $scope
 	 * @param CallLike|null $node
-	 * @param array<int|string, DisallowedCallParam<int|bool|string|null>> $allowConfig
+	 * @param array<int|string, DisallowedCallParam> $allowConfig
 	 * @param bool $paramsRequired
 	 * @return bool
 	 */
@@ -123,7 +123,7 @@ class DisallowedHelper
 	/**
 	 * @param CallLike $node
 	 * @param Scope $scope
-	 * @param DisallowedCallParam<int|bool|string|null> $param
+	 * @param DisallowedCallParam $param
 	 * @return Type|null
 	 */
 	private function getArgType(CallLike $node, Scope $scope, DisallowedCallParam $param): ?Type

@@ -6,9 +6,9 @@ namespace Spaze\PHPStan\Rules\Disallowed\Params;
 use PHPStan\Type\ConstantScalarType;
 
 /**
- * @extends DisallowedCallParam<int|bool|string|null>
+ * @extends DisallowedCallParamValue<int|bool|string|null>
  */
-class DisallowedCallParamExceptValue extends DisallowedCallParam
+class DisallowedCallParamValueValueExcept extends DisallowedCallParamValue
 {
 
 	public function matches(ConstantScalarType $type): bool

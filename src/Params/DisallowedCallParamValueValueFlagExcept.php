@@ -7,9 +7,9 @@ use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\ConstantScalarType;
 
 /**
- * @extends DisallowedCallParam<int>
+ * @extends DisallowedCallParamValue<int>
  */
-class DisallowedCallParamValueFlagExcept extends DisallowedCallParam
+class DisallowedCallParamValueValueFlagExcept extends DisallowedCallParamValue
 {
 
 	public function matches(ConstantScalarType $type): bool
