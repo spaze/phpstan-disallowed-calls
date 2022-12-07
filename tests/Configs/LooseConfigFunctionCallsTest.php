@@ -21,9 +21,14 @@ class LooseConfigFunctionCallsTest extends RuleTestCase
 		$config = Neon::decode(file_get_contents(__DIR__ . '/../../disallowed-loose-calls.neon'));
 		// emulate how the real config loader expands constants that are used in the config file above (e.g. ::ENT_QUOTES)
 		foreach ($config['parameters']['disallowedFunctionCalls'] as &$call) {
-			foreach ($call['allowParamsAnywhere'] as &$param) {
-				if (is_string($param) && preg_match('/^::([A-Z0-9_]+)$/', $param, $matches)) {
-					$param = constant($matches[1]);
+			foreach (['allowParamsAnywhere', 'allowParamFlagsAnywhere'] as $key) {
+				if (!isset($call[$key])) {
+					continue;
+				}
+				foreach ($call[$key] as &$param) {
+					if (is_string($param) && preg_match('/^::([A-Z0-9_]+)$/', $param, $matches)) {
+						$param = constant($matches[1]);
+					}
 				}
 			}
 		}
@@ -43,7 +48,8 @@ class LooseConfigFunctionCallsTest extends RuleTestCase
 			['Calling in_array() is forbidden, set the third parameter $strict to `true` to also check the types to prevent type juggling bugs', 4],
 			['Calling in_array() is forbidden, set the third parameter $strict to `true` to also check the types to prevent type juggling bugs', 6],
 			['Calling htmlspecialchars() is forbidden, set the $flags parameter to `ENT_QUOTES` to also convert single quotes to entities to prevent some HTML injection bugs', 7],
-			['Calling htmlspecialchars() is forbidden, set the $flags parameter to `ENT_QUOTES` to also convert single quotes to entities to prevent some HTML injection bugs', 10],
+			['Calling htmlspecialchars() is forbidden, set the $flags parameter to `ENT_QUOTES` to also convert single quotes to entities to prevent some HTML injection bugs', 12],
+			['Calling htmlspecialchars() is forbidden, set the $flags parameter to `ENT_QUOTES` to also convert single quotes to entities to prevent some HTML injection bugs', 13],
 		]);
 	}
 

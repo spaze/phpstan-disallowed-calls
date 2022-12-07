@@ -8,5 +8,5 @@ parameters:
 		-
 			function: 'htmlspecialchars()'
 			message: 'set the $flags parameter to `ENT_QUOTES` to also convert single quotes to entities to prevent some HTML injection bugs'
-			allowParamsAnywhere:
+			allowParamFlagsAnywhere:
 				2: ::ENT_QUOTES
