@@ -146,6 +146,20 @@ class FunctionCallsTest extends RuleTestCase
 						3,
 					],
 				],
+				[
+					'function' => 'htmlspecialchars()',
+					'allowIn' => [
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
+					],
+					'allowParamFlagsInAllowed' => [
+						[
+							'position' => 2,
+							'name' => 'flags',
+							'value' => ENT_QUOTES,
+						],
+					],
+				],
 			]
 		);
 	}
@@ -218,6 +232,26 @@ class FunctionCallsTest extends RuleTestCase
 				'Calling header() is forbidden, because reasons',
 				62,
 			],
+			[
+				'Calling htmlspecialchars() is forbidden, because reasons',
+				67,
+			],
+			[
+				'Calling htmlspecialchars() is forbidden, because reasons',
+				68,
+			],
+			[
+				'Calling htmlspecialchars() is forbidden, because reasons',
+				69,
+			],
+			[
+				'Calling htmlspecialchars() is forbidden, because reasons',
+				70,
+			],
+			[
+				'Calling htmlspecialchars() is forbidden, because reasons',
+				71,
+			],
 		]);
 		// Based on the configuration above, no errors in this file:
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/functionCalls.php'], [
@@ -240,6 +274,14 @@ class FunctionCallsTest extends RuleTestCase
 			[
 				'Calling header() is forbidden, because reasons',
 				63,
+			],
+			[
+				'Calling htmlspecialchars() is forbidden, because reasons',
+				67,
+			],
+			[
+				'Calling htmlspecialchars() is forbidden, because reasons',
+				68,
 			],
 		]);
 	}

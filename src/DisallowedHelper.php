@@ -120,6 +120,12 @@ class DisallowedHelper
 	}
 
 
+	/**
+	 * @param CallLike $node
+	 * @param Scope $scope
+	 * @param DisallowedCallParam $param
+	 * @return Type|null
+	 */
 	private function getArgType(CallLike $node, Scope $scope, DisallowedCallParam $param): ?Type
 	{
 		foreach ($node->getArgs() as $arg) {

@@ -304,6 +304,8 @@ parameters:
 
 The function or method names support [fnmatch()](https://www.php.net/function.fnmatch) patterns.
 
+### Allow with specified parameters only
+
 You can also narrow down the allowed items when called with some parameters (doesn't apply to constants for obvious reasons). For example, you want to disallow calling `print_r()` but want to allow `print_r(..., true)`.
 This can be done with optional `allowParamsInAllowed` or `allowParamsAnywhere` configuration keys:
 
@@ -364,7 +366,7 @@ means that you should use (`...` means any value):
 
 Such configuration only makes sense when both the parameters of `log()` are optional. If they are required, omitting them would result in an error already detected by PHPStan itself.
 
-## Allow calls except when a param has a specified value
+### Allow calls except when a param has a specified value
 
 Sometimes, it's handy to disallow a function or a method call only when a parameter matches but allow it otherwise. For example the `hash()` function, it's fine using it with algorithm families like SHA-2 & SHA-3 (not for passwords though) but you'd like PHPStan to report when it's used with MD5 like `hash('md5', ...)`.
 You can use `allowExceptParams` (or `disallowParams`), `allowExceptCaseInsensitiveParams` (or `disallowCaseInsensitiveParams`), `allowExceptParamsInAllowed` (or `disallowParamsInAllowed`) config options to disallow only some calls:
@@ -468,6 +470,35 @@ parameters:
 ```
 
 But because the "positional _or_ named" limitation described above applies here as well, I generally don't recommend using these shortcuts and instead recommend specifying both `position` and `name` keys.
+
+### Allow with specified parameter flags only
+
+Some functions can be called with _flags_ or _bitmasks_, for example
+
+```php
+json_encode($foo, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT);
+```
+Let's say you want to disallow `json_encode()` except when called with `JSON_HEX_APOS` (integer `4`) flag. In the call above, the value of the second parameter (`JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT`) is `13` (`1 | 4 | 8`).
+For the extension to be able to "find" the `4` in `13`, you need to use the `ParamFlags` family of config options:
+
+- `allowParamFlagsInAllowed`
+- `allowParamFlagsAnywhere`
+- `allowExceptParamFlagsInAllowed` or `disallowParamFlagsInAllowed`
+- `allowExceptParamFlags` or `disallowParamFlags`
+
+They work like their non-flags `Param` counterparts except they're looking if specific bits in the mask parameter are set.
+
+The `json_encode()` example mentioned above would look like the following snippet:
+
+```neon
+parameters:
+    disallowedFunctionCalls:
+            function: 'json_encode'
+            allowParamFlagsAnywhere:
+                -
+                    position: 2
+                    value: ::JSON_HEX_APOS
+```
 
 ## Case-(in)sensitivity
 
