@@ -5,6 +5,9 @@ namespace Spaze\PHPStan\Rules\Disallowed\Params;
 
 use PHPStan\Type\ConstantScalarType;
 
+/**
+ * @template T of int|bool|string|null
+ */
 abstract class DisallowedCallParam
 {
 
@@ -14,7 +17,7 @@ abstract class DisallowedCallParam
 	/** @var ?string */
 	private $name;
 
-	/** @var int|bool|string|null */
+	/** @var T */
 	private $value;
 
 
@@ -24,7 +27,7 @@ abstract class DisallowedCallParam
 	/**
 	 * @param int|null $position
 	 * @param string|null $name
-	 * @param int|bool|string|null $value
+	 * @param T $value
 	 */
 	final public function __construct(?int $position, ?string $name, $value)
 	{
@@ -47,7 +50,7 @@ abstract class DisallowedCallParam
 
 
 	/**
-	 * @return bool|int|string|null
+	 * @return T
 	 */
 	public function getValue()
 	{

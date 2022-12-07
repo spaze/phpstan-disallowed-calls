@@ -7,6 +7,8 @@ use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParam;
 use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamExceptCaseInsensitiveValue;
 use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamExceptValue;
+use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamValueFlagExcept;
+use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamValueFlagSpecific;
 use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamWithAnyValue;
 use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamWithValue;
 
@@ -43,17 +45,29 @@ class DisallowedCallFactory
 				foreach ($disallowed['allowParamsInAllowedAnyValue'] ?? [] as $param => $value) {
 					$allowParamsInAllowed[$param] = $this->paramFactory(DisallowedCallParamWithAnyValue::class, $param, $value);
 				}
+				foreach ($disallowed['allowParamFlagsInAllowed'] ?? [] as $param => $value) {
+					$allowParamsInAllowed[$param] = $this->paramFactory(DisallowedCallParamValueFlagSpecific::class, $param, $value);
+				}
 				foreach ($disallowed['allowParamsAnywhere'] ?? [] as $param => $value) {
 					$allowParamsAnywhere[$param] = $this->paramFactory(DisallowedCallParamWithValue::class, $param, $value);
 				}
 				foreach ($disallowed['allowParamsAnywhereAnyValue'] ?? [] as $param => $value) {
 					$allowParamsAnywhere[$param] = $this->paramFactory(DisallowedCallParamWithAnyValue::class, $param, $value);
 				}
+				foreach ($disallowed['allowParamFlagsAnywhere'] ?? [] as $param => $value) {
+					$allowParamsAnywhere[$param] = $this->paramFactory(DisallowedCallParamValueFlagSpecific::class, $param, $value);
+				}
 				foreach ($disallowed['allowExceptParamsInAllowed'] ?? $disallowed['disallowParamsInAllowed'] ?? [] as $param => $value) {
 					$allowExceptParamsInAllowed[$param] = $this->paramFactory(DisallowedCallParamExceptValue::class, $param, $value);
 				}
+				foreach ($disallowed['allowExceptParamFlagsInAllowed'] ?? $disallowed['disallowParamFlagsInAllowed'] ?? [] as $param => $value) {
+					$allowExceptParamsInAllowed[$param] = $this->paramFactory(DisallowedCallParamValueFlagExcept::class, $param, $value);
+				}
 				foreach ($disallowed['allowExceptParams'] ?? $disallowed['disallowParams'] ?? [] as $param => $value) {
 					$allowExceptParams[$param] = $this->paramFactory(DisallowedCallParamExceptValue::class, $param, $value);
+				}
+				foreach ($disallowed['allowExceptParamFlags'] ?? $disallowed['disallowParamFlags'] ?? [] as $param => $value) {
+					$allowExceptParams[$param] = $this->paramFactory(DisallowedCallParamValueFlagExcept::class, $param, $value);
 				}
 				foreach ($disallowed['allowExceptCaseInsensitiveParams'] ?? $disallowed['disallowCaseInsensitiveParams'] ?? [] as $param => $value) {
 					$allowExceptParams[$param] = $this->paramFactory(DisallowedCallParamExceptCaseInsensitiveValue::class, $param, $value);

@@ -62,3 +62,10 @@ setcookie('foo', 'bar', 0, '/');
 header('foo: bar');
 header('foo: bar', true);
 header('foo: bar', false, 303);
+
+// all disallowed
+htmlspecialchars('foo');
+htmlspecialchars('foo', ENT_DISALLOWED);
+htmlspecialchars('foo', ENT_QUOTES);
+htmlspecialchars('foo', ENT_DISALLOWED | ENT_QUOTES);
+htmlspecialchars('foo', ENT_DISALLOWED | ENT_QUOTES | ENT_HTML5);
