@@ -306,7 +306,7 @@ The function or method names support [fnmatch()](https://www.php.net/function.fn
 
 ### Allow with specified parameters only
 
-You can also narrow down the allowed items when called with some parameters (doesn't apply to constants for obvious reasons). For example, you want to disallow calling `print_r()` but want to allow `print_r(..., true)`.
+You can also narrow down the allowed items when called with some parameters (applies only to disallowed method, static & function calls, for obvious reasons). For example, you want to disallow calling `print_r()` but want to allow `print_r(..., true)`.
 This can be done with optional `allowParamsInAllowed` or `allowParamsAnywhere` configuration keys:
 
 ```neon
