@@ -8,7 +8,7 @@ use PHPStan\Type\ConstantScalarType;
 /**
  * @extends DisallowedCallParamValue<int|bool|string|null>
  */
-final class DisallowedCallParamValueValueAny extends DisallowedCallParamValue
+final class DisallowedCallParamValueAny extends DisallowedCallParamValue
 {
 
 	public function matches(ConstantScalarType $type): bool
