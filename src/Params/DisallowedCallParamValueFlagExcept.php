@@ -9,7 +9,7 @@ use PHPStan\Type\ConstantScalarType;
 /**
  * @extends DisallowedCallParamValue<int>
  */
-class DisallowedCallParamValueValueFlagSpecific extends DisallowedCallParamValue
+class DisallowedCallParamValueFlagExcept extends DisallowedCallParamValue
 {
 
 	public function matches(ConstantScalarType $type): bool
@@ -17,7 +17,7 @@ class DisallowedCallParamValueValueFlagSpecific extends DisallowedCallParamValue
 		if (!$type instanceof ConstantIntegerType) {
 			return false;
 		}
-		return ($this->getValue() & $type->getValue()) !== 0;
+		return ($this->getValue() & $type->getValue()) === 0;
 	}
 
 }

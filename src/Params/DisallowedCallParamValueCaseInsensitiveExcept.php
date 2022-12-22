@@ -9,7 +9,7 @@ use PHPStan\Type\ConstantScalarType;
 /**
  * @extends DisallowedCallParamValue<int|bool|string|null>
  */
-class DisallowedCallParamValueValueCaseInsensitiveExcept extends DisallowedCallParamValue
+class DisallowedCallParamValueCaseInsensitiveExcept extends DisallowedCallParamValue
 {
 
 	public function matches(ConstantScalarType $type): bool
