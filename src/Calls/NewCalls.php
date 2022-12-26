@@ -11,7 +11,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\ConstantScalarType;
+use PHPStan\Type\Constant\ConstantStringType;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
@@ -24,6 +24,7 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
  */
 class NewCalls implements Rule
 {
+	private const CONSTRUCT = '::__construct';
 
 	/** @var DisallowedHelper */
 	private $disallowedHelper;
@@ -61,13 +62,41 @@ class NewCalls implements Rule
 	public function processNode(Node $node, Scope $scope): array
 	{
 		if ($node->class instanceof Name) {
-			$name = "{$node->class}::__construct";
-		} elseif ($node->class instanceof Expr && $scope->getType($node->class) instanceof ConstantScalarType) {
-			$name = $scope->getType($node->class)->getValue() . '::__construct';
-		} else {
+			$className = $node->class;
+		} elseif ($node->class instanceof Expr) {
+			$type = $scope->getType($node->class);
+			if ($type instanceof ConstantStringType) {
+				$className = new Name($type->getValue());
+			}
+		}
+		if (!isset($className)) {
 			return [];
 		}
-		return $this->disallowedHelper->getDisallowedMessage($node, $scope, $name, $name, $this->disallowedCalls);
+
+		$type = $scope->resolveTypeByName($className);
+		$names = [
+			$type->getClassName(),
+		];
+		$reflection = $type->getClassReflection();
+		if ($reflection) {
+			foreach ($reflection->getParents() as $parent) {
+				$names[] = $parent->getName();
+			}
+			foreach ($reflection->getInterfaces() as $interface) {
+				$names[] = $interface->getName();
+			}
+		}
+
+		$errors = [];
+		foreach ($names as $name) {
+			$name .= self::CONSTRUCT;
+			$errors = array_merge(
+				$errors,
+				$this->disallowedHelper->getDisallowedMessage($node, $scope, $name, $type->getClassName() . self::CONSTRUCT, $this->disallowedCalls)
+			);
+		}
+
+		return $errors;
 	}
 
 }
