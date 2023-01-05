@@ -5,6 +5,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Params;
 
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ConstantScalarType;
+use PHPStan\Type\Type;
 
 /**
  * @extends DisallowedCallParamValue<int|bool|string|null>
@@ -12,8 +13,11 @@ use PHPStan\Type\ConstantScalarType;
 class DisallowedCallParamValueCaseInsensitiveExcept extends DisallowedCallParamValue
 {
 
-	public function matches(ConstantScalarType $type): bool
+	public function matches(Type $type): bool
 	{
+		if (!$type instanceof ConstantScalarType) {
+			return false;
+		}
 		$a = is_string($this->getValue()) ? strtolower($this->getValue()) : $this->getValue();
 		$b = $type instanceof ConstantStringType ? strtolower($type->getValue()) : $type->getValue();
 		return $a !== $b;

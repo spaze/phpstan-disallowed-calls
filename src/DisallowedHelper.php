@@ -15,7 +15,6 @@ use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
-use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
@@ -109,7 +108,7 @@ class DisallowedHelper
 
 		foreach ($allowConfig as $param) {
 			$type = $this->getArgType($node, $scope, $param);
-			if (!$type instanceof ConstantScalarType) {
+			if ($type === null) {
 				return !$paramsRequired;
 			}
 			if (!$param->matches($type)) {
