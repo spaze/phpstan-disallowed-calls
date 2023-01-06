@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Params;
 
-use PHPStan\Type\ConstantScalarType;
+use PHPStan\Type\Type;
 
 /**
  * @extends DisallowedCallParamValue<int|bool|string|null>
@@ -11,7 +11,7 @@ use PHPStan\Type\ConstantScalarType;
 final class DisallowedCallParamValueAny extends DisallowedCallParamValue
 {
 
-	public function matches(ConstantScalarType $type): bool
+	public function matches(Type $type): bool
 	{
 		return true;
 	}

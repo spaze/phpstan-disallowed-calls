@@ -160,6 +160,17 @@ class FunctionCallsTest extends RuleTestCase
 						],
 					],
 				],
+				[
+					'function' => 'array_filter()',
+					'message' => 'callback parameter must be given.',
+					'allowIn' => [
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
+					],
+					'allowParamsAnywhereAnyValue' => [
+						2,
+					],
+				],
 			]
 		);
 	}
@@ -251,6 +262,10 @@ class FunctionCallsTest extends RuleTestCase
 			[
 				'Calling htmlspecialchars() is forbidden, because reasons',
 				71,
+			],
+			[
+				'Calling array_filter() is forbidden, callback parameter must be given.',
+				74,
 			],
 		]);
 		// Based on the configuration above, no errors in this file:

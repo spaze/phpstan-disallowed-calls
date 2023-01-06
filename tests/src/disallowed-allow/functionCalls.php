@@ -69,3 +69,9 @@ htmlspecialchars('foo', ENT_DISALLOWED);
 htmlspecialchars('foo', ENT_QUOTES);
 htmlspecialchars('foo', ENT_DISALLOWED | ENT_QUOTES);
 htmlspecialchars('foo', ENT_DISALLOWED | ENT_QUOTES | ENT_HTML5);
+
+// allowed only with callback
+array_filter(['1', '2']);
+array_filter(['1', '2'], function () {
+	return true;
+});
