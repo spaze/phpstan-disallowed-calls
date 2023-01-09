@@ -9,6 +9,7 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
 use Spaze\PHPStan\Rules\Disallowed\IsAllowedFileHelper;
+use Waldo\Quux\Blade;
 
 class FunctionCallsTest extends RuleTestCase
 {
@@ -171,6 +172,17 @@ class FunctionCallsTest extends RuleTestCase
 						2,
 					],
 				],
+				[
+					'function' => 'mocky()',
+					'message' => 'mocking Blade is not allowed.',
+					'allowIn' => [
+						'../src/disallowed-allowed/*.php',
+						'../src/*-allow/*.*',
+					],
+					'disallowParams' => [
+						1 => Blade::class,
+					],
+				],
 			]
 		);
 	}
@@ -266,6 +278,10 @@ class FunctionCallsTest extends RuleTestCase
 			[
 				'Calling array_filter() is forbidden, callback parameter must be given.',
 				74,
+			],
+			[
+				'Calling mocky() is forbidden, mocking Blade is not allowed.',
+				81,
 			],
 		]);
 		// Based on the configuration above, no errors in this file:

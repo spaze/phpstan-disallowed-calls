@@ -34,3 +34,7 @@ function baz(string $name = '', string $value = '', int $expires = 0, string $pa
 function waldo(string $name = '', string $value = '', int $expires = 0, string $path = ''): bool
 {
 }
+
+function mocky(string $className): void
+{
+}
