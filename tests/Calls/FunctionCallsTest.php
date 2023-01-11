@@ -249,19 +249,11 @@ class FunctionCallsTest extends RuleTestCase
 			],
 			[
 				'Calling setcookie() is forbidden, because reasons',
-				57,
+				59,
 			],
 			[
 				'Calling header() is forbidden, because reasons',
-				62,
-			],
-			[
-				'Calling htmlspecialchars() is forbidden, because reasons',
-				67,
-			],
-			[
-				'Calling htmlspecialchars() is forbidden, because reasons',
-				68,
+				64,
 			],
 			[
 				'Calling htmlspecialchars() is forbidden, because reasons',
@@ -276,12 +268,20 @@ class FunctionCallsTest extends RuleTestCase
 				71,
 			],
 			[
+				'Calling htmlspecialchars() is forbidden, because reasons',
+				72,
+			],
+			[
+				'Calling htmlspecialchars() is forbidden, because reasons',
+				73,
+			],
+			[
 				'Calling array_filter() is forbidden, callback parameter must be given.',
-				74,
+				76,
 			],
 			[
 				'Calling mocky() is forbidden, mocking Blade is not allowed.',
-				81,
+				83,
 			],
 		]);
 		// Based on the configuration above, no errors in this file:
@@ -292,27 +292,27 @@ class FunctionCallsTest extends RuleTestCase
 			],
 			[
 				'Calling setcookie() is forbidden, because reasons',
-				57,
+				59,
 			],
 			[
 				'Calling setcookie() is forbidden, because reasons',
-				58,
+				60,
 			],
 			[
 				'Calling header() is forbidden, because reasons',
-				62,
+				64,
 			],
 			[
 				'Calling header() is forbidden, because reasons',
-				63,
+				65,
 			],
 			[
 				'Calling htmlspecialchars() is forbidden, because reasons',
-				67,
+				69,
 			],
 			[
 				'Calling htmlspecialchars() is forbidden, because reasons',
-				68,
+				70,
 			],
 		]);
 	}

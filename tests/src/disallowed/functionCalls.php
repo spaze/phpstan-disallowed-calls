@@ -51,7 +51,9 @@ hash('md5', 'nope');
 hash('Md5', 'nOpE');
 hash('sha1', 'nah');
 hash('SHA1', 'NAH');
-hash('sha256', 'oh yeah but not for passwords tho');
+/** @var 'sha256'|'sha384'|'sha512' $okay */
+$okay = 'sha256';
+hash($okay, 'oh yeah but not for passwords tho');
 
 // second param needed
 setcookie('foo', 'bar');
