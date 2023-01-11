@@ -18,6 +18,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
+use PHPStan\Type\UnionType;
 use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParam;
 
 class DisallowedHelper
@@ -111,8 +112,15 @@ class DisallowedHelper
 			if ($type === null) {
 				return !$paramsRequired;
 			}
-			if (!$param->matches($type)) {
-				return false;
+			if ($type instanceof UnionType) {
+				$types = $type->getTypes();
+			} else {
+				$types = [$type];
+			}
+			foreach ($types as $type) {
+				if (!$param->matches($type)) {
+					return false;
+				}
 			}
 		}
 		return true;
