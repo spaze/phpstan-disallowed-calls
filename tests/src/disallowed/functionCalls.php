@@ -84,3 +84,8 @@ array_filter(['1', '2'], function () {
 
 // not disallowed
 hash((new stdClass())->property . 'foo', 'NAH');
+
+// not disallowed param
+\Foo\Bar\Waldo\config(['key' => 'string']);
+// disallowed param
+\Foo\Bar\Waldo\config('string-key');
