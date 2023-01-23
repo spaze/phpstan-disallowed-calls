@@ -19,6 +19,7 @@ use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
 use PHPStan\Type\UnionType;
+use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeException;
 use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParam;
 
 class DisallowedHelper
@@ -118,8 +119,12 @@ class DisallowedHelper
 				$types = [$type];
 			}
 			foreach ($types as $type) {
-				if (!$param->matches($type)) {
-					return false;
+				try {
+					if (!$param->matches($type)) {
+						return false;
+					}
+				} catch (UnsupportedParamTypeException $e) {
+					return !$paramsRequired;
 				}
 			}
 		}
