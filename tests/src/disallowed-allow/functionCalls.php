@@ -81,3 +81,6 @@ array_filter(['1', '2'], function () {
 // allowed when not FQCN to Blade class
 mocky(\Fiction\Pulp\Royale::class);
 mocky(\Waldo\Quux\Blade::class);
+
+// not disallowed
+hash((new stdClass())->property . 'foo', 'NAH');

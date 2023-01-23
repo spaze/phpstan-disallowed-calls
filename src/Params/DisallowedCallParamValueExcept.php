@@ -5,6 +5,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Params;
 
 use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\Type;
+use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeException;
 
 /**
  * @extends DisallowedCallParamValue<int|bool|string|null>
@@ -12,10 +13,13 @@ use PHPStan\Type\Type;
 class DisallowedCallParamValueExcept extends DisallowedCallParamValue
 {
 
+	/**
+	 * @throws UnsupportedParamTypeException
+	 */
 	public function matches(Type $type): bool
 	{
 		if (!$type instanceof ConstantScalarType) {
-			return false;
+			throw new UnsupportedParamTypeException();
 		}
 		return $this->getValue() !== $type->getValue();
 	}
