@@ -23,7 +23,7 @@ class MethodCallsTest extends RuleTestCase
 					'method' => 'Waldo\Quux\Blade::run*()',
 					'message' => "I've seen tests you people wouldn't believe",
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'allowParamsInAllowed' => [
@@ -36,7 +36,7 @@ class MethodCallsTest extends RuleTestCase
 					'method' => 'Waldo\Quux\Blade::movie()',
 					'message' => 'was good',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -44,7 +44,7 @@ class MethodCallsTest extends RuleTestCase
 					'method' => 'Waldo\Quux\Blade::sequel()',
 					'message' => 'too',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -52,7 +52,7 @@ class MethodCallsTest extends RuleTestCase
 					'method' => 'Waldo\Quux\Blade::Trinity()',
 					'message' => 'holy trinity',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -60,7 +60,7 @@ class MethodCallsTest extends RuleTestCase
 					'method' => 'Inheritance\Base::x*()',
 					'message' => 'Base::x*() methods are dangerous',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -68,7 +68,7 @@ class MethodCallsTest extends RuleTestCase
 					'method' => 'Traits\TestTrait::*',
 					'message' => 'all TestTrait methods are dangerous',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -76,7 +76,7 @@ class MethodCallsTest extends RuleTestCase
 					'method' => 'Traits\AnotherTestClass::zzTop()',
 					'message' => 'method AnotherTestClass::zzTop() is dangerous',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -84,7 +84,7 @@ class MethodCallsTest extends RuleTestCase
 					'method' => 'PhpOption\None::getIterator()',
 					'message' => 'no PhpOption',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -92,7 +92,7 @@ class MethodCallsTest extends RuleTestCase
 					'method' => 'PhpOption\Some::getIterator()',
 					'message' => 'no PhpOption',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -101,7 +101,7 @@ class MethodCallsTest extends RuleTestCase
 					'function' => 'DateTime::format()',
 					'message' => 'why too kay',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'allowExceptParams' => [

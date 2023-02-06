@@ -23,7 +23,7 @@ class NamespaceUsagesTest extends RuleTestCase
 					'namespace' => 'Framew*rk\Some*',
 					'message' => 'no framework some',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'errorTip' => 'Work more on your frames',
@@ -35,7 +35,7 @@ class NamespaceUsagesTest extends RuleTestCase
 					],
 					'message' => 'no inheritance sub base',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -43,7 +43,7 @@ class NamespaceUsagesTest extends RuleTestCase
 					'namespace' => 'Waldo\Quux\Blade',
 					'message' => 'no blade',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -51,7 +51,7 @@ class NamespaceUsagesTest extends RuleTestCase
 					'class' => 'Waldo\Foo\bar',
 					'message' => 'no FooBar',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -59,7 +59,7 @@ class NamespaceUsagesTest extends RuleTestCase
 					'namespace' => 'Traits\TestTrait',
 					'message' => 'no TestTrait',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],

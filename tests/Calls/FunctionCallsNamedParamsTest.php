@@ -25,7 +25,7 @@ class FunctionCallsNamedParamsTest extends RuleTestCase
 				[
 					'function' => 'Foo\Bar\Waldo\foo()',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'allowParamsAnywhereAnyValue' => [
@@ -44,7 +44,7 @@ class FunctionCallsNamedParamsTest extends RuleTestCase
 				[
 					'function' => 'Foo\Bar\Waldo\bar()',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'allowParamsAnywhereAnyValue' => [
@@ -57,7 +57,7 @@ class FunctionCallsNamedParamsTest extends RuleTestCase
 				[
 					'function' => 'Foo\Bar\Waldo\baz()',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'allowParamsInAllowed' => [
@@ -67,7 +67,7 @@ class FunctionCallsNamedParamsTest extends RuleTestCase
 				[
 					'function' => 'Foo\Bar\Waldo\waldo()',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'allowParamsInAllowed' => [

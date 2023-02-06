@@ -26,7 +26,7 @@ class ConstantUsagesTest extends RuleTestCase
 					],
 					'message' => 'the cake is a lie',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -34,7 +34,7 @@ class ConstantUsagesTest extends RuleTestCase
 					'constant' => '\FILTER_FLAG_NO_PRIV_RANGE',
 					'message' => 'the cake is a lie',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'errorTip' => 'Use https://github.com/mlocati/ip-lib instead',

@@ -23,7 +23,7 @@ class NewCallsTest extends RuleTestCase
 					'method' => '\Constructor\ClassWithConstructor::__construct()',
 					'message' => 'class ClassWithConstructor should not be created',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -31,7 +31,7 @@ class NewCallsTest extends RuleTestCase
 					'method' => 'Constructor\ClassWithoutConstructor::__construct()',
 					'message' => 'class ClassWithoutConstructor should not be created',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -39,7 +39,7 @@ class NewCallsTest extends RuleTestCase
 					'method' => 'Inheritance\Base::__construct()',
 					'message' => 'all your base are belong to us',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -47,7 +47,7 @@ class NewCallsTest extends RuleTestCase
 					'function' => 'DateTime::__construct()',
 					'message' => 'no future',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'allowExceptCaseInsensitiveParams' => [

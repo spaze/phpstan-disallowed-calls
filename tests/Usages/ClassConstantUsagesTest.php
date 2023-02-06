@@ -24,7 +24,7 @@ class ClassConstantUsagesTest extends RuleTestCase
 					'constant' => 'BELONG',
 					'message' => 'belong to us',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -33,7 +33,7 @@ class ClassConstantUsagesTest extends RuleTestCase
 					'constant' => 'BELONG',
 					'message' => 'belong to us',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -42,7 +42,7 @@ class ClassConstantUsagesTest extends RuleTestCase
 					'constant' => 'BELONG',
 					'message' => 'belong to us',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -54,7 +54,7 @@ class ClassConstantUsagesTest extends RuleTestCase
 					],
 					'message' => 'not a replicant',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -69,7 +69,7 @@ class ClassConstantUsagesTest extends RuleTestCase
 					'constant' => 'DECKARD',
 					'message' => 'maybe a replicant',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -78,7 +78,7 @@ class ClassConstantUsagesTest extends RuleTestCase
 					'constant' => 'NAME',
 					'message' => 'no PhpOption',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],

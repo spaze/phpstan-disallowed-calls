@@ -25,7 +25,7 @@ class ExitDieCallsTest extends RuleTestCase
 						'exit()',
 					],
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],

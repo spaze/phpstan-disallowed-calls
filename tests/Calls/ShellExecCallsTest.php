@@ -22,7 +22,7 @@ class ShellExecCallsTest extends RuleTestCase
 				[
 					'function' => 'shell_*()',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
