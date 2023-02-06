@@ -22,7 +22,7 @@ class SuperglobalUsagesTest extends RuleTestCase
 					'superglobal' => '$GLOBALS',
 					'message' => 'the cake is a lie',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'errorTip' => 'So long and thanks for all the tips',
@@ -34,7 +34,7 @@ class SuperglobalUsagesTest extends RuleTestCase
 					],
 					'message' => 'the cake is a lie',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],

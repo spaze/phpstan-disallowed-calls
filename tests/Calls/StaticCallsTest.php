@@ -23,7 +23,7 @@ class StaticCallsTest extends RuleTestCase
 					'method' => 'Fiction\Pulp\Royale::withCheese()',
 					'message' => 'a Quarter Pounder with Cheese?',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'allowParamsInAllowed' => [],
@@ -32,7 +32,7 @@ class StaticCallsTest extends RuleTestCase
 					'method' => '\Fiction\Pulp\*::withBad*()',
 					'message' => 'a Quarter Pounder with Cheese?',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'allowParamsInAllowed' => [],
@@ -41,7 +41,7 @@ class StaticCallsTest extends RuleTestCase
 					'method' => 'Fiction\Pulp\Royale::WithoutCheese',
 					'message' => 'a Quarter Pounder without Cheese?',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'allowParamsInAllowed' => [
@@ -59,7 +59,7 @@ class StaticCallsTest extends RuleTestCase
 					'method' => 'Inheritance\Base::w*f*r()',
 					'message' => 'method Base::woofer() is dangerous',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -67,7 +67,7 @@ class StaticCallsTest extends RuleTestCase
 					'method' => 'Traits\TestTrait::z()',
 					'message' => 'method TestTrait::z() is dangerous',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -75,7 +75,7 @@ class StaticCallsTest extends RuleTestCase
 					'method' => 'Traits\AnotherTestClass::zz()',
 					'message' => 'method AnotherTestClass::zz() is dangerous',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -83,7 +83,7 @@ class StaticCallsTest extends RuleTestCase
 					'method' => 'PhpOption\Option::*()',
 					'message' => 'do not use PhpOption',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -91,7 +91,7 @@ class StaticCallsTest extends RuleTestCase
 					'method' => 'PhpOption\Some::create()',
 					'message' => 'do not use PhpOption',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -99,7 +99,7 @@ class StaticCallsTest extends RuleTestCase
 					'method' => 'PhpOption\None::*()',
 					'message' => 'do not use PhpOption',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],

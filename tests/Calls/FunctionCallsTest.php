@@ -24,7 +24,7 @@ class FunctionCallsTest extends RuleTestCase
 					'function' => '\var_dump()',
 					'message' => 'use logger instead',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'errorTip' => 'See docs',
@@ -33,7 +33,7 @@ class FunctionCallsTest extends RuleTestCase
 					'function' => 'print_r()',
 					'message' => 'nope',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'allowParamsAnywhere' => [
@@ -43,7 +43,7 @@ class FunctionCallsTest extends RuleTestCase
 				[
 					'function' => 'printf',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -51,7 +51,7 @@ class FunctionCallsTest extends RuleTestCase
 					'function' => '\Foo\Bar\waldo()',
 					'message' => 'whoa, a namespace',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'allowExceptParamsInAllowed' => [
@@ -61,7 +61,7 @@ class FunctionCallsTest extends RuleTestCase
 				[
 					'function' => 'shell_*',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -72,7 +72,7 @@ class FunctionCallsTest extends RuleTestCase
 				[
 					'function' => 'exe*()',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
@@ -81,7 +81,7 @@ class FunctionCallsTest extends RuleTestCase
 					'function' => 'hash()',
 					'message' => 'MD4 very bad',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'allowExceptParams' => [
@@ -92,7 +92,7 @@ class FunctionCallsTest extends RuleTestCase
 					'function' => 'hash()',
 					'message' => 'SHA-1 bad soon™',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'disallowParams' => [
@@ -103,7 +103,7 @@ class FunctionCallsTest extends RuleTestCase
 					'function' => 'hash()',
 					'message' => 'MD5 bad',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'allowExceptCaseInsensitiveParams' => [
@@ -114,7 +114,7 @@ class FunctionCallsTest extends RuleTestCase
 					'function' => 'hash()',
 					'message' => 'SHA-1 bad SOON™',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'allowExceptCaseInsensitiveParams' => [
@@ -124,7 +124,7 @@ class FunctionCallsTest extends RuleTestCase
 				[
 					'function' => 'setcookie()',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'allowParamsAnywhere' => [
@@ -137,7 +137,7 @@ class FunctionCallsTest extends RuleTestCase
 				[
 					'function' => 'header()',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'allowParamsAnywhereAnyValue' => [
@@ -150,7 +150,7 @@ class FunctionCallsTest extends RuleTestCase
 				[
 					'function' => 'htmlspecialchars()',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'allowParamFlagsInAllowed' => [
@@ -165,7 +165,7 @@ class FunctionCallsTest extends RuleTestCase
 					'function' => 'array_filter()',
 					'message' => 'callback parameter must be given.',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'allowParamsAnywhereAnyValue' => [
@@ -176,7 +176,7 @@ class FunctionCallsTest extends RuleTestCase
 					'function' => 'mocky()',
 					'message' => 'mocking Blade is not allowed.',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 					'disallowParams' => [

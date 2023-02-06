@@ -22,7 +22,7 @@ class EmptyCallsTest extends RuleTestCase
 				[
 					'function' => 'empty()',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],

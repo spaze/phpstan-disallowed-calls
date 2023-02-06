@@ -22,7 +22,7 @@ class EvalCallsTest extends RuleTestCase
 				[
 					'function' => 'eval()',
 					'allowIn' => [
-						'../src/disallowed-allowed/*.php',
+						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
 					],
 				],
