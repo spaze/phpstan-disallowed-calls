@@ -27,16 +27,17 @@ class IsAllowedFileHelper
 	 * Make path absolute unless it starts with a wildcard, then return as is.
 	 *
 	 * @param string $path
+	 * @param string|null $allowInRootDir
 	 * @return string
 	 */
-	private function absolutizePath(string $path): string
+	private function absolutizePath(string $path, ?string $allowInRootDir): string
 	{
 		if (strpos($path, '*') === 0) {
 			return $path;
 		}
 
-		if ($this->allowInRootDir !== null) {
-			$path = rtrim($this->allowInRootDir, '/') . '/' . ltrim($path, '/');
+		if ($allowInRootDir !== null) {
+			$path = rtrim($allowInRootDir, '/') . '/' . ltrim($path, '/');
 		}
 		return $this->fileHelper->normalizePath($this->fileHelper->absolutizePath($path));
 	}
@@ -45,7 +46,7 @@ class IsAllowedFileHelper
 	public function matches(Scope $scope, string $allowedPath): bool
 	{
 		$file = $scope->getTraitReflection() ? $scope->getTraitReflection()->getFileName() : $scope->getFile();
-		return $file !== null && fnmatch($this->absolutizePath($allowedPath), $file, FNM_NOESCAPE);
+		return $file !== null && fnmatch($this->absolutizePath($allowedPath, $this->allowInRootDir), $this->absolutizePath($file, null), FNM_NOESCAPE);
 	}
 
 

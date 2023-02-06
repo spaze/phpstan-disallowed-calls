@@ -3,8 +3,7 @@ name: PHP Tests
 on: [push, pull_request]
 
 jobs:
-  build:
-
+  lint-phpcs-phpstan:
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,7 +19,6 @@ jobs:
           - composer lint
           - composer phpcs
           - composer phpstan
-          - composer phpunit
         exclude:
           - php-version: "7.2"
             run: composer lint
@@ -65,3 +63,39 @@ jobs:
 
     - name: Run tests
       run: ${{ matrix.run }}
+
+  phpunit:
+    runs-on: ${{ matrix.operating-system }}
+
+    strategy:
+      matrix:
+        php-version:
+          - "7.2"
+          - "7.3"
+          - "7.4"
+          - "8.0"
+          - "8.1"
+          - "8.2"
+        operating-system:
+          - ubuntu-latest
+          - windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Install PHP"
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: "none"
+          php-version: "${{ matrix.php-version }}"
+
+      - name: PHP info
+        run: |
+          php -v
+          php -m
+
+      - name: Install dependencies
+        run: composer update --no-progress --no-interaction
+
+      - name: Run tests
+        run: composer phpunit
