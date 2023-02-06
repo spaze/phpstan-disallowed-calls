@@ -45,7 +45,7 @@ class IsAllowedFileHelper
 	public function matches(Scope $scope, string $allowedPath): bool
 	{
 		$file = $scope->getTraitReflection() ? $scope->getTraitReflection()->getFileName() : $scope->getFile();
-		return $file !== null && fnmatch($this->absolutizePath($allowedPath), $file);
+		return $file !== null && fnmatch($this->absolutizePath($allowedPath), $file, FNM_NOESCAPE);
 	}
 
 
