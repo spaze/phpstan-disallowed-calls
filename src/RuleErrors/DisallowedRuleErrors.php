@@ -12,19 +12,19 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
+use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeException;
-use Spaze\PHPStan\Rules\Disallowed\IsAllowedFileHelper;
 use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParam;
 
 class DisallowedRuleErrors
 {
 
-	/** @var IsAllowedFileHelper */
+	/** @var AllowedPath */
 	private $isAllowedFileHelper;
 
 
-	public function __construct(IsAllowedFileHelper $isAllowedFileHelper)
+	public function __construct(AllowedPath $isAllowedFileHelper)
 	{
 		$this->isAllowedFileHelper = $isAllowedFileHelper;
 	}

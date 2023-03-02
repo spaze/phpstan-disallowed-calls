@@ -7,18 +7,18 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
+use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstant;
-use Spaze\PHPStan\Rules\Disallowed\IsAllowedFileHelper;
 
 class DisallowedConstantRuleErrors
 {
 
 
-	/** @var IsAllowedFileHelper */
+	/** @var AllowedPath */
 	private $isAllowedFileHelper;
 
 
-	public function __construct(IsAllowedFileHelper $isAllowedFileHelper)
+	public function __construct(AllowedPath $isAllowedFileHelper)
 	{
 		$this->isAllowedFileHelper = $isAllowedFileHelper;
 	}

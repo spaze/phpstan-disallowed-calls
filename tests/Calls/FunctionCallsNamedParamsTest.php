@@ -7,8 +7,8 @@ use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
+use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\IsAllowedFileHelper;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors;
 
 /**
@@ -23,7 +23,7 @@ class FunctionCallsNamedParamsTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		return new FunctionCalls(
-			new DisallowedRuleErrors(new IsAllowedFileHelper(new FileHelper(__DIR__))),
+			new DisallowedRuleErrors(new AllowedPath(new FileHelper(__DIR__))),
 			new DisallowedCallFactory(),
 			[
 				[

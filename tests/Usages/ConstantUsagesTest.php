@@ -7,8 +7,8 @@ use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
+use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory;
-use Spaze\PHPStan\Rules\Disallowed\IsAllowedFileHelper;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors;
 
 class ConstantUsagesTest extends RuleTestCase
@@ -20,7 +20,7 @@ class ConstantUsagesTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		return new ConstantUsages(
-			new DisallowedConstantRuleErrors(new IsAllowedFileHelper(new FileHelper(__DIR__))),
+			new DisallowedConstantRuleErrors(new AllowedPath(new FileHelper(__DIR__))),
 			new DisallowedConstantFactory(),
 			[
 				[

@@ -1,21 +1,23 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed;
+namespace Spaze\PHPStan\Rules\Disallowed\RuleErrors;
 
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
+use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedVariable;
 
-class DisallowedVariableHelper
+class DisallowedVariableRuleErrors
 {
 
-	/** @var IsAllowedFileHelper */
+	/** @var AllowedPath */
 	private $isAllowedFileHelper;
 
 
-	public function __construct(IsAllowedFileHelper $isAllowedFileHelper)
+	public function __construct(AllowedPath $isAllowedFileHelper)
 	{
 		$this->isAllowedFileHelper = $isAllowedFileHelper;
 	}
@@ -28,7 +30,7 @@ class DisallowedVariableHelper
 	 * @return RuleError[]
 	 * @throws ShouldNotHappenException
 	 */
-	public function getDisallowedMessage(string $variable, Scope $scope, array $disallowedVariables): array
+	public function get(string $variable, Scope $scope, array $disallowedVariables): array
 	{
 		foreach ($disallowedVariables as $disallowedVariable) {
 			if ($disallowedVariable->getVariable() === $variable && !$this->isAllowedFileHelper->isAllowedPath($scope, $disallowedVariable)) {

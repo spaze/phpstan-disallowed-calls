@@ -16,10 +16,10 @@ use Traits\TestTrait;
 class IsAllowedFileHelperTest extends PHPStanTestCase
 {
 
-	/** @var IsAllowedFileHelper */
+	/** @var AllowedPath */
 	private $isAllowedHelper;
 
-	/** @var IsAllowedFileHelper */
+	/** @var AllowedPath */
 	private $isAllowedHelperWithRootDir;
 
 	/** @var ScopeFactory */
@@ -31,8 +31,8 @@ class IsAllowedFileHelperTest extends PHPStanTestCase
 
 	protected function setUp(): void
 	{
-		$this->isAllowedHelper = new IsAllowedFileHelper(new FileHelper(__DIR__));
-		$this->isAllowedHelperWithRootDir = new IsAllowedFileHelper(new FileHelper(__DIR__), '/foo/bar');
+		$this->isAllowedHelper = new AllowedPath(new FileHelper(__DIR__));
+		$this->isAllowedHelperWithRootDir = new AllowedPath(new FileHelper(__DIR__), '/foo/bar');
 		$this->reflectionProvider = $this->createReflectionProvider();
 		$this->scopeFactory = $this->createScopeFactory($this->reflectionProvider, self::getContainer()->getService('typeSpecifier'));
 	}
