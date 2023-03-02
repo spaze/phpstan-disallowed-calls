@@ -12,7 +12,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors;
 
 /**
  * Reports on dynamically calling a disallowed function.
@@ -23,24 +23,24 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
 class FunctionCalls implements Rule
 {
 
-	/** @var DisallowedHelper */
-	private $disallowedHelper;
+	/** @var DisallowedRuleErrors */
+	private $disallowedRuleErrors;
 
 	/** @var DisallowedCall[] */
 	private $disallowedCalls;
 
 
 	/**
-	 * @param DisallowedHelper $disallowedHelper
+	 * @param DisallowedRuleErrors $disallowedRuleErrors
 	 * @param DisallowedCallFactory $disallowedCallFactory
 	 * @param array $forbiddenCalls
 	 * @phpstan-param ForbiddenCallsConfig $forbiddenCalls
 	 * @noinspection PhpUndefinedClassInspection ForbiddenCallsConfig is a type alias defined in PHPStan config
 	 * @throws ShouldNotHappenException
 	 */
-	public function __construct(DisallowedHelper $disallowedHelper, DisallowedCallFactory $disallowedCallFactory, array $forbiddenCalls)
+	public function __construct(DisallowedRuleErrors $disallowedRuleErrors, DisallowedCallFactory $disallowedCallFactory, array $forbiddenCalls)
 	{
-		$this->disallowedHelper = $disallowedHelper;
+		$this->disallowedRuleErrors = $disallowedRuleErrors;
 		$this->disallowedCalls = $disallowedCallFactory->createFromConfig($forbiddenCalls);
 	}
 
@@ -71,7 +71,7 @@ class FunctionCalls implements Rule
 			throw new ShouldNotHappenException();
 		}
 		foreach ([$namespacedName, $node->name] as $name) {
-			$message = $this->disallowedHelper->getDisallowedMessage($node, $scope, (string)$name, (string)($displayName ?? $node->name), $this->disallowedCalls);
+			$message = $this->disallowedRuleErrors->get($node, $scope, (string)$name, (string)($displayName ?? $node->name), $this->disallowedCalls);
 			if ($message) {
 				return $message;
 			}

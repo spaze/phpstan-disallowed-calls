@@ -9,8 +9,8 @@ use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\Calls\FunctionCalls;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
 use Spaze\PHPStan\Rules\Disallowed\IsAllowedFileHelper;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors;
 
 class ExecutionConfigFunctionCallsTest extends RuleTestCase
 {
@@ -20,7 +20,7 @@ class ExecutionConfigFunctionCallsTest extends RuleTestCase
 		// Load the configuration from this file
 		$config = Neon::decode(file_get_contents(__DIR__ . '/../../disallowed-execution-calls.neon'));
 		return new FunctionCalls(
-			new DisallowedHelper(new IsAllowedFileHelper(new FileHelper(__DIR__))),
+			new DisallowedRuleErrors(new IsAllowedFileHelper(new FileHelper(__DIR__))),
 			new DisallowedCallFactory(),
 			$config['parameters']['disallowedFunctionCalls']
 		);

@@ -83,11 +83,14 @@ services:
 	- Spaze\PHPStan\Rules\Disallowed\IsAllowedFileHelper(allowInRootDir: %allowInRootDir%)
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory
-	- Spaze\PHPStan\Rules\Disallowed\DisallowedHelper
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceHelper
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedVariableHelper
+	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors
+	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors
+	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors
+	- Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver
 	-
 		factory: Spaze\PHPStan\Rules\Disallowed\Usages\NamespaceUsages(forbiddenNamespaces: %disallowedNamespaces%)
 		tags:

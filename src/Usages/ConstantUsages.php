@@ -11,7 +11,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstant;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory;
-use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors;
 
 /**
  * Reports on constant usage.
@@ -22,22 +22,22 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
 class ConstantUsages implements Rule
 {
 
-	/** @var DisallowedHelper */
-	private $disallowedHelper;
+	/** @var DisallowedConstantRuleErrors */
+	private $disallowedConstantRuleError;
 
 	/** @var DisallowedConstant[] */
 	private $disallowedConstants;
 
 
 	/**
-	 * @param DisallowedHelper $disallowedHelper
+	 * @param DisallowedConstantRuleErrors $disallowedConstantRuleErrors
 	 * @param DisallowedConstantFactory $disallowedConstantFactory
 	 * @param array<array{constant?:string, message?:string, allowIn?:string[]}> $disallowedConstants
 	 * @throws ShouldNotHappenException
 	 */
-	public function __construct(DisallowedHelper $disallowedHelper, DisallowedConstantFactory $disallowedConstantFactory, array $disallowedConstants)
+	public function __construct(DisallowedConstantRuleErrors $disallowedConstantRuleErrors, DisallowedConstantFactory $disallowedConstantFactory, array $disallowedConstants)
 	{
-		$this->disallowedHelper = $disallowedHelper;
+		$this->disallowedConstantRuleError = $disallowedConstantRuleErrors;
 		$this->disallowedConstants = $disallowedConstantFactory->createFromConfig($disallowedConstants);
 	}
 
@@ -56,7 +56,7 @@ class ConstantUsages implements Rule
 	public function processNode(Node $node, Scope $scope): array
 	{
 		/** @var ConstFetch $node */
-		return $this->disallowedHelper->getDisallowedConstantMessage((string)$node->name, $scope, null, $this->disallowedConstants);
+		return $this->disallowedConstantRuleError->get((string)$node->name, $scope, null, $this->disallowedConstants);
 	}
 
 }

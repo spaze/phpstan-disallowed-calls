@@ -16,7 +16,8 @@ use PHPStan\Type\TypeWithClassName;
 use PHPStan\Type\VerbosityLevel;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstant;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory;
-use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
 /**
  * Reports on class constant usage.
@@ -27,22 +28,31 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
 class ClassConstantUsages implements Rule
 {
 
-	/** @var DisallowedHelper */
-	private $disallowedHelper;
+	/** @var DisallowedConstantRuleErrors */
+	private $disallowedConstantRuleErrors;
+
+	/** @var TypeResolver */
+	private $typeResolver;
 
 	/** @var DisallowedConstant[] */
 	private $disallowedConstants;
 
 
 	/**
-	 * @param DisallowedHelper $disallowedHelper
+	 * @param DisallowedConstantRuleErrors $disallowedConstantRuleErrors
 	 * @param DisallowedConstantFactory $disallowedConstantFactory
+	 * @param TypeResolver $typeResolver
 	 * @param array<array{class?:string, constant?:string, message?:string, allowIn?:string[]}> $disallowedConstants
 	 * @throws ShouldNotHappenException
 	 */
-	public function __construct(DisallowedHelper $disallowedHelper, DisallowedConstantFactory $disallowedConstantFactory, array $disallowedConstants)
-	{
-		$this->disallowedHelper = $disallowedHelper;
+	public function __construct(
+		DisallowedConstantRuleErrors $disallowedConstantRuleErrors,
+		DisallowedConstantFactory $disallowedConstantFactory,
+		TypeResolver $typeResolver,
+		array $disallowedConstants
+	) {
+		$this->disallowedConstantRuleErrors = $disallowedConstantRuleErrors;
+		$this->typeResolver = $typeResolver;
 		$this->disallowedConstants = $disallowedConstantFactory->createFromConfig($disallowedConstants);
 	}
 
@@ -68,7 +78,7 @@ class ClassConstantUsages implements Rule
 			throw new ShouldNotHappenException(sprintf('$node->name should be %s but is %s', Identifier::class, get_class($node->name)));
 		}
 		$constant = (string)$node->name;
-		$usedOnType = $this->disallowedHelper->resolveType($node->class, $scope);
+		$usedOnType = $this->typeResolver->getType($node->class, $scope);
 
 		if (strtolower($constant) === 'class') {
 			return [];
@@ -92,7 +102,7 @@ class ClassConstantUsages implements Rule
 		}
 		$constant = $this->getFullyQualified($className, $constant);
 
-		return $this->disallowedHelper->getDisallowedConstantMessage($constant, $scope, $displayName, $this->disallowedConstants);
+		return $this->disallowedConstantRuleErrors->get($constant, $scope, $displayName, $this->disallowedConstants);
 	}
 
 

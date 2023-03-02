@@ -7,8 +7,10 @@ use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
 use Spaze\PHPStan\Rules\Disallowed\IsAllowedFileHelper;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
 class StaticCallsTest extends RuleTestCase
 {
@@ -16,7 +18,7 @@ class StaticCallsTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		return new StaticCalls(
-			new DisallowedHelper(new IsAllowedFileHelper(new FileHelper(__DIR__))),
+			new DisallowedMethodRuleErrors(new DisallowedRuleErrors(new IsAllowedFileHelper(new FileHelper(__DIR__))), new TypeResolver()),
 			new DisallowedCallFactory(),
 			[
 				[
