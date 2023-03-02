@@ -54,6 +54,7 @@ class EchoCalls implements Rule
 	 * @param Echo_ $node
 	 * @param Scope $scope
 	 * @return RuleError[]
+	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{

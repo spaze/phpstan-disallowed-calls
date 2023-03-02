@@ -5,6 +5,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
 use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalFactory;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedVariableHelper;
@@ -13,6 +14,9 @@ use Spaze\PHPStan\Rules\Disallowed\IsAllowedFileHelper;
 class SuperglobalUsagesTest extends RuleTestCase
 {
 
+	/**
+	 * @throws ShouldNotHappenException
+	 */
 	protected function getRule(): Rule
 	{
 		return new VariableUsages(

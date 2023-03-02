@@ -8,6 +8,7 @@ use PHPStan\Analyser\ScopeContext;
 use PHPStan\Analyser\ScopeFactory;
 use PHPStan\File\FileHelper;
 use PHPStan\Reflection\ReflectionProvider;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\PHPStanTestCase;
 use Traits\TestClass;
 use Traits\TestTrait;
@@ -89,6 +90,9 @@ class IsAllowedFileHelperTest extends PHPStanTestCase
 	}
 
 
+	/**
+	 * @throws ShouldNotHappenException
+	 */
 	public function testMatchesInTraits(): void
 	{
 		$classReflection = $this->reflectionProvider->getClass(TestClass::class);

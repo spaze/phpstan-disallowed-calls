@@ -5,6 +5,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
 use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\IsAllowedFileHelper;
@@ -13,6 +14,9 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors;
 class FunctionCallsAllowInFunctionsTest extends RuleTestCase
 {
 
+	/**
+	 * @throws ShouldNotHappenException
+	 */
 	protected function getRule(): Rule
 	{
 		return new FunctionCalls(

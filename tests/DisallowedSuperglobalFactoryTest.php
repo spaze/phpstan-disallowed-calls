@@ -14,6 +14,7 @@ class DisallowedSuperglobalFactoryTest extends PHPStanTestCase
 	 * @dataProvider superglobalsProvider
 	 * @param string $superglobal
 	 * @param class-string|null $exceptionClass
+	 * @throws ShouldNotHappenException
 	 */
 	public function testNonSuperglobalInConfig(string $superglobal, ?string $exceptionClass)
 	{

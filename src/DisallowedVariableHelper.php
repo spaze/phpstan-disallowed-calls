@@ -6,6 +6,7 @@ namespace Spaze\PHPStan\Rules\Disallowed;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\ShouldNotHappenException;
 
 class DisallowedVariableHelper
 {
@@ -25,6 +26,7 @@ class DisallowedVariableHelper
 	 * @param Scope $scope
 	 * @param DisallowedVariable[] $disallowedVariables
 	 * @return RuleError[]
+	 * @throws ShouldNotHappenException
 	 */
 	public function getDisallowedMessage(string $variable, Scope $scope, array $disallowedVariables): array
 	{
