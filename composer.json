@@ -22,7 +22,7 @@
 	},
 	"require": {
 		"php": "^7.2 || ^8.0",
-		"phpstan/phpstan": "^1.0"
+		"phpstan/phpstan": "^1.10"
 	},
 	"require-dev": {
 		"nette/neon": "^3.2",

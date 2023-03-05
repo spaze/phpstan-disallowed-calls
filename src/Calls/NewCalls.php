@@ -11,7 +11,6 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\Constant\ConstantStringType;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors;
@@ -62,39 +61,39 @@ class NewCalls implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
+		$classNames = $names = $errors = [];
 		if ($node->class instanceof Name) {
-			$className = $node->class;
+			$classNames[] = $node->class;
 		} elseif ($node->class instanceof Expr) {
 			$type = $scope->getType($node->class);
-			if ($type instanceof ConstantStringType) {
-				$className = new Name($type->getValue());
+			foreach ($type->getConstantStrings() as $constantString) {
+				$classNames[] = new Name($constantString->getValue());
 			}
 		}
-		if (!isset($className)) {
+		if ($classNames === []) {
 			return [];
 		}
 
-		$type = $scope->resolveTypeByName($className);
-		$names = [
-			$type->getClassName(),
-		];
-		$reflection = $type->getClassReflection();
-		if ($reflection) {
-			foreach ($reflection->getParents() as $parent) {
-				$names[] = $parent->getName();
+		foreach ($classNames as $className) {
+			$type = $scope->resolveTypeByName($className);
+			$names[] = $type->getClassName();
+			$reflection = $type->getClassReflection();
+			if ($reflection) {
+				foreach ($reflection->getParents() as $parent) {
+					$names[] = $parent->getName();
+				}
+				foreach ($reflection->getInterfaces() as $interface) {
+					$names[] = $interface->getName();
+				}
 			}
-			foreach ($reflection->getInterfaces() as $interface) {
-				$names[] = $interface->getName();
-			}
-		}
 
-		$errors = [];
-		foreach ($names as $name) {
-			$name .= self::CONSTRUCT;
-			$errors = array_merge(
-				$errors,
-				$this->disallowedRuleErrors->get($node, $scope, $name, $type->getClassName() . self::CONSTRUCT, $this->disallowedCalls)
-			);
+			foreach ($names as $name) {
+				$name .= self::CONSTRUCT;
+				$errors = array_merge(
+					$errors,
+					$this->disallowedRuleErrors->get($node, $scope, $name, $type->getClassName() . self::CONSTRUCT, $this->disallowedCalls)
+				);
+			}
 		}
 
 		return $errors;

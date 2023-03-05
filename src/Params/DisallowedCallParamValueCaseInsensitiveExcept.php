@@ -3,8 +3,6 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Params;
 
-use PHPStan\Type\Constant\ConstantStringType;
-use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\Type;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeException;
 
@@ -19,12 +17,24 @@ class DisallowedCallParamValueCaseInsensitiveExcept extends DisallowedCallParamV
 	 */
 	public function matches(Type $type): bool
 	{
-		if (!$type instanceof ConstantScalarType) {
+		if (!$type->isConstantScalarValue()->yes()) {
 			throw new UnsupportedParamTypeException();
 		}
-		$a = is_string($this->getValue()) ? strtolower($this->getValue()) : $this->getValue();
-		$b = $type instanceof ConstantStringType ? strtolower($type->getValue()) : $type->getValue();
-		return $a !== $b;
+		$values = [];
+		foreach ($type->getConstantScalarValues() as $value) {
+			$values[] = $this->getLowercaseValue($value);
+		}
+		return !in_array($this->getLowercaseValue($this->getValue()), $values, true);
+	}
+
+
+	/**
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	private function getLowercaseValue($value)
+	{
+		return is_string($value) ? strtolower($value) : $value;
 	}
 
 }

@@ -132,7 +132,7 @@ class ClassConstantUsagesTest extends RuleTestCase
 				23,
 			],
 			[
-				'Using PhpOption\Option::NAME is forbidden, no PhpOption',
+				'Using PhpOption\Option::NAME (as PhpOption\None::NAME) is forbidden, no PhpOption',
 				37,
 			],
 		]);

@@ -12,7 +12,6 @@ use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantStringType;
-use PHPStan\Type\TypeWithClassName;
 use PHPStan\Type\VerbosityLevel;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstant;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory;
@@ -84,9 +83,14 @@ class ClassConstantUsages implements Rule
 			return [];
 		}
 
-		$displayName = ($usedOnType instanceof TypeWithClassName ? $this->getFullyQualified($usedOnType->getClassName(), $constant) : null);
-		if ($usedOnType instanceof ConstantStringType) {
-			$className = ltrim($usedOnType->getValue(), '\\');
+		$displayName = $usedOnType->getObjectClassNames() ? $this->getFullyQualified($usedOnType->getObjectClassNames(), $constant) : null;
+		if ($usedOnType->getConstantStrings()) {
+			$classNames = array_map(
+				function (ConstantStringType $constantString): string {
+					return ltrim($constantString->getValue(), '\\');
+				},
+				$usedOnType->getConstantStrings()
+			);
 		} else {
 			if ($usedOnType->hasConstant($constant)->no()) {
 				return [
@@ -97,18 +101,22 @@ class ClassConstantUsages implements Rule
 					))->build(),
 				];
 			} else {
-				$className = $usedOnType->getConstant($constant)->getDeclaringClass()->getDisplayName();
+				$classNames = [$usedOnType->getConstant($constant)->getDeclaringClass()->getDisplayName()];
 			}
 		}
-		$constant = $this->getFullyQualified($className, $constant);
-
-		return $this->disallowedConstantRuleErrors->get($constant, $scope, $displayName, $this->disallowedConstants);
+		return $this->disallowedConstantRuleErrors->get($this->getFullyQualified($classNames, $constant), $scope, $displayName, $this->disallowedConstants);
 	}
 
 
-	private function getFullyQualified(string $class, string $constant): string
+	/**
+	 * @param non-empty-list<string> $classNames
+	 * @param string $constant
+	 * @return string
+	 */
+	private function getFullyQualified(array $classNames, string $constant): string
 	{
-		return "{$class}::{$constant}";
+		$className = count($classNames) === 1 ? $classNames[0] : '{' . implode(',', $classNames) . '}';
+		return $className . '::' . $constant;
 	}
 
 }
