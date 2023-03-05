@@ -12,7 +12,6 @@ use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\TypeWithClassName;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
 use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
@@ -50,7 +49,14 @@ class DisallowedMethodRuleErrors
 		$calledOnType = $this->typeResolver->getType($class, $scope);
 		if ($calledOnType->canCallMethods()->yes() && $calledOnType->hasMethod($node->name->name)->yes()) {
 			$method = $calledOnType->getMethod($node->name->name, $scope);
-			$calledAs = ($calledOnType instanceof TypeWithClassName ? $this->disallowedRuleErrors->getFullyQualified($calledOnType->getClassName(), $method) : null);
+			$classNames = $calledOnType->getObjectClassNames();
+			if (count($classNames) === 0) {
+				$calledAs = null;
+			} elseif (count($classNames) === 1) {
+				$calledAs = $this->disallowedRuleErrors->getFullyQualified($classNames[0], $method);
+			} else {
+				$calledAs = $this->disallowedRuleErrors->getFullyQualified('{' . implode(',', $classNames) . '}', $method);
+			}
 
 			foreach ($method->getDeclaringClass()->getTraits() as $trait) {
 				if ($trait->hasMethod($method->getName())) {
