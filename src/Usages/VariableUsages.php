@@ -46,7 +46,7 @@ class VariableUsages implements Rule
 
 
 	/**
-	 * @param Variable $node
+	 * @param Node $node
 	 * @param Scope $scope
 	 * @return RuleError[]
 	 * @throws ShouldNotHappenException
