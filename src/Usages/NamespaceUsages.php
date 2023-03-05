@@ -20,7 +20,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespace;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
-use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceHelper;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 
 /**
  * @implements Rule<Node>
@@ -28,7 +28,7 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceHelper;
 class NamespaceUsages implements Rule
 {
 
-	/** @var DisallowedNamespaceHelper */
+	/** @var DisallowedNamespaceRuleErrors */
 	private $disallowedHelper;
 
 	/** @var DisallowedNamespace[] */
@@ -36,11 +36,11 @@ class NamespaceUsages implements Rule
 
 
 	/**
-	 * @param DisallowedNamespaceHelper $disallowedNamespaceHelper
+	 * @param DisallowedNamespaceRuleErrors $disallowedNamespaceHelper
 	 * @param DisallowedNamespaceFactory $disallowNamespaceFactory
 	 * @param array<array{namespace:string, message?:string, allowIn?:string[]}> $forbiddenNamespaces
 	 */
-	public function __construct(DisallowedNamespaceHelper $disallowedNamespaceHelper, DisallowedNamespaceFactory $disallowNamespaceFactory, array $forbiddenNamespaces)
+	public function __construct(DisallowedNamespaceRuleErrors $disallowedNamespaceHelper, DisallowedNamespaceFactory $disallowNamespaceFactory, array $forbiddenNamespaces)
 	{
 		$this->disallowedHelper  = $disallowedNamespaceHelper;
 		$this->disallowedNamespace = $disallowNamespaceFactory->createFromConfig($forbiddenNamespaces);

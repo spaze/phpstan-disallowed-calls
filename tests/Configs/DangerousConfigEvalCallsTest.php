@@ -6,21 +6,25 @@ namespace Spaze\PHPStan\Rules\Disallowed\Configs;
 use Nette\Neon\Neon;
 use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
+use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\Calls\EvalCalls;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\DisallowedHelper;
-use Spaze\PHPStan\Rules\Disallowed\IsAllowedFileHelper;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors;
 
 class DangerousConfigEvalCallsTest extends RuleTestCase
 {
 
+	/**
+	 * @throws ShouldNotHappenException
+	 */
 	protected function getRule(): Rule
 	{
 		// Load the configuration from this file
 		$config = Neon::decode(file_get_contents(__DIR__ . '/../../disallowed-dangerous-calls.neon'));
 		return new EvalCalls(
-			new DisallowedHelper(new IsAllowedFileHelper(new FileHelper(__DIR__))),
+			new DisallowedRuleErrors(new AllowedPath(new FileHelper(__DIR__))),
 			new DisallowedCallFactory(),
 			$config['parameters']['disallowedFunctionCalls']
 		);

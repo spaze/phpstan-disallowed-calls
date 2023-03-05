@@ -1,20 +1,22 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed;
+namespace Spaze\PHPStan\Rules\Disallowed\RuleErrors;
 
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
+use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespace;
 
-class DisallowedNamespaceHelper
+class DisallowedNamespaceRuleErrors
 {
 
-	/** @var IsAllowedFileHelper */
+	/** @var AllowedPath */
 	private $isAllowedFileHelper;
 
 
-	public function __construct(IsAllowedFileHelper $isAllowedFileHelper)
+	public function __construct(AllowedPath $isAllowedFileHelper)
 	{
 		$this->isAllowedFileHelper = $isAllowedFileHelper;
 	}

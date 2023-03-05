@@ -6,7 +6,7 @@ namespace Spaze\PHPStan\Rules\Disallowed;
 use PHPStan\Analyser\Scope;
 use PHPStan\File\FileHelper;
 
-class IsAllowedFileHelper
+class AllowedPath
 {
 
 	/** @var FileHelper */

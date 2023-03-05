@@ -6,9 +6,9 @@ namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
-use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceHelper;
-use Spaze\PHPStan\Rules\Disallowed\IsAllowedFileHelper;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 
 class NamespaceUsagesTest extends RuleTestCase
 {
@@ -16,7 +16,7 @@ class NamespaceUsagesTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		return new NamespaceUsages(
-			new DisallowedNamespaceHelper(new IsAllowedFileHelper(new FileHelper(__DIR__))),
+			new DisallowedNamespaceRuleErrors(new AllowedPath(new FileHelper(__DIR__))),
 			new DisallowedNamespaceFactory(),
 			[
 				[
