@@ -306,7 +306,9 @@ The function or method names support [fnmatch()](https://www.php.net/function.fn
 
 ### Allow with specified parameters only
 
-You can also narrow down the allowed items when called with some parameters (applies only to disallowed method, static & function calls, for obvious reasons). For example, you want to disallow calling `print_r()` but want to allow `print_r(..., true)`.
+You can also narrow down the allowed items when called with some parameters (applies only to disallowed method, static & function calls, for obvious reasons). _Please note that for now, only scalar values are supported in the configuration, not arrays._
+
+For example, you want to disallow calling `print_r()` but want to allow `print_r(..., true)`.
 This can be done with optional `allowParamsInAllowed` or `allowParamsAnywhere` configuration keys:
 
 ```neon
@@ -368,7 +370,9 @@ Such configuration only makes sense when both the parameters of `log()` are opti
 
 ### Allow calls except when a param has a specified value
 
-Sometimes, it's handy to disallow a function or a method call only when a parameter matches but allow it otherwise. For example the `hash()` function, it's fine using it with algorithm families like SHA-2 & SHA-3 (not for passwords though) but you'd like PHPStan to report when it's used with MD5 like `hash('md5', ...)`.
+Sometimes, it's handy to disallow a function or a method call only when a parameter matches a configured value but allow it otherwise. _Please note that currently only scalar values are supported, not arrays._
+
+For example the `hash()` function, it's fine using it with algorithm families like SHA-2 & SHA-3 (not for passwords though) but you'd like PHPStan to report when it's used with MD5 like `hash('md5', ...)`.
 You can use `allowExceptParams` (or `disallowParams`), `allowExceptCaseInsensitiveParams` (or `disallowCaseInsensitiveParams`), `allowExceptParamsInAllowed` (or `disallowParamsInAllowed`) config options to disallow only some calls:
 
 ```neon

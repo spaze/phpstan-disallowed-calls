@@ -89,3 +89,7 @@ hash((new stdClass())->property . 'foo', 'NAH');
 \Foo\Bar\Waldo\config(['key' => 'string']);
 // disallowed param
 \Foo\Bar\Waldo\config('string-key');
+// not disallowed array param, unsupported type in config
+\Foo\Bar\Waldo\config('foo', ['key' => 'allow']);
+// disallowed array param, unsupported type in config
+\Foo\Bar\Waldo\config('foo', ['key' => 'disallow']);
