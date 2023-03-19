@@ -84,3 +84,8 @@ mocky(\Waldo\Quux\Blade::class);
 
 // not disallowed
 hash((new stdClass())->property . 'foo', 'NAH');
+
+// not disallowed param
+\Foo\Bar\Waldo\config(['key' => 'string']);
+// allowed by path
+\Foo\Bar\Waldo\config('string-key');

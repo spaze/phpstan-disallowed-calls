@@ -187,6 +187,16 @@ class FunctionCallsTest extends RuleTestCase
 						1 => Blade::class,
 					],
 				],
+				[
+					'function' => '\Foo\Bar\Waldo\config()',
+					'allowIn' => [
+						'../src/disallowed-allow/*.php',
+						'../src/*-allow/*.*',
+					],
+					'disallowParams' => [
+						1 => 'string-key',
+					],
+				],
 			]
 		);
 	}
@@ -286,6 +296,10 @@ class FunctionCallsTest extends RuleTestCase
 			[
 				'Calling Foo\Bar\Waldo\mocky() is forbidden, mocking Blade is not allowed.',
 				83,
+			],
+			[
+				'Calling Foo\Bar\Waldo\config() is forbidden, because reasons',
+				91,
 			],
 		]);
 		// Based on the configuration above, no errors in this file:
