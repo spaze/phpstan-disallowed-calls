@@ -177,7 +177,7 @@ class FunctionCallsTest extends RuleTestCase
 					],
 				],
 				[
-					'function' => 'mocky()',
+					'function' => '\Foo\Bar\Waldo\mocky()',
 					'message' => 'mocking Blade is not allowed.',
 					'allowIn' => [
 						'../src/disallowed-allow/*.php',
@@ -284,7 +284,7 @@ class FunctionCallsTest extends RuleTestCase
 				76,
 			],
 			[
-				'Calling mocky() is forbidden, mocking Blade is not allowed.',
+				'Calling Foo\Bar\Waldo\mocky() is forbidden, mocking Blade is not allowed.',
 				83,
 			],
 		]);

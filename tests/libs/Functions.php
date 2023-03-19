@@ -35,6 +35,7 @@ function waldo(string $name = '', string $value = '', int $expires = 0, string $
 {
 }
 
+
 function mocky(string $className): void
 {
 }
