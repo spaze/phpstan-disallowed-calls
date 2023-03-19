@@ -44,6 +44,6 @@ function mocky(string $className): void
 /**
  * @param array|string|null $key
  */
-function config($key = null)
+function config($key = null, $default = null)
 {
 }
