@@ -16,6 +16,16 @@ use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamValueSpecific;
 class DisallowedCallFactory
 {
 
+	/** @var IdentifierFormatter */
+	private $identifierFormatter;
+
+
+	public function __construct(IdentifierFormatter $identifierFormatter)
+	{
+		$this->identifierFormatter = $identifierFormatter;
+	}
+
+
 	/**
 	 * @param array $config
 	 * @phpstan-param ForbiddenCallsConfig $config
@@ -92,8 +102,7 @@ class DisallowedCallFactory
 					$disallowedCalls[$disallowedCall->getKey()] = $disallowedCall;
 				}
 			} catch (UnsupportedParamTypeInConfigException $e) {
-				$message = count($calls) === 1 ? $calls[0] : '{' . implode(',', $calls) . '}';
-				throw new ShouldNotHappenException("{$message}: {$e->getMessage()}");
+				throw new ShouldNotHappenException(sprintf('%s: %s', $this->identifierFormatter->format($calls), $e->getMessage()));
 			}
 		}
 		return array_values($disallowedCalls);

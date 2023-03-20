@@ -9,6 +9,7 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
+use Spaze\PHPStan\Rules\Disallowed\IdentifierFormatter;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors;
 
 class NewCallsTest extends RuleTestCase
@@ -21,7 +22,7 @@ class NewCallsTest extends RuleTestCase
 	{
 		return new NewCalls(
 			new DisallowedRuleErrors(new AllowedPath(new FileHelper(__DIR__))),
-			new DisallowedCallFactory(),
+			new DisallowedCallFactory(new IdentifierFormatter()),
 			[
 				[
 					'method' => '\Constructor\ClassWithConstructor::__construct()',

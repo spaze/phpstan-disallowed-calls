@@ -13,6 +13,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
+use Spaze\PHPStan\Rules\Disallowed\IdentifierFormatter;
 use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
 class DisallowedMethodRuleErrors
@@ -24,11 +25,15 @@ class DisallowedMethodRuleErrors
 	/** @var TypeResolver */
 	private $typeResolver;
 
+	/** @var IdentifierFormatter */
+	private $identifierFormatter;
 
-	public function __construct(DisallowedRuleErrors $disallowedRuleErrors, TypeResolver $typeResolver)
+
+	public function __construct(DisallowedRuleErrors $disallowedRuleErrors, TypeResolver $typeResolver, IdentifierFormatter $identifierFormatter)
 	{
 		$this->disallowedRuleErrors = $disallowedRuleErrors;
 		$this->typeResolver = $typeResolver;
+		$this->identifierFormatter = $identifierFormatter;
 	}
 
 
@@ -52,10 +57,8 @@ class DisallowedMethodRuleErrors
 			$classNames = $calledOnType->getObjectClassNames();
 			if (count($classNames) === 0) {
 				$calledAs = null;
-			} elseif (count($classNames) === 1) {
-				$calledAs = $this->disallowedRuleErrors->getFullyQualified($classNames[0], $method);
 			} else {
-				$calledAs = $this->disallowedRuleErrors->getFullyQualified('{' . implode(',', $classNames) . '}', $method);
+				$calledAs = $this->disallowedRuleErrors->getFullyQualified($this->identifierFormatter->format($classNames), $method);
 			}
 
 			foreach ($method->getDeclaringClass()->getTraits() as $trait) {

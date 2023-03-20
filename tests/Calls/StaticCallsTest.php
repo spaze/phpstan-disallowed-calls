@@ -9,6 +9,7 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
+use Spaze\PHPStan\Rules\Disallowed\IdentifierFormatter;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
@@ -22,8 +23,8 @@ class StaticCallsTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		return new StaticCalls(
-			new DisallowedMethodRuleErrors(new DisallowedRuleErrors(new AllowedPath(new FileHelper(__DIR__))), new TypeResolver()),
-			new DisallowedCallFactory(),
+			new DisallowedMethodRuleErrors(new DisallowedRuleErrors(new AllowedPath(new FileHelper(__DIR__))), new TypeResolver(), new IdentifierFormatter()),
+			new DisallowedCallFactory(new IdentifierFormatter()),
 			[
 				[
 					'method' => 'Fiction\Pulp\Royale::withCheese()',

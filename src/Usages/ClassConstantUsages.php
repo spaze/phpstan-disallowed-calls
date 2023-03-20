@@ -15,6 +15,7 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\VerbosityLevel;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstant;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory;
+use Spaze\PHPStan\Rules\Disallowed\IdentifierFormatter;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
@@ -33,6 +34,9 @@ class ClassConstantUsages implements Rule
 	/** @var TypeResolver */
 	private $typeResolver;
 
+	/** @var IdentifierFormatter */
+	private $identifierFormatter;
+
 	/** @var DisallowedConstant[] */
 	private $disallowedConstants;
 
@@ -41,6 +45,7 @@ class ClassConstantUsages implements Rule
 	 * @param DisallowedConstantRuleErrors $disallowedConstantRuleErrors
 	 * @param DisallowedConstantFactory $disallowedConstantFactory
 	 * @param TypeResolver $typeResolver
+	 * @param IdentifierFormatter $identifierFormatter
 	 * @param array<array{class?:string, constant?:string, message?:string, allowIn?:string[]}> $disallowedConstants
 	 * @throws ShouldNotHappenException
 	 */
@@ -48,10 +53,12 @@ class ClassConstantUsages implements Rule
 		DisallowedConstantRuleErrors $disallowedConstantRuleErrors,
 		DisallowedConstantFactory $disallowedConstantFactory,
 		TypeResolver $typeResolver,
+		IdentifierFormatter $identifierFormatter,
 		array $disallowedConstants
 	) {
 		$this->disallowedConstantRuleErrors = $disallowedConstantRuleErrors;
 		$this->typeResolver = $typeResolver;
+		$this->identifierFormatter = $identifierFormatter;
 		$this->disallowedConstants = $disallowedConstantFactory->createFromConfig($disallowedConstants);
 	}
 
@@ -115,8 +122,7 @@ class ClassConstantUsages implements Rule
 	 */
 	private function getFullyQualified(array $classNames, string $constant): string
 	{
-		$className = count($classNames) === 1 ? $classNames[0] : '{' . implode(',', $classNames) . '}';
-		return $className . '::' . $constant;
+		return $this->identifierFormatter->format($classNames) . '::' . $constant;
 	}
 
 }
