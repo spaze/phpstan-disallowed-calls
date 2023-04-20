@@ -5,11 +5,11 @@ namespace Spaze\PHPStan\Rules\Disallowed;
 
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\NotImplementedYetException;
 
-class DisallowedVariable implements Disallowed
+class DisallowedAttribute implements DisallowedWithParams
 {
 
 	/** @var string */
-	private $variable;
+	private $attribute;
 
 	/** @var string|null */
 	private $message;
@@ -28,7 +28,7 @@ class DisallowedVariable implements Disallowed
 
 
 	/**
-	 * @param string $variable
+	 * @param string $attribute
 	 * @param string|null $message
 	 * @param string[] $allowIn
 	 * @param string[] $allowExceptIn
@@ -36,14 +36,14 @@ class DisallowedVariable implements Disallowed
 	 * @param string|null $errorTip
 	 */
 	public function __construct(
-		string $variable,
+		string $attribute,
 		?string $message,
 		array $allowIn,
 		array $allowExceptIn,
 		?string $errorIdentifier,
 		?string $errorTip
 	) {
-		$this->variable = $variable;
+		$this->attribute = ltrim($attribute, '\\');
 		$this->message = $message;
 		$this->allowIn = $allowIn;
 		$this->allowExceptIn = $allowExceptIn;
@@ -52,15 +52,15 @@ class DisallowedVariable implements Disallowed
 	}
 
 
-	public function getVariable(): string
+	public function getAttribute(): string
 	{
-		return $this->variable;
+		return $this->attribute;
 	}
 
 
-	public function getMessage(): ?string
+	public function getMessage(): string
 	{
-		return $this->message;
+		return $this->message ?? 'because reasons';
 	}
 
 
@@ -85,6 +85,30 @@ class DisallowedVariable implements Disallowed
 
 
 	public function getAllowExceptInCalls(): array
+	{
+		throw new NotImplementedYetException();
+	}
+
+
+	public function getAllowParamsInAllowed(): array
+	{
+		throw new NotImplementedYetException();
+	}
+
+
+	public function getAllowParamsAnywhere(): array
+	{
+		throw new NotImplementedYetException();
+	}
+
+
+	public function getAllowExceptParamsInAllowed(): array
+	{
+		throw new NotImplementedYetException();
+	}
+
+
+	public function getAllowExceptParams(): array
 	{
 		throw new NotImplementedYetException();
 	}

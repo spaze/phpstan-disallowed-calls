@@ -5,7 +5,7 @@ namespace Spaze\PHPStan\Rules\Disallowed;
 
 use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParam;
 
-class DisallowedCall implements Disallowed
+class DisallowedCall implements DisallowedWithParams
 {
 
 	/** @var string */
@@ -114,54 +114,36 @@ class DisallowedCall implements Disallowed
 	}
 
 
-	/**
-	 * @return string[]
-	 */
 	public function getAllowInCalls(): array
 	{
 		return $this->allowInCalls;
 	}
 
 
-	/**
-	 * @return string[]
-	 */
 	public function getAllowExceptInCalls(): array
 	{
 		return $this->allowExceptInCalls;
 	}
 
 
-	/**
-	 * @return array<int|string, DisallowedCallParam>
-	 */
 	public function getAllowParamsInAllowed(): array
 	{
 		return $this->allowParamsInAllowed;
 	}
 
 
-	/**
-	 * @return array<int|string, DisallowedCallParam>
-	 */
 	public function getAllowParamsAnywhere(): array
 	{
 		return $this->allowParamsAnywhere;
 	}
 
 
-	/**
-	 * @return array<int|string, DisallowedCallParam>
-	 */
 	public function getAllowExceptParamsInAllowed(): array
 	{
 		return $this->allowExceptParamsInAllowed;
 	}
 
 
-	/**
-	 * @return array<int|string, DisallowedCallParam>
-	 */
 	public function getAllowExceptParams(): array
 	{
 		return $this->allowExceptParams;

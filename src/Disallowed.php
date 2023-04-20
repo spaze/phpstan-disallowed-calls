@@ -17,4 +17,16 @@ interface Disallowed
 	 */
 	public function getAllowExceptIn(): array;
 
+
+	/**
+	 * @return string[]
+	 */
+	public function getAllowInCalls(): array;
+
+
+	/**
+	 * @return string[]
+	 */
+	public function getAllowExceptInCalls(): array;
+
 }

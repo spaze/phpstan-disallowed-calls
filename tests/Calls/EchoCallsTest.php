@@ -7,8 +7,10 @@ use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
+use Spaze\PHPStan\Rules\Disallowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
+use Spaze\PHPStan\Rules\Disallowed\Formatter\MethodFormatter;
 use Spaze\PHPStan\Rules\Disallowed\IdentifierFormatter;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors;
 
@@ -21,7 +23,7 @@ class EchoCallsTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		return new EchoCalls(
-			new DisallowedRuleErrors(new AllowedPath(new FileHelper(__DIR__))),
+			new DisallowedRuleErrors(new Allowed(new MethodFormatter(), new AllowedPath(new FileHelper(__DIR__)))),
 			new DisallowedCallFactory(new IdentifierFormatter()),
 			[
 				[
