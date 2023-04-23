@@ -20,7 +20,7 @@ class DisallowedCallParamValueSpecific extends DisallowedCallParamValue
 		if (!$type->isConstantScalarValue()->yes()) {
 			throw new UnsupportedParamTypeException();
 		}
-		return [$this->getValue()] === $type->getConstantScalarValues();
+		return $type->getConstantScalarValues() === [$this->getValue()];
 	}
 
 }
