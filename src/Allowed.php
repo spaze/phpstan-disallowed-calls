@@ -222,6 +222,8 @@ class Allowed
 			$allowExceptParams[$param] = $this->paramFactory(DisallowedCallParamValueCaseInsensitiveExcept::class, $param, $value);
 		}
 		return new AllowedConfig(
+			$allowed['allowIn'] ?? [],
+			$allowed['allowExceptIn'] ?? $allowed['disallowIn'] ?? [],
 			$allowInCalls,
 			$allowExceptInCalls,
 			$allowParamsInAllowed,

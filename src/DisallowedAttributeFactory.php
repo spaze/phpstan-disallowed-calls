@@ -33,8 +33,6 @@ class DisallowedAttributeFactory
 				$disallowedAttribute = new DisallowedAttribute(
 					$attribute,
 					$disallowed['message'] ?? null,
-					$disallowed['allowIn'] ?? [],
-					$disallowed['allowExceptIn'] ?? $disallowed['disallowIn'] ?? [],
 					$this->allowed->getConfig($disallowed),
 					$disallowed['errorIdentifier'] ?? null,
 					$disallowed['errorTip'] ?? null
