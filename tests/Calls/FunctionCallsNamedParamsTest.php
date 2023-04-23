@@ -10,8 +10,7 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\Formatter\MethodFormatter;
-use Spaze\PHPStan\Rules\Disallowed\IdentifierFormatter;
+use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors;
 
 /**
@@ -25,9 +24,10 @@ class FunctionCallsNamedParamsTest extends RuleTestCase
 	 */
 	protected function getRule(): Rule
 	{
+		$formatter = new Formatter();
 		return new FunctionCalls(
-			new DisallowedRuleErrors(new Allowed(new MethodFormatter(), new AllowedPath(new FileHelper(__DIR__)))),
-			new DisallowedCallFactory(new IdentifierFormatter()),
+			new DisallowedRuleErrors(new Allowed($formatter, new AllowedPath(new FileHelper(__DIR__)))),
+			new DisallowedCallFactory($formatter),
 			[
 				[
 					'function' => 'Foo\Bar\Waldo\foo()',

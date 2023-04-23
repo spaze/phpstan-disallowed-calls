@@ -10,22 +10,22 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeException;
-use Spaze\PHPStan\Rules\Disallowed\Formatter\MethodFormatter;
+use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParam;
 
 class Allowed
 {
 
-	/** @var MethodFormatter */
-	private $methodFormatter;
+	/** @var Formatter */
+	private $formatter;
 
 	/** @var AllowedPath */
 	private $allowedPath;
 
 
-	public function __construct(MethodFormatter $methodFormatter, AllowedPath $allowedPath)
+	public function __construct(Formatter $formatter, AllowedPath $allowedPath)
 	{
-		$this->methodFormatter = $methodFormatter;
+		$this->formatter = $formatter;
 		$this->allowedPath = $allowedPath;
 	}
 
@@ -74,7 +74,7 @@ class Allowed
 	private function callMatches(Scope $scope, string $call): bool
 	{
 		if ($scope->getFunction() instanceof MethodReflection) {
-			$name = $this->methodFormatter->getFullyQualified($scope->getFunction()->getDeclaringClass()->getDisplayName(false), $scope->getFunction());
+			$name = $this->formatter->getFullyQualified($scope->getFunction()->getDeclaringClass()->getDisplayName(false), $scope->getFunction());
 		} elseif ($scope->getFunction() instanceof FunctionReflection) {
 			$name = $scope->getFunction()->getName();
 		} else {

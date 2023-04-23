@@ -9,8 +9,7 @@ use PHPStan\Testing\PHPStanTestCase;
 use Spaze\PHPStan\Rules\Disallowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\Formatter\MethodFormatter;
-use Spaze\PHPStan\Rules\Disallowed\IdentifierFormatter;
+use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors;
 
 class FunctionCallsUnsupportedParamConfigTest extends PHPStanTestCase
@@ -23,9 +22,10 @@ class FunctionCallsUnsupportedParamConfigTest extends PHPStanTestCase
 	{
 		$this->expectException(ShouldNotHappenException::class);
 		$this->expectExceptionMessage('{foo(),bar()}: Parameter #2 $definitelyNotScalar has an unsupported type array specified in configuration');
+		$formatter = new Formatter();
 		new FunctionCalls(
-			new DisallowedRuleErrors(new Allowed(new MethodFormatter(), new AllowedPath(new FileHelper(__DIR__)))),
-			new DisallowedCallFactory(new IdentifierFormatter()),
+			new DisallowedRuleErrors(new Allowed($formatter, new AllowedPath(new FileHelper(__DIR__)))),
+			new DisallowedCallFactory($formatter),
 			[
 				[
 					'function' => [

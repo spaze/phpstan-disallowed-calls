@@ -10,7 +10,7 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedAttributeFactory;
-use Spaze\PHPStan\Rules\Disallowed\Formatter\MethodFormatter;
+use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedAttributeRuleErrors;
 
 class AttributeUsagesTest extends RuleTestCase
@@ -19,7 +19,7 @@ class AttributeUsagesTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		return new AttributeUsages(
-			new DisallowedAttributeRuleErrors(new Allowed(new MethodFormatter(), new AllowedPath(new FileHelper(__DIR__)))),
+			new DisallowedAttributeRuleErrors(new Allowed(new Formatter(), new AllowedPath(new FileHelper(__DIR__)))),
 			new DisallowedAttributeFactory(),
 			[
 				[

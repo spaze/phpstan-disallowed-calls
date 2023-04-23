@@ -5,6 +5,7 @@ namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeInConfigException;
+use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamValue;
 use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamValueAny;
 use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamValueCaseInsensitiveExcept;
@@ -16,13 +17,13 @@ use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamValueSpecific;
 class DisallowedCallFactory
 {
 
-	/** @var IdentifierFormatter */
-	private $identifierFormatter;
+	/** @var Formatter */
+	private $formatter;
 
 
-	public function __construct(IdentifierFormatter $identifierFormatter)
+	public function __construct(Formatter $formatter)
 	{
-		$this->identifierFormatter = $identifierFormatter;
+		$this->formatter = $formatter;
 	}
 
 
@@ -102,7 +103,7 @@ class DisallowedCallFactory
 					$disallowedCalls[$disallowedCall->getKey()] = $disallowedCall;
 				}
 			} catch (UnsupportedParamTypeInConfigException $e) {
-				throw new ShouldNotHappenException(sprintf('%s: %s', $this->identifierFormatter->format($calls), $e->getMessage()));
+				throw new ShouldNotHappenException(sprintf('%s: %s', $this->formatter->formatIdentifier($calls), $e->getMessage()));
 			}
 		}
 		return array_values($disallowedCalls);

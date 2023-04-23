@@ -13,8 +13,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
-use Spaze\PHPStan\Rules\Disallowed\Formatter\MethodFormatter;
-use Spaze\PHPStan\Rules\Disallowed\IdentifierFormatter;
+use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
 class DisallowedMethodRuleErrors
@@ -26,23 +25,18 @@ class DisallowedMethodRuleErrors
 	/** @var TypeResolver */
 	private $typeResolver;
 
-	/** @var IdentifierFormatter */
-	private $identifierFormatter;
-
-	/** @var MethodFormatter */
-	private $methodFormatter;
+	/** @var Formatter */
+	private $formatter;
 
 
 	public function __construct(
 		DisallowedRuleErrors $disallowedRuleErrors,
 		TypeResolver $typeResolver,
-		IdentifierFormatter $identifierFormatter,
-		MethodFormatter $methodFormatter
+		Formatter $formatter
 	) {
 		$this->disallowedRuleErrors = $disallowedRuleErrors;
 		$this->typeResolver = $typeResolver;
-		$this->identifierFormatter = $identifierFormatter;
-		$this->methodFormatter = $methodFormatter;
+		$this->formatter = $formatter;
 	}
 
 
@@ -67,12 +61,12 @@ class DisallowedMethodRuleErrors
 			if (count($classNames) === 0) {
 				$calledAs = null;
 			} else {
-				$calledAs = $this->methodFormatter->getFullyQualified($this->identifierFormatter->format($classNames), $method);
+				$calledAs = $this->formatter->getFullyQualified($this->formatter->formatIdentifier($classNames), $method);
 			}
 
 			foreach ($method->getDeclaringClass()->getTraits() as $trait) {
 				if ($trait->hasMethod($method->getName())) {
-					$declaredAs = $this->methodFormatter->getFullyQualified($trait->getDisplayName(), $method);
+					$declaredAs = $this->formatter->getFullyQualified($trait->getDisplayName(), $method);
 					$message = $this->disallowedRuleErrors->get($node, $scope, $declaredAs, $calledAs, $disallowedCalls);
 					if ($message) {
 						return $message;
@@ -83,7 +77,7 @@ class DisallowedMethodRuleErrors
 			return [];
 		}
 
-		$declaredAs = $this->methodFormatter->getFullyQualified($method->getDeclaringClass()->getDisplayName(false), $method);
+		$declaredAs = $this->formatter->getFullyQualified($method->getDeclaringClass()->getDisplayName(false), $method);
 		return $this->disallowedRuleErrors->get($node, $scope, $declaredAs, $calledAs, $disallowedCalls);
 	}
 
