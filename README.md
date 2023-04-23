@@ -95,6 +95,7 @@ There are several different types (and configuration keys) that can be disallowe
 4. `disallowedConstants` - for constants like `DATE_ISO8601` or `DateTime::ISO8601` (which needs to be split to `class: DateTime` & `constant: ISO8601` in the configuration, see notes below)
 5. `disallowedNamespaces` or `disallowedClasses` - for usages of classes or classes from a namespace
 6. `disallowedSuperglobals` - for usages of superglobal variables like `$GLOBALS` or `$_POST`
+7. `disallowedAttributes` - for attributes like `#[Entity(class: Foo::class, something: true)]`
 
 Use them to add rules to your `phpstan.neon` config file. I like to use a separate file (`disallowed-calls.neon`) for these which I'll include later on in the main `phpstan.neon` config file. Here's an example, update to your needs:
 
@@ -146,6 +147,11 @@ parameters:
         -
             superglobal: '$_GET'
             message: 'use the Request methods instead'
+
+    disallowedAttributes:
+        -
+            attribute: Entity
+            message: 'use our own custom Entity instead'
 ```
 
 The `message` key is optional. Functions and methods can be specified with or without `()`. Omitting `()` is not recommended though to avoid confusing method calls with class constants.
@@ -218,7 +224,7 @@ Using the fully-qualified name would result in the constant being replaced with 
  ------ --------------------------------------------------------
 ```
 
-## Allow some previously disallowed calls
+## Allow some previously disallowed calls or attributes
 
 Sometimes, the method, the function, or the constant needs to be called or used once in your code, for example in a custom wrapper. You can use PHPStan's [`ignoreErrors` feature](https://github.com/phpstan/phpstan#ignore-error-messages-with-regular-expressions) to ignore that one call:
 
@@ -266,7 +272,7 @@ parameters:
 ```
 then `Logger::log()` will be allowed in `/home/foo/path/to/some/file-bar.php`.
 
-If you need to disallow a methods or a function call, a constant, a namespace, a class, or a superglobal usage only in certain paths, as an inverse of `allowIn`, you can use `allowExceptIn` (or the `disallowIn` alias):
+If you need to disallow a methods or a function call, a constant, a namespace, a class, a superglobal, or an attribute usage only in certain paths, as an inverse of `allowIn`, you can use `allowExceptIn` (or the `disallowIn` alias):
 ```neon
 parameters:
     allowInRootDir: %rootDir%/../../..
@@ -502,6 +508,20 @@ parameters:
                 -
                     position: 2
                     value: ::JSON_HEX_APOS
+```
+
+### Allowing previously disallowed attributes
+Disallowed PHP attributes can be allowed again using the same configuration as what methods and functions use. For example, to require `#[Entity]` attribute to always specify `$repositoryClass` argument, you can use configuration similar to the one below. First, we disallow all `#[Entity]` attributes, then re-allow them only if they contain the parameter (with any value):
+```neon
+parameters:
+    disallowedAttributes:
+        -
+            attribute: Entity
+            message: 'you must specify $repositoryClass parameter with Entity'
+            allowParamsAnywhereAnyValue:
+                -
+                    position: 1
+                    name: repositoryClass
 ```
 
 ## Case-(in)sensitivity

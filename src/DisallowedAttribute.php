@@ -3,8 +3,6 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed;
 
-use Spaze\PHPStan\Rules\Disallowed\Exceptions\NotImplementedYetException;
-
 class DisallowedAttribute implements DisallowedWithParams
 {
 
@@ -20,6 +18,9 @@ class DisallowedAttribute implements DisallowedWithParams
 	/** @var string[] */
 	private $allowExceptIn;
 
+	/** @var AllowedConfig */
+	private $allowedConfig;
+
 	/** @var string|null */
 	private $errorIdentifier;
 
@@ -32,6 +33,7 @@ class DisallowedAttribute implements DisallowedWithParams
 	 * @param string|null $message
 	 * @param string[] $allowIn
 	 * @param string[] $allowExceptIn
+	 * @param AllowedConfig $allowedConfig
 	 * @param string|null $errorIdentifier
 	 * @param string|null $errorTip
 	 */
@@ -40,6 +42,7 @@ class DisallowedAttribute implements DisallowedWithParams
 		?string $message,
 		array $allowIn,
 		array $allowExceptIn,
+		AllowedConfig $allowedConfig,
 		?string $errorIdentifier,
 		?string $errorTip
 	) {
@@ -47,6 +50,7 @@ class DisallowedAttribute implements DisallowedWithParams
 		$this->message = $message;
 		$this->allowIn = $allowIn;
 		$this->allowExceptIn = $allowExceptIn;
+		$this->allowedConfig = $allowedConfig;
 		$this->errorIdentifier = $errorIdentifier;
 		$this->errorTip = $errorTip;
 	}
@@ -80,37 +84,37 @@ class DisallowedAttribute implements DisallowedWithParams
 
 	public function getAllowInCalls(): array
 	{
-		throw new NotImplementedYetException();
+		return $this->allowedConfig->getAllowInCalls();
 	}
 
 
 	public function getAllowExceptInCalls(): array
 	{
-		throw new NotImplementedYetException();
+		return $this->allowedConfig->getAllowExceptInCalls();
 	}
 
 
 	public function getAllowParamsInAllowed(): array
 	{
-		throw new NotImplementedYetException();
+		return $this->allowedConfig->getAllowParamsInAllowed();
 	}
 
 
 	public function getAllowParamsAnywhere(): array
 	{
-		throw new NotImplementedYetException();
+		return $this->allowedConfig->getAllowParamsAnywhere();
 	}
 
 
 	public function getAllowExceptParamsInAllowed(): array
 	{
-		throw new NotImplementedYetException();
+		return $this->allowedConfig->getAllowExceptParamsInAllowed();
 	}
 
 
 	public function getAllowExceptParams(): array
 	{
-		throw new NotImplementedYetException();
+		return $this->allowedConfig->getAllowExceptParams();
 	}
 
 

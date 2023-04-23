@@ -13,8 +13,9 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedAttributeFactory;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedAttributeRuleErrors;
+use Waldo\Quux\Blade;
 
-class AttributeUsagesTest extends RuleTestCase
+class AttributeUsagesAllowParamsMultipleTest extends RuleTestCase
 {
 
 	protected function getRule(): Rule
@@ -37,6 +38,13 @@ class AttributeUsagesTest extends RuleTestCase
 							'name' => 'repositoryClass',
 						],
 					],
+					'allowParamsInAllowed' => [
+						[
+							'position' => 1,
+							'name' => 'repositoryClass',
+							'value' => Blade::class,
+						],
+					],
 				],
 			]
 		);
@@ -54,7 +62,20 @@ class AttributeUsagesTest extends RuleTestCase
 				10,
 			],
 		]);
-		$this->analyse([__DIR__ . '/../libs/ClassWithAttributesAllow.php'], []);
+		$this->analyse([__DIR__ . '/../libs/ClassWithAttributesAllow.php'], [
+			[
+				'Attribute Attributes\AttributeEntity is forbidden, because reasons',
+				10,
+			],
+			[
+				'Attribute Attributes\AttributeEntity is forbidden, because reasons',
+				15,
+			],
+			[
+				'Attribute Attributes\AttributeEntity is forbidden, because reasons',
+				22,
+			],
+		]);
 	}
 
 }

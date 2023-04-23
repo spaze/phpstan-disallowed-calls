@@ -11,6 +11,7 @@ use Spaze\PHPStan\Rules\Disallowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
+use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
@@ -24,13 +25,15 @@ class MethodCallsTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		$formatter = new Formatter();
+		$normalizer = new Normalizer();
+		$allowed = new Allowed($formatter, $normalizer, new AllowedPath(new FileHelper(__DIR__)));
 		return new MethodCalls(
 			new DisallowedMethodRuleErrors(
-				new DisallowedRuleErrors(new Allowed($formatter, new AllowedPath(new FileHelper(__DIR__)))),
+				new DisallowedRuleErrors($allowed),
 				new TypeResolver(),
 				$formatter
 			),
-			new DisallowedCallFactory($formatter),
+			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			[
 				[
 					'method' => 'Waldo\Quux\Blade::run*()',

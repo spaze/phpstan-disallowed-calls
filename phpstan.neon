@@ -9,6 +9,7 @@ parameters:
 		AllowDirectives: 'allowIn?:string[], allowExceptIn?:string[], disallowIn?:string[], allowInFunctions?:string[], allowInMethods?:string[], allowExceptInFunctions?:string[], allowExceptInMethods?:string[], disallowInFunctions?:string[], disallowInMethods?:string[], allowParamsInAllowed?:CallParamConfig, allowParamsInAllowedAnyValue?:CallParamAnyValueConfig, allowParamFlagsInAllowed?:CallParamFlagAnyValueConfig, allowParamsAnywhere?:CallParamConfig, allowParamsAnywhereAnyValue?:CallParamAnyValueConfig, allowParamFlagsAnywhere?:CallParamFlagAnyValueConfig, allowExceptParamsInAllowed?:CallParamConfig, allowExceptParamFlagsInAllowed?:CallParamFlagAnyValueConfig, disallowParamFlagsInAllowed?:CallParamFlagAnyValueConfig, disallowParamsInAllowed?:CallParamConfig, allowExceptParams?:CallParamConfig, disallowParams?:CallParamConfig, allowExceptParamFlags?:CallParamFlagAnyValueConfig, disallowParamFlags?:CallParamFlagAnyValueConfig, allowExceptCaseInsensitiveParams?:CallParamConfig, disallowCaseInsensitiveParams?:CallParamConfig'
 		ForbiddenCallsConfig: 'array<array{function?:string|list<string>, method?:string|list<string>, message?:string, %typeAliases.AllowDirectives%, errorIdentifier?:string, errorTip?:string}>'
 		DisallowedAttributesConfig: 'array<array{attribute:string|list<string>, message?:string, %typeAliases.AllowDirectives%, errorIdentifier?:string, errorTip?:string}>'
+		AllowDirectivesConfig: 'array{%typeAliases.AllowDirectives%}'
 
 includes:
 	- vendor/phpstan/phpstan/conf/bleedingEdge.neon

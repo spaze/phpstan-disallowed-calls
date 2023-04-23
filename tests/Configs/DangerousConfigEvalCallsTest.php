@@ -13,6 +13,7 @@ use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\Calls\EvalCalls;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
+use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors;
 
 class DangerousConfigEvalCallsTest extends RuleTestCase
@@ -26,9 +27,11 @@ class DangerousConfigEvalCallsTest extends RuleTestCase
 		// Load the configuration from this file
 		$config = Neon::decode(file_get_contents(__DIR__ . '/../../disallowed-dangerous-calls.neon'));
 		$formatter = new Formatter();
+		$normalizer = new Normalizer();
+		$allowed = new Allowed($formatter, $normalizer, new AllowedPath(new FileHelper(__DIR__)));
 		return new EvalCalls(
-			new DisallowedRuleErrors(new Allowed($formatter, new AllowedPath(new FileHelper(__DIR__)))),
-			new DisallowedCallFactory($formatter),
+			new DisallowedRuleErrors($allowed),
+			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			$config['parameters']['disallowedFunctionCalls']
 		);
 	}

@@ -7,6 +7,7 @@ parameters:
 	disallowedFunctionCalls: []
 	disallowedConstants: []
 	disallowedSuperglobals: []
+	disallowedAttributes: []
 
 parametersSchema:
 	allowInRootDir: schema(string(), nullable())
@@ -78,6 +79,15 @@ parametersSchema:
 			)
 		)
 	)
+	disallowedAttributes: listOf(
+		arrayOf(
+			anyOf(
+				string(),
+				listOf(string()),
+				arrayOf(anyOf(int(), string(), bool()))
+			)
+		)
+	)
 
 services:
 	- Spaze\PHPStan\Rules\Disallowed\Allowed
@@ -88,6 +98,7 @@ services:
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalFactory
 	- Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter
+	- Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedAttributeRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors
@@ -153,5 +164,9 @@ services:
 			- phpstan.rules.rule
 	-
 		factory: Spaze\PHPStan\Rules\Disallowed\Usages\VariableUsages(disallowedVariables: @Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalFactory::getDisallowedVariables(%disallowedSuperglobals%))
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\Usages\AttributeUsages(disallowedAttributes: %disallowedAttributes%)
 		tags:
 			- phpstan.rules.rule
