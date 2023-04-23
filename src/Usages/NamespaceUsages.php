@@ -42,7 +42,7 @@ class NamespaceUsages implements Rule
 	 */
 	public function __construct(DisallowedNamespaceRuleErrors $disallowedNamespaceHelper, DisallowedNamespaceFactory $disallowNamespaceFactory, array $forbiddenNamespaces)
 	{
-		$this->disallowedHelper  = $disallowedNamespaceHelper;
+		$this->disallowedHelper = $disallowedNamespaceHelper;
 		$this->disallowedNamespace = $disallowNamespaceFactory->createFromConfig($forbiddenNamespaces);
 	}
 
