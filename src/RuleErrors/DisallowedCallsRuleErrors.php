@@ -11,7 +11,7 @@ use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
 
-class DisallowedRuleErrors
+class DisallowedCallsRuleErrors
 {
 
 	/** @var Allowed */

@@ -29,20 +29,20 @@ class NamespaceUsages implements Rule
 {
 
 	/** @var DisallowedNamespaceRuleErrors */
-	private $disallowedHelper;
+	private $disallowedNamespaceRuleErrors;
 
 	/** @var DisallowedNamespace[] */
 	private $disallowedNamespace;
 
 
 	/**
-	 * @param DisallowedNamespaceRuleErrors $disallowedNamespaceHelper
+	 * @param DisallowedNamespaceRuleErrors $disallowedNamespaceRuleErrors
 	 * @param DisallowedNamespaceFactory $disallowNamespaceFactory
 	 * @param array<array{namespace:string, message?:string, allowIn?:string[]}> $forbiddenNamespaces
 	 */
-	public function __construct(DisallowedNamespaceRuleErrors $disallowedNamespaceHelper, DisallowedNamespaceFactory $disallowNamespaceFactory, array $forbiddenNamespaces)
+	public function __construct(DisallowedNamespaceRuleErrors $disallowedNamespaceRuleErrors, DisallowedNamespaceFactory $disallowNamespaceFactory, array $forbiddenNamespaces)
 	{
-		$this->disallowedHelper = $disallowedNamespaceHelper;
+		$this->disallowedNamespaceRuleErrors = $disallowedNamespaceRuleErrors;
 		$this->disallowedNamespace = $disallowNamespaceFactory->createFromConfig($forbiddenNamespaces);
 	}
 
@@ -108,7 +108,7 @@ class NamespaceUsages implements Rule
 		foreach ($namespaces as $namespace) {
 			$errors = array_merge(
 				$errors,
-				$this->disallowedHelper->getDisallowedMessage(ltrim($namespace, '\\'), $description ?? 'Namespace', $scope, $this->disallowedNamespace)
+				$this->disallowedNamespaceRuleErrors->getDisallowedMessage(ltrim($namespace, '\\'), $description ?? 'Namespace', $scope, $this->disallowedNamespace)
 			);
 		}
 

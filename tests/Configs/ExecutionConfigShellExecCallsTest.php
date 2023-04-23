@@ -14,7 +14,7 @@ use Spaze\PHPStan\Rules\Disallowed\Calls\ShellExecCalls;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
-use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 
 class ExecutionConfigShellExecCallsTest extends RuleTestCase
 {
@@ -30,7 +30,7 @@ class ExecutionConfigShellExecCallsTest extends RuleTestCase
 		$normalizer = new Normalizer();
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath(new FileHelper(__DIR__)));
 		return new ShellExecCalls(
-			new DisallowedRuleErrors($allowed),
+			new DisallowedCallsRuleErrors($allowed),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			$config['parameters']['disallowedFunctionCalls']
 		);

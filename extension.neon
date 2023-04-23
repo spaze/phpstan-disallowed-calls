@@ -103,7 +103,7 @@ services:
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors
-	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors
+	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedVariableRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver
 	-

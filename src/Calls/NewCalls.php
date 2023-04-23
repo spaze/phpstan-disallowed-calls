@@ -13,7 +13,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 
 /**
  * Reports on creating objects (calling constructors).
@@ -25,24 +25,24 @@ class NewCalls implements Rule
 {
 	private const CONSTRUCT = '::__construct';
 
-	/** @var DisallowedRuleErrors */
-	private $disallowedRuleErrors;
+	/** @var DisallowedCallsRuleErrors */
+	private $disallowedCallsRuleErrors;
 
 	/** @var DisallowedCall[] */
 	private $disallowedCalls;
 
 
 	/**
-	 * @param DisallowedRuleErrors $disallowedRuleErrors
+	 * @param DisallowedCallsRuleErrors $disallowedCallsRuleErrors
 	 * @param DisallowedCallFactory $disallowedCallFactory
 	 * @param array $forbiddenCalls
 	 * @phpstan-param ForbiddenCallsConfig $forbiddenCalls
 	 * @noinspection PhpUndefinedClassInspection ForbiddenCallsConfig is a type alias defined in PHPStan config
 	 * @throws ShouldNotHappenException
 	 */
-	public function __construct(DisallowedRuleErrors $disallowedRuleErrors, DisallowedCallFactory $disallowedCallFactory, array $forbiddenCalls)
+	public function __construct(DisallowedCallsRuleErrors $disallowedCallsRuleErrors, DisallowedCallFactory $disallowedCallFactory, array $forbiddenCalls)
 	{
-		$this->disallowedRuleErrors = $disallowedRuleErrors;
+		$this->disallowedCallsRuleErrors = $disallowedCallsRuleErrors;
 		$this->disallowedCalls = $disallowedCallFactory->createFromConfig($forbiddenCalls);
 	}
 
@@ -91,7 +91,7 @@ class NewCalls implements Rule
 				$name .= self::CONSTRUCT;
 				$errors = array_merge(
 					$errors,
-					$this->disallowedRuleErrors->get($node, $scope, $name, $type->getClassName() . self::CONSTRUCT, $this->disallowedCalls)
+					$this->disallowedCallsRuleErrors->get($node, $scope, $name, $type->getClassName() . self::CONSTRUCT, $this->disallowedCalls)
 				);
 			}
 		}

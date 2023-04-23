@@ -12,7 +12,7 @@ use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
-use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 
 /**
  * @requires PHP > 8.0
@@ -29,7 +29,7 @@ class FunctionCallsNamedParamsTest extends RuleTestCase
 		$normalizer = new Normalizer();
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath(new FileHelper(__DIR__)));
 		return new FunctionCalls(
-			new DisallowedRuleErrors($allowed),
+			new DisallowedCallsRuleErrors($allowed),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			[
 				[

@@ -19,8 +19,8 @@ use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 class DisallowedMethodRuleErrors
 {
 
-	/** @var DisallowedRuleErrors */
-	private $disallowedRuleErrors;
+	/** @var DisallowedCallsRuleErrors */
+	private $disallowedCallsRuleErrors;
 
 	/** @var TypeResolver */
 	private $typeResolver;
@@ -30,11 +30,11 @@ class DisallowedMethodRuleErrors
 
 
 	public function __construct(
-		DisallowedRuleErrors $disallowedRuleErrors,
+		DisallowedCallsRuleErrors $disallowedCallsRuleErrors,
 		TypeResolver $typeResolver,
 		Formatter $formatter
 	) {
-		$this->disallowedRuleErrors = $disallowedRuleErrors;
+		$this->disallowedCallsRuleErrors = $disallowedCallsRuleErrors;
 		$this->typeResolver = $typeResolver;
 		$this->formatter = $formatter;
 	}
@@ -67,7 +67,7 @@ class DisallowedMethodRuleErrors
 			foreach ($method->getDeclaringClass()->getTraits() as $trait) {
 				if ($trait->hasMethod($method->getName())) {
 					$declaredAs = $this->formatter->getFullyQualified($trait->getDisplayName(), $method);
-					$message = $this->disallowedRuleErrors->get($node, $scope, $declaredAs, $calledAs, $disallowedCalls);
+					$message = $this->disallowedCallsRuleErrors->get($node, $scope, $declaredAs, $calledAs, $disallowedCalls);
 					if ($message) {
 						return $message;
 					}
@@ -78,7 +78,7 @@ class DisallowedMethodRuleErrors
 		}
 
 		$declaredAs = $this->formatter->getFullyQualified($method->getDeclaringClass()->getDisplayName(false), $method);
-		return $this->disallowedRuleErrors->get($node, $scope, $declaredAs, $calledAs, $disallowedCalls);
+		return $this->disallowedCallsRuleErrors->get($node, $scope, $declaredAs, $calledAs, $disallowedCalls);
 	}
 
 }

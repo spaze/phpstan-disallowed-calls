@@ -12,7 +12,7 @@ use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
-use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 
 class NewCallsTest extends RuleTestCase
 {
@@ -26,7 +26,7 @@ class NewCallsTest extends RuleTestCase
 		$normalizer = new Normalizer();
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath(new FileHelper(__DIR__)));
 		return new NewCalls(
-			new DisallowedRuleErrors($allowed),
+			new DisallowedCallsRuleErrors($allowed),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			[
 				[
