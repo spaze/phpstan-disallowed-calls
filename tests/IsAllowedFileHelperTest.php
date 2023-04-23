@@ -50,7 +50,7 @@ class IsAllowedFileHelperTest extends PHPStanTestCase
 	}
 
 
-	public function pathProvider(): Generator
+	public static function pathProvider(): Generator
 	{
 		yield [
 			'src',

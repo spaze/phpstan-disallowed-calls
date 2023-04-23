@@ -28,7 +28,7 @@ class DisallowedSuperglobalFactoryTest extends PHPStanTestCase
 	}
 
 
-	public function superglobalsProvider(): Generator
+	public static function superglobalsProvider(): Generator
 	{
 		yield ['$GLOBALS', null];
 		yield ['$_SERVER', null];

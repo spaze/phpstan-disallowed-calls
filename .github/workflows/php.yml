@@ -86,7 +86,7 @@ jobs:
       - name: "Install PHP"
         uses: shivammathur/setup-php@v2
         with:
-          coverage: "none"
+          coverage: "pcov"
           php-version: "${{ matrix.php-version }}"
 
       - name: PHP info
