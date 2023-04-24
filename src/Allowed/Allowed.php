@@ -19,6 +19,7 @@ use Spaze\PHPStan\Rules\Disallowed\Params\ParamValue;
 use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueAny;
 use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueCaseInsensitiveExcept;
 use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueExcept;
+use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueExceptAny;
 use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueFlagExcept;
 use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueFlagSpecific;
 use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueSpecific;
@@ -111,6 +112,7 @@ class Allowed
 			return true;
 		}
 
+		$disallowedParams = false;
 		foreach ($allowConfig as $param) {
 			$type = $this->getArgType($args, $scope, $param);
 			if ($type === null) {
@@ -123,15 +125,13 @@ class Allowed
 			}
 			foreach ($types as $type) {
 				try {
-					if (!$param->matches($type)) {
-						return false;
-					}
+					$disallowedParams = $disallowedParams || !$param->matches($type);
 				} catch (UnsupportedParamTypeException $e) {
 					return !$paramsRequired;
 				}
 			}
 		}
-		return true;
+		return !$disallowedParams;
 	}
 
 
@@ -216,6 +216,9 @@ class Allowed
 		foreach ($allowed['allowExceptParams'] ?? $allowed['disallowParams'] ?? [] as $param => $value) {
 			$allowExceptParams[$param] = $this->paramFactory(ParamValueExcept::class, $param, $value);
 		}
+		foreach ($allowed['allowExceptParamsAnyValue'] ?? $allowed['disallowParamsAnyValue'] ?? [] as $param => $value) {
+			$allowExceptParams[$param] = $this->paramFactory(ParamValueExceptAny::class, $param, $value);
+		}
 		foreach ($allowed['allowExceptParamFlags'] ?? $allowed['disallowParamFlags'] ?? [] as $param => $value) {
 			$allowExceptParams[$param] = $this->paramFactory(ParamValueFlagExcept::class, $param, $value);
 		}
@@ -250,7 +253,7 @@ class Allowed
 				$paramPosition = $value['position'];
 				$paramName = $value['name'] ?? null;
 				$paramValue = $value['value'] ?? null;
-			} elseif ($class === ParamValueAny::class) {
+			} elseif (in_array($class, [ParamValueAny::class, ParamValueExceptAny::class], true)) {
 				if (is_numeric($value)) {
 					$paramPosition = (int)$value;
 					$paramName = null;

@@ -96,6 +96,22 @@ parameters:
 ```
 will disallow `foo('bar', 'baz')` but not `foo('bar', 'BAZ')`.
 
+If you don't care about the value but would like to disallow a call based just on the parameter presence, you can use `allowExceptParamsAnyValue` (or `disallowParamsAnyValue`):
+```neon
+parameters:
+    disallowedFunctionCalls:
+        -
+            function: 'waldo()'
+            disallowParamsAnyValue:
+                -
+                    position: 1
+                    name: 'message'
+                -
+                    position: 2
+                    name: 'alert'
+```
+This configuration will disallow calls like `waldo('foo', 'bar')` or `waldo('*', '*')`, but `waldo('foo')` or `waldo()` will be still allowed.
+
 It's also possible to disallow functions and methods previously allowed by path (using `allowIn`) or by function/method name (`allowInMethods`) when they're called with specified parameters, and allow when called with any other parameter. This is done using the `allowExceptParamsInAllowed` config option.
 
 Take this example configuration:
