@@ -8,11 +8,13 @@ use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
+use Spaze\PHPStan\Rules\Disallowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\Calls\FunctionCalls;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\IdentifierFormatter;
-use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
+use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 
 class LooseConfigFunctionCallsTest extends RuleTestCase
 {
@@ -37,9 +39,12 @@ class LooseConfigFunctionCallsTest extends RuleTestCase
 				}
 			}
 		}
+		$formatter = new Formatter();
+		$normalizer = new Normalizer();
+		$allowed = new Allowed($formatter, $normalizer, new AllowedPath(new FileHelper(__DIR__)));
 		return new FunctionCalls(
-			new DisallowedRuleErrors(new AllowedPath(new FileHelper(__DIR__))),
-			new DisallowedCallFactory(new IdentifierFormatter()),
+			new DisallowedCallsRuleErrors($allowed),
+			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			$config['parameters']['disallowedFunctionCalls']
 		);
 	}

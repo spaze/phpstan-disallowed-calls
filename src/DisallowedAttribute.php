@@ -3,11 +3,11 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed;
 
-class DisallowedCall implements DisallowedWithParams
+class DisallowedAttribute implements DisallowedWithParams
 {
 
 	/** @var string */
-	private $call;
+	private $attribute;
 
 	/** @var string|null */
 	private $message;
@@ -23,20 +23,20 @@ class DisallowedCall implements DisallowedWithParams
 
 
 	/**
-	 * @param string $call
+	 * @param string $attribute
 	 * @param string|null $message
 	 * @param AllowedConfig $allowedConfig
 	 * @param string|null $errorIdentifier
 	 * @param string|null $errorTip
 	 */
 	public function __construct(
-		string $call,
+		string $attribute,
 		?string $message,
 		AllowedConfig $allowedConfig,
 		?string $errorIdentifier,
 		?string $errorTip
 	) {
-		$this->call = $call;
+		$this->attribute = ltrim($attribute, '\\');
 		$this->message = $message;
 		$this->allowedConfig = $allowedConfig;
 		$this->errorIdentifier = $errorIdentifier;
@@ -44,9 +44,9 @@ class DisallowedCall implements DisallowedWithParams
 	}
 
 
-	public function getCall(): string
+	public function getAttribute(): string
 	{
-		return $this->call;
+		return $this->attribute;
 	}
 
 
@@ -115,14 +115,6 @@ class DisallowedCall implements DisallowedWithParams
 	public function getErrorTip(): ?string
 	{
 		return $this->errorTip;
-	}
-
-
-	public function getKey(): string
-	{
-		// The key consists of "initial" config values that would be overwritten with more specific details in a custom config.
-		// `allowIn` & `allowParams*` & few others aren't included because these are set by the user in their config, not in the bundled files.
-		return serialize([$this->getCall(), $this->getAllowExceptParams()]);
 	}
 
 }

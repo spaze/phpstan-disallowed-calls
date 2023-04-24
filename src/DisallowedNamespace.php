@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed;
 
+use Spaze\PHPStan\Rules\Disallowed\Exceptions\NotImplementedYetException;
+
 class DisallowedNamespace implements Disallowed
 {
 
@@ -73,6 +75,18 @@ class DisallowedNamespace implements Disallowed
 	public function getAllowExceptIn(): array
 	{
 		return $this->allowExceptIn;
+	}
+
+
+	public function getAllowInCalls(): array
+	{
+		throw new NotImplementedYetException();
+	}
+
+
+	public function getAllowExceptInCalls(): array
+	{
+		throw new NotImplementedYetException();
 	}
 
 

@@ -8,11 +8,13 @@ use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
+use Spaze\PHPStan\Rules\Disallowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\Calls\ShellExecCalls;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\IdentifierFormatter;
-use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
+use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 
 class ExecutionConfigShellExecCallsTest extends RuleTestCase
 {
@@ -24,9 +26,12 @@ class ExecutionConfigShellExecCallsTest extends RuleTestCase
 	{
 		// Load the configuration from this file
 		$config = Neon::decode(file_get_contents(__DIR__ . '/../../disallowed-execution-calls.neon'));
+		$formatter = new Formatter();
+		$normalizer = new Normalizer();
+		$allowed = new Allowed($formatter, $normalizer, new AllowedPath(new FileHelper(__DIR__)));
 		return new ShellExecCalls(
-			new DisallowedRuleErrors(new AllowedPath(new FileHelper(__DIR__))),
-			new DisallowedCallFactory(new IdentifierFormatter()),
+			new DisallowedCallsRuleErrors($allowed),
+			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			$config['parameters']['disallowedFunctionCalls']
 		);
 	}
