@@ -50,8 +50,8 @@ class ClassConstantInvalidUsagesTest extends RuleTestCase
 				14,
 			],
 			[
-				'Cannot access constant UTC on class-string<DateTimeZone>',
-				18,
+				'Cannot access constant FTC on class-string<DateTimeZone>',
+				24,
 			],
 		]);
 	}

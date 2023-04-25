@@ -13,6 +13,12 @@ $monster::COOKIE;
 $monster = DateTime::class;
 $monster::COOKIE;
 
+// a valid type, for a change
 /** @var class-string<DateTimeZone> $tz */
 $tz = DateTimeZone::class;
 $tz::UTC;
+
+// this constant doesn't exist
+/** @var class-string<DateTimeZone> $tz */
+$tz = DateTimeZone::class;
+$tz::FTC;
