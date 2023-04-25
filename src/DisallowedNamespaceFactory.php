@@ -4,9 +4,20 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PHPStan\ShouldNotHappenException;
+use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 
 class DisallowedNamespaceFactory
 {
+
+	/** @var Normalizer */
+	private $normalizer;
+
+
+	public function __construct(Normalizer $normalizer)
+	{
+		$this->normalizer = $normalizer;
+	}
+
 
 	/**
 	 * @param array<array{namespace?:string, class?:string, message?:string, allowIn?:string[], allowExceptIn?:string[], disallowIn?:string[], errorIdentifier?:string, errorTip?:string}> $config
@@ -23,7 +34,7 @@ class DisallowedNamespaceFactory
 			}
 			foreach ((array)$namespaces as $namespace) {
 				$disallowedNamespace = new DisallowedNamespace(
-					$namespace,
+					$this->normalizer->normalizeNamespace($namespace),
 					$disallowed['message'] ?? null,
 					$disallowed['allowIn'] ?? [],
 					$disallowed['allowExceptIn'] ?? $disallowed['disallowIn'] ?? [],

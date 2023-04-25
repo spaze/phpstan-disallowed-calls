@@ -10,6 +10,7 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
+use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
@@ -21,11 +22,12 @@ class ClassConstantInvalidUsagesTest extends RuleTestCase
 	 */
 	protected function getRule(): Rule
 	{
+		$normalizer = new Normalizer();
 		return new ClassConstantUsages(
 			new DisallowedConstantRuleErrors(new AllowedPath(new FileHelper(__DIR__))),
-			new DisallowedConstantFactory(),
+			new DisallowedConstantFactory($normalizer),
 			new TypeResolver(),
-			new Formatter(),
+			new Formatter($normalizer),
 			[]
 		);
 	}

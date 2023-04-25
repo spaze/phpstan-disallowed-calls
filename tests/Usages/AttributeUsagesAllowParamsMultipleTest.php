@@ -20,10 +20,11 @@ class AttributeUsagesAllowParamsMultipleTest extends RuleTestCase
 
 	protected function getRule(): Rule
 	{
-		$allowed = new Allowed(new Formatter(), new Normalizer(), new AllowedPath(new FileHelper(__DIR__)));
+		$normalizer = new Normalizer();
+		$allowed = new Allowed(new Formatter($normalizer), $normalizer, new AllowedPath(new FileHelper(__DIR__)));
 		return new AttributeUsages(
 			new DisallowedAttributeRuleErrors($allowed),
-			new DisallowedAttributeFactory($allowed),
+			new DisallowedAttributeFactory($allowed, $normalizer),
 			[
 				[
 					'attribute' => [

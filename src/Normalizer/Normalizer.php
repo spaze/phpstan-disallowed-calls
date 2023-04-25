@@ -9,7 +9,13 @@ class Normalizer
 	public function normalizeCall(string $call): string
 	{
 		$call = substr($call, -2) === '()' ? substr($call, 0, -2) : $call;
-		return ltrim($call, '\\');
+		return $this->normalizeNamespace($call);
+	}
+
+
+	public function normalizeNamespace(string $namespace): string
+	{
+		return ltrim($namespace, '\\');
 	}
 
 }

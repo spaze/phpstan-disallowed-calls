@@ -8,6 +8,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
+use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 
 class NamespaceUsagesTest extends RuleTestCase
@@ -17,7 +18,8 @@ class NamespaceUsagesTest extends RuleTestCase
 	{
 		return new NamespaceUsages(
 			new DisallowedNamespaceRuleErrors(new AllowedPath(new FileHelper(__DIR__))),
-			new DisallowedNamespaceFactory(),
+			new DisallowedNamespaceFactory(new Normalizer()),
+			new Normalizer(),
 			[
 				[
 					'namespace' => 'Framew*rk\Some*',

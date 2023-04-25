@@ -43,7 +43,7 @@ class DisallowedNamespace implements Disallowed
 		?string $errorIdentifier,
 		?string $errorTip
 	) {
-		$this->namespace = ltrim($namespace, '\\');
+		$this->namespace = $namespace;
 		$this->message = $message;
 		$this->allowIn = $allowIn;
 		$this->allowExceptIn = $allowExceptIn;

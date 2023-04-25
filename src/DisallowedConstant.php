@@ -43,7 +43,7 @@ class DisallowedConstant implements Disallowed
 		?string $errorIdentifier,
 		?string $errorTip
 	) {
-		$this->constant = ltrim($constant, '\\');
+		$this->constant = $constant;
 		$this->message = $message;
 		$this->allowIn = $allowIn;
 		$this->allowExceptIn = $allowExceptIn;

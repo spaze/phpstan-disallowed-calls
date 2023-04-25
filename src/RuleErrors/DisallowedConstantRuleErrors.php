@@ -39,7 +39,7 @@ class DisallowedConstantRuleErrors
 				$errorBuilder = RuleErrorBuilder::message(sprintf(
 					'Using %s%s is forbidden, %s',
 					$disallowedConstant->getConstant(),
-					$displayName && ltrim($displayName, '\\') !== $disallowedConstant->getConstant() ? ' (as ' . $displayName . ')' : '',
+					$displayName && $displayName !== $disallowedConstant->getConstant() ? ' (as ' . $displayName . ')' : '',
 					$disallowedConstant->getMessage()
 				));
 				if ($disallowedConstant->getErrorIdentifier()) {

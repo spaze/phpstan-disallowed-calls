@@ -20,6 +20,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespace;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
+use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 
 /**
@@ -34,16 +35,25 @@ class NamespaceUsages implements Rule
 	/** @var DisallowedNamespace[] */
 	private $disallowedNamespace;
 
+	/** @var Normalizer */
+	private $normalizer;
+
 
 	/**
 	 * @param DisallowedNamespaceRuleErrors $disallowedNamespaceRuleErrors
 	 * @param DisallowedNamespaceFactory $disallowNamespaceFactory
+	 * @param Normalizer $normalizer
 	 * @param array<array{namespace:string, message?:string, allowIn?:string[]}> $forbiddenNamespaces
 	 */
-	public function __construct(DisallowedNamespaceRuleErrors $disallowedNamespaceRuleErrors, DisallowedNamespaceFactory $disallowNamespaceFactory, array $forbiddenNamespaces)
-	{
+	public function __construct(
+		DisallowedNamespaceRuleErrors $disallowedNamespaceRuleErrors,
+		DisallowedNamespaceFactory $disallowNamespaceFactory,
+		Normalizer $normalizer,
+		array $forbiddenNamespaces
+	) {
 		$this->disallowedNamespaceRuleErrors = $disallowedNamespaceRuleErrors;
 		$this->disallowedNamespace = $disallowNamespaceFactory->createFromConfig($forbiddenNamespaces);
+		$this->normalizer = $normalizer;
 	}
 
 
@@ -108,7 +118,7 @@ class NamespaceUsages implements Rule
 		foreach ($namespaces as $namespace) {
 			$errors = array_merge(
 				$errors,
-				$this->disallowedNamespaceRuleErrors->getDisallowedMessage(ltrim($namespace, '\\'), $description ?? 'Namespace', $scope, $this->disallowedNamespace)
+				$this->disallowedNamespaceRuleErrors->getDisallowedMessage($this->normalizer->normalizeNamespace($namespace), $description ?? 'Namespace', $scope, $this->disallowedNamespace)
 			);
 		}
 

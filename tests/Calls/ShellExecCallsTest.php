@@ -22,8 +22,8 @@ class ShellExecCallsTest extends RuleTestCase
 	 */
 	protected function getRule(): Rule
 	{
-		$formatter = new Formatter();
 		$normalizer = new Normalizer();
+		$formatter = new Formatter($normalizer);
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath(new FileHelper(__DIR__)));
 		return new ShellExecCalls(
 			new DisallowedCallsRuleErrors($allowed),

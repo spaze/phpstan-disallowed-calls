@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed;
 
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeInConfigException;
+use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 
 class DisallowedAttributeFactory
 {
@@ -11,10 +12,14 @@ class DisallowedAttributeFactory
 	/** @var Allowed */
 	private $allowed;
 
+	/** @var Normalizer */
+	private $normalizer;
 
-	public function __construct(Allowed $allowed)
+
+	public function __construct(Allowed $allowed, Normalizer $normalizer)
 	{
 		$this->allowed = $allowed;
+		$this->normalizer = $normalizer;
 	}
 
 
@@ -31,7 +36,7 @@ class DisallowedAttributeFactory
 			$attributes = $disallowed['attribute'];
 			foreach ((array)$attributes as $attribute) {
 				$disallowedAttribute = new DisallowedAttribute(
-					$attribute,
+					$this->normalizer->normalizeNamespace($attribute),
 					$disallowed['message'] ?? null,
 					$this->allowed->getConfig($disallowed),
 					$disallowed['errorIdentifier'] ?? null,
