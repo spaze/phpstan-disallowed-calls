@@ -36,7 +36,7 @@ class DisallowedAttribute implements DisallowedWithParams
 		?string $errorIdentifier,
 		?string $errorTip
 	) {
-		$this->attribute = ltrim($attribute, '\\');
+		$this->attribute = $attribute;
 		$this->message = $message;
 		$this->allowedConfig = $allowedConfig;
 		$this->errorIdentifier = $errorIdentifier;

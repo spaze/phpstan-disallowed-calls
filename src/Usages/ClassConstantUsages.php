@@ -95,7 +95,7 @@ class ClassConstantUsages implements Rule
 		if ($usedOnType->getConstantStrings()) {
 			$classNames = array_map(
 				function (ConstantStringType $constantString): string {
-					return ltrim($constantString->getValue(), '\\');
+					return $constantString->getValue();
 				},
 				$usedOnType->getConstantStrings()
 			);

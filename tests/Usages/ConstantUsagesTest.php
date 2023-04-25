@@ -9,6 +9,7 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory;
+use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors;
 
 class ConstantUsagesTest extends RuleTestCase
@@ -21,7 +22,7 @@ class ConstantUsagesTest extends RuleTestCase
 	{
 		return new ConstantUsages(
 			new DisallowedConstantRuleErrors(new AllowedPath(new FileHelper(__DIR__))),
-			new DisallowedConstantFactory(),
+			new DisallowedConstantFactory(new Normalizer()),
 			[
 				[
 					'constant' => [

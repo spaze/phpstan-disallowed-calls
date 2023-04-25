@@ -23,8 +23,8 @@ class FunctionCallsTest extends RuleTestCase
 	 */
 	protected function getRule(): Rule
 	{
-		$formatter = new Formatter();
 		$normalizer = new Normalizer();
+		$formatter = new Formatter($normalizer);
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath(new FileHelper(__DIR__)));
 		return new FunctionCalls(
 			new DisallowedCallsRuleErrors($allowed),

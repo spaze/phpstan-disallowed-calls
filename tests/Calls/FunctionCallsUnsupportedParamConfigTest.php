@@ -23,8 +23,8 @@ class FunctionCallsUnsupportedParamConfigTest extends PHPStanTestCase
 	{
 		$this->expectException(ShouldNotHappenException::class);
 		$this->expectExceptionMessage('{foo(),bar()}: Parameter #2 $definitelyNotScalar has an unsupported type array specified in configuration');
-		$formatter = new Formatter();
 		$normalizer = new Normalizer();
+		$formatter = new Formatter($normalizer);
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath(new FileHelper(__DIR__)));
 		new FunctionCalls(
 			new DisallowedCallsRuleErrors($allowed),

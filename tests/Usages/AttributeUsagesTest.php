@@ -19,10 +19,10 @@ class AttributeUsagesTest extends RuleTestCase
 
 	protected function getRule(): Rule
 	{
-		$allowed = new Allowed(new Formatter(), new Normalizer(), new AllowedPath(new FileHelper(__DIR__)));
+		$allowed = new Allowed(new Formatter(new Normalizer()), new Normalizer(), new AllowedPath(new FileHelper(__DIR__)));
 		return new AttributeUsages(
 			new DisallowedAttributeRuleErrors($allowed),
-			new DisallowedAttributeFactory($allowed),
+			new DisallowedAttributeFactory($allowed, new Normalizer()),
 			[
 				[
 					'attribute' => [

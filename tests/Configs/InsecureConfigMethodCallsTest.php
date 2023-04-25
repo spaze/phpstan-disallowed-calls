@@ -28,8 +28,8 @@ class InsecureConfigMethodCallsTest extends RuleTestCase
 	{
 		// Load the configuration from this file
 		$config = Neon::decode(file_get_contents(__DIR__ . '/../../disallowed-insecure-calls.neon'));
-		$formatter = new Formatter();
 		$normalizer = new Normalizer();
+		$formatter = new Formatter($normalizer);
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath(new FileHelper(__DIR__)));
 		return new MethodCalls(
 			new DisallowedMethodRuleErrors(
