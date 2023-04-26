@@ -102,7 +102,7 @@ class ClassConstantUsages implements Rule
 		} else {
 			if ($usedOnType->hasConstant($constant)->yes()) {
 				$classNames = [$usedOnType->getConstant($constant)->getDeclaringClass()->getDisplayName()];
-			} else {
+			} elseif ($type->hasConstant($constant)->no()) {
 				return [
 					RuleErrorBuilder::message(sprintf(
 						'Cannot access constant %s on %s',
@@ -110,6 +110,8 @@ class ClassConstantUsages implements Rule
 						$type->describe(VerbosityLevel::getRecommendedLevelByType($type))
 					))->build(),
 				];
+			} else {
+				return [];
 			}
 		}
 		return $this->disallowedConstantRuleErrors->get($this->getFullyQualified($classNames, $constant), $scope, $displayName, $this->disallowedConstants);

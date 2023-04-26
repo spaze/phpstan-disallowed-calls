@@ -22,3 +22,6 @@ $tz::UTC;
 /** @var class-string<DateTimeZone> $tz */
 $tz = DateTimeZone::class;
 $tz::FTC;
+
+/** @var mixed $tz */
+$tz::ALL;
