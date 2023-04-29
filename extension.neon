@@ -85,6 +85,7 @@ parametersSchema:
 				string(),
 				listOf(string()),
 				arrayOf(anyOf(int(), string(), bool())),
+				listOf(arrayOf(anyOf(int(), string(), bool()))),
 			)
 		)
 	)
