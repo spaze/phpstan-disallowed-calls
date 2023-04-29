@@ -26,4 +26,10 @@ class ClassWithAttributesAllow
 	{
 	}
 
+
+	#[AttributeClass()] // allowed by path in all tests
+	public function hasPineapple(): bool
+	{
+	}
+
 }
