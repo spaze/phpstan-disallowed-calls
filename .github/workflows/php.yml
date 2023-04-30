@@ -64,6 +64,34 @@ jobs:
     - name: Run tests
       run: ${{ matrix.run }}
 
+  lint-neon:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version:
+          - "8.2"
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Install PHP"
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: "none"
+          php-version: "${{ matrix.php-version }}"
+
+      - name: PHP info
+        run: |
+          php -v
+          php -m
+
+      - name: Install dependencies
+        run: composer update --no-progress --no-interaction
+
+      - name: Run tests
+        run: composer lint-neon
+
   phpunit:
     runs-on: ${{ matrix.operating-system }}
 
