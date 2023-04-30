@@ -18,7 +18,7 @@ parametersSchema:
 			anyOf(
 				string(),
 				listOf(string()),
-				arrayOf(anyOf(int(), string(), bool()))
+				arrayOf(anyOf(int(), string(), bool())),
 			)
 		)
 	)
@@ -27,7 +27,7 @@ parametersSchema:
 			anyOf(
 				string(),
 				listOf(string()),
-				arrayOf(anyOf(int(), string(), bool()))
+				arrayOf(anyOf(int(), string(), bool())),
 			)
 		)
 	)
@@ -36,8 +36,8 @@ parametersSchema:
 			anyOf(
 				string(),
 				listOf(string()),
-				arrayOf(anyOf(int(), string(), bool()))
-				listOf(arrayOf(anyOf(int(), string(), bool())))
+				arrayOf(anyOf(int(), string(), bool())),
+				listOf(arrayOf(anyOf(int(), string(), bool()))),
 			)
 		)
 	)
@@ -46,8 +46,8 @@ parametersSchema:
 			anyOf(
 				string(),
 				listOf(string()),
-				arrayOf(anyOf(int(), string(), bool()))
-				listOf(arrayOf(anyOf(int(), string(), bool())))
+				arrayOf(anyOf(int(), string(), bool())),
+				listOf(arrayOf(anyOf(int(), string(), bool()))),
 			)
 		)
 	)
@@ -56,8 +56,8 @@ parametersSchema:
 			anyOf(
 				string(),
 				listOf(string()),
-				arrayOf(anyOf(int(), string(), bool()))
-				listOf(arrayOf(anyOf(int(), string(), bool())))
+				arrayOf(anyOf(int(), string(), bool())),
+				listOf(arrayOf(anyOf(int(), string(), bool()))),
 			)
 		)
 	)
@@ -66,7 +66,7 @@ parametersSchema:
 			anyOf(
 				string(),
 				listOf(string()),
-				arrayOf(anyOf(int(), string(), bool()))
+				arrayOf(anyOf(int(), string(), bool())),
 			)
 		)
 	)
@@ -75,7 +75,7 @@ parametersSchema:
 			anyOf(
 				string(),
 				listOf(string()),
-				arrayOf(anyOf(int(), string(), bool()))
+				arrayOf(anyOf(int(), string(), bool())),
 			)
 		)
 	)
@@ -84,7 +84,7 @@ parametersSchema:
 			anyOf(
 				string(),
 				listOf(string()),
-				arrayOf(anyOf(int(), string(), bool()))
+				arrayOf(anyOf(int(), string(), bool())),
 			)
 		)
 	)
