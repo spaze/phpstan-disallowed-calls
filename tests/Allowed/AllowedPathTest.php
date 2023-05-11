@@ -13,6 +13,10 @@ use PHPStan\Testing\PHPStanTestCase;
 use Traits\TestClass;
 use Traits\TestTrait;
 
+/**
+ * @requires function str_starts_with
+ * ... for now because https://github.com/phpstan/phpstan/issues/9300
+ */
 class AllowedPathTest extends PHPStanTestCase
 {
 
