@@ -14,12 +14,12 @@ class DisallowedVariableRuleErrors
 {
 
 	/** @var AllowedPath */
-	private $isAllowedFileHelper;
+	private $allowedPath;
 
 
-	public function __construct(AllowedPath $isAllowedFileHelper)
+	public function __construct(AllowedPath $allowedPath)
 	{
-		$this->isAllowedFileHelper = $isAllowedFileHelper;
+		$this->allowedPath = $allowedPath;
 	}
 
 
@@ -33,7 +33,7 @@ class DisallowedVariableRuleErrors
 	public function get(string $variable, Scope $scope, array $disallowedVariables): array
 	{
 		foreach ($disallowedVariables as $disallowedVariable) {
-			if ($disallowedVariable->getVariable() === $variable && !$this->isAllowedFileHelper->isAllowedPath($scope, $disallowedVariable)) {
+			if ($disallowedVariable->getVariable() === $variable && !$this->allowedPath->isAllowedPath($scope, $disallowedVariable)) {
 				$errorBuilder = RuleErrorBuilder::message(sprintf(
 					'Using %s is forbidden, %s',
 					$disallowedVariable->getVariable(),

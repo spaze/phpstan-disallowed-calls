@@ -13,12 +13,12 @@ class DisallowedNamespaceRuleErrors
 {
 
 	/** @var AllowedPath */
-	private $isAllowedFileHelper;
+	private $allowedPath;
 
 
-	public function __construct(AllowedPath $isAllowedFileHelper)
+	public function __construct(AllowedPath $allowedPath)
 	{
-		$this->isAllowedFileHelper = $isAllowedFileHelper;
+		$this->allowedPath = $allowedPath;
 	}
 
 
@@ -32,7 +32,7 @@ class DisallowedNamespaceRuleErrors
 	public function getDisallowedMessage(string $namespace, string $description, Scope $scope, array $disallowedNamespaces): array
 	{
 		foreach ($disallowedNamespaces as $disallowedNamespace) {
-			if ($this->isAllowedFileHelper->isAllowedPath($scope, $disallowedNamespace)) {
+			if ($this->allowedPath->isAllowedPath($scope, $disallowedNamespace)) {
 				continue;
 			}
 
