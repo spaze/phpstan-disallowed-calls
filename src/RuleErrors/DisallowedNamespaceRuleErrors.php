@@ -6,7 +6,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\RuleErrors;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
-use Spaze\PHPStan\Rules\Disallowed\AllowedPath;
+use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespace;
 
 class DisallowedNamespaceRuleErrors

@@ -7,7 +7,7 @@ use PhpParser\Node\Attribute;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
-use Spaze\PHPStan\Rules\Disallowed\Allowed;
+use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedAttribute;
 
 class DisallowedAttributeRuleErrors

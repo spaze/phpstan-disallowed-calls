@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed;
+namespace Spaze\PHPStan\Rules\Disallowed\Allowed;
 
 use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParam;
 
