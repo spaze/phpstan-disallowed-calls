@@ -58,7 +58,7 @@ class EvalCalls implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedCallsRuleErrors->get(null, $scope, 'eval', 'eval', $this->disallowedCalls);
+		return $this->disallowedCallsRuleErrors->get(null, $scope, 'eval', 'eval', null, $this->disallowedCalls);
 	}
 
 }

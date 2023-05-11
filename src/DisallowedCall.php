@@ -14,6 +14,9 @@ class DisallowedCall implements DisallowedWithParams
 	/** @var list<string> */
 	private $excludes;
 
+	/** @var list<string> */
+	private $definedIn;
+
 	/** @var string|null */
 	private $message;
 
@@ -30,6 +33,7 @@ class DisallowedCall implements DisallowedWithParams
 	/**
 	 * @param string $call
 	 * @param list<string> $excludes
+	 * @param list<string> $definedIn
 	 * @param string|null $message
 	 * @param AllowedConfig $allowedConfig
 	 * @param string|null $errorIdentifier
@@ -38,6 +42,7 @@ class DisallowedCall implements DisallowedWithParams
 	public function __construct(
 		string $call,
 		array $excludes,
+		array $definedIn,
 		?string $message,
 		AllowedConfig $allowedConfig,
 		?string $errorIdentifier,
@@ -45,6 +50,7 @@ class DisallowedCall implements DisallowedWithParams
 	) {
 		$this->call = $call;
 		$this->excludes = $excludes;
+		$this->definedIn = $definedIn;
 		$this->message = $message;
 		$this->allowedConfig = $allowedConfig;
 		$this->errorIdentifier = $errorIdentifier;
@@ -64,6 +70,15 @@ class DisallowedCall implements DisallowedWithParams
 	public function getExcludes(): array
 	{
 		return $this->excludes;
+	}
+
+
+	/**
+	 * @return list<string>
+	 */
+	public function getDefinedIn(): array
+	{
+		return $this->definedIn;
 	}
 
 

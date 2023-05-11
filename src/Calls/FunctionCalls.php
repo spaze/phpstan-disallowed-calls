@@ -7,6 +7,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
@@ -29,19 +30,24 @@ class FunctionCalls implements Rule
 	/** @var DisallowedCall[] */
 	private $disallowedCalls;
 
+	/** @var ReflectionProvider */
+	private $reflectionProvider;
+
 
 	/**
 	 * @param DisallowedCallsRuleErrors $disallowedCallsRuleErrors
 	 * @param DisallowedCallFactory $disallowedCallFactory
+	 * @param ReflectionProvider $reflectionProvider
 	 * @param array $forbiddenCalls
 	 * @phpstan-param ForbiddenCallsConfig $forbiddenCalls
 	 * @noinspection PhpUndefinedClassInspection ForbiddenCallsConfig is a type alias defined in PHPStan config
 	 * @throws ShouldNotHappenException
 	 */
-	public function __construct(DisallowedCallsRuleErrors $disallowedCallsRuleErrors, DisallowedCallFactory $disallowedCallFactory, array $forbiddenCalls)
+	public function __construct(DisallowedCallsRuleErrors $disallowedCallsRuleErrors, DisallowedCallFactory $disallowedCallFactory, ReflectionProvider $reflectionProvider, array $forbiddenCalls)
 	{
 		$this->disallowedCallsRuleErrors = $disallowedCallsRuleErrors;
 		$this->disallowedCalls = $disallowedCallFactory->createFromConfig($forbiddenCalls);
+		$this->reflectionProvider = $reflectionProvider;
 	}
 
 
@@ -71,7 +77,13 @@ class FunctionCalls implements Rule
 			throw new ShouldNotHappenException();
 		}
 		foreach ([$namespacedName, $node->name] as $name) {
-			$message = $this->disallowedCallsRuleErrors->get($node, $scope, (string)$name, (string)($displayName ?? $node->name), $this->disallowedCalls);
+			if ($name && $this->reflectionProvider->hasFunction($name, $scope)) {
+				$functionReflection = $this->reflectionProvider->getFunction($name, $scope);
+				$definedIn = $functionReflection->isBuiltin() ? null : $functionReflection->getFileName();
+			} else {
+				$definedIn = null;
+			}
+			$message = $this->disallowedCallsRuleErrors->get($node, $scope, (string)$name, (string)($displayName ?? $node->name), $definedIn, $this->disallowedCalls);
 			if ($message) {
 				return $message;
 			}

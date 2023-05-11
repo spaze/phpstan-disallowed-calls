@@ -8,6 +8,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
+use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
 use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
@@ -22,7 +23,7 @@ class NamespaceUsagesTypesTest extends RuleTestCase
 	{
 		$normalizer = new Normalizer();
 		return new NamespaceUsages(
-			new DisallowedNamespaceRuleErrors(new AllowedPath(new FileHelper(__DIR__)), new Identifier()),
+			new DisallowedNamespaceRuleErrors(new AllowedPath(new FilePath(new FileHelper(__DIR__))), new Identifier()),
 			new DisallowedNamespaceFactory($normalizer),
 			$normalizer,
 			[

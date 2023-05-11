@@ -59,7 +59,7 @@ class ExitDieCalls implements Rule
 	public function processNode(Node $node, Scope $scope): array
 	{
 		$kind = $node->getAttribute('kind', Exit_::KIND_DIE) === Exit_::KIND_EXIT ? 'exit' : 'die';
-		return $this->disallowedCallsRuleErrors->get(null, $scope, $kind, $kind, $this->disallowedCalls);
+		return $this->disallowedCallsRuleErrors->get(null, $scope, $kind, $kind, null, $this->disallowedCalls);
 	}
 
 }

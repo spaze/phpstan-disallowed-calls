@@ -198,6 +198,26 @@ parameters:
 This config would disallow all `pcntl` functions except (an imaginary) `pcntl_foobar()`.
 Please note `exclude` also accepts [`fnmatch`](https://www.php.net/function.fnmatch) patterns so please be careful to not create a contradicting config.
 
+Another option how to limit the set of functions or methods selected by the `function` or `method` directive is a file path in which these are defined which mostly makes sense when a [`fnmatch`](https://www.php.net/function.fnmatch) pattern is used in those directives.
+Imagine a use case in which you want to disallow any function or method defined in any namespace, or none at all, by this legacy package:
+```neon
+parameters:
+    disallowedFunctionCalls:
+        -
+            function: '*'
+            definedIn:
+                - 'vendor/foo/bar'
+    disallowedMethodCalls:
+        -
+            method: '*'
+            definedIn:
+                - 'vendor/foo/bar'
+    filesRootDir: %rootDir%/../../..
+```
+Relative paths in `definedIn` are resolved based on the current working directory. When running PHPStan from a directory or subdirectory which is not your "root" directory, the paths will probably not work.
+Use `filesRootDir` in that case to specify an absolute root directory, you can use [`%rootDir%`](https://phpstan.org/config-reference#expanding-paths) to start with PHPStan's root directory (usually `/something/something/vendor/phpstan/phpstan`) and then `..` from there to your "root" directory.
+`filesRootDir` is also used to configure all `allowIn` directives, see below.
+
 You can treat some language constructs as functions and disallow it in `disallowedFunctionCalls`. Currently detected language constructs are:
 - `die()`
 - `echo()`
@@ -269,13 +289,13 @@ parameters:
 Paths in `allowIn` support [fnmatch()](https://www.php.net/function.fnmatch) patterns.
 
 Relative paths in `allowIn` are resolved based on the current working directory. When running PHPStan from a directory or subdirectory which is not your "root" directory, the paths will probably not work.
-Use `allowInRootDir` in that case to specify an absolute root directory for all `allowIn` paths. Absolute paths might change between machines (for example your local development machine and a continuous integration machine) but you
+Use `filesRootDir` in that case to specify an absolute root directory for all `allowIn` paths. Absolute paths might change between machines (for example your local development machine and a continuous integration machine) but you
 can use [`%rootDir%`](https://phpstan.org/config-reference#expanding-paths) to start with PHPStan's root directory (usually `/something/something/vendor/phpstan/phpstan`) and then `..` from there to your "root" directory.
 
 For example when PHPStan is installed in `/home/foo/vendor/phpstan/phpstan` and you're using a configuration like this:
 ```neon
 parameters:
-    allowInRootDir: %rootDir%/../../..
+    filesRootDir: %rootDir%/../../..
     disallowedMethodCalls:
         -
             method: 'PotentiallyDangerous\Logger::log()'
@@ -287,7 +307,7 @@ then `Logger::log()` will be allowed in `/home/foo/path/to/some/file-bar.php`.
 If you need to disallow a methods or a function call, a constant, a namespace, a class, a superglobal, or an attribute usage only in certain paths, as an inverse of `allowIn`, you can use `allowExceptIn` (or the `disallowIn` alias):
 ```neon
 parameters:
-    allowInRootDir: %rootDir%/../../..
+    filesRootDir: %rootDir%/../../..
     disallowedMethodCalls:
         -
             method: 'PotentiallyDangerous\Logger::log()'
@@ -295,6 +315,8 @@ parameters:
                 - path/to/some/dir/*.php
 ```
 This will disallow `PotentiallyDangerous\Logger::log()` calls in `%rootDir%/../../../path/to/some/dir/*.php`.
+
+Please note that before version 2.15, `filesRootDir` was called `allowInRootDir` which is still supported, but deprecated.
 
 To allow a previously disallowed method or function only when called from a different method or function in any file, use `allowInFunctions` (or `allowInMethods` alias):
 

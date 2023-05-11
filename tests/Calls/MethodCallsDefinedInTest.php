@@ -15,8 +15,10 @@ use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
-class FunctionCallsAllowInFunctionsTest extends RuleTestCase
+class MethodCallsDefinedInTest extends RuleTestCase
 {
 
 	/**
@@ -26,23 +28,22 @@ class FunctionCallsAllowInFunctionsTest extends RuleTestCase
 	{
 		$normalizer = new Normalizer();
 		$formatter = new Formatter($normalizer);
-		$filePath = new FilePath(new FileHelper(__DIR__));
+		$filePath = new FilePath(new FileHelper(__DIR__), __DIR__ . '/..');
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
-		return new FunctionCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
+		return new MethodCalls(
+			new DisallowedMethodRuleErrors(
+				new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
+				new TypeResolver(),
+				$formatter
+			),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
-			$this->createReflectionProvider(),
 			[
 				[
-					'function' => 'md*()',
-					'allowInFunctions' => [
-						'\\Foo\\Bar\\Waldo\\qu*x()',
-					],
-				],
-				[
-					'function' => 'sha*()',
-					'allowExceptInFunctions' => [
-						'\\Foo\\Bar\\Waldo\\fred()',
+					'method' => '*',
+					'definedIn' => 'libs/Bl*',
+					'allowIn' => [
+						'src/disallowed-allow/*.php',
+						'src/*-allow/*.*',
 					],
 				],
 			]
@@ -53,14 +54,20 @@ class FunctionCallsAllowInFunctionsTest extends RuleTestCase
 	public function testRule(): void
 	{
 		// Based on the configuration above, in this file:
-		$this->analyse([__DIR__ . '/../libs/Functions.php'], [
+		$this->analyse([__DIR__ . '/../src/disallowed/methodCallsDefinedIn.php'], [
 			[
 				// expect this error message:
-				'Calling sha1() is forbidden, because reasons [sha1() matches sha*()]',
+				'Calling Waldo\Quux\Blade::andSorcery() is forbidden, because reasons [Waldo\Quux\Blade::andSorcery() matches *()]',
 				// on this line:
-				15,
+				9,
+			],
+			[
+				'Calling Waldo\Quux\Blade::server() is forbidden, because reasons [Waldo\Quux\Blade::server() matches *()]',
+				10,
 			],
 		]);
+		// Based on the configuration above, no errors in this file:
+		$this->analyse([__DIR__ . '/../src/disallowed-allow/methodCallsDefinedIn.php'], []);
 	}
 
 }

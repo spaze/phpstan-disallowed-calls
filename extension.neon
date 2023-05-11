@@ -1,5 +1,6 @@
 parameters:
 	allowInRootDir: null
+	filesRootDir: %allowInRootDir%
 	disallowedNamespaces: []
 	disallowedClasses: []
 	disallowedMethodCalls: []
@@ -11,6 +12,7 @@ parameters:
 
 parametersSchema:
 	allowInRootDir: schema(string(), nullable())
+	filesRootDir: schema(string(), nullable())
 	# These should be defined using `structure` with listed keys but it seems to me that PHPStan requires
 	# all keys to be present in a structure but `message` & `allow*`/`disallow*` are optional.
 	disallowedNamespaces: listOf(
@@ -92,12 +94,13 @@ parametersSchema:
 
 services:
 	- Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed
-	- Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath(allowInRootDir: %allowInRootDir%)
+	- Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedAttributeFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalFactory
+	- Spaze\PHPStan\Rules\Disallowed\File\FilePath(rootDir: %filesRootDir%)
 	- Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter
 	- Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier
 	- Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer
