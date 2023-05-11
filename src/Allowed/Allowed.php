@@ -14,14 +14,14 @@ use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeException;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeInConfigException;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
-use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParam;
-use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamValue;
-use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamValueAny;
-use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamValueCaseInsensitiveExcept;
-use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamValueExcept;
-use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamValueFlagExcept;
-use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamValueFlagSpecific;
-use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParamValueSpecific;
+use Spaze\PHPStan\Rules\Disallowed\Params\Param;
+use Spaze\PHPStan\Rules\Disallowed\Params\ParamValue;
+use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueAny;
+use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueCaseInsensitiveExcept;
+use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueExcept;
+use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueFlagExcept;
+use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueFlagSpecific;
+use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueSpecific;
 
 class Allowed
 {
@@ -101,7 +101,7 @@ class Allowed
 	/**
 	 * @param Scope $scope
 	 * @param array<int, Arg>|null $args
-	 * @param array<int|string, DisallowedCallParam> $allowConfig
+	 * @param array<int|string, Param> $allowConfig
 	 * @param bool $paramsRequired
 	 * @return bool
 	 */
@@ -156,10 +156,10 @@ class Allowed
 	/**
 	 * @param array<int, Arg> $args
 	 * @param Scope $scope
-	 * @param DisallowedCallParam $param
+	 * @param Param $param
 	 * @return Type|null
 	 */
-	private function getArgType(array $args, Scope $scope, DisallowedCallParam $param): ?Type
+	private function getArgType(array $args, Scope $scope, Param $param): ?Type
 	{
 		foreach ($args as $arg) {
 			if ($arg->name && $arg->name->name === $param->getName()) {
@@ -190,37 +190,37 @@ class Allowed
 			$allowExceptInCalls[] = $this->normalizer->normalizeCall($disallowedCall);
 		}
 		foreach ($allowed['allowParamsInAllowed'] ?? [] as $param => $value) {
-			$allowParamsInAllowed[$param] = $this->paramFactory(DisallowedCallParamValueSpecific::class, $param, $value);
+			$allowParamsInAllowed[$param] = $this->paramFactory(ParamValueSpecific::class, $param, $value);
 		}
 		foreach ($allowed['allowParamsInAllowedAnyValue'] ?? [] as $param => $value) {
-			$allowParamsInAllowed[$param] = $this->paramFactory(DisallowedCallParamValueAny::class, $param, $value);
+			$allowParamsInAllowed[$param] = $this->paramFactory(ParamValueAny::class, $param, $value);
 		}
 		foreach ($allowed['allowParamFlagsInAllowed'] ?? [] as $param => $value) {
-			$allowParamsInAllowed[$param] = $this->paramFactory(DisallowedCallParamValueFlagSpecific::class, $param, $value);
+			$allowParamsInAllowed[$param] = $this->paramFactory(ParamValueFlagSpecific::class, $param, $value);
 		}
 		foreach ($allowed['allowParamsAnywhere'] ?? [] as $param => $value) {
-			$allowParamsAnywhere[$param] = $this->paramFactory(DisallowedCallParamValueSpecific::class, $param, $value);
+			$allowParamsAnywhere[$param] = $this->paramFactory(ParamValueSpecific::class, $param, $value);
 		}
 		foreach ($allowed['allowParamsAnywhereAnyValue'] ?? [] as $param => $value) {
-			$allowParamsAnywhere[$param] = $this->paramFactory(DisallowedCallParamValueAny::class, $param, $value);
+			$allowParamsAnywhere[$param] = $this->paramFactory(ParamValueAny::class, $param, $value);
 		}
 		foreach ($allowed['allowParamFlagsAnywhere'] ?? [] as $param => $value) {
-			$allowParamsAnywhere[$param] = $this->paramFactory(DisallowedCallParamValueFlagSpecific::class, $param, $value);
+			$allowParamsAnywhere[$param] = $this->paramFactory(ParamValueFlagSpecific::class, $param, $value);
 		}
 		foreach ($allowed['allowExceptParamsInAllowed'] ?? $allowed['disallowParamsInAllowed'] ?? [] as $param => $value) {
-			$allowExceptParamsInAllowed[$param] = $this->paramFactory(DisallowedCallParamValueExcept::class, $param, $value);
+			$allowExceptParamsInAllowed[$param] = $this->paramFactory(ParamValueExcept::class, $param, $value);
 		}
 		foreach ($allowed['allowExceptParamFlagsInAllowed'] ?? $allowed['disallowParamFlagsInAllowed'] ?? [] as $param => $value) {
-			$allowExceptParamsInAllowed[$param] = $this->paramFactory(DisallowedCallParamValueFlagExcept::class, $param, $value);
+			$allowExceptParamsInAllowed[$param] = $this->paramFactory(ParamValueFlagExcept::class, $param, $value);
 		}
 		foreach ($allowed['allowExceptParams'] ?? $allowed['disallowParams'] ?? [] as $param => $value) {
-			$allowExceptParams[$param] = $this->paramFactory(DisallowedCallParamValueExcept::class, $param, $value);
+			$allowExceptParams[$param] = $this->paramFactory(ParamValueExcept::class, $param, $value);
 		}
 		foreach ($allowed['allowExceptParamFlags'] ?? $allowed['disallowParamFlags'] ?? [] as $param => $value) {
-			$allowExceptParams[$param] = $this->paramFactory(DisallowedCallParamValueFlagExcept::class, $param, $value);
+			$allowExceptParams[$param] = $this->paramFactory(ParamValueFlagExcept::class, $param, $value);
 		}
 		foreach ($allowed['allowExceptCaseInsensitiveParams'] ?? $allowed['disallowCaseInsensitiveParams'] ?? [] as $param => $value) {
-			$allowExceptParams[$param] = $this->paramFactory(DisallowedCallParamValueCaseInsensitiveExcept::class, $param, $value);
+			$allowExceptParams[$param] = $this->paramFactory(ParamValueCaseInsensitiveExcept::class, $param, $value);
 		}
 		return new AllowedConfig(
 			$allowed['allowIn'] ?? [],
@@ -236,21 +236,21 @@ class Allowed
 
 
 	/**
-	 * @template T of DisallowedCallParamValue
+	 * @template T of ParamValue
 	 * @param class-string<T> $class
 	 * @param int|string $key
 	 * @param int|bool|string|null|array{position:int, value?:int|bool|string, name?:string} $value
 	 * @return T
 	 * @throws UnsupportedParamTypeInConfigException
 	 */
-	private function paramFactory(string $class, $key, $value): DisallowedCallParamValue
+	private function paramFactory(string $class, $key, $value): ParamValue
 	{
 		if (is_numeric($key)) {
 			if (is_array($value)) {
 				$paramPosition = $value['position'];
 				$paramName = $value['name'] ?? null;
 				$paramValue = $value['value'] ?? null;
-			} elseif ($class === DisallowedCallParamValueAny::class) {
+			} elseif ($class === ParamValueAny::class) {
 				if (is_numeric($value)) {
 					$paramPosition = (int)$value;
 					$paramName = null;

@@ -7,9 +7,9 @@ use PHPStan\Type\Type;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeException;
 
 /**
- * @extends DisallowedCallParamValue<int|bool|string|null>
+ * @extends ParamValue<int|bool|string|null>
  */
-class DisallowedCallParamValueExcept extends DisallowedCallParamValue
+class ParamValueSpecific extends ParamValue
 {
 
 	/**
@@ -20,7 +20,7 @@ class DisallowedCallParamValueExcept extends DisallowedCallParamValue
 		if (!$type->isConstantScalarValue()->yes()) {
 			throw new UnsupportedParamTypeException();
 		}
-		return !in_array($this->getValue(), $type->getConstantScalarValues(), true);
+		return $type->getConstantScalarValues() === [$this->getValue()];
 	}
 
 }

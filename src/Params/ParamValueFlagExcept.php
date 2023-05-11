@@ -8,9 +8,9 @@ use PHPStan\Type\Type;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeException;
 
 /**
- * @extends DisallowedCallParamValue<int>
+ * @extends ParamValue<int>
  */
-class DisallowedCallParamValueFlagExcept extends DisallowedCallParamValue
+class ParamValueFlagExcept extends ParamValue
 {
 
 	/**

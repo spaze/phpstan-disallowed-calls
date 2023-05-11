@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Allowed;
 
-use Spaze\PHPStan\Rules\Disallowed\Params\DisallowedCallParam;
+use Spaze\PHPStan\Rules\Disallowed\Params\Param;
 
 class AllowedConfig
 {
@@ -20,16 +20,16 @@ class AllowedConfig
 	/** @var string[] */
 	private $allowExceptInCalls;
 
-	/** @var array<int|string, DisallowedCallParam> */
+	/** @var array<int|string, Param> */
 	private $allowParamsInAllowed;
 
-	/** @var array<int|string, DisallowedCallParam> */
+	/** @var array<int|string, Param> */
 	private $allowParamsAnywhere;
 
-	/** @var array<int|string, DisallowedCallParam> */
+	/** @var array<int|string, Param> */
 	private $allowExceptParamsInAllowed;
 
-	/** @var array<int|string, DisallowedCallParam> */
+	/** @var array<int|string, Param> */
 	private $allowExceptParams;
 
 
@@ -38,10 +38,10 @@ class AllowedConfig
 	 * @param string[] $allowExceptIn
 	 * @param string[] $allowInCalls
 	 * @param string[] $allowExceptInCalls
-	 * @param array<int|string, DisallowedCallParam> $allowParamsInAllowed
-	 * @param array<int|string, DisallowedCallParam> $allowParamsAnywhere
-	 * @param array<int|string, DisallowedCallParam> $allowExceptParamsInAllowed
-	 * @param array<int|string, DisallowedCallParam> $allowExceptParams
+	 * @param array<int|string, Param> $allowParamsInAllowed
+	 * @param array<int|string, Param> $allowParamsAnywhere
+	 * @param array<int|string, Param> $allowExceptParamsInAllowed
+	 * @param array<int|string, Param> $allowExceptParams
 	 */
 	public function __construct(
 		array $allowIn,
@@ -101,7 +101,7 @@ class AllowedConfig
 
 
 	/**
-	 * @return array<int|string, DisallowedCallParam>
+	 * @return array<int|string, Param>
 	 */
 	public function getAllowParamsInAllowed(): array
 	{
@@ -110,7 +110,7 @@ class AllowedConfig
 
 
 	/**
-	 * @return array<int|string, DisallowedCallParam>
+	 * @return array<int|string, Param>
 	 */
 	public function getAllowParamsAnywhere(): array
 	{
@@ -119,7 +119,7 @@ class AllowedConfig
 
 
 	/**
-	 * @return array<int|string, DisallowedCallParam>
+	 * @return array<int|string, Param>
 	 */
 	public function getAllowExceptParamsInAllowed(): array
 	{
@@ -128,7 +128,7 @@ class AllowedConfig
 
 
 	/**
-	 * @return array<int|string, DisallowedCallParam>
+	 * @return array<int|string, Param>
 	 */
 	public function getAllowExceptParams(): array
 	{

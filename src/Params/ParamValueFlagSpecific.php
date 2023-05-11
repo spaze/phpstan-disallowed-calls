@@ -3,13 +3,14 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Params;
 
+use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Type;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeException;
 
 /**
- * @extends DisallowedCallParamValue<int|bool|string|null>
+ * @extends ParamValue<int>
  */
-class DisallowedCallParamValueSpecific extends DisallowedCallParamValue
+class ParamValueFlagSpecific extends ParamValue
 {
 
 	/**
@@ -17,10 +18,10 @@ class DisallowedCallParamValueSpecific extends DisallowedCallParamValue
 	 */
 	public function matches(Type $type): bool
 	{
-		if (!$type->isConstantScalarValue()->yes()) {
+		if (!$type instanceof ConstantIntegerType) {
 			throw new UnsupportedParamTypeException();
 		}
-		return $type->getConstantScalarValues() === [$this->getValue()];
+		return ($this->getValue() & $type->getValue()) !== 0;
 	}
 
 }
