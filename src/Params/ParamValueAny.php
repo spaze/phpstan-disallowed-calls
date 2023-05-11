@@ -6,9 +6,9 @@ namespace Spaze\PHPStan\Rules\Disallowed\Params;
 use PHPStan\Type\Type;
 
 /**
- * @extends DisallowedCallParamValue<int|bool|string|null>
+ * @extends ParamValue<int|bool|string|null>
  */
-final class DisallowedCallParamValueAny extends DisallowedCallParamValue
+final class ParamValueAny extends ParamValue
 {
 
 	public function matches(Type $type): bool

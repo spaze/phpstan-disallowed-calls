@@ -8,7 +8,7 @@ use PHPStan\Type\Type;
 /**
  * @template T of int|bool|string|null
  */
-abstract class DisallowedCallParamValue implements DisallowedCallParam
+abstract class ParamValue implements Param
 {
 
 	/** @var ?int */

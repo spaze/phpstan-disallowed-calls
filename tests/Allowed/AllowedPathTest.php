@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed;
+namespace Spaze\PHPStan\Rules\Disallowed\Allowed;
 
 use Generator;
 use PHPStan\Analyser\ScopeContext;
@@ -13,14 +13,18 @@ use PHPStan\Testing\PHPStanTestCase;
 use Traits\TestClass;
 use Traits\TestTrait;
 
-class IsAllowedFileHelperTest extends PHPStanTestCase
+/**
+ * @requires function str_starts_with
+ * ... for now because https://github.com/phpstan/phpstan/issues/9300
+ */
+class AllowedPathTest extends PHPStanTestCase
 {
 
 	/** @var AllowedPath */
-	private $isAllowedHelper;
+	private $allowedPath;
 
 	/** @var AllowedPath */
-	private $isAllowedHelperWithRootDir;
+	private $allowedPathWithRootDir;
 
 	/** @var ScopeFactory */
 	private $scopeFactory;
@@ -31,8 +35,8 @@ class IsAllowedFileHelperTest extends PHPStanTestCase
 
 	protected function setUp(): void
 	{
-		$this->isAllowedHelper = new AllowedPath(new FileHelper(__DIR__));
-		$this->isAllowedHelperWithRootDir = new AllowedPath(new FileHelper(__DIR__), '/foo/bar');
+		$this->allowedPath = new AllowedPath(new FileHelper(__DIR__));
+		$this->allowedPathWithRootDir = new AllowedPath(new FileHelper(__DIR__), '/foo/bar');
 		$this->reflectionProvider = $this->createReflectionProvider();
 		$this->scopeFactory = $this->createScopeFactory($this->reflectionProvider, self::getContainer()->getService('typeSpecifier'));
 	}
@@ -44,9 +48,9 @@ class IsAllowedFileHelperTest extends PHPStanTestCase
 	public function testMatches(string $allowedPath, string $file, string $fileWithRootDir): void
 	{
 		$context = ScopeContext::create($file);
-		$this->assertTrue($this->isAllowedHelper->matches($this->scopeFactory->create($context), $allowedPath));
+		$this->assertTrue($this->allowedPath->matches($this->scopeFactory->create($context), $allowedPath));
 		$context = ScopeContext::create($fileWithRootDir);
-		$this->assertTrue($this->isAllowedHelperWithRootDir->matches($this->scopeFactory->create($context), $allowedPath));
+		$this->assertTrue($this->allowedPathWithRootDir->matches($this->scopeFactory->create($context), $allowedPath));
 	}
 
 
@@ -98,7 +102,7 @@ class IsAllowedFileHelperTest extends PHPStanTestCase
 		$classReflection = $this->reflectionProvider->getClass(TestClass::class);
 		$traitReflection = $this->reflectionProvider->getClass(TestTrait::class);
 		$context = ScopeContext::create($classReflection->getFileName())->enterClass($classReflection)->enterTrait($traitReflection);
-		$this->assertTrue($this->isAllowedHelper->matches($this->scopeFactory->create($context), $traitReflection->getFileName()));
+		$this->assertTrue($this->allowedPath->matches($this->scopeFactory->create($context), $traitReflection->getFileName()));
 	}
 
 }

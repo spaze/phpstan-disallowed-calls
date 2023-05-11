@@ -1,10 +1,11 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed;
+namespace Spaze\PHPStan\Rules\Disallowed\Allowed;
 
 use PHPStan\Analyser\Scope;
 use PHPStan\File\FileHelper;
+use Spaze\PHPStan\Rules\Disallowed\Disallowed;
 
 class AllowedPath
 {

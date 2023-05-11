@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed;
 
+use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedConfig;
+
 class DisallowedCall implements DisallowedWithParams
 {
 

@@ -7,9 +7,9 @@ use PHPStan\Type\Type;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeException;
 
 /**
- * @extends DisallowedCallParamValue<int|bool|string|null>
+ * @extends ParamValue<int|bool|string|null>
  */
-class DisallowedCallParamValueCaseInsensitiveExcept extends DisallowedCallParamValue
+class ParamValueCaseInsensitiveExcept extends ParamValue
 {
 
 	/**

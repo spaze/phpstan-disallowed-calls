@@ -91,8 +91,8 @@ parametersSchema:
 	)
 
 services:
-	- Spaze\PHPStan\Rules\Disallowed\Allowed
-	- Spaze\PHPStan\Rules\Disallowed\AllowedPath(allowInRootDir: %allowInRootDir%)
+	- Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed
+	- Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath(allowInRootDir: %allowInRootDir%)
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedAttributeFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory
