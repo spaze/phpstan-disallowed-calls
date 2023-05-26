@@ -71,6 +71,9 @@ class FunctionCallsTest extends RuleTestCase
 				],
 				[
 					'function' => 'shell_*',
+					'exclude' => [
+						'shell_b*()',
+					],
 					'allowIn' => [
 						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',

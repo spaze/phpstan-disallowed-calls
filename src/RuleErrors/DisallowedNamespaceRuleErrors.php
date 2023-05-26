@@ -41,7 +41,7 @@ class DisallowedNamespaceRuleErrors
 				continue;
 			}
 
-			if (!$this->identifier->matches($disallowedNamespace->getNamespace(), $namespace)) {
+			if (!$this->identifier->matches($disallowedNamespace->getNamespace(), $namespace, $disallowedNamespace->getExcludes())) {
 				continue;
 			}
 

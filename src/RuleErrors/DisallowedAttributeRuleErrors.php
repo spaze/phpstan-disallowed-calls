@@ -38,7 +38,7 @@ class DisallowedAttributeRuleErrors
 	{
 		foreach ($disallowedAttributes as $disallowedAttribute) {
 			$attributeName = $attribute->name->toString();
-			if (!$this->identifier->matches($disallowedAttribute->getAttribute(), $attributeName)) {
+			if (!$this->identifier->matches($disallowedAttribute->getAttribute(), $attributeName, $disallowedAttribute->getExcludes())) {
 				continue;
 			}
 			if ($this->allowed->isAllowed($scope, $attribute->args, $disallowedAttribute)) {

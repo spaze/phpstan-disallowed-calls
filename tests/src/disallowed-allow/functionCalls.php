@@ -93,3 +93,6 @@ hash((new stdClass())->property . 'foo', 'NAH');
 \Foo\Bar\Waldo\config('foo', ['key' => 'allow']);
 // allowed by path
 \Foo\Bar\Waldo\config('foo', ['key' => 'disallow']);
+
+// allowed by path
+shell_by();

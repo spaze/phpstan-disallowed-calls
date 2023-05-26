@@ -186,6 +186,18 @@ parameters:
 ```
 The wildcard makes most sense when used as the rightmost character of the function or method name, optionally followed by `()`, but you can use it anywhere for example to disallow all functions that end with `y`: `function: '*y()'`. The matching is powered by [`fnmatch`](https://www.php.net/function.fnmatch) so you can use even multiple wildcards if you wish because w\*y n\*t.
 
+If there's this one function, method, namespace, attribute (or multiple of them) that you'd like to exclude from the set, you can do that with `exclude`:
+```neon
+parameters:
+    disallowedFunctionCalls:
+        -
+            function: 'pcntl_*()'
+            exclude:
+                - 'pcntl_foobar()'
+```
+This config would disallow all `pcntl` functions except (an imaginary) `pcntl_foobar()`.
+Please note `exclude` also accepts [`fnmatch`](https://www.php.net/function.fnmatch) patterns so please be careful to not create a contradicting config.
+
 You can treat some language constructs as functions and disallow it in `disallowedFunctionCalls`. Currently detected language constructs are:
 - `die()`
 - `echo()`

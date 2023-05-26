@@ -93,3 +93,6 @@ hash((new stdClass())->property . 'foo', 'NAH');
 \Foo\Bar\Waldo\config('foo', ['key' => 'allow']);
 // disallowed array param, unsupported type in config
 \Foo\Bar\Waldo\config('foo', ['key' => 'disallow']);
+
+// would match shell_* but is excluded
+shell_by();
