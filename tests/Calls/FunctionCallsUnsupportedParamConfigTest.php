@@ -10,6 +10,7 @@ use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
+use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 
@@ -27,7 +28,7 @@ class FunctionCallsUnsupportedParamConfigTest extends PHPStanTestCase
 		$formatter = new Formatter($normalizer);
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath(new FileHelper(__DIR__)));
 		new FunctionCalls(
-			new DisallowedCallsRuleErrors($allowed),
+			new DisallowedCallsRuleErrors($allowed, new Identifier()),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			[
 				[

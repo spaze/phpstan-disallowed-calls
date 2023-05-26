@@ -8,6 +8,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespace;
+use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 
 class DisallowedNamespaceRuleErrors
 {
@@ -15,10 +16,14 @@ class DisallowedNamespaceRuleErrors
 	/** @var AllowedPath */
 	private $allowedPath;
 
+	/** @var Identifier */
+	private $identifier;
 
-	public function __construct(AllowedPath $allowedPath)
+
+	public function __construct(AllowedPath $allowedPath, Identifier $identifier)
 	{
 		$this->allowedPath = $allowedPath;
+		$this->identifier = $identifier;
 	}
 
 
@@ -36,7 +41,7 @@ class DisallowedNamespaceRuleErrors
 				continue;
 			}
 
-			if (!$this->matchesNamespace($disallowedNamespace->getNamespace(), $namespace)) {
+			if (!$this->identifier->matches($disallowedNamespace->getNamespace(), $namespace, $disallowedNamespace->getExcludes())) {
 				continue;
 			}
 
@@ -59,20 +64,6 @@ class DisallowedNamespaceRuleErrors
 		}
 
 		return [];
-	}
-
-
-	private function matchesNamespace(string $pattern, string $value): bool
-	{
-		if ($pattern === $value) {
-			return true;
-		}
-
-		if (fnmatch($pattern, $value, FNM_NOESCAPE | FNM_CASEFOLD)) {
-			return true;
-		}
-
-		return false;
 	}
 
 }

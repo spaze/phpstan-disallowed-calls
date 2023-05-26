@@ -35,9 +35,14 @@ class DisallowedAttributeFactory
 		$disallowedAttributes = [];
 		foreach ($config as $disallowed) {
 			$attributes = $disallowed['attribute'];
+			$excludes = [];
+			foreach ($disallowed['exclude'] ?? [] as $exclude) {
+				$excludes[] = $this->normalizer->normalizeNamespace($exclude);
+			}
 			foreach ((array)$attributes as $attribute) {
 				$disallowedAttribute = new DisallowedAttribute(
 					$this->normalizer->normalizeNamespace($attribute),
+					$excludes,
 					$disallowed['message'] ?? null,
 					$this->allowed->getConfig($disallowed),
 					$disallowed['errorIdentifier'] ?? null,

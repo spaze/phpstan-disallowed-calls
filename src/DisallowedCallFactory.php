@@ -46,11 +46,16 @@ class DisallowedCallFactory
 			if (!$calls) {
 				throw new ShouldNotHappenException("Either 'method' or 'function' must be set in configuration items");
 			}
+			$excludes = [];
+			foreach ($disallowed['exclude'] ?? [] as $exclude) {
+				$excludes[] = $this->normalizer->normalizeCall($exclude);
+			}
 			$calls = (array)$calls;
 			try {
 				foreach ($calls as $call) {
 					$disallowedCall = new DisallowedCall(
 						$this->normalizer->normalizeCall($call),
+						$excludes,
 						$disallowed['message'] ?? null,
 						$this->allowed->getConfig($disallowed),
 						$disallowed['errorIdentifier'] ?? null,
