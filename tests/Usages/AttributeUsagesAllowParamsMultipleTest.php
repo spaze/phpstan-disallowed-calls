@@ -11,6 +11,7 @@ use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedAttributeFactory;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
+use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedAttributeRuleErrors;
 use Waldo\Quux\Blade;
@@ -23,7 +24,7 @@ class AttributeUsagesAllowParamsMultipleTest extends RuleTestCase
 		$normalizer = new Normalizer();
 		$allowed = new Allowed(new Formatter($normalizer), $normalizer, new AllowedPath(new FileHelper(__DIR__)));
 		return new AttributeUsages(
-			new DisallowedAttributeRuleErrors($allowed),
+			new DisallowedAttributeRuleErrors($allowed, new Identifier()),
 			new DisallowedAttributeFactory($allowed, $normalizer),
 			[
 				[

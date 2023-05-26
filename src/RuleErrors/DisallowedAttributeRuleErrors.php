@@ -9,6 +9,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedAttribute;
+use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 
 class DisallowedAttributeRuleErrors
 {
@@ -16,10 +17,14 @@ class DisallowedAttributeRuleErrors
 	/** @var Allowed */
 	private $allowed;
 
+	/** @var Identifier */
+	private $identifier;
 
-	public function __construct(Allowed $allowed)
+
+	public function __construct(Allowed $allowed, Identifier $identifier)
 	{
 		$this->allowed = $allowed;
+		$this->identifier = $identifier;
 	}
 
 
@@ -33,7 +38,7 @@ class DisallowedAttributeRuleErrors
 	{
 		foreach ($disallowedAttributes as $disallowedAttribute) {
 			$attributeName = $attribute->name->toString();
-			if (!$this->matchesAttribute($disallowedAttribute->getAttribute(), $attributeName)) {
+			if (!$this->identifier->matches($disallowedAttribute->getAttribute(), $attributeName)) {
 				continue;
 			}
 			if ($this->allowed->isAllowed($scope, $attribute->args, $disallowedAttribute)) {
@@ -58,20 +63,6 @@ class DisallowedAttributeRuleErrors
 		}
 
 		return [];
-	}
-
-
-	private function matchesAttribute(string $pattern, string $value): bool
-	{
-		if ($pattern === $value) {
-			return true;
-		}
-
-		if (fnmatch($pattern, $value, FNM_NOESCAPE | FNM_CASEFOLD)) {
-			return true;
-		}
-
-		return false;
 	}
 
 }

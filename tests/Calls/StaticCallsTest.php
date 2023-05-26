@@ -11,6 +11,7 @@ use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
+use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors;
@@ -29,7 +30,7 @@ class StaticCallsTest extends RuleTestCase
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath(new FileHelper(__DIR__)));
 		return new StaticCalls(
 			new DisallowedMethodRuleErrors(
-				new DisallowedCallsRuleErrors($allowed),
+				new DisallowedCallsRuleErrors($allowed, new Identifier()),
 				new TypeResolver(),
 				$formatter
 			),

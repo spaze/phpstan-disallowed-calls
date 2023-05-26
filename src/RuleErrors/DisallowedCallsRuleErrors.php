@@ -10,6 +10,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
+use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 
 class DisallowedCallsRuleErrors
 {
@@ -17,10 +18,14 @@ class DisallowedCallsRuleErrors
 	/** @var Allowed */
 	private $allowed;
 
+	/** @var Identifier */
+	private $identifier;
 
-	public function __construct(Allowed $allowed)
+
+	public function __construct(Allowed $allowed, Identifier $identifier)
 	{
 		$this->allowed = $allowed;
+		$this->identifier = $identifier;
 	}
 
 
@@ -37,7 +42,7 @@ class DisallowedCallsRuleErrors
 	public function get(?CallLike $node, Scope $scope, string $name, ?string $displayName, array $disallowedCalls, ?string $message = null): array
 	{
 		foreach ($disallowedCalls as $disallowedCall) {
-			$callMatches = $name === $disallowedCall->getCall() || fnmatch($disallowedCall->getCall(), $name, FNM_NOESCAPE | FNM_CASEFOLD);
+			$callMatches = $this->identifier->matches($disallowedCall->getCall(), $name);
 			if ($callMatches && !$this->allowed->isAllowed($scope, isset($node) ? $node->getArgs() : null, $disallowedCall)) {
 				$errorBuilder = RuleErrorBuilder::message(sprintf(
 					$message ?? 'Calling %s is forbidden, %s%s',
