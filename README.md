@@ -4,7 +4,7 @@
 [![PHP Tests](https://github.com/spaze/phpstan-disallowed-calls/workflows/PHP%20Tests/badge.svg)](https://github.com/spaze/phpstan-disallowed-calls/actions?query=workflow%3A%22PHP+Tests%22)
 
 There are some functions, methods, and constants which should not be used in production code. One good example is `var_dump()`,
-it is often used to quickly debug problems but should be removed before commiting the code. And sometimes it's not.
+it is often used to quickly debug problems but should be removed before committing the code. And sometimes it's not.
 
 Another example would be a generic logger. Let's say you're using one of the generic logging libraries but you have your own logger
 that will add some more info, or sanitize data, before calling the generic logger. Your code should not call the generic logger directly
@@ -269,7 +269,7 @@ parameters:
 Paths in `allowIn` support [fnmatch()](https://www.php.net/function.fnmatch) patterns.
 
 Relative paths in `allowIn` are resolved based on the current working directory. When running PHPStan from a directory or subdirectory which is not your "root" directory, the paths will probably not work.
-Use `allowInRootDir` in that case to specify an absolute root directory for all `allowIn` paths. Absolute paths might change between machines (for example your local development machine and a continous integration machine) but you
+Use `allowInRootDir` in that case to specify an absolute root directory for all `allowIn` paths. Absolute paths might change between machines (for example your local development machine and a continuous integration machine) but you
 can use [`%rootDir%`](https://phpstan.org/config-reference#expanding-paths) to start with PHPStan's root directory (usually `/something/something/vendor/phpstan/phpstan`) and then `..` from there to your "root" directory.
 
 For example when PHPStan is installed in `/home/foo/vendor/phpstan/phpstan` and you're using a configuration like this:
