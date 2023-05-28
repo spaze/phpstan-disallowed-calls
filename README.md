@@ -196,7 +196,7 @@ parameters:
                 - 'pcntl_foobar()'
 ```
 This config would disallow all `pcntl` functions except (an imaginary) `pcntl_foobar()`.
-Please note `exclude` also accepts [`fnmatch`](https://www.php.net/function.fnmatch) patterns so please be careful to not create a contradicting config.
+Please note `exclude` also accepts [`fnmatch`](https://www.php.net/function.fnmatch) patterns so please be careful to not create a contradicting config, and that it can accept both a string and an array of strings.
 
 Another option how to limit the set of functions or methods selected by the `function` or `method` directive is a file path in which these are defined which mostly makes sense when a [`fnmatch`](https://www.php.net/function.fnmatch) pattern is used in those directives.
 Imagine a use case in which you want to disallow any function or method defined in any namespace, or none at all, by this legacy package:

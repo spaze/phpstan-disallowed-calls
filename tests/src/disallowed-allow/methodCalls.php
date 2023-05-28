@@ -66,3 +66,6 @@ $blade->Trinity();
 
 // not disallowed by path
 $blade->andSorcery();
+
+// allowed by path
+$blade->runway();

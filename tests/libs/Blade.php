@@ -18,6 +18,11 @@ class Blade
 	}
 
 
+	public function runway(): void
+	{
+	}
+
+
 	public function server(): void
 	{
 	}
