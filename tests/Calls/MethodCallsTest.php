@@ -41,6 +41,7 @@ class MethodCallsTest extends RuleTestCase
 				[
 					'method' => 'Waldo\Quux\Blade::run*()',
 					'message' => "I've seen tests you people wouldn't believe",
+					'exclude' => 'Waldo\Quux\Blade::runway()',
 					'allowIn' => [
 						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',

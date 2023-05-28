@@ -20,7 +20,7 @@ class DisallowedNamespaceFactory
 
 
 	/**
-	 * @param array<array{namespace?:string, class?:string, exclude?:list<string>, message?:string, allowIn?:string[], allowExceptIn?:string[], disallowIn?:string[], errorIdentifier?:string, errorTip?:string}> $config
+	 * @param array<array{namespace?:string, class?:string, exclude?:string|list<string>, message?:string, allowIn?:string[], allowExceptIn?:string[], disallowIn?:string[], errorIdentifier?:string, errorTip?:string}> $config
 	 * @return DisallowedNamespace[]
 	 */
 	public function createFromConfig(array $config): array
@@ -33,7 +33,7 @@ class DisallowedNamespaceFactory
 				throw new ShouldNotHappenException("Either 'namespace' or 'class' must be set in configuration items");
 			}
 			$excludes = [];
-			foreach ($disallowed['exclude'] ?? [] as $exclude) {
+			foreach ((array)($disallowed['exclude'] ?? []) as $exclude) {
 				$excludes[] = $this->normalizer->normalizeNamespace($exclude);
 			}
 			foreach ((array)$namespaces as $namespace) {

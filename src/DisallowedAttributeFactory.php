@@ -36,7 +36,7 @@ class DisallowedAttributeFactory
 		foreach ($config as $disallowed) {
 			$attributes = $disallowed['attribute'];
 			$excludes = [];
-			foreach ($disallowed['exclude'] ?? [] as $exclude) {
+			foreach ((array)($disallowed['exclude'] ?? []) as $exclude) {
 				$excludes[] = $this->normalizer->normalizeNamespace($exclude);
 			}
 			foreach ((array)$attributes as $attribute) {
