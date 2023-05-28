@@ -8,4 +8,14 @@ class Bar
 
 	public const NAME = 'Bar';
 
+
+	public function foo(): void
+	{
+	}
+
+
+	public function bar(): void
+	{
+	}
+
 }
