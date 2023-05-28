@@ -9,6 +9,7 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalFactory;
+use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedVariableRuleErrors;
 
 class SuperglobalUsagesTest extends RuleTestCase
@@ -20,7 +21,7 @@ class SuperglobalUsagesTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		return new VariableUsages(
-			new DisallowedVariableRuleErrors(new AllowedPath(new FileHelper(__DIR__))),
+			new DisallowedVariableRuleErrors(new AllowedPath(new FilePath(new FileHelper(__DIR__)))),
 			(new DisallowedSuperglobalFactory())->getDisallowedVariables([
 				[
 					'superglobal' => '$GLOBALS',

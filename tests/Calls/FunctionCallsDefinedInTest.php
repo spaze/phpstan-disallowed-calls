@@ -16,7 +16,7 @@ use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 
-class FunctionCallsAllowInFunctionsTest extends RuleTestCase
+class FunctionCallsDefinedInTest extends RuleTestCase
 {
 
 	/**
@@ -26,7 +26,7 @@ class FunctionCallsAllowInFunctionsTest extends RuleTestCase
 	{
 		$normalizer = new Normalizer();
 		$formatter = new Formatter($normalizer);
-		$filePath = new FilePath(new FileHelper(__DIR__));
+		$filePath = new FilePath(new FileHelper(__DIR__), __DIR__);
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
 		return new FunctionCalls(
 			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
@@ -34,15 +34,26 @@ class FunctionCallsAllowInFunctionsTest extends RuleTestCase
 			$this->createReflectionProvider(),
 			[
 				[
-					'function' => 'md*()',
-					'allowInFunctions' => [
-						'\\Foo\\Bar\\Waldo\\qu*x()',
+					'function' => '\\Foo\\Bar\\Waldo\\f*()',
+					'definedIn' => '../libs/Fun*.php',
+					'allowIn' => [
+						'../src/disallowed-allow/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 				[
-					'function' => 'sha*()',
-					'allowExceptInFunctions' => [
-						'\\Foo\\Bar\\Waldo\\fred()',
+					'function' => '\\Foo\\Bar\\Waldo\\b*()',
+					'definedIn' => '../libs/ThisFileDoesNotExist.php',
+					'allowIn' => [
+						'../src/disallowed-allow/*.php',
+						'../src/*-allow/*.*',
+					],
+				],
+				[
+					'function' => '\\Foo\\Bar\\Waldo\\q*x()',
+					'allowIn' => [
+						'../src/disallowed-allow/*.php',
+						'../src/*-allow/*.*',
 					],
 				],
 			]
@@ -53,14 +64,24 @@ class FunctionCallsAllowInFunctionsTest extends RuleTestCase
 	public function testRule(): void
 	{
 		// Based on the configuration above, in this file:
-		$this->analyse([__DIR__ . '/../libs/Functions.php'], [
+		$this->analyse([__DIR__ . '/../src/disallowed/functionCallsDefinedIn.php'], [
 			[
 				// expect this error message:
-				'Calling sha1() is forbidden, because reasons [sha1() matches sha*()]',
+				'Calling Foo\Bar\Waldo\fred() is forbidden, because reasons [Foo\Bar\Waldo\fred() matches Foo\Bar\Waldo\f*()]',
 				// on this line:
-				15,
+				5,
+			],
+			[
+				'Calling Foo\Bar\Waldo\foo() is forbidden, because reasons [Foo\Bar\Waldo\foo() matches Foo\Bar\Waldo\f*()]',
+				6,
+			],
+			[
+				'Calling Foo\Bar\Waldo\quux() is forbidden, because reasons [Foo\Bar\Waldo\quux() matches Foo\Bar\Waldo\q*x()]',
+				13,
 			],
 		]);
+		// Based on the configuration above, no errors in this file:
+		$this->analyse([__DIR__ . '/../src/disallowed-allow/functionCallsDefinedIn.php'], []);
 	}
 
 }

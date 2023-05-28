@@ -58,7 +58,7 @@ class PrintCalls implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedCallsRuleErrors->get(null, $scope, 'print', 'print', $this->disallowedCalls);
+		return $this->disallowedCallsRuleErrors->get(null, $scope, 'print', 'print', null, $this->disallowedCalls);
 	}
 
 }

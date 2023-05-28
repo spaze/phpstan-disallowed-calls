@@ -10,6 +10,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
+use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
 use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 
 class DisallowedCallsRuleErrors
@@ -21,11 +22,15 @@ class DisallowedCallsRuleErrors
 	/** @var Identifier */
 	private $identifier;
 
+	/** @var FilePath */
+	private $filePath;
 
-	public function __construct(Allowed $allowed, Identifier $identifier)
+
+	public function __construct(Allowed $allowed, Identifier $identifier, FilePath $filePath)
 	{
 		$this->allowed = $allowed;
 		$this->identifier = $identifier;
+		$this->filePath = $filePath;
 	}
 
 
@@ -34,16 +39,20 @@ class DisallowedCallsRuleErrors
 	 * @param Scope $scope
 	 * @param string $name
 	 * @param string|null $displayName
+	 * @param string|null $definedIn
 	 * @param DisallowedCall[] $disallowedCalls
 	 * @param string|null $message
 	 * @return RuleError[]
 	 * @throws ShouldNotHappenException
 	 */
-	public function get(?CallLike $node, Scope $scope, string $name, ?string $displayName, array $disallowedCalls, ?string $message = null): array
+	public function get(?CallLike $node, Scope $scope, string $name, ?string $displayName, ?string $definedIn, array $disallowedCalls, ?string $message = null): array
 	{
 		foreach ($disallowedCalls as $disallowedCall) {
-			$callMatches = $this->identifier->matches($disallowedCall->getCall(), $name, $disallowedCall->getExcludes());
-			if ($callMatches && !$this->allowed->isAllowed($scope, isset($node) ? $node->getArgs() : null, $disallowedCall)) {
+			if (
+				$this->identifier->matches($disallowedCall->getCall(), $name, $disallowedCall->getExcludes())
+				&& $this->definedInMatches($disallowedCall, $definedIn)
+				&& !$this->allowed->isAllowed($scope, isset($node) ? $node->getArgs() : null, $disallowedCall)
+			) {
 				$errorBuilder = RuleErrorBuilder::message(sprintf(
 					$message ?? 'Calling %s is forbidden, %s%s',
 					($displayName && $displayName !== $name) ? "{$name}() (as {$displayName}())" : "{$name}()",
@@ -62,6 +71,20 @@ class DisallowedCallsRuleErrors
 			}
 		}
 		return [];
+	}
+
+
+	private function definedInMatches(DisallowedCall $disallowedCall, ?string $definedIn): bool
+	{
+		if (!$disallowedCall->getDefinedIn() || !$definedIn) {
+			return true;
+		}
+		foreach ($disallowedCall->getDefinedIn() as $callDefinedIn) {
+			if ($this->filePath->fnMatch($callDefinedIn, $definedIn)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

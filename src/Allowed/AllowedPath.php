@@ -4,50 +4,26 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed\Allowed;
 
 use PHPStan\Analyser\Scope;
-use PHPStan\File\FileHelper;
 use Spaze\PHPStan\Rules\Disallowed\Disallowed;
+use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
 
 class AllowedPath
 {
 
-	/** @var FileHelper */
-	private $fileHelper;
-
-	/** @var string|null */
-	private $allowInRootDir;
+	/** @var FilePath */
+	private $filePath;
 
 
-	public function __construct(FileHelper $fileHelper, ?string $allowInRootDir = null)
+	public function __construct(FilePath $filePath)
 	{
-		$this->fileHelper = $fileHelper;
-		$this->allowInRootDir = $allowInRootDir !== null ? $this->fileHelper->normalizePath($fileHelper->absolutizePath($allowInRootDir)) : null;
-	}
-
-
-	/**
-	 * Make path absolute unless it starts with a wildcard, then return as is.
-	 *
-	 * @param string $path
-	 * @param string|null $allowInRootDir
-	 * @return string
-	 */
-	private function absolutizePath(string $path, ?string $allowInRootDir): string
-	{
-		if (strpos($path, '*') === 0) {
-			return $path;
-		}
-
-		if ($allowInRootDir !== null) {
-			$path = rtrim($allowInRootDir, '/') . '/' . ltrim($path, '/');
-		}
-		return $this->fileHelper->normalizePath($this->fileHelper->absolutizePath($path));
+		$this->filePath = $filePath;
 	}
 
 
 	public function matches(Scope $scope, string $allowedPath): bool
 	{
 		$file = $scope->getTraitReflection() ? $scope->getTraitReflection()->getFileName() : $scope->getFile();
-		return $file !== null && fnmatch($this->absolutizePath($allowedPath, $this->allowInRootDir), $this->absolutizePath($file, null), FNM_NOESCAPE);
+		return $file !== null && $this->filePath->fnMatch($allowedPath, $file);
 	}
 
 

@@ -10,6 +10,7 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
+use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
@@ -25,10 +26,12 @@ class FunctionCallsAllowInMethodsTest extends RuleTestCase
 	{
 		$normalizer = new Normalizer();
 		$formatter = new Formatter($normalizer);
-		$allowed = new Allowed($formatter, $normalizer, new AllowedPath(new FileHelper(__DIR__)));
+		$filePath = new FilePath(new FileHelper(__DIR__));
+		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
 		return new FunctionCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier()),
+			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
+			$this->createReflectionProvider(),
 			[
 				[
 					'function' => 'md5_file()',

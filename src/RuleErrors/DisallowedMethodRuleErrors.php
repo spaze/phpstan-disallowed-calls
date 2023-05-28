@@ -57,6 +57,7 @@ class DisallowedMethodRuleErrors
 		$calledOnType = $this->typeResolver->getType($class, $scope);
 		if ($calledOnType->canCallMethods()->yes() && $calledOnType->hasMethod($node->name->name)->yes()) {
 			$method = $calledOnType->getMethod($node->name->name, $scope);
+			$declaringClass = $method->getDeclaringClass();
 			$classNames = $calledOnType->getObjectClassNames();
 			if (count($classNames) === 0) {
 				$calledAs = null;
@@ -64,10 +65,10 @@ class DisallowedMethodRuleErrors
 				$calledAs = $this->formatter->getFullyQualified($this->formatter->formatIdentifier($classNames), $method);
 			}
 
-			foreach ($method->getDeclaringClass()->getTraits() as $trait) {
+			foreach ($declaringClass->getTraits() as $trait) {
 				if ($trait->hasMethod($method->getName())) {
 					$declaredAs = $this->formatter->getFullyQualified($trait->getDisplayName(), $method);
-					$message = $this->disallowedCallsRuleErrors->get($node, $scope, $declaredAs, $calledAs, $disallowedCalls);
+					$message = $this->disallowedCallsRuleErrors->get($node, $scope, $declaredAs, $calledAs, $trait->getFileName(), $disallowedCalls);
 					if ($message) {
 						return $message;
 					}
@@ -77,8 +78,8 @@ class DisallowedMethodRuleErrors
 			return [];
 		}
 
-		$declaredAs = $this->formatter->getFullyQualified($method->getDeclaringClass()->getDisplayName(false), $method);
-		return $this->disallowedCallsRuleErrors->get($node, $scope, $declaredAs, $calledAs, $disallowedCalls);
+		$declaredAs = $this->formatter->getFullyQualified($declaringClass->getDisplayName(false), $method);
+		return $this->disallowedCallsRuleErrors->get($node, $scope, $declaredAs, $calledAs, $declaringClass->getFileName(), $disallowedCalls);
 	}
 
 }

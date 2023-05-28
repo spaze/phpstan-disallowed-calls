@@ -56,6 +56,7 @@ class DisallowedCallFactory
 					$disallowedCall = new DisallowedCall(
 						$this->normalizer->normalizeCall($call),
 						$excludes,
+						(array)($disallowed['definedIn'] ?? []),
 						$disallowed['message'] ?? null,
 						$this->allowed->getConfig($disallowed),
 						$disallowed['errorIdentifier'] ?? null,

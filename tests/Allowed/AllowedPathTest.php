@@ -10,6 +10,7 @@ use PHPStan\File\FileHelper;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\PHPStanTestCase;
+use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
 use Traits\TestClass;
 use Traits\TestTrait;
 
@@ -31,8 +32,8 @@ class AllowedPathTest extends PHPStanTestCase
 
 	protected function setUp(): void
 	{
-		$this->allowedPath = new AllowedPath(new FileHelper(__DIR__));
-		$this->allowedPathWithRootDir = new AllowedPath(new FileHelper(__DIR__), '/foo/bar');
+		$this->allowedPath = new AllowedPath(new FilePath(new FileHelper(__DIR__)));
+		$this->allowedPathWithRootDir = new AllowedPath(new FilePath(new FileHelper(__DIR__), '/foo/bar'));
 		$this->reflectionProvider = $this->createReflectionProvider();
 		$this->scopeFactory = $this->createScopeFactory($this->reflectionProvider, self::getContainer()->getService('typeSpecifier'));
 	}

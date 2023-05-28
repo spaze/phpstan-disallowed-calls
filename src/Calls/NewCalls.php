@@ -91,7 +91,7 @@ class NewCalls implements Rule
 				$name .= self::CONSTRUCT;
 				$errors = array_merge(
 					$errors,
-					$this->disallowedCallsRuleErrors->get($node, $scope, $name, $type->getClassName() . self::CONSTRUCT, $this->disallowedCalls)
+					$this->disallowedCallsRuleErrors->get($node, $scope, $name, $type->getClassName() . self::CONSTRUCT, null, $this->disallowedCalls)
 				);
 			}
 		}
