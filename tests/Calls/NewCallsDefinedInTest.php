@@ -15,10 +15,8 @@ use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
-use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors;
-use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
-class MethodCallsDefinedInTest extends RuleTestCase
+class NewCallsDefinedInTest extends RuleTestCase
 {
 
 	/**
@@ -30,12 +28,8 @@ class MethodCallsDefinedInTest extends RuleTestCase
 		$formatter = new Formatter($normalizer);
 		$filePath = new FilePath(new FileHelper(__DIR__), __DIR__ . '/..');
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
-		return new MethodCalls(
-			new DisallowedMethodRuleErrors(
-				new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
-				new TypeResolver(),
-				$formatter
-			),
+		return new NewCalls(
+			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			[
 				[
@@ -57,13 +51,9 @@ class MethodCallsDefinedInTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/../src/disallowed/methodCallsDefinedIn.php'], [
 			[
 				// expect this error message:
-				'Calling Waldo\Quux\Blade::andSorcery() is forbidden, because reasons [Waldo\Quux\Blade::andSorcery() matches *()]',
+				'Calling Waldo\Quux\Blade::__construct() is forbidden, because reasons [Waldo\Quux\Blade::__construct() matches *()]',
 				// on this line:
-				10,
-			],
-			[
-				'Calling Waldo\Quux\Blade::server() is forbidden, because reasons [Waldo\Quux\Blade::server() matches *()]',
-				11,
+				9,
 			],
 		]);
 		// Based on the configuration above, no errors in this file:
