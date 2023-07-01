@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace {
 
@@ -11,17 +11,21 @@ namespace {
 
 namespace MyNamespace {
 
+	// phpcs:ignore SlevomatCodingStandard.Namespaces.UseSpacing.IncorrectLinesCountAfterLastUse
 	use function __ as alias;
+
 
 	function __(): string
 	{
 		return alias();
 	}
 
+
 	function someOtherFn(): string
 	{
-		return __();  // The __ used here is MyNamespace\__
+		return __(); // The __ used here is MyNamespace\__
 	}
+
 
 	printf('oo');
 	\printf('oo');
@@ -37,4 +41,3 @@ namespace {
 	\printf('oo');
 
 }
-

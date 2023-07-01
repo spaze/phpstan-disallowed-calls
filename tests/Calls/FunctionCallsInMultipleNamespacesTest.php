@@ -52,36 +52,36 @@ class FunctionCallsInMultipleNamespacesTest extends RuleTestCase
 	public function testRule(): void
 	{
 		// Based on the configuration above, in this file:
-		$this->analyse([__DIR__ . '/../libs/FunctionInMultipleNamespaces.php'], [
+		$this->analyse([__DIR__ . '/../src/FunctionInMultipleNamespaces.php'], [
 			[
 				// expect this error message:
 				'Calling __() (as alias()) is forbidden, use MyNamespace\__ instead',
 				// on this line:
-				18,
+				20,
 			],
 			[
 				'Calling MyNamespace\__() (as __()) is forbidden, ha ha ha nope',
-				23,
-			],
-			[
-				'Calling printf() is forbidden, because reasons',
 				26,
 			],
 			[
 				'Calling printf() is forbidden, because reasons',
-				27,
+				30,
+			],
+			[
+				'Calling printf() is forbidden, because reasons',
+				31,
 			],
 			[
 				'Calling MyNamespace\__() (as alias()) is forbidden, ha ha ha nope',
-				35,
+				39,
 			],
 			[
 				'Calling printf() is forbidden, because reasons',
-				36,
+				40,
 			],
 			[
 				'Calling printf() is forbidden, because reasons',
-				37,
+				41,
 			],
 		]);
 	}

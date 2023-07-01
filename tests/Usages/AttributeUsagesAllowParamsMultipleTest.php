@@ -33,7 +33,7 @@ class AttributeUsagesAllowParamsMultipleTest extends RuleTestCase
 						AttributeEntity::class,
 					],
 					'allowIn' => [
-						'../libs/ClassWithAttributesAllow.php',
+						'../src/disallowed-allow/ClassWithAttributesAllow.php',
 					],
 					'allowParamsAnywhereAnyValue' => [
 						[
@@ -57,26 +57,26 @@ class AttributeUsagesAllowParamsMultipleTest extends RuleTestCase
 	public function testRule(): void
 	{
 		// Based on the configuration above, in this file:
-		$this->analyse([__DIR__ . '/../libs/ClassWithAttributes.php'], [
+		$this->analyse([__DIR__ . '/../src/disallowed/ClassWithAttributes.php'], [
 			[
 				// expect this error message:
 				'Attribute Attributes\AttributeEntity is forbidden, because reasons',
 				// on this line:
-				10,
+				8,
 			],
 		]);
-		$this->analyse([__DIR__ . '/../libs/ClassWithAttributesAllow.php'], [
+		$this->analyse([__DIR__ . '/../src/disallowed-allow/ClassWithAttributesAllow.php'], [
 			[
 				'Attribute Attributes\AttributeEntity is forbidden, because reasons',
-				10,
+				8,
 			],
 			[
 				'Attribute Attributes\AttributeEntity is forbidden, because reasons',
-				15,
+				12,
 			],
 			[
 				'Attribute Attributes\AttributeEntity is forbidden, because reasons',
-				22,
+				18,
 			],
 		]);
 	}

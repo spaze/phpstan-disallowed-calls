@@ -38,8 +38,8 @@
 	},
 	"scripts": {
 		"lint": "vendor/bin/parallel-lint --colors src/ tests/",
-		"lint-7.x": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/libs/TypesEverywhere.php --exclude tests/src/disallowed/functionCallsNamedParams.php --exclude tests/src/disallowed-allow/functionCallsNamedParams.php --exclude tests/src/disallowed/attributeUsages.php --exclude tests/src/disallowed-allow/attributeUsages.php",
-		"lint-8.0": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/libs/TypesEverywhere.php",
+		"lint-7.x": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/TypesEverywhere.php --exclude tests/src/disallowed/functionCallsNamedParams.php --exclude tests/src/disallowed-allow/functionCallsNamedParams.php --exclude tests/src/disallowed/attributeUsages.php --exclude tests/src/disallowed-allow/attributeUsages.php",
+		"lint-8.0": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/TypesEverywhere.php",
 		"lint-neon": "vendor/bin/neon-lint .",
 		"phpcs": "vendor/bin/phpcs src/ tests/",
 		"cs-fix": "vendor/bin/phpcbf src/ tests/",

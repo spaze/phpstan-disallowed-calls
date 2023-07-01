@@ -39,7 +39,7 @@ class NamespaceUsagesTypesTest extends RuleTestCase
 	public function testRule(): void
 	{
 		// Based on the configuration above, in this file:
-		$this->analyse([__DIR__ . '/../libs/TypesEverywhere.php'], [
+		$this->analyse([__DIR__ . '/../src/TypesEverywhere.php'], [
 			[
 				// expect this error message:
 				'Namespace Waldo\Quux\Blade is forbidden, do androids dream of electric sheep?',
