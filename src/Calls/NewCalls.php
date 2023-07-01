@@ -88,10 +88,12 @@ class NewCalls implements Rule
 			}
 
 			foreach ($names as $name) {
+				$classRef = $type->getClassReflection();
+				$definedIn = $classRef ? $classRef->getFileName() : null;
 				$name .= self::CONSTRUCT;
 				$errors = array_merge(
 					$errors,
-					$this->disallowedCallsRuleErrors->get($node, $scope, $name, $type->getClassName() . self::CONSTRUCT, null, $this->disallowedCalls)
+					$this->disallowedCallsRuleErrors->get($node, $scope, $name, $type->getClassName() . self::CONSTRUCT, $definedIn, $this->disallowedCalls)
 				);
 			}
 		}

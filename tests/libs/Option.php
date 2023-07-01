@@ -7,6 +7,7 @@ use ArrayAccess;
 use EmptyIterator;
 use IteratorAggregate;
 use ArrayIterator;
+use Traversable;
 
 /**
  * @template T
@@ -62,7 +63,7 @@ final class None extends Option
 		return self::$instance;
 	}
 
-	public function getIterator()
+	public function getIterator(): Traversable
 	{
 		return new EmptyIterator();
 	}
@@ -104,7 +105,7 @@ final class Some extends Option
 	}
 
 
-	public function getIterator()
+	public function getIterator(): Traversable
 	{
 		return new ArrayIterator([$this->value]);
 	}
