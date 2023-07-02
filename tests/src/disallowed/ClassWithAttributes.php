@@ -26,4 +26,10 @@ class ClassWithAttributes
 	{
 	}
 
+
+	#[AttributeClass()] // disallowed
+	public function hasPineapple(): bool
+	{
+	}
+
 }

@@ -41,6 +41,12 @@ class AttributeUsagesTest extends RuleTestCase
 						],
 					],
 				],
+				[
+					'attribute' => '#[\Attributes\AttributeClass()]',
+					'allowIn' => [
+						'../src/disallowed-allow/ClassWithAttributesAllow.php',
+					],
+				],
 			]
 		);
 	}
@@ -55,6 +61,10 @@ class AttributeUsagesTest extends RuleTestCase
 				'Attribute Attributes\AttributeEntity is forbidden, because reasons',
 				// on this line:
 				8,
+			],
+			[
+				'Attribute Attributes\AttributeClass is forbidden, because reasons',
+				30,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/ClassWithAttributesAllow.php'], []);

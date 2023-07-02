@@ -33,4 +33,15 @@ class NormalizerTest extends PHPStanTestCase
 		$this->assertSame('foo\\bar', $this->normalizer->normalizeNamespace('\\foo\\bar'));
 	}
 
+
+	public function testNormalizeAttribute(): void
+	{
+		$this->assertSame('foo', $this->normalizer->normalizeAttribute('foo'));
+		$this->assertSame('foo', $this->normalizer->normalizeAttribute('foo()'));
+		$this->assertSame('foo', $this->normalizer->normalizeAttribute('\\foo()'));
+		$this->assertSame('foo', $this->normalizer->normalizeAttribute('#[\\foo]'));
+		$this->assertSame('foo', $this->normalizer->normalizeAttribute('#[\\foo()]'));
+		$this->assertSame('foo\\bar', $this->normalizer->normalizeAttribute('#[\\foo\\bar()]'));
+	}
+
 }
