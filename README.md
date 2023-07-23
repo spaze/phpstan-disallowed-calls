@@ -76,7 +76,9 @@ Use the [provided generator](docs/disallow-disabled-functions-classes.md) to gen
 
 Function names, method names, class names, namespaces are matched irrespective of their case (disallowing `print_r` will also find `print_R` calls), while anything else like constants, file names, paths are not.
 
-phpstan-custom-ruleset
+## No other rules
+
+You can also use this extension [without any other PHPStan rules](docs/phpstan-custom-ruleset.md). This may be useful if you want to for example check a third-party code for some calls or usage of something.
 
 ## Running tests
 
