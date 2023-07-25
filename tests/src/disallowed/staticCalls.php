@@ -35,3 +35,6 @@ Traits\AnotherTestClass::zz();
 PhpOption\Option::fromArraysValue([]);
 PhpOption\None::create();
 PhpOption\Some::create('value');
+
+// disallowed on interface
+Interfaces\Implementation::y();

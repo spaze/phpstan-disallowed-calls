@@ -83,6 +83,14 @@ class StaticCallsTest extends RuleTestCase
 					],
 				],
 				[
+					'method' => 'Interfaces\BaseInterface::y*()',
+					'message' => 'method BaseInterface::y() is dangerous',
+					'allowIn' => [
+						'../src/disallowed-allow/*.php',
+						'../src/*-allow/*.*',
+					],
+				],
+				[
 					'method' => 'Traits\TestTrait::z()',
 					'message' => 'method TestTrait::z() is dangerous',
 					'allowIn' => [
@@ -180,6 +188,10 @@ class StaticCallsTest extends RuleTestCase
 			[
 				'Calling PhpOption\Some::create() is forbidden, do not use PhpOption',
 				37,
+			],
+			[
+				'Calling Interfaces\BaseInterface::y() (as Interfaces\Implementation::y()) is forbidden, method BaseInterface::y() is dangerous [Interfaces\BaseInterface::y() matches Interfaces\BaseInterface::y*()]',
+				40,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/staticCalls.php'], [

@@ -69,3 +69,6 @@ $blade->andSorcery();
 
 // allowed by path
 $blade->runway();
+
+// allowed by path
+(new Interfaces\Implementation())->x();
