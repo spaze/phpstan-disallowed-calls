@@ -1,11 +1,17 @@
 <?php
 declare(strict_types = 1);
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
-$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(__DIR__ . '/libs', FilesystemIterator::SKIP_DOTS));
-foreach ($iterator as $fileInfo) {
-	if ($fileInfo->getExtension() === 'php') {
-		require_once $fileInfo->getPathname();
-	}
-}
+require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/libs/AttributeClass.php';
+require __DIR__ . '/libs/AttributeEntity.php';
+require __DIR__ . '/libs/Bar.php';
+require __DIR__ . '/libs/Blade.php';
+require __DIR__ . '/libs/Constructor.php';
+require __DIR__ . '/libs/Functions.php';
+require __DIR__ . '/libs/Inheritance.php';
+require __DIR__ . '/libs/Option.php';
+require __DIR__ . '/libs/Royale.php';
+require __DIR__ . '/libs/SomeInterface.php';
+require __DIR__ . '/libs/TestException.php';
+require __DIR__ . '/libs/TestTrait.php';
+require __DIR__ . '/libs/Traits.php';
