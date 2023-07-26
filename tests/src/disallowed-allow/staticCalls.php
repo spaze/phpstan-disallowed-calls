@@ -35,3 +35,6 @@ Traits\AnotherTestClass::zz();
 PhpOption\Option::fromArraysValue([]);
 PhpOption\None::create();
 PhpOption\Some::create('value');
+
+// interface method allowed by path
+Interfaces\Implementation::y();

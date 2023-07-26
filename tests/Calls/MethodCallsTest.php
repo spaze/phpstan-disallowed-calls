@@ -85,6 +85,14 @@ class MethodCallsTest extends RuleTestCase
 					],
 				],
 				[
+					'method' => 'Interfaces\BaseInterface::x*()',
+					'message' => 'BaseInterface::x*() methods are dangerous',
+					'allowIn' => [
+						'../src/disallowed-allow/*.php',
+						'../src/*-allow/*.*',
+					],
+				],
+				[
 					'method' => 'Traits\TestTrait::*',
 					'message' => 'all TestTrait methods are dangerous',
 					'allowIn' => [
@@ -216,6 +224,10 @@ class MethodCallsTest extends RuleTestCase
 			[
 				'Calling Waldo\Quux\Blade::andSorcery() is forbidden, use magic',
 				68,
+			],
+			[
+				'Calling Interfaces\BaseInterface::x() (as Interfaces\Implementation::x()) is forbidden, BaseInterface::x*() methods are dangerous [Interfaces\BaseInterface::x() matches Interfaces\BaseInterface::x*()]',
+				74,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/methodCalls.php'], [

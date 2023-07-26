@@ -69,3 +69,6 @@ $blade->andSorcery();
 
 // would match run* but is excluded
 $blade->runway();
+
+// disallowed interface method
+(new Interfaces\Implementation())->x();
