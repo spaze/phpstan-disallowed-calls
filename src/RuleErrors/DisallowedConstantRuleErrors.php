@@ -28,8 +28,8 @@ class DisallowedConstantRuleErrors
 	 * @param string $constant
 	 * @param Scope $scope
 	 * @param string|null $displayName
-	 * @param DisallowedConstant[] $disallowedConstants
-	 * @return RuleError[]
+	 * @param list<DisallowedConstant> $disallowedConstants
+	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	public function get(string $constant, Scope $scope, ?string $displayName, array $disallowedConstants): array

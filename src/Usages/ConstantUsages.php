@@ -25,14 +25,14 @@ class ConstantUsages implements Rule
 	/** @var DisallowedConstantRuleErrors */
 	private $disallowedConstantRuleError;
 
-	/** @var DisallowedConstant[] */
+	/** @var list<DisallowedConstant> */
 	private $disallowedConstants;
 
 
 	/**
 	 * @param DisallowedConstantRuleErrors $disallowedConstantRuleErrors
 	 * @param DisallowedConstantFactory $disallowedConstantFactory
-	 * @param array<array{constant?:string, message?:string, allowIn?:string[]}> $disallowedConstants
+	 * @param array<array{constant?:string, message?:string, allowIn?:list<string>}> $disallowedConstants
 	 * @throws ShouldNotHappenException
 	 */
 	public function __construct(DisallowedConstantRuleErrors $disallowedConstantRuleErrors, DisallowedConstantFactory $disallowedConstantFactory, array $disallowedConstants)
@@ -51,7 +51,7 @@ class ConstantUsages implements Rule
 	/**
 	 * @param ConstFetch $node
 	 * @param Scope $scope
-	 * @return RuleError[]
+	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array

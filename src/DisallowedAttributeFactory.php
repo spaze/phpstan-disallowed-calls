@@ -27,7 +27,7 @@ class DisallowedAttributeFactory
 	/**
 	 * @param array $config
 	 * @phpstan-param DisallowedAttributesConfig $config
-	 * @return DisallowedAttribute[]
+	 * @return list<DisallowedAttribute>
 	 * @throws UnsupportedParamTypeInConfigException
 	 */
 	public function createFromConfig(array $config): array

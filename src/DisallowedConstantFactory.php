@@ -20,8 +20,8 @@ class DisallowedConstantFactory
 
 
 	/**
-	 * @param array<array{class?:string, constant?:string, message?:string, allowIn?:string[], allowExceptIn?:string[], disallowIn?:string[], errorIdentifier?:string, errorTip?:string}> $config
-	 * @return DisallowedConstant[]
+	 * @param array<array{class?:string, constant?:string, message?:string, allowIn?:list<string>, allowExceptIn?:list<string>, disallowIn?:list<string>, errorIdentifier?:string, errorTip?:string}> $config
+	 * @return list<DisallowedConstant>
 	 * @throws ShouldNotHappenException
 	 */
 	public function createFromConfig(array $config): array

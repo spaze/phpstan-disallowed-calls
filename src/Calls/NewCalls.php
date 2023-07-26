@@ -28,7 +28,7 @@ class NewCalls implements Rule
 	/** @var DisallowedCallsRuleErrors */
 	private $disallowedCallsRuleErrors;
 
-	/** @var DisallowedCall[] */
+	/** @var list<DisallowedCall> */
 	private $disallowedCalls;
 
 
@@ -56,7 +56,7 @@ class NewCalls implements Rule
 	/**
 	 * @param New_ $node
 	 * @param Scope $scope
-	 * @return RuleError[]
+	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array

@@ -40,9 +40,9 @@ class DisallowedCallsRuleErrors
 	 * @param string $name
 	 * @param string|null $displayName
 	 * @param string|null $definedIn
-	 * @param DisallowedCall[] $disallowedCalls
+	 * @param list<DisallowedCall> $disallowedCalls
 	 * @param string|null $message
-	 * @return RuleError[]
+	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	public function get(?CallLike $node, Scope $scope, string $name, ?string $displayName, ?string $definedIn, array $disallowedCalls, ?string $message = null): array

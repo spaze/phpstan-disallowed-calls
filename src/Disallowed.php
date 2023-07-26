@@ -7,25 +7,25 @@ interface Disallowed
 {
 
 	/**
-	 * @return string[]
+	 * @return list<string>
 	 */
 	public function getAllowIn(): array;
 
 
 	/**
-	 * @return string[]
+	 * @return list<string>
 	 */
 	public function getAllowExceptIn(): array;
 
 
 	/**
-	 * @return string[]
+	 * @return list<string>
 	 */
 	public function getAllowInCalls(): array;
 
 
 	/**
-	 * @return string[]
+	 * @return list<string>
 	 */
 	public function getAllowExceptInCalls(): array;
 

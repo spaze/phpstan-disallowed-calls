@@ -32,7 +32,7 @@ class NamespaceUsages implements Rule
 	/** @var DisallowedNamespaceRuleErrors */
 	private $disallowedNamespaceRuleErrors;
 
-	/** @var DisallowedNamespace[] */
+	/** @var list<DisallowedNamespace> */
 	private $disallowedNamespace;
 
 	/** @var Normalizer */
@@ -43,7 +43,7 @@ class NamespaceUsages implements Rule
 	 * @param DisallowedNamespaceRuleErrors $disallowedNamespaceRuleErrors
 	 * @param DisallowedNamespaceFactory $disallowNamespaceFactory
 	 * @param Normalizer $normalizer
-	 * @param array<array{namespace:string, message?:string, allowIn?:string[]}> $forbiddenNamespaces
+	 * @param array<array{namespace:string, message?:string, allowIn?:list<string>}> $forbiddenNamespaces
 	 */
 	public function __construct(
 		DisallowedNamespaceRuleErrors $disallowedNamespaceRuleErrors,
@@ -66,7 +66,7 @@ class NamespaceUsages implements Rule
 	/**
 	 * @param Node $node
 	 * @param Scope $scope
-	 * @return RuleError[]
+	 * @return list<RuleError>
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{

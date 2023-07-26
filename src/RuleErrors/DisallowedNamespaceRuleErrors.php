@@ -31,8 +31,8 @@ class DisallowedNamespaceRuleErrors
 	 * @param string $namespace
 	 * @param string $description
 	 * @param Scope $scope
-	 * @param DisallowedNamespace[] $disallowedNamespaces
-	 * @return RuleError[]
+	 * @param list<DisallowedNamespace> $disallowedNamespaces
+	 * @return list<RuleError>
 	 */
 	public function getDisallowedMessage(string $namespace, string $description, Scope $scope, array $disallowedNamespaces): array
 	{

@@ -20,8 +20,8 @@ class DisallowedNamespaceFactory
 
 
 	/**
-	 * @param array<array{namespace?:string, class?:string, exclude?:string|list<string>, message?:string, allowIn?:string[], allowExceptIn?:string[], disallowIn?:string[], errorIdentifier?:string, errorTip?:string}> $config
-	 * @return DisallowedNamespace[]
+	 * @param array<array{namespace?:string, class?:string, exclude?:string|list<string>, message?:string, allowIn?:list<string>, allowExceptIn?:list<string>, disallowIn?:list<string>, errorIdentifier?:string, errorTip?:string}> $config
+	 * @return list<DisallowedNamespace>
 	 */
 	public function createFromConfig(array $config): array
 	{

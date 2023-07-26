@@ -26,8 +26,8 @@ class DisallowedVariableRuleErrors
 	/**
 	 * @param string $variable
 	 * @param Scope $scope
-	 * @param DisallowedVariable[] $disallowedVariables
-	 * @return RuleError[]
+	 * @param list<DisallowedVariable> $disallowedVariables
+	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	public function get(string $variable, Scope $scope, array $disallowedVariables): array
