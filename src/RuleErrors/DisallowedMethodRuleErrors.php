@@ -10,6 +10,8 @@ use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
+use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
@@ -65,21 +67,39 @@ class DisallowedMethodRuleErrors
 				$calledAs = $this->formatter->getFullyQualified($this->formatter->formatIdentifier($classNames), $method);
 			}
 
-			foreach ($declaringClass->getTraits() as $trait) {
-				if ($trait->hasMethod($method->getName())) {
-					$declaredAs = $this->formatter->getFullyQualified($trait->getDisplayName(), $method);
-					$message = $this->disallowedCallsRuleErrors->get($node, $scope, $declaredAs, $calledAs, $trait->getFileName(), $disallowedCalls);
-					if ($message) {
-						return $message;
-					}
-				}
+			$ruleErrors = $this->getRuleErrors(array_values($declaringClass->getTraits()), $method, $node, $scope, $calledAs, $disallowedCalls);
+			if ($ruleErrors) {
+				return $ruleErrors;
+			}
+			$ruleErrors = $this->getRuleErrors(array_values($declaringClass->getInterfaces()), $method, $node, $scope, $calledAs, $disallowedCalls);
+			if ($ruleErrors) {
+				return $ruleErrors;
 			}
 		} else {
 			return [];
 		}
+		return $this->getRuleErrors([$declaringClass], $method, $node, $scope, $calledAs, $disallowedCalls);
+	}
 
-		$declaredAs = $this->formatter->getFullyQualified($declaringClass->getDisplayName(false), $method);
-		return $this->disallowedCallsRuleErrors->get($node, $scope, $declaredAs, $calledAs, $declaringClass->getFileName(), $disallowedCalls);
+
+	/**
+	 * @param list<ClassReflection> $classes
+	 * @param DisallowedCall[] $disallowedCalls
+	 * @return RuleError[]
+	 * @throws ShouldNotHappenException
+	 */
+	private function getRuleErrors(array $classes, MethodReflection $method, CallLike $node, Scope $scope, ?string $calledAs, array $disallowedCalls): array
+	{
+		foreach ($classes as $class) {
+			if ($class->hasMethod($method->getName())) {
+				$declaredAs = $this->formatter->getFullyQualified($class->getDisplayName(false), $method);
+				$ruleErrors = $this->disallowedCallsRuleErrors->get($node, $scope, $declaredAs, $calledAs, $class->getFileName(), $disallowedCalls);
+				if ($ruleErrors) {
+					return $ruleErrors;
+				}
+			}
+		}
+		return [];
 	}
 
 }
