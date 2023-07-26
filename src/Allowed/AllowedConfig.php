@@ -8,16 +8,16 @@ use Spaze\PHPStan\Rules\Disallowed\Params\Param;
 class AllowedConfig
 {
 
-	/** @var string[] */
+	/** @var list<string> */
 	private $allowIn;
 
-	/** @var string[] */
+	/** @var list<string> */
 	private $allowExceptIn;
 
-	/** @var string[] */
+	/** @var list<string> */
 	private $allowInCalls;
 
-	/** @var string[] */
+	/** @var list<string> */
 	private $allowExceptInCalls;
 
 	/** @var array<int|string, Param> */
@@ -34,10 +34,10 @@ class AllowedConfig
 
 
 	/**
-	 * @param string[] $allowIn
-	 * @param string[] $allowExceptIn
-	 * @param string[] $allowInCalls
-	 * @param string[] $allowExceptInCalls
+	 * @param list<string> $allowIn
+	 * @param list<string> $allowExceptIn
+	 * @param list<string> $allowInCalls
+	 * @param list<string> $allowExceptInCalls
 	 * @param array<int|string, Param> $allowParamsInAllowed
 	 * @param array<int|string, Param> $allowParamsAnywhere
 	 * @param array<int|string, Param> $allowExceptParamsInAllowed
@@ -65,7 +65,7 @@ class AllowedConfig
 
 
 	/**
-	 * @return string[]
+	 * @return list<string>
 	 */
 	public function getAllowIn(): array
 	{
@@ -74,7 +74,7 @@ class AllowedConfig
 
 
 	/**
-	 * @return string[]
+	 * @return list<string>
 	 */
 	public function getAllowExceptIn(): array
 	{
@@ -83,7 +83,7 @@ class AllowedConfig
 
 
 	/**
-	 * @return string[]
+	 * @return list<string>
 	 */
 	public function getAllowInCalls(): array
 	{
@@ -92,7 +92,7 @@ class AllowedConfig
 
 
 	/**
-	 * @return string[]
+	 * @return list<string>
 	 */
 	public function getAllowExceptInCalls(): array
 	{

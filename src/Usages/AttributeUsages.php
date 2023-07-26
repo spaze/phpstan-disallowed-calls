@@ -23,7 +23,7 @@ class AttributeUsages implements Rule
 	/** @var DisallowedAttributeRuleErrors */
 	private $disallowedAttributeRuleErrors;
 
-	/** @var DisallowedAttribute[] */
+	/** @var list<DisallowedAttribute> */
 	private $disallowedAttributes;
 
 	/** @var list<Attribute> */
@@ -53,7 +53,7 @@ class AttributeUsages implements Rule
 
 
 	/**
-	 * @param AttributeGroup[] $attributeGroups
+	 * @param list<AttributeGroup> $attributeGroups
 	 */
 	private function addAttrs(array $attributeGroups): void
 	{
@@ -69,9 +69,9 @@ class AttributeUsages implements Rule
 	{
 		$this->attributes = [];
 		if ($node instanceof ClassLike) {
-			$this->addAttrs($node->attrGroups);
+			$this->addAttrs(array_values($node->attrGroups));
 		} elseif ($node instanceof FunctionLike) {
-			$this->addAttrs($node->getAttrGroups());
+			$this->addAttrs(array_values($node->getAttrGroups()));
 		} else {
 			return [];
 		}

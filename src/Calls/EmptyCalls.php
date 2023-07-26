@@ -25,7 +25,7 @@ class EmptyCalls implements Rule
 	/** @var DisallowedCallsRuleErrors */
 	private $disallowedCallsRuleErrors;
 
-	/** @var DisallowedCall[] */
+	/** @var list<DisallowedCall> */
 	private $disallowedCalls;
 
 
@@ -53,7 +53,7 @@ class EmptyCalls implements Rule
 	/**
 	 * @param Empty_ $node
 	 * @param Scope $scope
-	 * @return RuleError[]
+	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array

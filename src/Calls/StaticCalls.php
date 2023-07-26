@@ -27,7 +27,7 @@ class StaticCalls implements Rule
 	/** @var DisallowedMethodRuleErrors */
 	private $disallowedMethodRuleErrors;
 
-	/** @var DisallowedCall[] */
+	/** @var list<DisallowedCall> */
 	private $disallowedCalls;
 
 
@@ -55,7 +55,7 @@ class StaticCalls implements Rule
 	/**
 	 * @param StaticCall $node
 	 * @param Scope $scope
-	 * @return RuleError[]
+	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array

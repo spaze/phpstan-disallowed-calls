@@ -24,13 +24,13 @@ class VariableUsages implements Rule
 	/** @var DisallowedVariableRuleErrors */
 	private $disallowedVariableRuleErrors;
 
-	/** @var DisallowedVariable[] */
+	/** @var list<DisallowedVariable> */
 	private $disallowedVariables;
 
 
 	/**
 	 * @param DisallowedVariableRuleErrors $disallowedVariableRuleErrors
-	 * @param DisallowedVariable[] $disallowedVariables
+	 * @param list<DisallowedVariable> $disallowedVariables
 	 */
 	public function __construct(DisallowedVariableRuleErrors $disallowedVariableRuleErrors, array $disallowedVariables)
 	{
@@ -48,7 +48,7 @@ class VariableUsages implements Rule
 	/**
 	 * @param Node $node
 	 * @param Scope $scope
-	 * @return RuleError[]
+	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array

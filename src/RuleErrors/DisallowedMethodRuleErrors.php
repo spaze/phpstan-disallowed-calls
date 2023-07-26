@@ -46,8 +46,8 @@ class DisallowedMethodRuleErrors
 	 * @param Name|Expr $class
 	 * @param MethodCall|StaticCall $node
 	 * @param Scope $scope
-	 * @param DisallowedCall[] $disallowedCalls
-	 * @return RuleError[]
+	 * @param list<DisallowedCall> $disallowedCalls
+	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	public function get($class, CallLike $node, Scope $scope, array $disallowedCalls): array
@@ -84,8 +84,8 @@ class DisallowedMethodRuleErrors
 
 	/**
 	 * @param list<ClassReflection> $classes
-	 * @param DisallowedCall[] $disallowedCalls
-	 * @return RuleError[]
+	 * @param list<DisallowedCall> $disallowedCalls
+	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	private function getRuleErrors(array $classes, MethodReflection $method, CallLike $node, Scope $scope, ?string $calledAs, array $disallowedCalls): array

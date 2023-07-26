@@ -31,8 +31,8 @@ class DisallowedAttributeRuleErrors
 	/**
 	 * @param Attribute $attribute
 	 * @param Scope $scope
-	 * @param DisallowedAttribute[] $disallowedAttributes
-	 * @return RuleError[]
+	 * @param list<DisallowedAttribute> $disallowedAttributes
+	 * @return list<RuleError>
 	 */
 	public function get(Attribute $attribute, Scope $scope, array $disallowedAttributes): array
 	{

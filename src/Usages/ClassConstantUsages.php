@@ -37,7 +37,7 @@ class ClassConstantUsages implements Rule
 	/** @var Formatter */
 	private $formatter;
 
-	/** @var DisallowedConstant[] */
+	/** @var list<DisallowedConstant> */
 	private $disallowedConstants;
 
 
@@ -46,7 +46,7 @@ class ClassConstantUsages implements Rule
 	 * @param DisallowedConstantFactory $disallowedConstantFactory
 	 * @param TypeResolver $typeResolver
 	 * @param Formatter $formatter
-	 * @param array<array{class?:string, constant?:string, message?:string, allowIn?:string[]}> $disallowedConstants
+	 * @param array<array{class?:string, constant?:string, message?:string, allowIn?:list<string>}> $disallowedConstants
 	 * @throws ShouldNotHappenException
 	 */
 	public function __construct(
@@ -72,7 +72,7 @@ class ClassConstantUsages implements Rule
 	/**
 	 * @param Node $node
 	 * @param Scope $scope
-	 * @return RuleError[]
+	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array

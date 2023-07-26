@@ -25,7 +25,7 @@ class EvalCalls implements Rule
 	/** @var DisallowedCallsRuleErrors */
 	private $disallowedCallsRuleErrors;
 
-	/** @var DisallowedCall[] */
+	/** @var list<DisallowedCall> */
 	private $disallowedCalls;
 
 
@@ -53,7 +53,7 @@ class EvalCalls implements Rule
 	/**
 	 * @param Eval_ $node
 	 * @param Scope $scope
-	 * @return RuleError[]
+	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array

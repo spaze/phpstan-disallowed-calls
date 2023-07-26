@@ -34,7 +34,7 @@ class DisallowedCallFactory
 	 * @param array $config
 	 * @phpstan-param ForbiddenCallsConfig $config
 	 * @noinspection PhpUndefinedClassInspection ForbiddenCallsConfig is a type alias defined in PHPStan config
-	 * @return DisallowedCall[]
+	 * @return list<DisallowedCall>
 	 * @throws ShouldNotHappenException
 	 */
 	public function createFromConfig(array $config): array

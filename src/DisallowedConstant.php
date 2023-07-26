@@ -14,10 +14,10 @@ class DisallowedConstant implements Disallowed
 	/** @var string|null */
 	private $message;
 
-	/** @var string[] */
+	/** @var list<string> */
 	private $allowIn;
 
-	/** @var string[] */
+	/** @var list<string> */
 	private $allowExceptIn;
 
 	/** @var string|null */
@@ -30,8 +30,8 @@ class DisallowedConstant implements Disallowed
 	/**
 	 * @param string $constant
 	 * @param string|null $message
-	 * @param string[] $allowIn
-	 * @param string[] $allowExceptIn
+	 * @param list<string> $allowIn
+	 * @param list<string> $allowExceptIn
 	 * @param string|null $errorIdentifier
 	 * @param string|null $errorTip
 	 */

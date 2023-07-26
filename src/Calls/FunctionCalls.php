@@ -27,7 +27,7 @@ class FunctionCalls implements Rule
 	/** @var DisallowedCallsRuleErrors */
 	private $disallowedCallsRuleErrors;
 
-	/** @var DisallowedCall[] */
+	/** @var list<DisallowedCall> */
 	private $disallowedCalls;
 
 	/** @var ReflectionProvider */
@@ -60,7 +60,7 @@ class FunctionCalls implements Rule
 	/**
 	 * @param FuncCall $node
 	 * @param Scope $scope
-	 * @return RuleError[]
+	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array
