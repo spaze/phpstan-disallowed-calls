@@ -58,9 +58,9 @@ class DisallowedConstant implements Disallowed
 	}
 
 
-	public function getMessage(): string
+	public function getMessage(): ?string
 	{
-		return $this->message ?? 'because reasons';
+		return $this->message;
 	}
 
 
