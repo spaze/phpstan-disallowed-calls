@@ -30,7 +30,7 @@ class FunctionCallsTest extends RuleTestCase
 		$filePath = new FilePath(new FileHelper(__DIR__));
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
 		return new FunctionCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
+			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			$this->createReflectionProvider(),
 			[
@@ -221,85 +221,85 @@ class FunctionCallsTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/../src/disallowed/functionCalls.php'], [
 			[
 				// expect this error message:
-				'Calling var_dump() is forbidden, use logger instead',
+				'Calling var_dump() is forbidden, use logger instead.',
 				// on this line:
 				7,
 				'See docs',
 			],
 			[
-				'Calling print_R() is forbidden, nope [print_R() matches print_r()]',
+				'Calling print_R() is forbidden, nope. [print_R() matches print_r()]',
 				8,
 			],
 			[
-				'Calling printf() is forbidden, because reasons',
+				'Calling printf() is forbidden.',
 				9,
 			],
 			[
-				'Calling Foo\Bar\waldo() is forbidden, whoa, a namespace',
+				'Calling Foo\Bar\waldo() is forbidden, whoa, a namespace.',
 				10,
 			],
 			[
-				'Calling Foo\Bar\waldo() (as waldo()) is forbidden, whoa, a namespace',
+				'Calling Foo\Bar\waldo() (as waldo()) is forbidden, whoa, a namespace.',
 				11,
 			],
 			[
-				'Calling shell_exec() is forbidden, because reasons [shell_exec() matches shell_*()]',
+				'Calling shell_exec() is forbidden. [shell_exec() matches shell_*()]',
 				12,
 			],
 			[
-				'Calling exec() is forbidden, because reasons [exec() matches exe*()]',
+				'Calling exec() is forbidden. [exec() matches exe*()]',
 				13,
 			],
 			[
-				'Calling print_r() is forbidden, nope',
+				'Calling print_r() is forbidden, nope.',
 				25,
 			],
 			[
-				'Calling hash() is forbidden, MD4 very bad',
+				'Calling hash() is forbidden, MD4 very bad.',
 				49,
 			],
 			[
-				'Calling hash() is forbidden, MD5 bad',
+				'Calling hash() is forbidden, MD5 bad.',
 				50,
 			],
 			[
-				'Calling hash() is forbidden, MD5 bad',
+				'Calling hash() is forbidden, MD5 bad.',
 				51,
 			],
 			[
-				'Calling hash() is forbidden, SHA-1 bad soon™',
+				'Calling hash() is forbidden, SHA-1 bad soon™.',
 				52,
 			],
 			[
-				'Calling hash() is forbidden, SHA-1 bad SOON™',
+				'Calling hash() is forbidden, SHA-1 bad SOON™.',
 				53,
 			],
 			[
-				'Calling setcookie() is forbidden, because reasons',
+				'Calling setcookie() is forbidden.',
 				59,
 			],
 			[
-				'Calling header() is forbidden, because reasons',
+				'Calling header() is forbidden.',
 				64,
 			],
 			[
-				'Calling htmlspecialchars() is forbidden, because reasons',
+				'Calling htmlspecialchars() is forbidden.',
 				69,
 			],
 			[
-				'Calling htmlspecialchars() is forbidden, because reasons',
+				'Calling htmlspecialchars() is forbidden.',
 				70,
 			],
 			[
-				'Calling htmlspecialchars() is forbidden, because reasons',
+				'Calling htmlspecialchars() is forbidden.',
 				71,
 			],
 			[
-				'Calling htmlspecialchars() is forbidden, because reasons',
+				'Calling htmlspecialchars() is forbidden.',
 				72,
 			],
 			[
-				'Calling htmlspecialchars() is forbidden, because reasons',
+				'Calling htmlspecialchars() is forbidden.',
 				73,
 			],
 			[
@@ -311,38 +311,38 @@ class FunctionCallsTest extends RuleTestCase
 				83,
 			],
 			[
-				'Calling Foo\Bar\Waldo\config() is forbidden, because reasons',
+				'Calling Foo\Bar\Waldo\config() is forbidden.',
 				91,
 			],
 		]);
 		// Based on the configuration above, no errors in this file:
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/functionCalls.php'], [
 			[
-				'Calling Foo\Bar\waldo() (as waldo()) is forbidden, whoa, a namespace',
+				'Calling Foo\Bar\waldo() (as waldo()) is forbidden, whoa, a namespace.',
 				11,
 			],
 			[
-				'Calling setcookie() is forbidden, because reasons',
+				'Calling setcookie() is forbidden.',
 				59,
 			],
 			[
-				'Calling setcookie() is forbidden, because reasons',
+				'Calling setcookie() is forbidden.',
 				60,
 			],
 			[
-				'Calling header() is forbidden, because reasons',
+				'Calling header() is forbidden.',
 				64,
 			],
 			[
-				'Calling header() is forbidden, because reasons',
+				'Calling header() is forbidden.',
 				65,
 			],
 			[
-				'Calling htmlspecialchars() is forbidden, because reasons',
+				'Calling htmlspecialchars() is forbidden.',
 				69,
 			],
 			[
-				'Calling htmlspecialchars() is forbidden, because reasons',
+				'Calling htmlspecialchars() is forbidden.',
 				70,
 			],
 		]);

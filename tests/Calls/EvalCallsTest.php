@@ -29,7 +29,7 @@ class EvalCallsTest extends RuleTestCase
 		$filePath = new FilePath(new FileHelper(__DIR__));
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
 		return new EvalCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
+			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			[
 				[
@@ -49,7 +49,7 @@ class EvalCallsTest extends RuleTestCase
 		// Based on the configuration above, in this file:
 		$this->analyse([__DIR__ . '/../src/disallowed/functionCalls.php'], [
 			[
-				'Calling eval() is forbidden, because reasons',
+				'Calling eval() is forbidden.',
 				28,
 			],
 		]);

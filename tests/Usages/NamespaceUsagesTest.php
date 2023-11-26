@@ -9,6 +9,7 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
 use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
+use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
@@ -18,10 +19,15 @@ class NamespaceUsagesTest extends RuleTestCase
 
 	protected function getRule(): Rule
 	{
+		$normalizer = new Normalizer();
 		return new NamespaceUsages(
-			new DisallowedNamespaceRuleErrors(new AllowedPath(new FilePath(new FileHelper(__DIR__))), new Identifier()),
-			new DisallowedNamespaceFactory(new Normalizer()),
-			new Normalizer(),
+			new DisallowedNamespaceRuleErrors(
+				new AllowedPath(new FilePath(new FileHelper(__DIR__))),
+				new Identifier(),
+				new Formatter($normalizer)
+			),
+			new DisallowedNamespaceFactory($normalizer),
+			$normalizer,
 			[
 				[
 					'namespace' => 'Framew*rk\Some*',
@@ -86,66 +92,66 @@ class NamespaceUsagesTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/../src/disallowed/namespaceUsages.php'], [
 			[
 				// expect this error message:
-				'Namespace Framework\SomeInterface is forbidden, no framework some [Framework\SomeInterface matches Framew*rk\Some*]',
+				'Namespace Framework\SomeInterface is forbidden, no framework some. [Framework\SomeInterface matches Framew*rk\Some*]',
 				// on this line:
 				6,
 				'Work more on your frames',
 			],
 			[
-				'Namespace Inheritance\Base is forbidden, no inheritance sub base',
+				'Namespace Inheritance\Base is forbidden, no inheritance sub base.',
 				7,
 			],
 			[
-				'Namespace Inheritance\Sub is forbidden, no inheritance sub base',
+				'Namespace Inheritance\Sub is forbidden, no inheritance sub base.',
 				8,
 			],
 			[
-				'Namespace Traits\TestTrait is forbidden, no TestTrait',
+				'Namespace Traits\TestTrait is forbidden, no TestTrait.',
 				9,
 			],
 			[
-				'Namespace Waldo\Foo\Bar is forbidden, no FooBar [Waldo\Foo\Bar matches Waldo\Foo\bar]',
+				'Namespace Waldo\Foo\Bar is forbidden, no FooBar. [Waldo\Foo\Bar matches Waldo\Foo\bar]',
 				10,
 			],
 			[
-				'Namespace Waldo\Quux\blade is forbidden, no blade [Waldo\Quux\blade matches Waldo\Quux\Blade]',
+				'Namespace Waldo\Quux\blade is forbidden, no blade. [Waldo\Quux\blade matches Waldo\Quux\Blade]',
 				11,
 			],
 			[
-				'Namespace ZipArchive is forbidden, use clippy instead of zippy',
+				'Namespace ZipArchive is forbidden, use clippy instead of zippy.',
 				12,
 			],
 			[
-				'Namespace Inheritance\Base is forbidden, no inheritance sub base',
+				'Namespace Inheritance\Base is forbidden, no inheritance sub base.',
 				14,
 			],
 			[
-				'Namespace Framework\SomeInterface is forbidden, no framework some [Framework\SomeInterface matches Framew*rk\Some*]',
+				'Namespace Framework\SomeInterface is forbidden, no framework some. [Framework\SomeInterface matches Framew*rk\Some*]',
 				14,
 				'Work more on your frames',
 			],
 			[
-				'Trait Traits\TestTrait is forbidden, no TestTrait',
+				'Trait Traits\TestTrait is forbidden, no TestTrait.',
 				17,
 			],
 			[
-				'Class Waldo\Quux\blade is forbidden, no blade [Waldo\Quux\blade matches Waldo\Quux\Blade]',
+				'Class Waldo\Quux\blade is forbidden, no blade. [Waldo\Quux\blade matches Waldo\Quux\Blade]',
 				24,
 			],
 			[
-				'Namespace Inheritance\Sub is forbidden, no inheritance sub base',
+				'Namespace Inheritance\Sub is forbidden, no inheritance sub base.',
 				32,
 			],
 			[
-				'Class Waldo\Foo\Bar is forbidden, no FooBar [Waldo\Foo\Bar matches Waldo\Foo\bar]',
+				'Class Waldo\Foo\Bar is forbidden, no FooBar. [Waldo\Foo\Bar matches Waldo\Foo\bar]',
 				38,
 			],
 			[
-				'Class Waldo\Foo\Bar is forbidden, no FooBar [Waldo\Foo\Bar matches Waldo\Foo\bar]',
+				'Class Waldo\Foo\Bar is forbidden, no FooBar. [Waldo\Foo\Bar matches Waldo\Foo\bar]',
 				44,
 			],
 			[
-				'Class ZipArchive is forbidden, use clippy instead of zippy',
+				'Class ZipArchive is forbidden, use clippy instead of zippy.',
 				50,
 			],
 		]);

@@ -30,7 +30,7 @@ class FunctionCallsUnsupportedParamConfigTest extends PHPStanTestCase
 		$filePath = new FilePath(new FileHelper(__DIR__));
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
 		new FunctionCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
+			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			$this->createReflectionProvider(),
 			[

@@ -36,7 +36,7 @@ class InsecureConfigMethodCallsTest extends RuleTestCase
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
 		return new MethodCalls(
 			new DisallowedMethodRuleErrors(
-				new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
+				new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
 				new TypeResolver(),
 				$formatter
 			),
@@ -51,9 +51,9 @@ class InsecureConfigMethodCallsTest extends RuleTestCase
 		// Based on the configuration above, in this file:
 		$this->analyse([__DIR__ . '/../src/configs/insecureCalls.php'], [
 			// expect these error messages, on these lines:
-			['Calling mysqli::query() is forbidden, use PDO::prepare() with variable binding/parametrized queries to prevent SQL Injection vulnerability', 23],
-			['Calling mysqli::multi_query() is forbidden, use PDO::prepare() with variable binding/parametrized queries to prevent SQL Injection vulnerability', 24],
-			['Calling mysqli::real_query() is forbidden, use PDO::prepare() with variable binding/parametrized queries to prevent SQL Injection vulnerability', 25],
+			['Calling mysqli::query() is forbidden, use PDO::prepare() with variable binding/parametrized queries to prevent SQL Injection vulnerability.', 23],
+			['Calling mysqli::multi_query() is forbidden, use PDO::prepare() with variable binding/parametrized queries to prevent SQL Injection vulnerability.', 24],
+			['Calling mysqli::real_query() is forbidden, use PDO::prepare() with variable binding/parametrized queries to prevent SQL Injection vulnerability.', 25],
 		]);
 	}
 

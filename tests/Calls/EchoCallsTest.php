@@ -29,7 +29,7 @@ class EchoCallsTest extends RuleTestCase
 		$filePath = new FilePath(new FileHelper(__DIR__));
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
 		return new EchoCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
+			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			[
 				[
@@ -49,7 +49,7 @@ class EchoCallsTest extends RuleTestCase
 		// Based on the configuration above, in this file:
 		$this->analyse([__DIR__ . '/../src/disallowed/functionCalls.php'], [
 			[
-				'Calling echo() is forbidden, because reasons',
+				'Calling echo() is forbidden.',
 				42,
 			],
 		]);

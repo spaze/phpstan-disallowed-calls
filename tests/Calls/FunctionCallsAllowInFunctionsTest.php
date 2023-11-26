@@ -29,7 +29,7 @@ class FunctionCallsAllowInFunctionsTest extends RuleTestCase
 		$filePath = new FilePath(new FileHelper(__DIR__));
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
 		return new FunctionCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
+			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			$this->createReflectionProvider(),
 			[
@@ -56,7 +56,7 @@ class FunctionCallsAllowInFunctionsTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/../libs/Functions.php'], [
 			[
 				// expect this error message:
-				'Calling sha1() is forbidden, because reasons [sha1() matches sha*()]',
+				'Calling sha1() is forbidden. [sha1() matches sha*()]',
 				// on this line:
 				15,
 			],

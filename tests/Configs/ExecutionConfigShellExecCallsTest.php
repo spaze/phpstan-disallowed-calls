@@ -33,7 +33,7 @@ class ExecutionConfigShellExecCallsTest extends RuleTestCase
 		$filePath = new FilePath(new FileHelper(__DIR__));
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
 		return new ShellExecCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
+			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			$config['parameters']['disallowedFunctionCalls']
 		);
@@ -45,7 +45,7 @@ class ExecutionConfigShellExecCallsTest extends RuleTestCase
 		// Based on the configuration above, in this file:
 		$this->analyse([__DIR__ . '/../src/configs/executionCalls.php'], [
 			// expect these error messages, on these lines:
-			['Using the backtick operator (`...`) is forbidden because shell_exec() is forbidden, because reasons', 9],
+			['Using the backtick operator (`...`) is forbidden because shell_exec() is forbidden.', 9],
 		]);
 	}
 

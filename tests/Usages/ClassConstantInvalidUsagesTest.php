@@ -24,11 +24,15 @@ class ClassConstantInvalidUsagesTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		$normalizer = new Normalizer();
+		$formatter = new Formatter($normalizer);
 		return new ClassConstantUsages(
-			new DisallowedConstantRuleErrors(new AllowedPath(new FilePath(new FileHelper(__DIR__)))),
+			new DisallowedConstantRuleErrors(
+				new AllowedPath(new FilePath(new FileHelper(__DIR__))),
+				$formatter
+			),
 			new DisallowedConstantFactory($normalizer),
 			new TypeResolver(),
-			new Formatter($normalizer),
+			$formatter,
 			[]
 		);
 	}
@@ -40,20 +44,20 @@ class ClassConstantInvalidUsagesTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/../src/invalid/constantUsages.php'], [
 			[
 				// expect this error message:
-				'Cannot access constant GLITTER on string',
+				'Cannot access constant GLITTER on string.',
 				// on this line:
 				6,
 			],
 			[
-				'Cannot access constant COOKIE on string',
+				'Cannot access constant COOKIE on string.',
 				10,
 			],
 			[
-				'Cannot access constant COOKIE on class-string',
+				'Cannot access constant COOKIE on class-string.',
 				14,
 			],
 			[
-				'Cannot access constant FTC on class-string<DateTimeZone>',
+				'Cannot access constant FTC on class-string<DateTimeZone>.',
 				24,
 			],
 		]);

@@ -33,7 +33,7 @@ class DangerousConfigEvalCallsTest extends RuleTestCase
 		$filePath = new FilePath(new FileHelper(__DIR__));
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
 		return new EvalCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
+			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			$config['parameters']['disallowedFunctionCalls']
 		);
@@ -45,7 +45,7 @@ class DangerousConfigEvalCallsTest extends RuleTestCase
 		// Based on the configuration above, in this file:
 		$this->analyse([__DIR__ . '/../src/configs/dangerousCalls.php'], [
 			// expect these error messages, on these lines:
-			['Calling eval() is forbidden, eval is evil, please write more code and do not use eval()', 6],
+			['Calling eval() is forbidden, eval is evil, please write more code and do not use eval().', 6],
 		]);
 	}
 

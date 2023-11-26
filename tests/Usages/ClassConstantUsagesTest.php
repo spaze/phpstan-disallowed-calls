@@ -24,11 +24,15 @@ class ClassConstantUsagesTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		$normalizer = new Normalizer();
+		$formatter = new Formatter($normalizer);
 		return new ClassConstantUsages(
-			new DisallowedConstantRuleErrors(new AllowedPath(new FilePath(new FileHelper(__DIR__)))),
+			new DisallowedConstantRuleErrors(
+				new AllowedPath(new FilePath(new FileHelper(__DIR__))),
+				$formatter
+			),
 			new DisallowedConstantFactory($normalizer),
 			new TypeResolver(),
-			new Formatter($normalizer),
+			$formatter,
 			[
 				[
 					'class' => '\Inheritance\Base',
@@ -104,40 +108,40 @@ class ClassConstantUsagesTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/../src/disallowed/constantUsages.php'], [
 			[
 				// expect this error message:
-				'Using Inheritance\Base::BELONG (as Inheritance\Sub::BELONG) is forbidden, belong to us',
+				'Using Inheritance\Base::BELONG (as Inheritance\Sub::BELONG) is forbidden, belong to us.',
 				// on this line:
 				11,
 			],
 			[
-				'Using Inheritance\Base::BELONG is forbidden, belong to us',
+				'Using Inheritance\Base::BELONG is forbidden, belong to us.',
 				12,
 			],
 			[
-				'Using Inheritance\Base::BELONG is forbidden, belong to us',
+				'Using Inheritance\Base::BELONG is forbidden, belong to us.',
 				13,
 			],
 			[
-				'Using Waldo\Quux\Blade::RUNNER is forbidden, not a replicant',
+				'Using Waldo\Quux\Blade::RUNNER is forbidden, not a replicant.',
 				14,
 			],
 			[
-				'Using Waldo\Quux\Blade::RUNNER is forbidden, not a replicant',
+				'Using Waldo\Quux\Blade::RUNNER is forbidden, not a replicant.',
 				15,
 			],
 			[
-				'Using Waldo\Quux\Blade::DECKARD is forbidden, maybe a replicant',
+				'Using Waldo\Quux\Blade::DECKARD is forbidden, maybe a replicant.',
 				19,
 			],
 			[
-				'Using Waldo\Quux\Blade::DECKARD is forbidden, maybe a replicant',
+				'Using Waldo\Quux\Blade::DECKARD is forbidden, maybe a replicant.',
 				22,
 			],
 			[
-				'Using Waldo\Quux\Blade::WESLEY is forbidden, not a replicant',
+				'Using Waldo\Quux\Blade::WESLEY is forbidden, not a replicant.',
 				23,
 			],
 			[
-				'Using PhpOption\Option::NAME (as PhpOption\None::NAME) is forbidden, no PhpOption',
+				'Using PhpOption\Option::NAME (as PhpOption\None::NAME) is forbidden, no PhpOption.',
 				37,
 			],
 		]);

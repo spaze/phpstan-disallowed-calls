@@ -29,7 +29,7 @@ class NewCallsTest extends RuleTestCase
 		$filePath = new FilePath(new FileHelper(__DIR__));
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
 		return new NewCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
+			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			[
 				[
@@ -77,23 +77,23 @@ class NewCallsTest extends RuleTestCase
 		// Based on the configuration above, in this file:
 		$this->analyse([__DIR__ . '/../src/disallowed/methodCalls.php'], [
 			[
-				'Calling Inheritance\Base::__construct() (as Inheritance\Sub::__construct()) is forbidden, all your base are belong to us',
+				'Calling Inheritance\Base::__construct() (as Inheritance\Sub::__construct()) is forbidden, all your base are belong to us.',
 				19,
 			],
 			[
-				'Calling Constructor\ClassWithConstructor::__construct() is forbidden, class ClassWithConstructor should not be created',
+				'Calling Constructor\ClassWithConstructor::__construct() is forbidden, class ClassWithConstructor should not be created.',
 				32,
 			],
 			[
-				'Calling Constructor\ClassWithoutConstructor::__construct() is forbidden, class ClassWithoutConstructor should not be created',
+				'Calling Constructor\ClassWithoutConstructor::__construct() is forbidden, class ClassWithoutConstructor should not be created.',
 				34,
 			],
 			[
-				'Calling Constructor\ClassWithoutConstructor::__construct() is forbidden, class ClassWithoutConstructor should not be created',
+				'Calling Constructor\ClassWithoutConstructor::__construct() is forbidden, class ClassWithoutConstructor should not be created.',
 				36,
 			],
 			[
-				'Calling DateTime::__construct() is forbidden, no future',
+				'Calling DateTime::__construct() is forbidden, no future.',
 				57,
 			],
 		]);

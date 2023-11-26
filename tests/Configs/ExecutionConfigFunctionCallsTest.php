@@ -33,7 +33,7 @@ class ExecutionConfigFunctionCallsTest extends RuleTestCase
 		$filePath = new FilePath(new FileHelper(__DIR__));
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
 		return new FunctionCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
+			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			$this->createReflectionProvider(),
 			$config['parameters']['disallowedFunctionCalls']
@@ -46,13 +46,13 @@ class ExecutionConfigFunctionCallsTest extends RuleTestCase
 		// Based on the configuration above, in this file:
 		$this->analyse([__DIR__ . '/../src/configs/executionCalls.php'], [
 			// expect these error messages, on these lines:
-			['Calling exec() is forbidden, because reasons', 4],
-			['Calling passthru() is forbidden, because reasons', 5],
-			['Calling proc_open() is forbidden, because reasons', 7],
-			['Calling shell_exec() is forbidden, because reasons', 8],
-			['Calling system() is forbidden, because reasons', 10],
-			['Calling pcntl_exec() is forbidden, because reasons', 11],
-			['Calling popen() is forbidden, because reasons', 12],
+			['Calling exec() is forbidden.', 4],
+			['Calling passthru() is forbidden.', 5],
+			['Calling proc_open() is forbidden.', 7],
+			['Calling shell_exec() is forbidden.', 8],
+			['Calling system() is forbidden.', 10],
+			['Calling pcntl_exec() is forbidden.', 11],
+			['Calling popen() is forbidden.', 12],
 		]);
 	}
 

@@ -29,7 +29,7 @@ class ExitDieCallsTest extends RuleTestCase
 		$filePath = new FilePath(new FileHelper(__DIR__));
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
 		return new ExitDieCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
+			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			[
 				[
@@ -52,19 +52,19 @@ class ExitDieCallsTest extends RuleTestCase
 		// Based on the configuration above, in this file:
 		$this->analyse([__DIR__ . '/../src/disallowed/functionCalls.php'], [
 			[
-				'Calling die() is forbidden, because reasons',
+				'Calling die() is forbidden.',
 				30,
 			],
 			[
-				'Calling die() is forbidden, because reasons',
+				'Calling die() is forbidden.',
 				33,
 			],
 			[
-				'Calling exit() is forbidden, because reasons',
+				'Calling exit() is forbidden.',
 				36,
 			],
 			[
-				'Calling exit() is forbidden, because reasons',
+				'Calling exit() is forbidden.',
 				39,
 			],
 		]);
