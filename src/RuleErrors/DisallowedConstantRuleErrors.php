@@ -9,6 +9,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstant;
+use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 
 class DisallowedConstantRuleErrors
 {
@@ -17,10 +18,14 @@ class DisallowedConstantRuleErrors
 	/** @var AllowedPath */
 	private $allowedPath;
 
+	/** @var Formatter */
+	private $formatter;
 
-	public function __construct(AllowedPath $allowedPath)
+
+	public function __construct(AllowedPath $allowedPath, Formatter $formatter)
 	{
 		$this->allowedPath = $allowedPath;
+		$this->formatter = $formatter;
 	}
 
 
@@ -37,10 +42,10 @@ class DisallowedConstantRuleErrors
 		foreach ($disallowedConstants as $disallowedConstant) {
 			if ($disallowedConstant->getConstant() === $constant && !$this->allowedPath->isAllowedPath($scope, $disallowedConstant)) {
 				$errorBuilder = RuleErrorBuilder::message(sprintf(
-					'Using %s%s is forbidden, %s',
+					'Using %s%s is forbidden%s',
 					$disallowedConstant->getConstant(),
 					$displayName && $displayName !== $disallowedConstant->getConstant() ? ' (as ' . $displayName . ')' : '',
-					$disallowedConstant->getMessage()
+					$this->formatter->formatDisallowedMessage($disallowedConstant->getMessage())
 				));
 				if ($disallowedConstant->getErrorIdentifier()) {
 					$errorBuilder->identifier($disallowedConstant->getErrorIdentifier());
