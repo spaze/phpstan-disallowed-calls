@@ -29,7 +29,7 @@ class NewCallsDefinedInTest extends RuleTestCase
 		$filePath = new FilePath(new FileHelper(__DIR__), __DIR__ . '/..');
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
 		return new NewCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
+			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			[
 				[
@@ -51,7 +51,7 @@ class NewCallsDefinedInTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/../src/disallowed/methodCallsDefinedIn.php'], [
 			[
 				// expect this error message:
-				'Calling Waldo\Quux\Blade::__construct() is forbidden, because reasons [Waldo\Quux\Blade::__construct() matches *()]',
+				'Calling Waldo\Quux\Blade::__construct() is forbidden. [Waldo\Quux\Blade::__construct() matches *()]',
 				// on this line:
 				9,
 			],

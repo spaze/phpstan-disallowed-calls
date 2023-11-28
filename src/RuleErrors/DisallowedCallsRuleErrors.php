@@ -11,6 +11,7 @@ use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
 use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
+use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 
 class DisallowedCallsRuleErrors
@@ -25,12 +26,16 @@ class DisallowedCallsRuleErrors
 	/** @var FilePath */
 	private $filePath;
 
+	/** @var Formatter */
+	private $formatter;
 
-	public function __construct(Allowed $allowed, Identifier $identifier, FilePath $filePath)
+
+	public function __construct(Allowed $allowed, Identifier $identifier, FilePath $filePath, Formatter $formatter)
 	{
 		$this->allowed = $allowed;
 		$this->identifier = $identifier;
 		$this->filePath = $filePath;
+		$this->formatter = $formatter;
 	}
 
 
@@ -54,9 +59,9 @@ class DisallowedCallsRuleErrors
 				&& !$this->allowed->isAllowed($scope, isset($node) ? $node->getArgs() : null, $disallowedCall)
 			) {
 				$errorBuilder = RuleErrorBuilder::message(sprintf(
-					$message ?? 'Calling %s is forbidden, %s%s',
+					$message ?? 'Calling %s is forbidden%s%s',
 					($displayName && $displayName !== $name) ? "{$name}() (as {$displayName}())" : "{$name}()",
-					$disallowedCall->getMessage(),
+					$this->formatter->formatDisallowedMessage($disallowedCall->getMessage()),
 					$disallowedCall->getCall() !== $name ? " [{$name}() matches {$disallowedCall->getCall()}()]" : ''
 				));
 				if ($disallowedCall->getErrorIdentifier()) {

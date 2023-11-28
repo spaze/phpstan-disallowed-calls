@@ -29,7 +29,7 @@ class FunctionCallsDefinedInTest extends RuleTestCase
 		$filePath = new FilePath(new FileHelper(__DIR__), __DIR__);
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
 		return new FunctionCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
+			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			$this->createReflectionProvider(),
 			[
@@ -67,16 +67,16 @@ class FunctionCallsDefinedInTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/../src/disallowed/functionCallsDefinedIn.php'], [
 			[
 				// expect this error message:
-				'Calling Foo\Bar\Waldo\fred() is forbidden, because reasons [Foo\Bar\Waldo\fred() matches Foo\Bar\Waldo\f*()]',
+				'Calling Foo\Bar\Waldo\fred() is forbidden. [Foo\Bar\Waldo\fred() matches Foo\Bar\Waldo\f*()]',
 				// on this line:
 				5,
 			],
 			[
-				'Calling Foo\Bar\Waldo\foo() is forbidden, because reasons [Foo\Bar\Waldo\foo() matches Foo\Bar\Waldo\f*()]',
+				'Calling Foo\Bar\Waldo\foo() is forbidden. [Foo\Bar\Waldo\foo() matches Foo\Bar\Waldo\f*()]',
 				6,
 			],
 			[
-				'Calling Foo\Bar\Waldo\quux() is forbidden, because reasons [Foo\Bar\Waldo\quux() matches Foo\Bar\Waldo\q*x()]',
+				'Calling Foo\Bar\Waldo\quux() is forbidden. [Foo\Bar\Waldo\quux() matches Foo\Bar\Waldo\q*x()]',
 				13,
 			],
 		]);

@@ -32,7 +32,7 @@ class MethodCallsDefinedInTest extends RuleTestCase
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
 		return new MethodCalls(
 			new DisallowedMethodRuleErrors(
-				new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
+				new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
 				new TypeResolver(),
 				$formatter
 			),
@@ -57,12 +57,12 @@ class MethodCallsDefinedInTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/../src/disallowed/methodCallsDefinedIn.php'], [
 			[
 				// expect this error message:
-				'Calling Waldo\Quux\Blade::andSorcery() is forbidden, because reasons [Waldo\Quux\Blade::andSorcery() matches *()]',
+				'Calling Waldo\Quux\Blade::andSorcery() is forbidden. [Waldo\Quux\Blade::andSorcery() matches *()]',
 				// on this line:
 				10,
 			],
 			[
-				'Calling Waldo\Quux\Blade::server() is forbidden, because reasons [Waldo\Quux\Blade::server() matches *()]',
+				'Calling Waldo\Quux\Blade::server() is forbidden. [Waldo\Quux\Blade::server() matches *()]',
 				11,
 			],
 		]);

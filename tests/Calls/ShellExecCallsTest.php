@@ -29,7 +29,7 @@ class ShellExecCallsTest extends RuleTestCase
 		$filePath = new FilePath(new FileHelper(__DIR__));
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
 		return new ShellExecCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
+			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			[
 				[
@@ -49,7 +49,7 @@ class ShellExecCallsTest extends RuleTestCase
 		// Based on the configuration above, in this file:
 		$this->analyse([__DIR__ . '/../src/disallowed/functionCalls.php'], [
 			[
-				'Using the backtick operator (`...`) is forbidden because shell_exec() is forbidden, because reasons [shell_exec() matches shell_*()]',
+				'Using the backtick operator (`...`) is forbidden because shell_exec() is forbidden. [shell_exec() matches shell_*()]',
 				46,
 			],
 		]);

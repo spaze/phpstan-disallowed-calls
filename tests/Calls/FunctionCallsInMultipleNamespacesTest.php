@@ -29,7 +29,7 @@ class FunctionCallsInMultipleNamespacesTest extends RuleTestCase
 		$filePath = new FilePath(new FileHelper(__DIR__));
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
 		return new FunctionCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
+			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			$this->createReflectionProvider(),
 			[
@@ -55,32 +55,32 @@ class FunctionCallsInMultipleNamespacesTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/../src/FunctionInMultipleNamespaces.php'], [
 			[
 				// expect this error message:
-				'Calling __() (as alias()) is forbidden, use MyNamespace\__ instead',
+				'Calling __() (as alias()) is forbidden, use MyNamespace\__ instead.',
 				// on this line:
 				20,
 			],
 			[
-				'Calling MyNamespace\__() (as __()) is forbidden, ha ha ha nope',
+				'Calling MyNamespace\__() (as __()) is forbidden, ha ha ha nope.',
 				26,
 			],
 			[
-				'Calling printf() is forbidden, because reasons',
+				'Calling printf() is forbidden.',
 				30,
 			],
 			[
-				'Calling printf() is forbidden, because reasons',
+				'Calling printf() is forbidden.',
 				31,
 			],
 			[
-				'Calling MyNamespace\__() (as alias()) is forbidden, ha ha ha nope',
+				'Calling MyNamespace\__() (as alias()) is forbidden, ha ha ha nope.',
 				39,
 			],
 			[
-				'Calling printf() is forbidden, because reasons',
+				'Calling printf() is forbidden.',
 				40,
 			],
 			[
-				'Calling printf() is forbidden, because reasons',
+				'Calling printf() is forbidden.',
 				41,
 			],
 		]);

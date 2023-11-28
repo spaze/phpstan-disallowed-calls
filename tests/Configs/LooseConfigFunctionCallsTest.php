@@ -46,7 +46,7 @@ class LooseConfigFunctionCallsTest extends RuleTestCase
 		$filePath = new FilePath(new FileHelper(__DIR__));
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
 		return new FunctionCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
+			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
 			new DisallowedCallFactory($formatter, $normalizer, $allowed),
 			$this->createReflectionProvider(),
 			$config['parameters']['disallowedFunctionCalls']
@@ -59,11 +59,11 @@ class LooseConfigFunctionCallsTest extends RuleTestCase
 		// Based on the configuration above, in this file:
 		$this->analyse([__DIR__ . '/../src/configs/looseCalls.php'], [
 			// expect these error messages, on these lines:
-			['Calling in_array() is forbidden, set the third parameter $strict to `true` to also check the types to prevent type juggling bugs', 4],
-			['Calling in_array() is forbidden, set the third parameter $strict to `true` to also check the types to prevent type juggling bugs', 6],
-			['Calling htmlspecialchars() is forbidden, set the $flags parameter to `ENT_QUOTES` to also convert single quotes to entities to prevent some HTML injection bugs', 7],
-			['Calling htmlspecialchars() is forbidden, set the $flags parameter to `ENT_QUOTES` to also convert single quotes to entities to prevent some HTML injection bugs', 12],
-			['Calling htmlspecialchars() is forbidden, set the $flags parameter to `ENT_QUOTES` to also convert single quotes to entities to prevent some HTML injection bugs', 13],
+			['Calling in_array() is forbidden, set the third parameter $strict to `true` to also check the types to prevent type juggling bugs.', 4],
+			['Calling in_array() is forbidden, set the third parameter $strict to `true` to also check the types to prevent type juggling bugs.', 6],
+			['Calling htmlspecialchars() is forbidden, set the $flags parameter to `ENT_QUOTES` to also convert single quotes to entities to prevent some HTML injection bugs.', 7],
+			['Calling htmlspecialchars() is forbidden, set the $flags parameter to `ENT_QUOTES` to also convert single quotes to entities to prevent some HTML injection bugs.', 12],
+			['Calling htmlspecialchars() is forbidden, set the $flags parameter to `ENT_QUOTES` to also convert single quotes to entities to prevent some HTML injection bugs.', 13],
 		]);
 	}
 

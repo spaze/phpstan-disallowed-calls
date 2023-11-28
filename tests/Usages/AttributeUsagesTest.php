@@ -22,9 +22,10 @@ class AttributeUsagesTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		$normalizer = new Normalizer();
-		$allowed = new Allowed(new Formatter($normalizer), $normalizer, new AllowedPath(new FilePath(new FileHelper(__DIR__))));
+		$formatter = new Formatter($normalizer);
+		$allowed = new Allowed($formatter, $normalizer, new AllowedPath(new FilePath(new FileHelper(__DIR__))));
 		return new AttributeUsages(
-			new DisallowedAttributeRuleErrors($allowed, new Identifier()),
+			new DisallowedAttributeRuleErrors($allowed, new Identifier(), $formatter),
 			new DisallowedAttributeFactory($allowed, $normalizer),
 			[
 				[
@@ -58,12 +59,12 @@ class AttributeUsagesTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/../src/disallowed/ClassWithAttributes.php'], [
 			[
 				// expect this error message:
-				'Attribute Attributes\AttributeEntity is forbidden, because reasons',
+				'Attribute Attributes\AttributeEntity is forbidden.',
 				// on this line:
 				8,
 			],
 			[
-				'Attribute Attributes\AttributeClass is forbidden, because reasons',
+				'Attribute Attributes\AttributeClass is forbidden.',
 				30,
 			],
 		]);

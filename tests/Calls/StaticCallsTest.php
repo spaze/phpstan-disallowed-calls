@@ -32,7 +32,7 @@ class StaticCallsTest extends RuleTestCase
 		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
 		return new StaticCalls(
 			new DisallowedMethodRuleErrors(
-				new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath),
+				new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
 				new TypeResolver(),
 				$formatter
 			),
@@ -58,7 +58,7 @@ class StaticCallsTest extends RuleTestCase
 				],
 				[
 					'method' => 'Fiction\Pulp\Royale::WithoutCheese',
-					'message' => 'a Quarter Pounder without Cheese?',
+					'message' => 'a Quarter Pounder without Cheese!',
 					'allowIn' => [
 						'../src/disallowed-allow/*.php',
 						'../src/*-allow/*.*',
@@ -154,53 +154,53 @@ class StaticCallsTest extends RuleTestCase
 				9,
 			],
 			[
-				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese? [Fiction\Pulp\Royale::withoutCheese() matches Fiction\Pulp\Royale::WithoutCheese()]',
+				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese! [Fiction\Pulp\Royale::withoutCheese() matches Fiction\Pulp\Royale::WithoutCheese()]',
 				12,
 			],
 			[
-				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese? [Fiction\Pulp\Royale::withoutCheese() matches Fiction\Pulp\Royale::WithoutCheese()]',
+				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese! [Fiction\Pulp\Royale::withoutCheese() matches Fiction\Pulp\Royale::WithoutCheese()]',
 				14,
 			],
 			[
-				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese? [Fiction\Pulp\Royale::withoutCheese() matches Fiction\Pulp\Royale::WithoutCheese()]',
+				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese! [Fiction\Pulp\Royale::withoutCheese() matches Fiction\Pulp\Royale::WithoutCheese()]',
 				18,
 			],
 			[
-				'Calling Inheritance\Base::woofer() (as Inheritance\Sub::woofer()) is forbidden, method Base::woofer() is dangerous [Inheritance\Base::woofer() matches Inheritance\Base::w*f*r()]',
+				'Calling Inheritance\Base::woofer() (as Inheritance\Sub::woofer()) is forbidden, method Base::woofer() is dangerous. [Inheritance\Base::woofer() matches Inheritance\Base::w*f*r()]',
 				28,
 			],
 			[
-				'Calling Traits\TestTrait::z() (as Traits\TestClass::z()) is forbidden, method TestTrait::z() is dangerous',
+				'Calling Traits\TestTrait::z() (as Traits\TestClass::z()) is forbidden, method TestTrait::z() is dangerous.',
 				31,
 			],
 			[
-				'Calling Traits\AnotherTestClass::zz() is forbidden, method AnotherTestClass::zz() is dangerous',
+				'Calling Traits\AnotherTestClass::zz() is forbidden, method AnotherTestClass::zz() is dangerous.',
 				32,
 			],
 			[
-				'Calling PhpOption\Option::fromArraysValue() is forbidden, do not use PhpOption [PhpOption\Option::fromArraysValue() matches PhpOption\Option::*()]',
+				'Calling PhpOption\Option::fromArraysValue() is forbidden, do not use PhpOption. [PhpOption\Option::fromArraysValue() matches PhpOption\Option::*()]',
 				35,
 			],
 			[
-				'Calling PhpOption\None::create() is forbidden, do not use PhpOption [PhpOption\None::create() matches PhpOption\None::*()]',
+				'Calling PhpOption\None::create() is forbidden, do not use PhpOption. [PhpOption\None::create() matches PhpOption\None::*()]',
 				36,
 			],
 			[
-				'Calling PhpOption\Some::create() is forbidden, do not use PhpOption',
+				'Calling PhpOption\Some::create() is forbidden, do not use PhpOption.',
 				37,
 			],
 			[
-				'Calling Interfaces\BaseInterface::y() (as Interfaces\Implementation::y()) is forbidden, method BaseInterface::y() is dangerous [Interfaces\BaseInterface::y() matches Interfaces\BaseInterface::y*()]',
+				'Calling Interfaces\BaseInterface::y() (as Interfaces\Implementation::y()) is forbidden, method BaseInterface::y() is dangerous. [Interfaces\BaseInterface::y() matches Interfaces\BaseInterface::y*()]',
 				40,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/staticCalls.php'], [
 			[
-				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese? [Fiction\Pulp\Royale::withoutCheese() matches Fiction\Pulp\Royale::WithoutCheese()]',
+				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese! [Fiction\Pulp\Royale::withoutCheese() matches Fiction\Pulp\Royale::WithoutCheese()]',
 				18,
 			],
 			[
-				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese? [Fiction\Pulp\Royale::withoutCheese() matches Fiction\Pulp\Royale::WithoutCheese()]',
+				'Calling Fiction\Pulp\Royale::withoutCheese() is forbidden, a Quarter Pounder without Cheese! [Fiction\Pulp\Royale::withoutCheese() matches Fiction\Pulp\Royale::WithoutCheese()]',
 				21,
 			],
 		]);

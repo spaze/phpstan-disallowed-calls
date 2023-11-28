@@ -41,4 +41,16 @@ class Formatter
 		}
 	}
 
+
+	public function formatDisallowedMessage(?string $message): string
+	{
+		if (!$message) {
+			return '.';
+		}
+		if ($message[-1] !== '?' && $message[-1] !== '!') {
+			$message = rtrim($message, '.') . '.';
+		}
+		return ', ' . $message;
+	}
+
 }

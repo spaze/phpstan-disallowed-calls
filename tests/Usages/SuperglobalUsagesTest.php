@@ -10,6 +10,8 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalFactory;
 use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
+use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
+use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedVariableRuleErrors;
 
 class SuperglobalUsagesTest extends RuleTestCase
@@ -21,7 +23,10 @@ class SuperglobalUsagesTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		return new VariableUsages(
-			new DisallowedVariableRuleErrors(new AllowedPath(new FilePath(new FileHelper(__DIR__)))),
+			new DisallowedVariableRuleErrors(
+				new AllowedPath(new FilePath(new FileHelper(__DIR__))),
+				new Formatter(new Normalizer())
+			),
 			(new DisallowedSuperglobalFactory())->getDisallowedVariables([
 				[
 					'superglobal' => '$GLOBALS',
@@ -62,21 +67,21 @@ class SuperglobalUsagesTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/../src/disallowed/superglobalUsages.php'], [
 			[
 				// expect this error message:
-				'Using $GLOBALS is forbidden, the cake is a lie',
+				'Using $GLOBALS is forbidden, the cake is a lie.',
 				// on this line:
 				8,
 				'So long and thanks for all the tips',
 			],
 			[
-				'Using $_GET is forbidden, the cake is a lie',
+				'Using $_GET is forbidden, the cake is a lie.',
 				9,
 			],
 			[
-				'Using $_GET is forbidden, the cake is a lie',
+				'Using $_GET is forbidden, the cake is a lie.',
 				12,
 			],
 			[
-				'Using $_POST is forbidden, the cake is a lie',
+				'Using $_POST is forbidden, the cake is a lie.',
 				13,
 			],
 			[

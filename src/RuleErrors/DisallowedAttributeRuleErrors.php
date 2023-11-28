@@ -9,6 +9,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedAttribute;
+use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 
 class DisallowedAttributeRuleErrors
@@ -20,11 +21,15 @@ class DisallowedAttributeRuleErrors
 	/** @var Identifier */
 	private $identifier;
 
+	/** @var Formatter */
+	private $formatter;
 
-	public function __construct(Allowed $allowed, Identifier $identifier)
+
+	public function __construct(Allowed $allowed, Identifier $identifier, Formatter $formatter)
 	{
 		$this->allowed = $allowed;
 		$this->identifier = $identifier;
+		$this->formatter = $formatter;
 	}
 
 
@@ -46,9 +51,9 @@ class DisallowedAttributeRuleErrors
 			}
 
 			$errorBuilder = RuleErrorBuilder::message(sprintf(
-				'Attribute %s is forbidden, %s%s',
+				'Attribute %s is forbidden%s%s',
 				$attributeName,
-				$disallowedAttribute->getMessage(),
+				$this->formatter->formatDisallowedMessage($disallowedAttribute->getMessage()),
 				$disallowedAttribute->getAttribute() !== $attributeName ? " [{$attributeName} matches {$disallowedAttribute->getAttribute()}]" : ''
 			));
 			if ($disallowedAttribute->getErrorIdentifier()) {

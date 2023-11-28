@@ -8,6 +8,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespace;
+use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 
 class DisallowedNamespaceRuleErrors
@@ -19,11 +20,15 @@ class DisallowedNamespaceRuleErrors
 	/** @var Identifier */
 	private $identifier;
 
+	/** @var Formatter */
+	private $formatter;
 
-	public function __construct(AllowedPath $allowedPath, Identifier $identifier)
+
+	public function __construct(AllowedPath $allowedPath, Identifier $identifier, Formatter $formatter)
 	{
 		$this->allowedPath = $allowedPath;
 		$this->identifier = $identifier;
+		$this->formatter = $formatter;
 	}
 
 
@@ -46,10 +51,10 @@ class DisallowedNamespaceRuleErrors
 			}
 
 			$errorBuilder = RuleErrorBuilder::message(sprintf(
-				'%s %s is forbidden, %s%s',
+				'%s %s is forbidden%s%s',
 				$description,
 				$namespace,
-				$disallowedNamespace->getMessage(),
+				$this->formatter->formatDisallowedMessage($disallowedNamespace->getMessage()),
 				$disallowedNamespace->getNamespace() !== $namespace ? " [{$namespace} matches {$disallowedNamespace->getNamespace()}]" : ''
 			));
 			if ($disallowedNamespace->getErrorIdentifier()) {

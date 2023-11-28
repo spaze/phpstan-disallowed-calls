@@ -105,7 +105,7 @@ class ClassConstantUsages implements Rule
 			} elseif ($type->hasConstant($constant)->no()) {
 				return [
 					RuleErrorBuilder::message(sprintf(
-						'Cannot access constant %s on %s',
+						'Cannot access constant %s on %s.',
 						$constant,
 						$type->describe(VerbosityLevel::getRecommendedLevelByType($type))
 					))->build(),

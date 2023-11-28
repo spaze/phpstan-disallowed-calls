@@ -10,6 +10,7 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory;
 use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
+use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors;
 
@@ -21,9 +22,13 @@ class ConstantUsagesTest extends RuleTestCase
 	 */
 	protected function getRule(): Rule
 	{
+		$normalizer = new Normalizer();
 		return new ConstantUsages(
-			new DisallowedConstantRuleErrors(new AllowedPath(new FilePath(new FileHelper(__DIR__)))),
-			new DisallowedConstantFactory(new Normalizer()),
+			new DisallowedConstantRuleErrors(
+				new AllowedPath(new FilePath(new FileHelper(__DIR__))),
+				new Formatter($normalizer)
+			),
+			new DisallowedConstantFactory($normalizer),
 			[
 				[
 					'constant' => [
@@ -63,22 +68,22 @@ class ConstantUsagesTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/../src/disallowed/constantUsages.php'], [
 			[
 				// expect this error message:
-				'Using FILTER_FLAG_NO_PRIV_RANGE is forbidden, the cake is a lie',
+				'Using FILTER_FLAG_NO_PRIV_RANGE is forbidden, the cake is a lie.',
 				// on this line:
 				8,
 				'Use https://github.com/mlocati/ip-lib instead',
 			],
 			[
-				'Using FILTER_FLAG_NO_PRIV_RANGE is forbidden, the cake is a lie',
+				'Using FILTER_FLAG_NO_PRIV_RANGE is forbidden, the cake is a lie.',
 				9,
 				'Use https://github.com/mlocati/ip-lib instead',
 			],
 			[
-				'Using FILTER_FLAG_NO_RES_RANGE is forbidden, the cake is a lie',
+				'Using FILTER_FLAG_NO_RES_RANGE is forbidden, the cake is a lie.',
 				10,
 			],
 			[
-				'Using PHP_EOL is forbidden, because reasons',
+				'Using PHP_EOL is forbidden.',
 				40,
 			],
 		]);
