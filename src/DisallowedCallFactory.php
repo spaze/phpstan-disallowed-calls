@@ -50,7 +50,7 @@ class DisallowedCallFactory
 			foreach ((array)($disallowed['exclude'] ?? []) as $exclude) {
 				$excludes[] = $this->normalizer->normalizeCall($exclude);
 			}
-			$calls = (array)$calls;
+			$calls = array_values((array)$calls);
 			try {
 				foreach ($calls as $call) {
 					$disallowedCall = new DisallowedCall(

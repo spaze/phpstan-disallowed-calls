@@ -26,7 +26,7 @@ class Formatter
 
 
 	/**
-	 * @param list<string> $identifiers
+	 * @param non-empty-list<string> $identifiers
 	 * @return string
 	 */
 	public function formatIdentifier(array $identifiers): string
