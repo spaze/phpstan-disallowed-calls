@@ -3,41 +3,16 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Configs;
 
-use Nette\Neon\Neon;
-use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
-use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\Calls\FunctionCalls;
-use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
-use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
-use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
-use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
-use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 
 class InsecureConfigFunctionCallsTest extends RuleTestCase
 {
 
-	/**
-	 * @throws ShouldNotHappenException
-	 */
 	protected function getRule(): Rule
 	{
-		// Load the configuration from this file
-		$config = Neon::decode(file_get_contents(__DIR__ . '/../../disallowed-insecure-calls.neon'));
-		$normalizer = new Normalizer();
-		$formatter = new Formatter($normalizer);
-		$filePath = new FilePath(new FileHelper(__DIR__));
-		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
-		return new FunctionCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
-			new DisallowedCallFactory($formatter, $normalizer, $allowed),
-			$this->createReflectionProvider(),
-			$config['parameters']['disallowedFunctionCalls']
-		);
+		return self::getContainer()->getByType(FunctionCalls::class);
 	}
 
 
@@ -66,6 +41,15 @@ class InsecureConfigFunctionCallsTest extends RuleTestCase
 			['Calling lcg_value() is forbidden, it is not a cryptographically secure generator, use random_int() instead.', 29],
 			['Calling uniqid() is forbidden, it is not a cryptographically secure generator, use random_bytes() instead.', 30],
 		]);
+	}
+
+
+	public static function getAdditionalConfigFiles(): array
+	{
+		return [
+			__DIR__ . '/../../extension.neon',
+			__DIR__ . '/../../disallowed-insecure-calls.neon',
+		];
 	}
 
 }

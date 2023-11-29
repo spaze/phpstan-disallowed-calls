@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed\Formatter;
 
 use PHPStan\Testing\PHPStanTestCase;
-use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 
 class FormatterTest extends PHPStanTestCase
 {
@@ -15,7 +14,7 @@ class FormatterTest extends PHPStanTestCase
 
 	protected function setUp(): void
 	{
-		$this->formatter = new Formatter(new Normalizer());
+		$this->formatter = self::getContainer()->getByType(Formatter::class);
 	}
 
 
@@ -26,6 +25,14 @@ class FormatterTest extends PHPStanTestCase
 		$this->assertSame('{foo,bar}', $this->formatter->formatIdentifier(['foo', '\\bar']));
 		$this->assertSame('{foo,bar}', $this->formatter->formatIdentifier(['\\foo', 'bar']));
 		$this->assertSame('{foo,bar}', $this->formatter->formatIdentifier(['\\foo', '\\bar']));
+	}
+
+
+	public static function getAdditionalConfigFiles(): array
+	{
+		return [
+			__DIR__ . '/../../extension.neon',
+		];
 	}
 
 }

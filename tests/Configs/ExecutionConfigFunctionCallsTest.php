@@ -3,41 +3,16 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Configs;
 
-use Nette\Neon\Neon;
-use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
-use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\Calls\FunctionCalls;
-use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
-use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
-use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
-use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
-use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 
 class ExecutionConfigFunctionCallsTest extends RuleTestCase
 {
 
-	/**
-	 * @throws ShouldNotHappenException
-	 */
 	protected function getRule(): Rule
 	{
-		// Load the configuration from this file
-		$config = Neon::decode(file_get_contents(__DIR__ . '/../../disallowed-execution-calls.neon'));
-		$normalizer = new Normalizer();
-		$formatter = new Formatter($normalizer);
-		$filePath = new FilePath(new FileHelper(__DIR__));
-		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
-		return new FunctionCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
-			new DisallowedCallFactory($formatter, $normalizer, $allowed),
-			$this->createReflectionProvider(),
-			$config['parameters']['disallowedFunctionCalls']
-		);
+		return self::getContainer()->getByType(FunctionCalls::class);
 	}
 
 
@@ -54,6 +29,15 @@ class ExecutionConfigFunctionCallsTest extends RuleTestCase
 			['Calling pcntl_exec() is forbidden.', 11],
 			['Calling popen() is forbidden.', 12],
 		]);
+	}
+
+
+	public static function getAdditionalConfigFiles(): array
+	{
+		return [
+			__DIR__ . '/../../extension.neon',
+			__DIR__ . '/../../disallowed-execution-calls.neon',
+		];
 	}
 
 }

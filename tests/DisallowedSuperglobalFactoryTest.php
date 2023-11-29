@@ -24,7 +24,7 @@ class DisallowedSuperglobalFactoryTest extends PHPStanTestCase
 		} else {
 			$this->expectNotToPerformAssertions();
 		}
-		(new DisallowedSuperglobalFactory())->getDisallowedVariables([['superglobal' => $superglobal]]);
+		self::getContainer()->getByType(DisallowedSuperglobalFactory::class)->getDisallowedVariables([['superglobal' => $superglobal]]);
 	}
 
 
@@ -40,6 +40,14 @@ class DisallowedSuperglobalFactoryTest extends PHPStanTestCase
 		yield ['$_REQUEST', null];
 		yield ['$_ENV', null];
 		yield ['$foo', ShouldNotHappenException::class];
+	}
+
+
+	public static function getAdditionalConfigFiles(): array
+	{
+		return [
+			__DIR__ . '/../extension.neon',
+		];
 	}
 
 }

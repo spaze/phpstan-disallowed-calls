@@ -33,8 +33,8 @@ class NamespaceUsagesTest extends RuleTestCase
 					'namespace' => 'Framew*rk\Some*',
 					'message' => 'no framework some',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'errorTip' => 'Work more on your frames',
 				],
@@ -45,32 +45,32 @@ class NamespaceUsagesTest extends RuleTestCase
 					],
 					'message' => 'no inheritance sub base',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'namespace' => 'Waldo\Quux\Blade',
 					'message' => 'no blade',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'class' => 'Waldo\Foo\bar',
 					'message' => 'no FooBar',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'namespace' => 'Traits\TestTrait',
 					'message' => 'no TestTrait',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				// test disallowed paths

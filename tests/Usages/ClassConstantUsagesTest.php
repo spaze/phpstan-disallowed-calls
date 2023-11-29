@@ -39,8 +39,8 @@ class ClassConstantUsagesTest extends RuleTestCase
 					'constant' => 'BELONG',
 					'message' => 'belong to us',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
@@ -48,8 +48,8 @@ class ClassConstantUsagesTest extends RuleTestCase
 					'constant' => 'BELONG',
 					'message' => 'belong to us',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
@@ -57,8 +57,8 @@ class ClassConstantUsagesTest extends RuleTestCase
 					'constant' => 'BELONG',
 					'message' => 'belong to us',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
@@ -69,8 +69,8 @@ class ClassConstantUsagesTest extends RuleTestCase
 					],
 					'message' => 'not a replicant',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				// test param overwriting
@@ -84,8 +84,8 @@ class ClassConstantUsagesTest extends RuleTestCase
 					'constant' => 'DECKARD',
 					'message' => 'maybe a replicant',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
@@ -93,8 +93,8 @@ class ClassConstantUsagesTest extends RuleTestCase
 					'constant' => 'NAME',
 					'message' => 'no PhpOption',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 			]

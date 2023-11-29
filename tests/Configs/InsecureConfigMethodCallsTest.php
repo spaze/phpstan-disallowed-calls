@@ -3,46 +3,16 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Configs;
 
-use Nette\Neon\Neon;
-use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
-use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\Calls\MethodCalls;
-use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
-use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
-use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
-use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
-use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
-use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors;
-use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
 class InsecureConfigMethodCallsTest extends RuleTestCase
 {
 
-	/**
-	 * @throws ShouldNotHappenException
-	 */
 	protected function getRule(): Rule
 	{
-		// Load the configuration from this file
-		$config = Neon::decode(file_get_contents(__DIR__ . '/../../disallowed-insecure-calls.neon'));
-		$normalizer = new Normalizer();
-		$formatter = new Formatter($normalizer);
-		$filePath = new FilePath(new FileHelper(__DIR__));
-		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
-		return new MethodCalls(
-			new DisallowedMethodRuleErrors(
-				new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
-				new TypeResolver(),
-				$formatter
-			),
-			new DisallowedCallFactory($formatter, $normalizer, $allowed),
-			$config['parameters']['disallowedMethodCalls']
-		);
+		return self::getContainer()->getByType(MethodCalls::class);
 	}
 
 
@@ -55,6 +25,15 @@ class InsecureConfigMethodCallsTest extends RuleTestCase
 			['Calling mysqli::multi_query() is forbidden, use PDO::prepare() with variable binding/parametrized queries to prevent SQL Injection vulnerability.', 24],
 			['Calling mysqli::real_query() is forbidden, use PDO::prepare() with variable binding/parametrized queries to prevent SQL Injection vulnerability.', 25],
 		]);
+	}
+
+
+	public static function getAdditionalConfigFiles(): array
+	{
+		return [
+			__DIR__ . '/../../extension.neon',
+			__DIR__ . '/../../disallowed-insecure-calls.neon',
+		];
 	}
 
 }

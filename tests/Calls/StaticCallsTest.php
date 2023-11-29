@@ -3,20 +3,11 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
-use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
-use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
-use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
-use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
-use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors;
-use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
 class StaticCallsTest extends RuleTestCase
 {
@@ -26,24 +17,17 @@ class StaticCallsTest extends RuleTestCase
 	 */
 	protected function getRule(): Rule
 	{
-		$normalizer = new Normalizer();
-		$formatter = new Formatter($normalizer);
-		$filePath = new FilePath(new FileHelper(__DIR__));
-		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
+		$container = self::getContainer();
 		return new StaticCalls(
-			new DisallowedMethodRuleErrors(
-				new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
-				new TypeResolver(),
-				$formatter
-			),
-			new DisallowedCallFactory($formatter, $normalizer, $allowed),
+			$container->getByType(DisallowedMethodRuleErrors::class),
+			$container->getByType(DisallowedCallFactory::class),
 			[
 				[
 					'method' => 'Fiction\Pulp\Royale::withCheese()',
 					'message' => 'a Quarter Pounder with Cheese?',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'allowParamsInAllowed' => [],
 				],
@@ -51,8 +35,8 @@ class StaticCallsTest extends RuleTestCase
 					'method' => '\Fiction\Pulp\*::withBad*()',
 					'message' => 'a Quarter Pounder with Cheese?',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'allowParamsInAllowed' => [],
 				],
@@ -60,8 +44,8 @@ class StaticCallsTest extends RuleTestCase
 					'method' => 'Fiction\Pulp\Royale::WithoutCheese',
 					'message' => 'a Quarter Pounder without Cheese!',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'allowParamsInAllowed' => [
 						1 => 1,
@@ -78,56 +62,56 @@ class StaticCallsTest extends RuleTestCase
 					'method' => 'Inheritance\Base::w*f*r()',
 					'message' => 'method Base::woofer() is dangerous',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'Interfaces\BaseInterface::y*()',
 					'message' => 'method BaseInterface::y() is dangerous',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'Traits\TestTrait::z()',
 					'message' => 'method TestTrait::z() is dangerous',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'Traits\AnotherTestClass::zz()',
 					'message' => 'method AnotherTestClass::zz() is dangerous',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'PhpOption\Option::*()',
 					'message' => 'do not use PhpOption',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'PhpOption\Some::create()',
 					'message' => 'do not use PhpOption',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'PhpOption\None::*()',
 					'message' => 'do not use PhpOption',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 			]
@@ -204,6 +188,14 @@ class StaticCallsTest extends RuleTestCase
 				21,
 			],
 		]);
+	}
+
+
+	public static function getAdditionalConfigFiles(): array
+	{
+		return [
+			__DIR__ . '/../../extension.neon',
+		];
 	}
 
 }

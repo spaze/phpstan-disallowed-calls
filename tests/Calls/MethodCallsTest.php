@@ -3,20 +3,11 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
-use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
-use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
-use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
-use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
-use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors;
-use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
 class MethodCallsTest extends RuleTestCase
 {
@@ -26,25 +17,18 @@ class MethodCallsTest extends RuleTestCase
 	 */
 	protected function getRule(): Rule
 	{
-		$normalizer = new Normalizer();
-		$formatter = new Formatter($normalizer);
-		$filePath = new FilePath(new FileHelper(__DIR__));
-		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
+		$container = self::getContainer();
 		return new MethodCalls(
-			new DisallowedMethodRuleErrors(
-				new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
-				new TypeResolver(),
-				$formatter
-			),
-			new DisallowedCallFactory($formatter, $normalizer, $allowed),
+			$container->getByType(DisallowedMethodRuleErrors::class),
+			$container->getByType(DisallowedCallFactory::class),
 			[
 				[
 					'method' => 'Waldo\Quux\Blade::run*()',
 					'message' => "I've seen tests you people wouldn't believe",
 					'exclude' => 'Waldo\Quux\Blade::runway()',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'allowParamsInAllowed' => [
 						1 => 42,
@@ -56,72 +40,72 @@ class MethodCallsTest extends RuleTestCase
 					'method' => 'Waldo\Quux\Blade::movie()',
 					'message' => 'was good',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'Waldo\Quux\Blade::sequel()',
 					'message' => 'too',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'Waldo\Quux\Blade::Trinity()',
 					'message' => 'holy trinity',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'Inheritance\Base::x*()',
 					'message' => 'Base::x*() methods are dangerous',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'Interfaces\BaseInterface::x*()',
 					'message' => 'BaseInterface::x*() methods are dangerous',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'Traits\TestTrait::*',
 					'message' => 'all TestTrait methods are dangerous',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'Traits\AnotherTestClass::zzTop()',
 					'message' => 'method AnotherTestClass::zzTop() is dangerous',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'PhpOption\None::getIterator()',
 					'message' => 'no PhpOption',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'PhpOption\Some::getIterator()',
 					'message' => 'no PhpOption',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				// test disallowed param values
@@ -129,8 +113,8 @@ class MethodCallsTest extends RuleTestCase
 					'function' => 'DateTime::format()',
 					'message' => 'why too kay',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'allowExceptParams' => [
 						1 => 'y',
@@ -142,7 +126,7 @@ class MethodCallsTest extends RuleTestCase
 					'method' => 'Waldo\Quux\Blade::andSorcery()',
 					'message' => 'use magic',
 					'allowExceptIn' => [
-						'../src/disallowed/*.php',
+						__DIR__ . '/../src/disallowed/*.php',
 					],
 				],
 			]
@@ -240,6 +224,14 @@ class MethodCallsTest extends RuleTestCase
 				11,
 			],
 		]);
+	}
+
+
+	public static function getAdditionalConfigFiles(): array
+	{
+		return [
+			__DIR__ . '/../../extension.neon',
+		];
 	}
 
 }
