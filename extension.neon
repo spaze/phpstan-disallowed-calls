@@ -13,83 +13,196 @@ parameters:
 parametersSchema:
 	allowInRootDir: schema(string(), nullable())
 	filesRootDir: schema(string(), nullable())
-	# These should be defined using `structure` with listed keys but it seems to me that PHPStan requires
-	# all keys to be present in a structure but `message` & `allow*`/`disallow*` are optional.
 	disallowedNamespaces: listOf(
-		arrayOf(
-			anyOf(
-				string(),
-				listOf(string()),
-				arrayOf(anyOf(int(), string(), bool())),
-			)
-		)
+		structure([
+			?namespace: anyOf(string(), listOf(string())),
+			?class: anyOf(string(), listOf(string())),
+			?exclude: anyOf(string(), listOf(string())),
+			?message: string(),
+			?allowIn: listOf(string()),
+			?allowExceptIn: listOf(string()),
+			?disallowIn: listOf(string()),
+			?errorIdentifier: string(),
+			?errorTip: string(),
+		])
 	)
 	disallowedClasses: listOf(
-		arrayOf(
-			anyOf(
-				string(),
-				listOf(string()),
-				arrayOf(anyOf(int(), string(), bool())),
-			)
-		)
+		structure([
+			?namespace: anyOf(string(), listOf(string())),
+			?class: anyOf(string(), listOf(string())),
+			?exclude: anyOf(string(), listOf(string())),
+			?message: string(),
+			?allowIn: listOf(string()),
+			?allowExceptIn: listOf(string()),
+			?disallowIn: listOf(string()),
+			?errorIdentifier: string(),
+			?errorTip: string(),
+		])
 	)
 	disallowedMethodCalls: listOf(
-		arrayOf(
-			anyOf(
-				string(),
-				listOf(string()),
-				arrayOf(anyOf(int(), string(), bool())),
-				listOf(arrayOf(anyOf(int(), string(), bool()))),
-			)
-		)
+		structure([
+			?function: anyOf(string(), listOf(string())),
+			?method: anyOf(string(), listOf(string())),
+			?exclude: anyOf(string(), listOf(string())),
+			?definedIn: anyOf(string(), listOf(string())),
+			?message: string(),
+			?allowIn: listOf(string()),
+			?allowExceptIn: listOf(string()),
+			?disallowIn: listOf(string()),
+			?allowInFunctions: listOf(string()),
+			?allowInMethods: listOf(string()),
+			?allowExceptInFunctions: listOf(string()),
+			?allowExceptInMethods: listOf(string()),
+			?disallowInFunctions: listOf(string()),
+			?disallowInMethods: listOf(string()),
+			?allowParamsInAllowed: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowParamsInAllowedAnyValue: arrayOf(anyOf(int(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowParamFlagsInAllowed: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?allowParamsAnywhere: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowParamsAnywhereAnyValue: arrayOf(anyOf(int(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowParamFlagsAnywhere: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?allowExceptParamsInAllowed: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowExceptParamFlagsInAllowed: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?disallowParamFlagsInAllowed: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?disallowParamsInAllowed: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowExceptParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?disallowParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowExceptParamFlags: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?disallowParamFlags: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?allowExceptCaseInsensitiveParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?disallowCaseInsensitiveParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?errorIdentifier: string(),
+			?errorTip: string(),
+		])
 	)
 	disallowedStaticCalls: listOf(
-		arrayOf(
-			anyOf(
-				string(),
-				listOf(string()),
-				arrayOf(anyOf(int(), string(), bool())),
-				listOf(arrayOf(anyOf(int(), string(), bool()))),
-			)
-		)
+		structure([
+			?function: anyOf(string(), listOf(string())),
+			?method: anyOf(string(), listOf(string())),
+			?exclude: anyOf(string(), listOf(string())),
+			?definedIn: anyOf(string(), listOf(string())),
+			?message: string(),
+			?allowIn: listOf(string()),
+			?allowExceptIn: listOf(string()),
+			?disallowIn: listOf(string()),
+			?allowInFunctions: listOf(string()),
+			?allowInMethods: listOf(string()),
+			?allowExceptInFunctions: listOf(string()),
+			?allowExceptInMethods: listOf(string()),
+			?disallowInFunctions: listOf(string()),
+			?disallowInMethods: listOf(string()),
+			?allowParamsInAllowed: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowParamsInAllowedAnyValue: arrayOf(anyOf(int(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowParamFlagsInAllowed: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?allowParamsAnywhere: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowParamsAnywhereAnyValue: arrayOf(anyOf(int(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowParamFlagsAnywhere: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?allowExceptParamsInAllowed: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowExceptParamFlagsInAllowed: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?disallowParamFlagsInAllowed: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?disallowParamsInAllowed: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowExceptParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?disallowParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowExceptParamFlags: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?disallowParamFlags: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?allowExceptCaseInsensitiveParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?disallowCaseInsensitiveParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?errorIdentifier: string(),
+			?errorTip: string(),
+		])
 	)
 	disallowedFunctionCalls: listOf(
-		arrayOf(
-			anyOf(
-				string(),
-				listOf(string()),
-				arrayOf(anyOf(int(), string(), bool())),
-				listOf(arrayOf(anyOf(int(), string(), bool()))),
-			)
-		)
+		structure([
+			?function: anyOf(string(), listOf(string())),
+			?method: anyOf(string(), listOf(string())),
+			?exclude: anyOf(string(), listOf(string())),
+			?definedIn: anyOf(string(), listOf(string())),
+			?message: string(),
+			?allowIn: listOf(string()),
+			?allowExceptIn: listOf(string()),
+			?disallowIn: listOf(string()),
+			?allowInFunctions: listOf(string()),
+			?allowInMethods: listOf(string()),
+			?allowExceptInFunctions: listOf(string()),
+			?allowExceptInMethods: listOf(string()),
+			?disallowInFunctions: listOf(string()),
+			?disallowInMethods: listOf(string()),
+			?allowParamsInAllowed: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowParamsInAllowedAnyValue: arrayOf(anyOf(int(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowParamFlagsInAllowed: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?allowParamsAnywhere: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowParamsAnywhereAnyValue: arrayOf(anyOf(int(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowParamFlagsAnywhere: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?allowExceptParamsInAllowed: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowExceptParamFlagsInAllowed: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?disallowParamFlagsInAllowed: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?disallowParamsInAllowed: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowExceptParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?disallowParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowExceptParamFlags: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?disallowParamFlags: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?allowExceptCaseInsensitiveParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?disallowCaseInsensitiveParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?errorIdentifier: string(),
+			?errorTip: string(),
+		])
 	)
 	disallowedConstants: listOf(
-		arrayOf(
-			anyOf(
-				string(),
-				listOf(string()),
-				arrayOf(anyOf(int(), string(), bool())),
-			)
-		)
+		structure([
+			?class: string(),
+			?constant: anyOf(string(), listOf(string())),
+			?message: string(),
+			?allowIn: listOf(string()),
+			?allowExceptIn: listOf(string()),
+			?disallowIn: listOf(string()),
+			?errorIdentifier: string(),
+			?errorTip: string(),
+		])
 	)
 	disallowedSuperglobals: listOf(
-		arrayOf(
-			anyOf(
-				string(),
-				listOf(string()),
-				arrayOf(anyOf(int(), string(), bool())),
-			)
-		)
+		structure([
+			?superglobal: anyOf(string(), listOf(string())),
+			?message: string(),
+			?allowIn: listOf(string()),
+			?allowExceptIn: list(string()),
+			?disallowIn: list(string()),
+			?errorIdentifier: string(),
+			?errorTip: string(),
+		])
 	)
 	disallowedAttributes: listOf(
-		arrayOf(
-			anyOf(
-				string(),
-				listOf(string()),
-				arrayOf(anyOf(int(), string(), bool())),
-				listOf(arrayOf(anyOf(int(), string(), bool()))),
-			)
-		)
+		structure([
+			attribute: anyOf(string(), listOf(string())),
+			?exclude: anyOf(string(), listOf(string())),
+			?message: string(),
+			?allowIn: listOf(string()),
+			?allowExceptIn: listOf(string()),
+			?disallowIn: listOf(string()),
+			?allowInFunctions: listOf(string()),
+			?allowInMethods: listOf(string()),
+			?allowExceptInFunctions: listOf(string()),
+			?allowExceptInMethods: listOf(string()),
+			?disallowInFunctions: listOf(string()),
+			?disallowInMethods: listOf(string()),
+			?allowParamsInAllowed: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowParamsInAllowedAnyValue: arrayOf(anyOf(int(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowParamFlagsInAllowed: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?allowParamsAnywhere: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowParamsAnywhereAnyValue: arrayOf(anyOf(int(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowParamFlagsAnywhere: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?allowExceptParamsInAllowed: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowExceptParamFlagsInAllowed: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?disallowParamFlagsInAllowed: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?disallowParamsInAllowed: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowExceptParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?disallowParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?allowExceptParamFlags: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?disallowParamFlags: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
+			?allowExceptCaseInsensitiveParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			?disallowCaseInsensitiveParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
+			errorIdentifier: string(),
+			errorTip: string(),
+		])
 	)
 
 services:

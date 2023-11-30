@@ -25,7 +25,7 @@ class DisallowedSuperglobalFactory implements DisallowedVariableFactory
 
 
 	/**
-	 * @param array<array{superglobal?:string, message?:string, allowIn?:list<string>, allowExceptIn?:list<string>, disallowIn?:list<string>, errorIdentifier?:string, errorTip?:string}> $config
+	 * @param array<array{superglobal?:string|list<string>, message?:string, allowIn?:list<string>, allowExceptIn?:list<string>, disallowIn?:list<string>, errorIdentifier?:string, errorTip?:string}> $config
 	 * @return list<DisallowedVariable>
 	 * @throws ShouldNotHappenException
 	 */

@@ -43,7 +43,7 @@ class NamespaceUsages implements Rule
 	 * @param DisallowedNamespaceRuleErrors $disallowedNamespaceRuleErrors
 	 * @param DisallowedNamespaceFactory $disallowNamespaceFactory
 	 * @param Normalizer $normalizer
-	 * @param array<array{namespace:string, message?:string, allowIn?:list<string>}> $forbiddenNamespaces
+	 * @param array<array{namespace?:string|list<string>, class?:string|list<string>, exclude?:string|list<string>, message?:string, allowIn?:list<string>, allowExceptIn?:list<string>, disallowIn?:list<string>, errorIdentifier?:string, errorTip?:string}> $forbiddenNamespaces
 	 */
 	public function __construct(
 		DisallowedNamespaceRuleErrors $disallowedNamespaceRuleErrors,
