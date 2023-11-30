@@ -3,17 +3,10 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
-use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
-use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
-use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
-use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 
 class NewCallsTest extends RuleTestCase
@@ -24,44 +17,41 @@ class NewCallsTest extends RuleTestCase
 	 */
 	protected function getRule(): Rule
 	{
-		$normalizer = new Normalizer();
-		$formatter = new Formatter($normalizer);
-		$filePath = new FilePath(new FileHelper(__DIR__));
-		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
+		$container = self::getContainer();
 		return new NewCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
-			new DisallowedCallFactory($formatter, $normalizer, $allowed),
+			$container->getByType(DisallowedCallsRuleErrors::class),
+			$container->getByType(DisallowedCallFactory::class),
 			[
 				[
 					'method' => '\Constructor\ClassWithConstructor::__construct()',
 					'message' => 'class ClassWithConstructor should not be created',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'Constructor\ClassWithoutConstructor::__construct()',
 					'message' => 'class ClassWithoutConstructor should not be created',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'method' => 'Inheritance\Base::__construct()',
 					'message' => 'all your base are belong to us',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'function' => 'DateTime::__construct()',
 					'message' => 'no future',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'allowExceptCaseInsensitiveParams' => [
 						1 => 'tomorrow',
@@ -99,6 +89,14 @@ class NewCallsTest extends RuleTestCase
 		]);
 		// Based on the configuration above, no errors in this file:
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/methodCalls.php'], []);
+	}
+
+
+	public static function getAdditionalConfigFiles(): array
+	{
+		return [
+			__DIR__ . '/../../extension.neon',
+		];
 	}
 
 }

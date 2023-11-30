@@ -3,17 +3,10 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
-use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
-use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
-use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
-use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 use Waldo\Quux\Blade;
 
@@ -25,21 +18,18 @@ class FunctionCallsTest extends RuleTestCase
 	 */
 	protected function getRule(): Rule
 	{
-		$normalizer = new Normalizer();
-		$formatter = new Formatter($normalizer);
-		$filePath = new FilePath(new FileHelper(__DIR__));
-		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
+		$container = self::getContainer();
 		return new FunctionCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
-			new DisallowedCallFactory($formatter, $normalizer, $allowed),
+			$container->getByType(DisallowedCallsRuleErrors::class),
+			$container->getByType(DisallowedCallFactory::class),
 			$this->createReflectionProvider(),
 			[
 				[
 					'function' => '\var_dump()',
 					'message' => 'use logger instead',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'errorTip' => 'See docs',
 				],
@@ -47,8 +37,8 @@ class FunctionCallsTest extends RuleTestCase
 					'function' => 'print_r()',
 					'message' => 'nope',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'allowParamsAnywhere' => [
 						2 => true,
@@ -57,16 +47,16 @@ class FunctionCallsTest extends RuleTestCase
 				[
 					'function' => 'printf',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				[
 					'function' => '\Foo\Bar\waldo()',
 					'message' => 'whoa, a namespace',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'allowExceptParamsInAllowed' => [
 						1 => 123,
@@ -78,8 +68,8 @@ class FunctionCallsTest extends RuleTestCase
 						'shell_b*()',
 					],
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				// test param overwriting
@@ -89,8 +79,8 @@ class FunctionCallsTest extends RuleTestCase
 				[
 					'function' => 'exe*()',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				// test disallowed param values
@@ -98,8 +88,8 @@ class FunctionCallsTest extends RuleTestCase
 					'function' => 'hash()',
 					'message' => 'MD4 very bad',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'allowExceptParams' => [
 						1 => 'md4',
@@ -109,8 +99,8 @@ class FunctionCallsTest extends RuleTestCase
 					'function' => 'hash()',
 					'message' => 'SHA-1 bad soon™',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'disallowParams' => [
 						1 => 'sha1',
@@ -120,8 +110,8 @@ class FunctionCallsTest extends RuleTestCase
 					'function' => 'hash()',
 					'message' => 'MD5 bad',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'allowExceptCaseInsensitiveParams' => [
 						1 => 'MD5',
@@ -131,8 +121,8 @@ class FunctionCallsTest extends RuleTestCase
 					'function' => 'hash()',
 					'message' => 'SHA-1 bad SOON™',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'allowExceptCaseInsensitiveParams' => [
 						1 => 'SHA1',
@@ -141,8 +131,8 @@ class FunctionCallsTest extends RuleTestCase
 				[
 					'function' => 'setcookie()',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'allowParamsAnywhere' => [
 						3 => 0,
@@ -154,8 +144,8 @@ class FunctionCallsTest extends RuleTestCase
 				[
 					'function' => 'header()',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'allowParamsAnywhereAnyValue' => [
 						2,
@@ -167,8 +157,8 @@ class FunctionCallsTest extends RuleTestCase
 				[
 					'function' => 'htmlspecialchars()',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'allowParamFlagsInAllowed' => [
 						[
@@ -182,8 +172,8 @@ class FunctionCallsTest extends RuleTestCase
 					'function' => 'array_filter()',
 					'message' => 'callback parameter must be given.',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'allowParamsAnywhereAnyValue' => [
 						2,
@@ -193,8 +183,8 @@ class FunctionCallsTest extends RuleTestCase
 					'function' => '\Foo\Bar\Waldo\mocky()',
 					'message' => 'mocking Blade is not allowed.',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'disallowParams' => [
 						1 => Blade::class,
@@ -203,8 +193,8 @@ class FunctionCallsTest extends RuleTestCase
 				[
 					'function' => '\Foo\Bar\Waldo\config()',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'disallowParams' => [
 						1 => 'string-key',
@@ -346,6 +336,14 @@ class FunctionCallsTest extends RuleTestCase
 				70,
 			],
 		]);
+	}
+
+
+	public static function getAdditionalConfigFiles(): array
+	{
+		return [
+			__DIR__ . '/../../extension.neon',
+		];
 	}
 
 }

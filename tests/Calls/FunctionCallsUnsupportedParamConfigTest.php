@@ -3,16 +3,9 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
-use PHPStan\File\FileHelper;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\PHPStanTestCase;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
-use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
-use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
-use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 
 class FunctionCallsUnsupportedParamConfigTest extends PHPStanTestCase
@@ -25,13 +18,10 @@ class FunctionCallsUnsupportedParamConfigTest extends PHPStanTestCase
 	{
 		$this->expectException(ShouldNotHappenException::class);
 		$this->expectExceptionMessage('{foo(),bar()}: Parameter #2 $definitelyNotScalar has an unsupported type array specified in configuration');
-		$normalizer = new Normalizer();
-		$formatter = new Formatter($normalizer);
-		$filePath = new FilePath(new FileHelper(__DIR__));
-		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
+		$container = self::getContainer();
 		new FunctionCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
-			new DisallowedCallFactory($formatter, $normalizer, $allowed),
+			$container->getByType(DisallowedCallsRuleErrors::class),
+			$container->getByType(DisallowedCallFactory::class),
 			$this->createReflectionProvider(),
 			[
 				[
@@ -56,6 +46,14 @@ class FunctionCallsUnsupportedParamConfigTest extends PHPStanTestCase
 				],
 			]
 		);
+	}
+
+
+	public static function getAdditionalConfigFiles(): array
+	{
+		return [
+			__DIR__ . '/../../extension.neon',
+		];
 	}
 
 }

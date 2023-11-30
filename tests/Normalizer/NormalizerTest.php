@@ -15,7 +15,7 @@ class NormalizerTest extends PHPStanTestCase
 
 	protected function setUp(): void
 	{
-		$this->normalizer = new Normalizer();
+		$this->normalizer = self::getContainer()->getByType(Normalizer::class);
 	}
 
 
@@ -42,6 +42,14 @@ class NormalizerTest extends PHPStanTestCase
 		$this->assertSame('foo', $this->normalizer->normalizeAttribute('#[\\foo]'));
 		$this->assertSame('foo', $this->normalizer->normalizeAttribute('#[\\foo()]'));
 		$this->assertSame('foo\\bar', $this->normalizer->normalizeAttribute('#[\\foo\\bar()]'));
+	}
+
+
+	public static function getAdditionalConfigFiles(): array
+	{
+		return [
+			__DIR__ . '/../../extension.neon',
+		];
 	}
 
 }

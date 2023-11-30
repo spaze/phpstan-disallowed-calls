@@ -15,7 +15,7 @@ class IdentifierTest extends PHPStanTestCase
 
 	protected function setUp(): void
 	{
-		$this->identifier = new Identifier();
+		$this->identifier = self::getContainer()->getByType(Identifier::class);
 	}
 
 
@@ -68,6 +68,14 @@ class IdentifierTest extends PHPStanTestCase
 		yield ['foo\\*', 'Bar\\Foo', []];
 		yield ['foo\\bar', 'foo\\bar', ['foo*']];
 		yield ['foo\\bar', 'foo\\bar', ['n*pe', 'foo\\*']];
+	}
+
+
+	public static function getAdditionalConfigFiles(): array
+	{
+		return [
+			__DIR__ . '/../../extension.neon',
+		];
 	}
 
 }

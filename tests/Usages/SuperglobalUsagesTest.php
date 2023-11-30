@@ -32,8 +32,8 @@ class SuperglobalUsagesTest extends RuleTestCase
 					'superglobal' => '$GLOBALS',
 					'message' => 'the cake is a lie',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'errorTip' => 'So long and thanks for all the tips',
 				],
@@ -44,8 +44,8 @@ class SuperglobalUsagesTest extends RuleTestCase
 					],
 					'message' => 'the cake is a lie',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 				// test disallowed paths

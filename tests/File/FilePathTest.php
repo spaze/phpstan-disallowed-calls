@@ -19,8 +19,9 @@ class FilePathTest extends PHPStanTestCase
 
 	protected function setUp(): void
 	{
-		$this->filePath = new FilePath(new FileHelper(__DIR__));
-		$this->filePathWithRootDir = new FilePath(new FileHelper(__DIR__), '/foo/bar');
+		$fileHelper = new FileHelper(__DIR__);
+		$this->filePath = new FilePath($fileHelper);
+		$this->filePathWithRootDir = new FilePath($fileHelper, '/foo/bar');
 	}
 
 

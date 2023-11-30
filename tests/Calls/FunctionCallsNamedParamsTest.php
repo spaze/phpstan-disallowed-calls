@@ -3,17 +3,10 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
-use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
-use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
-use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
-use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 
 /**
@@ -27,20 +20,17 @@ class FunctionCallsNamedParamsTest extends RuleTestCase
 	 */
 	protected function getRule(): Rule
 	{
-		$normalizer = new Normalizer();
-		$formatter = new Formatter($normalizer);
-		$filePath = new FilePath(new FileHelper(__DIR__));
-		$allowed = new Allowed($formatter, $normalizer, new AllowedPath($filePath));
+		$container = self::getContainer();
 		return new FunctionCalls(
-			new DisallowedCallsRuleErrors($allowed, new Identifier(), $filePath, $formatter),
-			new DisallowedCallFactory($formatter, $normalizer, $allowed),
+			$container->getByType(DisallowedCallsRuleErrors::class),
+			$container->getByType(DisallowedCallFactory::class),
 			$this->createReflectionProvider(),
 			[
 				[
 					'function' => 'Foo\Bar\Waldo\foo()',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'allowParamsAnywhereAnyValue' => [
 						[
@@ -58,8 +48,8 @@ class FunctionCallsNamedParamsTest extends RuleTestCase
 				[
 					'function' => 'Foo\Bar\Waldo\bar()',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'allowParamsAnywhereAnyValue' => [
 						1,
@@ -71,8 +61,8 @@ class FunctionCallsNamedParamsTest extends RuleTestCase
 				[
 					'function' => 'Foo\Bar\Waldo\baz()',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'allowParamsInAllowed' => [
 						2 => 'VALUE',
@@ -81,8 +71,8 @@ class FunctionCallsNamedParamsTest extends RuleTestCase
 				[
 					'function' => 'Foo\Bar\Waldo\waldo()',
 					'allowIn' => [
-						'../src/disallowed-allow/*.php',
-						'../src/*-allow/*.*',
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 					'allowParamsInAllowed' => [
 						'value' => 'VALUE',
@@ -206,6 +196,14 @@ class FunctionCallsNamedParamsTest extends RuleTestCase
 				37,
 			],
 		]);
+	}
+
+
+	public static function getAdditionalConfigFiles(): array
+	{
+		return [
+			__DIR__ . '/../../extension.neon',
+		];
 	}
 
 }

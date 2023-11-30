@@ -6,6 +6,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Allowed;
 use Generator;
 use PHPStan\Analyser\ScopeContext;
 use PHPStan\Analyser\ScopeFactory;
+use PHPStan\Analyser\TypeSpecifier;
 use PHPStan\File\FileHelper;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\ShouldNotHappenException;
@@ -32,10 +33,11 @@ class AllowedPathTest extends PHPStanTestCase
 
 	protected function setUp(): void
 	{
-		$this->allowedPath = new AllowedPath(new FilePath(new FileHelper(__DIR__)));
-		$this->allowedPathWithRootDir = new AllowedPath(new FilePath(new FileHelper(__DIR__), '/foo/bar'));
+		$fileHelper = new FileHelper(__DIR__);
+		$this->allowedPath = new AllowedPath(new FilePath($fileHelper));
+		$this->allowedPathWithRootDir = new AllowedPath(new FilePath($fileHelper, '/foo/bar'));
 		$this->reflectionProvider = $this->createReflectionProvider();
-		$this->scopeFactory = $this->createScopeFactory($this->reflectionProvider, self::getContainer()->getService('typeSpecifier'));
+		$this->scopeFactory = $this->createScopeFactory($this->reflectionProvider, self::getContainer()->getByType(TypeSpecifier::class));
 	}
 
 
