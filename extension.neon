@@ -15,8 +15,8 @@ parametersSchema:
 	filesRootDir: schema(string(), nullable())
 	disallowedNamespaces: listOf(
 		structure([
-			?namespace: string(),
-			?class: string(),
+			?namespace: anyOf(string(), listOf(string())),
+			?class: anyOf(string(), listOf(string())),
 			?exclude: anyOf(string(), listOf(string())),
 			?message: string(),
 			?allowIn: listOf(string()),
@@ -28,8 +28,8 @@ parametersSchema:
 	)
 	disallowedClasses: listOf(
 		structure([
-			?namespace: string(),
-			?class: string(),
+			?namespace: anyOf(string(), listOf(string())),
+			?class: anyOf(string(), listOf(string())),
 			?exclude: anyOf(string(), listOf(string())),
 			?message: string(),
 			?allowIn: listOf(string()),
@@ -150,7 +150,7 @@ parametersSchema:
 	disallowedConstants: listOf(
 		structure([
 			?class: string(),
-			?constant: string(),
+			?constant: anyOf(string(), listOf(string())),
 			?message: string(),
 			?allowIn: listOf(string()),
 			?allowExceptIn: listOf(string()),
@@ -161,7 +161,7 @@ parametersSchema:
 	)
 	disallowedSuperglobals: listOf(
 		structure([
-			?superglobal: string(),
+			?superglobal: anyOf(string(), listOf(string())),
 			?message: string(),
 			?allowIn: listOf(string()),
 			?allowExceptIn: list(string()),

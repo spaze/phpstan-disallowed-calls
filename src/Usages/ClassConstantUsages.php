@@ -46,7 +46,7 @@ class ClassConstantUsages implements Rule
 	 * @param DisallowedConstantFactory $disallowedConstantFactory
 	 * @param TypeResolver $typeResolver
 	 * @param Formatter $formatter
-	 * @param array<array{class?:string, constant?:string, message?:string, allowIn?:list<string>}> $disallowedConstants
+	 * @param array<array{class?:string, constant?:string|list<string>, message?:string, allowIn?:list<string>}> $disallowedConstants
 	 * @throws ShouldNotHappenException
 	 */
 	public function __construct(
