@@ -9,6 +9,16 @@ use Waldo\Quux\Blade;
 class ClassWithAttributesAllow
 {
 
+	#[AttributeEntity] // allowed by path in all tests
+	private const MAYO = true;
+
+	#[AttributeEntity] // allowed by path in all tests
+	public $cheddar = 'plz';
+
+	#[AttributeEntity] // disallowed
+	public static $pepper = 'ofc';
+
+
 	#[\Attributes\AttributeEntity(repositoryClass: \Attributes\UserRepository::class, readOnly: false)] // allowed by path in AttributeUsagesTest, disallowed in AttributeUsagesAllowParamsMultipleTest because $repositoryClass has other value
 	public function hasAvocado(): bool
 	{
@@ -28,8 +38,10 @@ class ClassWithAttributesAllow
 
 
 	#[AttributeClass()] // allowed by path in all tests
-	public function hasPineapple(): bool
-	{
+	public function hasPineapple(
+		#[AttributeEntity] // allowed by path in all tests
+		bool $really
+	): bool {
 	}
 
 }
