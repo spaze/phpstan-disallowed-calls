@@ -71,4 +71,9 @@ class AttributeUsagesTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/ClassWithAttributesAllow.php'], []);
 	}
 
+	public function testTraits(): void
+	{
+		$this->analyse([__DIR__ . '/../src/disallowed/TraitWithAttributes.php'], []);
+	}
+
 }

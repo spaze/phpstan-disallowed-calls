@@ -67,6 +67,7 @@ class AttributeUsages implements Rule
 
 	public function processNode(Node $node, Scope $scope): array
 	{
+		var_dump(get_class($node));
 		$this->attributes = [];
 		if ($node instanceof ClassLike) {
 			$this->addAttrs(array_values($node->attrGroups));
