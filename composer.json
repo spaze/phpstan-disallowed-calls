@@ -36,6 +36,9 @@
 	"autoload": {
 		"psr-4": {"Spaze\\PHPStan\\Rules\\Disallowed\\": "src"}
 	},
+	"autoload-dev": {
+		"classmap": ["tests/src"]
+	},
 	"scripts": {
 		"lint": "vendor/bin/parallel-lint --colors src/ tests/",
 		"lint-7.x": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/TypesEverywhere.php --exclude tests/src/disallowed/functionCallsNamedParams.php --exclude tests/src/disallowed-allow/functionCallsNamedParams.php --exclude tests/src/disallowed/attributeUsages.php --exclude tests/src/disallowed-allow/attributeUsages.php",
