@@ -43,7 +43,7 @@ class FunctionCallsAllowInFunctionsTest extends RuleTestCase
 	public function testRule(): void
 	{
 		// Based on the configuration above, in this file:
-		$this->analyse([__DIR__ . '/../libs/Functions.php'], [
+		$this->analyse([__DIR__ . '/../src/Functions.php'], [
 			[
 				// expect this error message:
 				'Calling sha1() is forbidden. [sha1() matches sha*()]',

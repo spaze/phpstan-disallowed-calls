@@ -10,5 +10,5 @@
 		<exclude name="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall" />
 		<exclude name="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration" />
 	</rule>
-	<exclude-pattern>tests/libs/</exclude-pattern>
+	<exclude-pattern>tests/src/</exclude-pattern>
 </ruleset>

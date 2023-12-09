@@ -24,7 +24,7 @@ class MethodCallsDefinedInTest extends RuleTestCase
 			[
 				[
 					'method' => '*',
-					'definedIn' => __DIR__ . '/../libs/Bl*',
+					'definedIn' => __DIR__ . '/../src/Bl*',
 					'allowIn' => [
 						__DIR__ . '/../src/disallowed-allow/*.php',
 						__DIR__ . '/../src/*-allow/*.*',
