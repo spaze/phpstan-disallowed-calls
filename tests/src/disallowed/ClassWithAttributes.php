@@ -9,6 +9,16 @@ use Waldo\Quux\Blade;
 class ClassWithAttributes
 {
 
+	#[AttributeEntity] // disallowed
+	private const MAYO = true;
+
+	#[AttributeEntity] // disallowed
+	public $cheddar = 'plz';
+
+	#[AttributeEntity] // disallowed
+	public static $pepper = 'ofc';
+
+
 	#[AttributeEntity(repositoryClass: UserRepository::class, readOnly: false)] // disallowed, $repositoryClass present with any value
 	public function hasAvocado(): bool
 	{
@@ -28,8 +38,10 @@ class ClassWithAttributes
 
 
 	#[AttributeClass()] // disallowed
-	public function hasPineapple(): bool
-	{
+	public function hasPineapple(
+		#[AttributeEntity] // disallowed
+		bool $really
+	): bool {
 	}
 
 }

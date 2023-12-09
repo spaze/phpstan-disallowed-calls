@@ -7,7 +7,11 @@ use PhpParser\Node;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\FunctionLike;
+use PhpParser\Node\Param;
+use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassLike;
+use PhpParser\Node\Stmt\EnumCase;
+use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedAttribute;
@@ -72,6 +76,14 @@ class AttributeUsages implements Rule
 			$this->addAttrs(array_values($node->attrGroups));
 		} elseif ($node instanceof FunctionLike) {
 			$this->addAttrs(array_values($node->getAttrGroups()));
+		} elseif ($node instanceof Property) {
+			$this->addAttrs(array_values($node->attrGroups));
+		} elseif ($node instanceof ClassConst) {
+			$this->addAttrs(array_values($node->attrGroups));
+		} elseif ($node instanceof Param) {
+			$this->addAttrs(array_values($node->attrGroups));
+		} elseif ($node instanceof EnumCase) {
+			$this->addAttrs(array_values($node->attrGroups));
 		} else {
 			return [];
 		}

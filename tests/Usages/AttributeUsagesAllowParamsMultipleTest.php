@@ -72,8 +72,24 @@ class AttributeUsagesAllowParamsMultipleTest extends RuleTestCase
 				8,
 			],
 			[
+				'Attribute Attributes\AttributeEntity is forbidden.',
+				12,
+			],
+			[
+				'Attribute Attributes\AttributeEntity is forbidden.',
+				15,
+			],
+			[
+				'Attribute Attributes\AttributeEntity is forbidden.',
+				18,
+			],
+			[
 				'Attribute Attributes\AttributeClass is forbidden.',
-				30,
+				40,
+			],
+			[
+				'Attribute Attributes\AttributeEntity is forbidden.',
+				42,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/ClassWithAttributesAllow.php'], [
@@ -87,7 +103,23 @@ class AttributeUsagesAllowParamsMultipleTest extends RuleTestCase
 			],
 			[
 				'Attribute Attributes\AttributeEntity is forbidden.',
+				15,
+			],
+			[
+				'Attribute Attributes\AttributeEntity is forbidden.',
 				18,
+			],
+			[
+				'Attribute Attributes\AttributeEntity is forbidden.',
+				22,
+			],
+			[
+				'Attribute Attributes\AttributeEntity is forbidden.',
+				28,
+			],
+			[
+				'Attribute Attributes\AttributeEntity is forbidden.',
+				42,
 			],
 		]);
 	}

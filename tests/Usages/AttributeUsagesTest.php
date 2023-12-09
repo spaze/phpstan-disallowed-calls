@@ -64,11 +64,98 @@ class AttributeUsagesTest extends RuleTestCase
 				8,
 			],
 			[
+				'Attribute Attributes\AttributeEntity is forbidden.',
+				12,
+			],
+			[
+				'Attribute Attributes\AttributeEntity is forbidden.',
+				15,
+			],
+			[
+				'Attribute Attributes\AttributeEntity is forbidden.',
+				18,
+			],
+			[
 				'Attribute Attributes\AttributeClass is forbidden.',
-				30,
+				40,
+			],
+			[
+				'Attribute Attributes\AttributeEntity is forbidden.',
+				42,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/ClassWithAttributesAllow.php'], []);
+
+		$this->analyse([__DIR__ . '/../src/AttributesEverywhere.php'], [
+			[
+				'Attribute Attributes\AttributeClass is forbidden.',
+				6,
+			],
+			[
+				'Attribute Attributes\AttributeClass is forbidden.',
+				10,
+			],
+			[
+				'Attribute Attributes\AttributeClass is forbidden.',
+				13,
+			],
+			[
+				'Attribute Attributes\AttributeClass is forbidden.',
+				19,
+			],
+			[
+				'Attribute Attributes\AttributeClass is forbidden.',
+				23,
+			],
+			[
+				'Attribute Attributes\AttributeClass is forbidden.',
+				26,
+			],
+			[
+				'Attribute Attributes\AttributeClass is forbidden.',
+				30,
+			],
+			[
+				'Attribute Attributes\AttributeClass is forbidden.',
+				32,
+			],
+			[
+				'Attribute Attributes\AttributeClass is forbidden.',
+				48,
+			],
+			[
+				'Attribute Attributes\AttributeClass is forbidden.',
+				52,
+			],
+			[
+				'Attribute Attributes\AttributeClass is forbidden.',
+				54,
+			],
+			[
+				'Attribute Attributes\AttributeClass is forbidden.',
+				61,
+			],
+			[
+				'Attribute Attributes\AttributeClass is forbidden.',
+				63,
+			],
+			[
+				'Attribute Attributes\AttributeClass is forbidden.',
+				69,
+			],
+			[
+				'Attribute Attributes\AttributeClass is forbidden.',
+				70,
+			],
+			[
+				'Attribute Attributes\AttributeClass is forbidden.',
+				76,
+			],
+			[
+				'Attribute Attributes\AttributeClass is forbidden.',
+				77,
+			],
+		]);
 	}
 
 }
