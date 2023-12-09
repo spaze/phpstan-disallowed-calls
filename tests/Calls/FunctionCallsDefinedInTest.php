@@ -25,7 +25,7 @@ class FunctionCallsDefinedInTest extends RuleTestCase
 			[
 				[
 					'function' => '\\Foo\\Bar\\Waldo\\f*()',
-					'definedIn' => __DIR__ . '/../libs/Fun*.php',
+					'definedIn' => __DIR__ . '/../src/Fun*.php',
 					'allowIn' => [
 						__DIR__ . '/../src/disallowed-allow/*.php',
 						__DIR__ . '/../src/*-allow/*.*',
@@ -33,7 +33,7 @@ class FunctionCallsDefinedInTest extends RuleTestCase
 				],
 				[
 					'function' => '\\Foo\\Bar\\Waldo\\b*()',
-					'definedIn' => __DIR__ . '/../libs/ThisFileDoesNotExist.php',
+					'definedIn' => __DIR__ . '/../src/ThisFileDoesNotExist.php',
 					'allowIn' => [
 						__DIR__ . '/../src/disallowed-allow/*.php',
 						__DIR__ . '/../src/*-allow/*.*',
