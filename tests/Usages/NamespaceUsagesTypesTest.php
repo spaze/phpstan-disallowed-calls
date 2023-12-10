@@ -3,14 +3,9 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
-use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
-use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
-use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
-use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 
@@ -22,15 +17,11 @@ class NamespaceUsagesTypesTest extends RuleTestCase
 
 	protected function getRule(): Rule
 	{
-		$normalizer = new Normalizer();
+		$container = self::getContainer();
 		return new NamespaceUsages(
-			new DisallowedNamespaceRuleErrors(
-				new AllowedPath(new FilePath(new FileHelper(__DIR__))),
-				new Identifier(),
-				new Formatter($normalizer)
-			),
-			new DisallowedNamespaceFactory($normalizer),
-			$normalizer,
+			$container->getByType(DisallowedNamespaceRuleErrors::class),
+			$container->getByType(DisallowedNamespaceFactory::class),
+			$container->getByType(Normalizer::class),
 			[
 				[
 					'class' => 'Waldo\Quux\Blade',
@@ -116,6 +107,14 @@ class NamespaceUsagesTypesTest extends RuleTestCase
 				47,
 			],
 		]);
+	}
+
+
+	public static function getAdditionalConfigFiles(): array
+	{
+		return [
+			__DIR__ . '/../../extension.neon',
+		];
 	}
 
 }

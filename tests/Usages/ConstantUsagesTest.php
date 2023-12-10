@@ -3,14 +3,10 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
-use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory;
-use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
-use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors;
 
@@ -23,12 +19,10 @@ class ConstantUsagesTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		$normalizer = new Normalizer();
+		$container = self::getContainer();
 		return new ConstantUsages(
-			new DisallowedConstantRuleErrors(
-				new AllowedPath(new FilePath(new FileHelper(__DIR__))),
-				new Formatter($normalizer)
-			),
-			new DisallowedConstantFactory($normalizer),
+			$container->getByType(DisallowedConstantRuleErrors::class),
+			$container->getByType(DisallowedConstantFactory::class),
 			[
 				[
 					'constant' => [
@@ -54,7 +48,7 @@ class ConstantUsagesTest extends RuleTestCase
 				[
 					'constant' => 'PHP_EOL',
 					'allowExceptIn' => [
-						'../src/disallowed/*.php',
+						__DIR__ . '/../src/disallowed/*.php',
 					],
 				],
 			]
@@ -88,6 +82,14 @@ class ConstantUsagesTest extends RuleTestCase
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/constantUsages.php'], []);
+	}
+
+
+	public static function getAdditionalConfigFiles(): array
+	{
+		return [
+			__DIR__ . '/../../extension.neon',
+		];
 	}
 
 }

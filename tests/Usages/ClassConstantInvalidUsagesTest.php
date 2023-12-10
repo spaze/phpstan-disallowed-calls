@@ -3,17 +3,9 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
-use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
-use Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory;
-use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
-use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
-use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
-use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors;
-use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
 class ClassConstantInvalidUsagesTest extends RuleTestCase
 {
@@ -23,18 +15,7 @@ class ClassConstantInvalidUsagesTest extends RuleTestCase
 	 */
 	protected function getRule(): Rule
 	{
-		$normalizer = new Normalizer();
-		$formatter = new Formatter($normalizer);
-		return new ClassConstantUsages(
-			new DisallowedConstantRuleErrors(
-				new AllowedPath(new FilePath(new FileHelper(__DIR__))),
-				$formatter
-			),
-			new DisallowedConstantFactory($normalizer),
-			new TypeResolver(),
-			$formatter,
-			[]
-		);
+		return self::getContainer()->getByType(ClassConstantUsages::class);
 	}
 
 
@@ -61,6 +42,14 @@ class ClassConstantInvalidUsagesTest extends RuleTestCase
 				24,
 			],
 		]);
+	}
+
+
+	public static function getAdditionalConfigFiles(): array
+	{
+		return [
+			__DIR__ . '/../../extension.neon',
+		];
 	}
 
 }
