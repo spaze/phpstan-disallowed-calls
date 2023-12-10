@@ -3,15 +3,10 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
-use PHPStan\File\FileHelper;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalFactory;
-use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
-use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
-use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedVariableRuleErrors;
 
 class SuperglobalUsagesTest extends RuleTestCase
@@ -22,12 +17,10 @@ class SuperglobalUsagesTest extends RuleTestCase
 	 */
 	protected function getRule(): Rule
 	{
+		$container = self::getContainer();
 		return new VariableUsages(
-			new DisallowedVariableRuleErrors(
-				new AllowedPath(new FilePath(new FileHelper(__DIR__))),
-				new Formatter(new Normalizer())
-			),
-			(new DisallowedSuperglobalFactory())->getDisallowedVariables([
+			$container->getByType(DisallowedVariableRuleErrors::class),
+			$container->getByType(DisallowedSuperglobalFactory::class)->getDisallowedVariables([
 				[
 					'superglobal' => '$GLOBALS',
 					'message' => 'the cake is a lie',
@@ -53,7 +46,7 @@ class SuperglobalUsagesTest extends RuleTestCase
 					'superglobal' => '$_REQUEST',
 					'message' => 'so $_GET or $_POST?',
 					'disallowIn' => [
-						'../src/disallowed/*.php',
+						__DIR__ . '/../src/disallowed/*.php',
 					],
 				],
 			])
@@ -90,6 +83,14 @@ class SuperglobalUsagesTest extends RuleTestCase
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/superglobalUsages.php'], []);
+	}
+
+
+	public static function getAdditionalConfigFiles(): array
+	{
+		return [
+			__DIR__ . '/../../extension.neon',
+		];
 	}
 
 }
