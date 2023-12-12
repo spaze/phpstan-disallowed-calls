@@ -200,8 +200,8 @@ parametersSchema:
 			?disallowParamFlags: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?name: string()])), anyOf(int(), string())),
 			?allowExceptCaseInsensitiveParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
 			?disallowCaseInsensitiveParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?name: string()])), anyOf(int(), string())),
-			errorIdentifier: string(),
-			errorTip: string(),
+			?errorIdentifier: string(),
+			?errorTip: string(),
 		])
 	)
 
