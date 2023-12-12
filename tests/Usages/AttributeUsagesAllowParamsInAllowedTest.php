@@ -10,7 +10,7 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedAttributeFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedAttributeRuleErrors;
 use Waldo\Quux\Blade;
 
-class AttributeUsagesAllowParamsMultipleTest extends RuleTestCase
+class AttributeUsagesAllowParamsInAllowedTest extends RuleTestCase
 {
 
 	protected function getRule(): Rule
@@ -25,13 +25,7 @@ class AttributeUsagesAllowParamsMultipleTest extends RuleTestCase
 						AttributeEntity::class,
 					],
 					'allowIn' => [
-						__DIR__ . '/../src/disallowed-allow/ClassWithAttributesAllow.php',
-					],
-					'allowParamsAnywhereAnyValue' => [
-						[
-							'position' => 1,
-							'name' => 'repositoryClass',
-						],
+						__DIR__ . '/../src/ClassWithAttributes.php',
 					],
 					'allowParamsInAllowed' => [
 						[
@@ -44,7 +38,7 @@ class AttributeUsagesAllowParamsMultipleTest extends RuleTestCase
 				[
 					'attribute' => '#[\Attributes\AttributeClass()]',
 					'allowIn' => [
-						__DIR__ . '/../src/disallowed-allow/ClassWithAttributesAllow.php',
+						__DIR__ . '/../src/ClassWithAttributes.php',
 					],
 				],
 			]
@@ -55,37 +49,11 @@ class AttributeUsagesAllowParamsMultipleTest extends RuleTestCase
 	public function testRule(): void
 	{
 		// Based on the configuration above, in this file:
-		$this->analyse([__DIR__ . '/../src/disallowed/ClassWithAttributes.php'], [
+		$this->analyse([__DIR__ . '/../src/ClassWithAttributes.php'], [
 			[
 				// expect this error message:
 				'Attribute Attributes\AttributeEntity is forbidden.',
 				// on this line:
-				8,
-			],
-			[
-				'Attribute Attributes\AttributeEntity is forbidden.',
-				12,
-			],
-			[
-				'Attribute Attributes\AttributeEntity is forbidden.',
-				15,
-			],
-			[
-				'Attribute Attributes\AttributeEntity is forbidden.',
-				18,
-			],
-			[
-				'Attribute Attributes\AttributeClass is forbidden.',
-				40,
-			],
-			[
-				'Attribute Attributes\AttributeEntity is forbidden.',
-				42,
-			],
-		]);
-		$this->analyse([__DIR__ . '/../src/disallowed-allow/ClassWithAttributesAllow.php'], [
-			[
-				'Attribute Attributes\AttributeEntity is forbidden.',
 				8,
 			],
 			[

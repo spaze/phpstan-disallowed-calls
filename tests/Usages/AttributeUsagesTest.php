@@ -23,9 +23,6 @@ class AttributeUsagesTest extends RuleTestCase
 					'attribute' => [
 						AttributeEntity::class,
 					],
-					'allowIn' => [
-						__DIR__ . '/../src/disallowed-allow/ClassWithAttributesAllow.php',
-					],
 					'allowParamsAnywhereAnyValue' => [
 						[
 							'position' => 1,
@@ -35,9 +32,6 @@ class AttributeUsagesTest extends RuleTestCase
 				],
 				[
 					'attribute' => '#[\Attributes\AttributeClass()]',
-					'allowIn' => [
-						__DIR__ . '/../src/disallowed-allow/ClassWithAttributesAllow.php',
-					],
 				],
 			]
 		);
@@ -47,7 +41,7 @@ class AttributeUsagesTest extends RuleTestCase
 	public function testRule(): void
 	{
 		// Based on the configuration above, in this file:
-		$this->analyse([__DIR__ . '/../src/disallowed/ClassWithAttributes.php'], [
+		$this->analyse([__DIR__ . '/../src/ClassWithAttributes.php'], [
 			[
 				// expect this error message:
 				'Attribute Attributes\AttributeEntity is forbidden.',
@@ -75,7 +69,6 @@ class AttributeUsagesTest extends RuleTestCase
 				42,
 			],
 		]);
-		$this->analyse([__DIR__ . '/../src/disallowed-allow/ClassWithAttributesAllow.php'], []);
 
 		$this->analyse([__DIR__ . '/../src/AttributesEverywhere.php'], [
 			[
