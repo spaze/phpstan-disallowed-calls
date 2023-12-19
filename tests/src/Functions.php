@@ -47,3 +47,31 @@ function mocky(string $className): void
 function config($key = null, $default = null)
 {
 }
+
+function arrayParam1(array $param): void
+{
+}
+
+function arrayParam2(array $param): void
+{
+}
+
+function intParam1(int $param): void
+{
+}
+
+function intParam2(int $param): void
+{
+}
+
+function intParam3(int $param): void
+{
+}
+
+function intParam4(int $param): void
+{
+}
+
+function mixedParam1($param): void
+{
+}

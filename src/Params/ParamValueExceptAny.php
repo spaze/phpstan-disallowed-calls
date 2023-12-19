@@ -5,9 +5,6 @@ namespace Spaze\PHPStan\Rules\Disallowed\Params;
 
 use PHPStan\Type\Type;
 
-/**
- * @extends ParamValue<int|bool|string|null>
- */
 final class ParamValueExceptAny extends ParamValue
 {
 

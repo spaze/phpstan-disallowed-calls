@@ -1,6 +1,9 @@
 ## Allow with specified parameters only
 
-You can also narrow down the allowed items when called with some parameters (applies only to disallowed method, static & function calls, for obvious reasons). _Please note that for now, only scalar values are supported in the configuration, not arrays._
+You can also narrow down the allowed items when called with some parameters (applies only to disallowed method, static & function calls, for obvious reasons).
+Only scalar values and no arrays are supported with the `value` configuration directive, but with the `typeString` directive,
+arrays and unions are also supported, and generally anything you can express with a PHPDoc type string, if it makes sense.
+When `typeString` is specified, `value` directive is ignored for the given parameter.
 
 For example, you want to disallow calling `print_r()` but want to allow `print_r(..., true)`.
 This can be done with optional `allowParamsInAllowed` or `allowParamsAnywhere` configuration keys:
@@ -184,3 +187,28 @@ parameters:
 ```
 
 But because the "positional _or_ named" limitation described above applies here as well, I generally don't recommend using these shortcuts and instead recommend specifying both `position` and `name` keys.
+
+### PHPDoc type strings
+
+Instead of the `value` directive, you can use the `typeString` directive which allows you to specify arrays, unions, and anything that can be expressed with PHPDoc:
+
+```neon
+parameters:
+    disallowedFunctionCalls:
+            # ...
+            allowParamsInAllowed:
+                -
+                    position: 1
+                    name: 'message'
+                    typeString: "'foo'"
+```
+
+The above example is the same as writing `value: foo` but because you want to specify a literal type string, you need to enclose the string in single quotes to indicate it's a string, not a class name.  With integers, `typeString: 1` is the same as `value: 1`.
+
+Type string allows you to specify:
+- Arrays, e.g. `typeString: array{}` meaning empty array, or vice versa with `typeString: non-empty-array`, or even `typeString: array{foo:'bar'}` meaning an array with a `foo` key and `bar` string value
+- Unions, e.g. `typeString: 1|2`, `typeString: "'foo'|'bar'"`, where the former example means the value must be an integer `1` or an integer `2`, and the latter means the value must be a string `foo` or `bar`
+- Classes, e.g. `typeString: DateTime` which means an object of that class, or a child class od that class
+- Any type as [understood by PHPStan](https://phpstan.org/writing-php-code/phpdoc-types), but not everything may make sense in your case
+
+If both `typeString` and `value` directives are specified, the `value` directive is ignored.
