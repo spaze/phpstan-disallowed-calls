@@ -21,9 +21,6 @@ interface Param
 	public function getName(): ?string;
 
 
-	/**
-	 * @return int|bool|string|null
-	 */
-	public function getValue();
+	public function getType(): Type;
 
 }

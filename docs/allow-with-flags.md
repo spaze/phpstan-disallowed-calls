@@ -26,3 +26,6 @@ parameters:
                     position: 2
                     value: ::JSON_HEX_APOS
 ```
+
+Just like with regular parameters, you can also use `typeString` instead of `value`.
+The extra bonus this brings is unions: if you want to (dis)allow a parameter when either the flag `1` or `2` is set, use `typeString: 1 | 2`. Note that the `|` operator here is not the PHP's _bitwise or_ operator.

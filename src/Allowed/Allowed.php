@@ -5,8 +5,13 @@ namespace Spaze\PHPStan\Rules\Disallowed\Allowed;
 
 use PhpParser\Node\Arg;
 use PHPStan\Analyser\Scope;
+use PHPStan\PhpDoc\TypeStringResolver;
 use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Type\Constant\ConstantBooleanType;
+use PHPStan\Type\Constant\ConstantIntegerType;
+use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedWithParams;
@@ -36,12 +41,20 @@ class Allowed
 	/** @var AllowedPath */
 	private $allowedPath;
 
+	/** @var TypeStringResolver */
+	private $typeStringResolver;
 
-	public function __construct(Formatter $formatter, Normalizer $normalizer, AllowedPath $allowedPath)
-	{
+
+	public function __construct(
+		Formatter $formatter,
+		Normalizer $normalizer,
+		AllowedPath $allowedPath,
+		TypeStringResolver $typeStringResolver
+	) {
 		$this->formatter = $formatter;
 		$this->normalizer = $normalizer;
 		$this->allowedPath = $allowedPath;
+		$this->typeStringResolver = $typeStringResolver;
 	}
 
 
@@ -242,7 +255,7 @@ class Allowed
 	 * @template T of ParamValue
 	 * @param class-string<T> $class
 	 * @param int|string $key
-	 * @param int|bool|string|null|array{position:int, value?:int|bool|string, name?:string} $value
+	 * @param int|bool|string|null|array{position:int, value?:int|bool|string, typeString?:string, name?:string} $value
 	 * @return T
 	 * @throws UnsupportedParamTypeInConfigException
 	 */
@@ -253,6 +266,7 @@ class Allowed
 				$paramPosition = $value['position'];
 				$paramName = $value['name'] ?? null;
 				$paramValue = $value['value'] ?? null;
+				$typeString = $value['typeString'] ?? null;
 			} elseif (in_array($class, [ParamValueAny::class, ParamValueExceptAny::class], true)) {
 				if (is_numeric($value)) {
 					$paramPosition = (int)$value;
@@ -261,22 +275,34 @@ class Allowed
 					$paramPosition = null;
 					$paramName = (string)$value;
 				}
-				$paramValue = null;
+				$paramValue = $typeString = null;
 			} else {
 				$paramPosition = (int)$key;
 				$paramName = null;
 				$paramValue = $value;
+				$typeString = null;
 			}
 		} else {
 			$paramPosition = null;
 			$paramName = $key;
 			$paramValue = $value;
+			$typeString = null;
 		}
 
-		if (!is_int($paramValue) && !is_bool($paramValue) && !is_string($paramValue) && !is_null($paramValue)) {
+		if ($typeString) {
+			$type = $this->typeStringResolver->resolve($typeString);
+		} elseif (is_int($paramValue)) {
+			$type = new ConstantIntegerType($paramValue);
+		} elseif (is_bool($paramValue)) {
+			$type = new ConstantBooleanType($paramValue);
+		} elseif (is_string($paramValue)) {
+			$type = new ConstantStringType($paramValue);
+		} elseif (is_null($paramValue)) {
+			$type = new NullType();
+		} else {
 			throw new UnsupportedParamTypeInConfigException($paramPosition, $paramName, gettype($paramValue));
 		}
-		return new $class($paramPosition, $paramName, $paramValue);
+		return new $class($paramPosition, $paramName, $type);
 	}
 
 }

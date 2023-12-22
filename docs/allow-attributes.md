@@ -12,3 +12,5 @@ parameters:
                     position: 1
                     name: repositoryClass
 ```
+
+You can also use `value` or `typeString` directives, just like with functions or methods.

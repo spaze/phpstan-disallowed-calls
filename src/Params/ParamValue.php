@@ -5,9 +5,6 @@ namespace Spaze\PHPStan\Rules\Disallowed\Params;
 
 use PHPStan\Type\Type;
 
-/**
- * @template T of int|bool|string|null
- */
 abstract class ParamValue implements Param
 {
 
@@ -17,8 +14,8 @@ abstract class ParamValue implements Param
 	/** @var ?string */
 	private $name;
 
-	/** @var T */
-	private $value;
+	/** @var Type */
+	private $type;
 
 
 	abstract public function matches(Type $type): bool;
@@ -27,13 +24,13 @@ abstract class ParamValue implements Param
 	/**
 	 * @param int|null $position
 	 * @param string|null $name
-	 * @param T $value
+	 * @param Type $type
 	 */
-	final public function __construct(?int $position, ?string $name, $value)
+	final public function __construct(?int $position, ?string $name, Type $type)
 	{
 		$this->position = $position;
 		$this->name = $name;
-		$this->value = $value;
+		$this->type = $type;
 	}
 
 
@@ -49,12 +46,9 @@ abstract class ParamValue implements Param
 	}
 
 
-	/**
-	 * @return T
-	 */
-	public function getValue()
+	public function getType(): Type
 	{
-		return $this->value;
+		return $this->type;
 	}
 
 }
