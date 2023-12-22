@@ -132,7 +132,7 @@ parameters:
                     value: 'quux'
 ```
 
-Calling `waldo()` is disallowed, and allowed back again only when the file is in the `views/` subdirectory **and** `waldo()` is called in the file with a 2nd parameter being the string `quux`.
+Calling `waldo()` is disallowed, and allowed back again only when the file is in the `views/` subdirectory **and** `waldo()` is called in the file with a 2nd parameter **not** being the string `quux`.
 
 As already demonstrated above, named parameters are also supported:
 
