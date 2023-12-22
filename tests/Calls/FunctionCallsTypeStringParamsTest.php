@@ -289,12 +289,9 @@ class FunctionCallsTypeStringParamsTest extends RuleTestCase
 				33,
 			],
 		]);
-		// Based on the configuration above, no errors in this file:
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/functionCallsTypeStringParams.php'], [
 			[
-				// expect this error message:
 				'Calling Foo\Bar\Waldo\config() (as config()) is forbidden.',
-				// on this line:
 				6,
 			],
 			[

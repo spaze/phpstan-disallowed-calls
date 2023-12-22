@@ -156,7 +156,6 @@ class FunctionCallsNamedParamsTest extends RuleTestCase
 				38,
 			],
 		]);
-		// Based on the configuration above, no errors in this file:
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/functionCallsNamedParams.php'], [
 			[
 				'Calling Foo\Bar\Waldo\foo() (as foo()) is forbidden.',
