@@ -26,24 +26,20 @@ class NewCalls implements Rule
 {
 	private const CONSTRUCT = '::__construct';
 
-	/** @var DisallowedCallsRuleErrors */
-	private $disallowedCallsRuleErrors;
-
 	/** @var list<DisallowedCall> */
-	private $disallowedCalls;
+	private readonly array $disallowedCalls;
 
 
 	/**
-	 * @param DisallowedCallsRuleErrors $disallowedCallsRuleErrors
-	 * @param DisallowedCallFactory $disallowedCallFactory
-	 * @param array $forbiddenCalls
 	 * @phpstan-param ForbiddenCallsConfig $forbiddenCalls
 	 * @noinspection PhpUndefinedClassInspection ForbiddenCallsConfig is a type alias defined in PHPStan config
 	 * @throws ShouldNotHappenException
 	 */
-	public function __construct(DisallowedCallsRuleErrors $disallowedCallsRuleErrors, DisallowedCallFactory $disallowedCallFactory, array $forbiddenCalls)
-	{
-		$this->disallowedCallsRuleErrors = $disallowedCallsRuleErrors;
+	public function __construct(
+		private readonly DisallowedCallsRuleErrors $disallowedCallsRuleErrors,
+		DisallowedCallFactory $disallowedCallFactory,
+		array $forbiddenCalls,
+	) {
 		$this->disallowedCalls = $disallowedCallFactory->createFromConfig($forbiddenCalls);
 	}
 
@@ -55,8 +51,6 @@ class NewCalls implements Rule
 
 
 	/**
-	 * @param New_ $node
-	 * @param Scope $scope
 	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */

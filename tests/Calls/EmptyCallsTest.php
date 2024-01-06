@@ -29,7 +29,7 @@ class EmptyCallsTest extends RuleTestCase
 						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
-			]
+			],
 		);
 	}
 

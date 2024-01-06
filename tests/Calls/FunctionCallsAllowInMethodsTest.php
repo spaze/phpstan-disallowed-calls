@@ -44,7 +44,7 @@ class FunctionCallsAllowInMethodsTest extends RuleTestCase
 						'\\Fiction\\Pulp\\Royale::__construct()',
 					],
 				],
-			]
+			],
 		);
 	}
 

@@ -24,11 +24,8 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors;
 class MethodCalls implements Rule
 {
 
-	/** @var DisallowedMethodRuleErrors */
-	private $disallowedMethodRuleErrors;
-
 	/** @var list<DisallowedCall> */
-	private $disallowedCalls;
+	private readonly array $disallowedCalls;
 
 
 	/**
@@ -39,9 +36,11 @@ class MethodCalls implements Rule
 	 * @noinspection PhpUndefinedClassInspection ForbiddenCallsConfig is a type alias defined in PHPStan config
 	 * @throws ShouldNotHappenException
 	 */
-	public function __construct(DisallowedMethodRuleErrors $disallowedMethodRuleErrors, DisallowedCallFactory $disallowedCallFactory, array $forbiddenCalls)
-	{
-		$this->disallowedMethodRuleErrors = $disallowedMethodRuleErrors;
+	public function __construct(
+		private readonly DisallowedMethodRuleErrors $disallowedMethodRuleErrors,
+		DisallowedCallFactory $disallowedCallFactory,
+		array $forbiddenCalls,
+	) {
 		$this->disallowedCalls = $disallowedCallFactory->createFromConfig($forbiddenCalls);
 	}
 
@@ -53,8 +52,6 @@ class MethodCalls implements Rule
 
 
 	/**
-	 * @param MethodCall $node
-	 * @param Scope $scope
 	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */

@@ -200,7 +200,7 @@ class FunctionCallsTest extends RuleTestCase
 						1 => 'string-key',
 					],
 				],
-			]
+			],
 		);
 	}
 

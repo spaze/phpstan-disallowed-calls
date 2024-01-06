@@ -25,30 +25,22 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 class FunctionCalls implements Rule
 {
 
-	/** @var DisallowedCallsRuleErrors */
-	private $disallowedCallsRuleErrors;
-
 	/** @var list<DisallowedCall> */
-	private $disallowedCalls;
-
-	/** @var ReflectionProvider */
-	private $reflectionProvider;
+	private readonly array $disallowedCalls;
 
 
 	/**
-	 * @param DisallowedCallsRuleErrors $disallowedCallsRuleErrors
-	 * @param DisallowedCallFactory $disallowedCallFactory
-	 * @param ReflectionProvider $reflectionProvider
-	 * @param array $forbiddenCalls
 	 * @phpstan-param ForbiddenCallsConfig $forbiddenCalls
 	 * @noinspection PhpUndefinedClassInspection ForbiddenCallsConfig is a type alias defined in PHPStan config
 	 * @throws ShouldNotHappenException
 	 */
-	public function __construct(DisallowedCallsRuleErrors $disallowedCallsRuleErrors, DisallowedCallFactory $disallowedCallFactory, ReflectionProvider $reflectionProvider, array $forbiddenCalls)
-	{
-		$this->disallowedCallsRuleErrors = $disallowedCallsRuleErrors;
+	public function __construct(
+		private readonly DisallowedCallsRuleErrors $disallowedCallsRuleErrors,
+		DisallowedCallFactory $disallowedCallFactory,
+		private readonly ReflectionProvider $reflectionProvider,
+		array $forbiddenCalls,
+	) {
 		$this->disallowedCalls = $disallowedCallFactory->createFromConfig($forbiddenCalls);
-		$this->reflectionProvider = $reflectionProvider;
 	}
 
 
@@ -59,8 +51,6 @@ class FunctionCalls implements Rule
 
 
 	/**
-	 * @param FuncCall $node
-	 * @param Scope $scope
 	 * @return list<IdentifierRuleError>
 	 * @throws ShouldNotHappenException
 	 */

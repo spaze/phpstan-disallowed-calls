@@ -29,7 +29,7 @@ class ShellExecCallsTest extends RuleTestCase
 						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
-			]
+			],
 		);
 	}
 

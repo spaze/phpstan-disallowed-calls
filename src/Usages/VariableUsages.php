@@ -21,21 +21,13 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedVariableRuleErrors;
 class VariableUsages implements Rule
 {
 
-	/** @var DisallowedVariableRuleErrors */
-	private $disallowedVariableRuleErrors;
-
-	/** @var list<DisallowedVariable> */
-	private $disallowedVariables;
-
-
 	/**
-	 * @param DisallowedVariableRuleErrors $disallowedVariableRuleErrors
 	 * @param list<DisallowedVariable> $disallowedVariables
 	 */
-	public function __construct(DisallowedVariableRuleErrors $disallowedVariableRuleErrors, array $disallowedVariables)
-	{
-		$this->disallowedVariableRuleErrors = $disallowedVariableRuleErrors;
-		$this->disallowedVariables = $disallowedVariables;
+	public function __construct(
+		private readonly DisallowedVariableRuleErrors $disallowedVariableRuleErrors,
+		private readonly array $disallowedVariables,
+	) {
 	}
 
 
@@ -46,17 +38,11 @@ class VariableUsages implements Rule
 
 
 	/**
-	 * @param Node $node
-	 * @param Scope $scope
 	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!($node instanceof Variable)) {
-			throw new ShouldNotHappenException(sprintf('$node should be %s but is %s', Variable::class, get_class($node)));
-		}
-
 		$variableName = $node->name;
 		if (!is_string($variableName)) {
 			return [];

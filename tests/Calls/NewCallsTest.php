@@ -57,7 +57,7 @@ class NewCallsTest extends RuleTestCase
 						1 => 'tomorrow',
 					],
 				],
-			]
+			],
 		);
 	}
 

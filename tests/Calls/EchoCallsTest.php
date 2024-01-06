@@ -29,7 +29,7 @@ class EchoCallsTest extends RuleTestCase
 						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
-			]
+			],
 		);
 	}
 

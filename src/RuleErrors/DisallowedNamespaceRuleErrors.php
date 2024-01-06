@@ -6,6 +6,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\RuleErrors;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespace;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
@@ -14,31 +15,19 @@ use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 class DisallowedNamespaceRuleErrors
 {
 
-	/** @var AllowedPath */
-	private $allowedPath;
-
-	/** @var Identifier */
-	private $identifier;
-
-	/** @var Formatter */
-	private $formatter;
-
-
-	public function __construct(AllowedPath $allowedPath, Identifier $identifier, Formatter $formatter)
-	{
-		$this->allowedPath = $allowedPath;
-		$this->identifier = $identifier;
-		$this->formatter = $formatter;
+	public function __construct(
+		private readonly AllowedPath $allowedPath,
+		private readonly Identifier $identifier,
+		private readonly Formatter $formatter,
+	) {
 	}
 
 
 	/**
-	 * @param string $namespace
-	 * @param string $description
-	 * @param Scope $scope
 	 * @param list<DisallowedNamespace> $disallowedNamespaces
 	 * @param string $identifier
 	 * @return list<IdentifierRuleError>
+	 * @throws ShouldNotHappenException
 	 */
 	public function getDisallowedMessage(string $namespace, string $description, Scope $scope, array $disallowedNamespaces, string $identifier): array
 	{
@@ -56,7 +45,7 @@ class DisallowedNamespaceRuleErrors
 				$description,
 				$namespace,
 				$this->formatter->formatDisallowedMessage($disallowedNamespace->getMessage()),
-				$disallowedNamespace->getNamespace() !== $namespace ? " [{$namespace} matches {$disallowedNamespace->getNamespace()}]" : ''
+				$disallowedNamespace->getNamespace() !== $namespace ? " [{$namespace} matches {$disallowedNamespace->getNamespace()}]" : '',
 			));
 			$errorBuilder->identifier($disallowedNamespace->getErrorIdentifier() ?? $identifier);
 			if ($disallowedNamespace->getErrorTip()) {

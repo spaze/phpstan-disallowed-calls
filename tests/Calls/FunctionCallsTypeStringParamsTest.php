@@ -201,7 +201,7 @@ class FunctionCallsTypeStringParamsTest extends RuleTestCase
 						],
 					],
 				],
-			]
+			],
 		);
 	}
 

@@ -14,25 +14,14 @@ use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 class DisallowedConstantRuleErrors
 {
 
-
-	/** @var AllowedPath */
-	private $allowedPath;
-
-	/** @var Formatter */
-	private $formatter;
-
-
-	public function __construct(AllowedPath $allowedPath, Formatter $formatter)
-	{
-		$this->allowedPath = $allowedPath;
-		$this->formatter = $formatter;
+	public function __construct(
+		private readonly AllowedPath $allowedPath,
+		private readonly Formatter $formatter,
+	) {
 	}
 
 
 	/**
-	 * @param string $constant
-	 * @param Scope $scope
-	 * @param string|null $displayName
 	 * @param list<DisallowedConstant> $disallowedConstants
 	 * @param string $identifier
 	 * @return list<IdentifierRuleError>
@@ -46,7 +35,7 @@ class DisallowedConstantRuleErrors
 					'Using %s%s is forbidden%s',
 					$disallowedConstant->getConstant(),
 					$displayName && $displayName !== $disallowedConstant->getConstant() ? ' (as ' . $displayName . ')' : '',
-					$this->formatter->formatDisallowedMessage($disallowedConstant->getMessage())
+					$this->formatter->formatDisallowedMessage($disallowedConstant->getMessage()),
 				));
 				$errorBuilder->identifier($disallowedConstant->getErrorIdentifier() ?? $identifier);
 				if ($disallowedConstant->getErrorTip()) {

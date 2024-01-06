@@ -23,23 +23,20 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 class ConstantUsages implements Rule
 {
 
-	/** @var DisallowedConstantRuleErrors */
-	private $disallowedConstantRuleError;
-
 	/** @var list<DisallowedConstant> */
-	private $disallowedConstants;
+	private readonly array $disallowedConstants;
 
 
 	/**
-	 * @param DisallowedConstantRuleErrors $disallowedConstantRuleErrors
-	 * @param DisallowedConstantFactory $disallowedConstantFactory
 	 * @param array<array{constant?:string, message?:string, allowIn?:list<string>}> $disallowedConstants
 	 * @throws ShouldNotHappenException
 	 */
-	public function __construct(DisallowedConstantRuleErrors $disallowedConstantRuleErrors, DisallowedConstantFactory $disallowedConstantFactory, array $disallowedConstants)
-	{
-		$this->disallowedConstantRuleError = $disallowedConstantRuleErrors;
-		$this->disallowedConstants = $disallowedConstantFactory->createFromConfig($disallowedConstants);
+	public function __construct(
+		private readonly DisallowedConstantRuleErrors $disallowedConstantRuleErrors,
+		private readonly DisallowedConstantFactory $disallowedConstantFactory,
+		array $disallowedConstants,
+	) {
+		$this->disallowedConstants = $this->disallowedConstantFactory->createFromConfig($disallowedConstants);
 	}
 
 
@@ -50,15 +47,13 @@ class ConstantUsages implements Rule
 
 
 	/**
-	 * @param ConstFetch $node
-	 * @param Scope $scope
 	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
 		/** @var ConstFetch $node */
-		return $this->disallowedConstantRuleError->get((string)$node->name, $scope, null, $this->disallowedConstants, ErrorIdentifiers::DISALLOWED_CONSTANT);
+		return $this->disallowedConstantRuleErrors->get((string)$node->name, $scope, null, $this->disallowedConstants, ErrorIdentifiers::DISALLOWED_CONSTANT);
 	}
 
 }

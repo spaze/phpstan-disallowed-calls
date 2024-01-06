@@ -15,7 +15,7 @@ class UnsupportedParamTypeInConfigException extends Exception
 			'Parameter%s%s has an unsupported type %s specified in configuration',
 			$position ? " #{$position}" : '',
 			$name ? " \${$name}" : '',
-			$type
+			$type,
 		);
 		parent::__construct($message, $code, $previous);
 	}

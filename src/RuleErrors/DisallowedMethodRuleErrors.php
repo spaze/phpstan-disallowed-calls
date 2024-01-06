@@ -21,36 +21,20 @@ use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 class DisallowedMethodRuleErrors
 {
 
-	/** @var DisallowedCallsRuleErrors */
-	private $disallowedCallsRuleErrors;
-
-	/** @var TypeResolver */
-	private $typeResolver;
-
-	/** @var Formatter */
-	private $formatter;
-
-
 	public function __construct(
-		DisallowedCallsRuleErrors $disallowedCallsRuleErrors,
-		TypeResolver $typeResolver,
-		Formatter $formatter
+		private readonly DisallowedCallsRuleErrors $disallowedCallsRuleErrors,
+		private readonly TypeResolver $typeResolver,
+		private readonly Formatter $formatter,
 	) {
-		$this->disallowedCallsRuleErrors = $disallowedCallsRuleErrors;
-		$this->typeResolver = $typeResolver;
-		$this->formatter = $formatter;
 	}
 
 
 	/**
-	 * @param Name|Expr $class
-	 * @param MethodCall|StaticCall $node
-	 * @param Scope $scope
 	 * @param list<DisallowedCall> $disallowedCalls
 	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
-	public function get($class, CallLike $node, Scope $scope, array $disallowedCalls): array
+	public function get(Name|Expr $class, MethodCall|StaticCall $node, Scope $scope, array $disallowedCalls): array
 	{
 		if (!isset($node->name) || !($node->name instanceof Identifier)) {
 			return [];

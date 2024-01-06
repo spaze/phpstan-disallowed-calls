@@ -12,26 +12,15 @@ use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 class DisallowedCallFactory
 {
 
-	/** @var Formatter */
-	private $formatter;
-
-	/** @var Normalizer */
-	private $normalizer;
-
-	/** @var Allowed */
-	private $allowed;
-
-
-	public function __construct(Formatter $formatter, Normalizer $normalizer, Allowed $allowed)
-	{
-		$this->formatter = $formatter;
-		$this->normalizer = $normalizer;
-		$this->allowed = $allowed;
+	public function __construct(
+		private readonly Formatter $formatter,
+		private readonly Normalizer $normalizer,
+		private readonly Allowed $allowed,
+	) {
 	}
 
 
 	/**
-	 * @param array $config
 	 * @phpstan-param ForbiddenCallsConfig $config
 	 * @noinspection PhpUndefinedClassInspection ForbiddenCallsConfig is a type alias defined in PHPStan config
 	 * @return list<DisallowedCall>
@@ -60,7 +49,7 @@ class DisallowedCallFactory
 						$disallowed['message'] ?? null,
 						$this->allowed->getConfig($disallowed),
 						$disallowed['errorIdentifier'] ?? null,
-						$disallowed['errorTip'] ?? null
+						$disallowed['errorTip'] ?? null,
 					);
 					$disallowedCalls[$disallowedCall->getKey()] = $disallowedCall;
 				}

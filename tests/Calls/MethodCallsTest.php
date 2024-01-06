@@ -129,7 +129,7 @@ class MethodCallsTest extends RuleTestCase
 						__DIR__ . '/../src/disallowed/*.php',
 					],
 				],
-			]
+			],
 		);
 	}
 

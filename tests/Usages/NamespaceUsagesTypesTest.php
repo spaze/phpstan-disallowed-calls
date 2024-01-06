@@ -29,7 +29,7 @@ class NamespaceUsagesTypesTest extends RuleTestCase
 					'class' => 'Waldo\Quux\Blade',
 					'message' => 'do androids dream of electric sheep?',
 				],
-			]
+			],
 		);
 	}
 

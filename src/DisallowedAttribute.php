@@ -8,47 +8,17 @@ use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedConfig;
 class DisallowedAttribute implements DisallowedWithParams
 {
 
-	/** @var string */
-	private $attribute;
-
-	/** @var list<string> */
-	private $excludes;
-
-	/** @var string|null */
-	private $message;
-
-	/** @var AllowedConfig */
-	private $allowedConfig;
-
-	/** @var string|null */
-	private $errorIdentifier;
-
-	/** @var string|null */
-	private $errorTip;
-
-
 	/**
-	 * @param string $attribute
 	 * @param list<string> $excludes
-	 * @param string|null $message
-	 * @param AllowedConfig $allowedConfig
-	 * @param string|null $errorIdentifier
-	 * @param string|null $errorTip
 	 */
 	public function __construct(
-		string $attribute,
-		array $excludes,
-		?string $message,
-		AllowedConfig $allowedConfig,
-		?string $errorIdentifier,
-		?string $errorTip
+		private readonly string $attribute,
+		private readonly array $excludes,
+		private readonly ?string $message,
+		private readonly AllowedConfig $allowedConfig,
+		private readonly ?string $errorIdentifier,
+		private readonly ?string $errorTip,
 	) {
-		$this->attribute = $attribute;
-		$this->excludes = $excludes;
-		$this->message = $message;
-		$this->allowedConfig = $allowedConfig;
-		$this->errorIdentifier = $errorIdentifier;
-		$this->errorTip = $errorTip;
 	}
 
 

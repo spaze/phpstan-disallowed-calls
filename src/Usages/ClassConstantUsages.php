@@ -30,38 +30,22 @@ use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 class ClassConstantUsages implements Rule
 {
 
-	/** @var DisallowedConstantRuleErrors */
-	private $disallowedConstantRuleErrors;
-
-	/** @var TypeResolver */
-	private $typeResolver;
-
-	/** @var Formatter */
-	private $formatter;
-
 	/** @var list<DisallowedConstant> */
-	private $disallowedConstants;
+	private readonly array $disallowedConstants;
 
 
 	/**
-	 * @param DisallowedConstantRuleErrors $disallowedConstantRuleErrors
-	 * @param DisallowedConstantFactory $disallowedConstantFactory
-	 * @param TypeResolver $typeResolver
-	 * @param Formatter $formatter
 	 * @param array<array{class?:string, enum?:string, constant?:string|list<string>, case?:string|list<string>, message?:string, allowIn?:list<string>}> $disallowedConstants
 	 * @throws ShouldNotHappenException
 	 */
 	public function __construct(
-		DisallowedConstantRuleErrors $disallowedConstantRuleErrors,
-		DisallowedConstantFactory $disallowedConstantFactory,
-		TypeResolver $typeResolver,
-		Formatter $formatter,
-		array $disallowedConstants
+		private readonly DisallowedConstantRuleErrors $disallowedConstantRuleErrors,
+		private readonly DisallowedConstantFactory $disallowedConstantFactory,
+		private readonly TypeResolver $typeResolver,
+		private readonly Formatter $formatter,
+		array $disallowedConstants,
 	) {
-		$this->disallowedConstantRuleErrors = $disallowedConstantRuleErrors;
-		$this->typeResolver = $typeResolver;
-		$this->formatter = $formatter;
-		$this->disallowedConstants = $disallowedConstantFactory->createFromConfig($disallowedConstants);
+		$this->disallowedConstants = $this->disallowedConstantFactory->createFromConfig($disallowedConstants);
 	}
 
 
@@ -72,16 +56,11 @@ class ClassConstantUsages implements Rule
 
 
 	/**
-	 * @param Node $node
-	 * @param Scope $scope
 	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		if (!($node instanceof ClassConstFetch)) {
-			throw new ShouldNotHappenException(sprintf('$node should be %s but is %s', ClassConstFetch::class, get_class($node)));
-		}
 		if ($node->name instanceof Identifier) {
 			return $this->getConstantRuleErrors($scope, (string)$node->name, $this->typeResolver->getType($node->class, $scope));
 		}
@@ -117,7 +96,7 @@ class ClassConstantUsages implements Rule
 				function (ConstantStringType $constantString): string {
 					return $constantString->getValue();
 				},
-				$usedOnType->getConstantStrings()
+				$usedOnType->getConstantStrings(),
 			);
 		} else {
 			if ($usedOnType->hasConstant($constant)->yes()) {
@@ -127,7 +106,7 @@ class ClassConstantUsages implements Rule
 					RuleErrorBuilder::message(sprintf(
 						'Cannot access constant %s on %s.',
 						$constant,
-						$type->describe(VerbosityLevel::getRecommendedLevelByType($type))
+						$type->describe(VerbosityLevel::getRecommendedLevelByType($type)),
 					))->build(),
 				];
 			} else {
@@ -140,8 +119,6 @@ class ClassConstantUsages implements Rule
 
 	/**
 	 * @param non-empty-list<string> $classNames
-	 * @param string $constant
-	 * @return string
 	 */
 	private function getFullyQualified(array $classNames, string $constant): string
 	{

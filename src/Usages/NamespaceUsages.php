@@ -18,6 +18,7 @@ use PhpParser\Node\UnionType;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
+use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespace;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
@@ -30,31 +31,20 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 class NamespaceUsages implements Rule
 {
 
-	/** @var DisallowedNamespaceRuleErrors */
-	private $disallowedNamespaceRuleErrors;
-
 	/** @var list<DisallowedNamespace> */
-	private $disallowedNamespace;
-
-	/** @var Normalizer */
-	private $normalizer;
+	private readonly array $disallowedNamespace;
 
 
 	/**
-	 * @param DisallowedNamespaceRuleErrors $disallowedNamespaceRuleErrors
-	 * @param DisallowedNamespaceFactory $disallowNamespaceFactory
-	 * @param Normalizer $normalizer
 	 * @param array<array{namespace?:string|list<string>, class?:string|list<string>, exclude?:string|list<string>, message?:string, allowIn?:list<string>, allowExceptIn?:list<string>, disallowIn?:list<string>, errorIdentifier?:string, errorTip?:string}> $forbiddenNamespaces
 	 */
 	public function __construct(
-		DisallowedNamespaceRuleErrors $disallowedNamespaceRuleErrors,
+		private readonly DisallowedNamespaceRuleErrors $disallowedNamespaceRuleErrors,
 		DisallowedNamespaceFactory $disallowNamespaceFactory,
-		Normalizer $normalizer,
-		array $forbiddenNamespaces
+		private readonly Normalizer $normalizer,
+		array $forbiddenNamespaces,
 	) {
-		$this->disallowedNamespaceRuleErrors = $disallowedNamespaceRuleErrors;
 		$this->disallowedNamespace = $disallowNamespaceFactory->createFromConfig($forbiddenNamespaces);
-		$this->normalizer = $normalizer;
 	}
 
 
@@ -65,9 +55,8 @@ class NamespaceUsages implements Rule
 
 
 	/**
-	 * @param Node $node
-	 * @param Scope $scope
 	 * @return list<RuleError>
+	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
@@ -137,7 +126,7 @@ class NamespaceUsages implements Rule
 					$scope,
 					$this->disallowedNamespace,
 					$identifier ?? $identifier = ErrorIdentifiers::DISALLOWED_NAMESPACE
-				)
+				),
 			);
 		}
 

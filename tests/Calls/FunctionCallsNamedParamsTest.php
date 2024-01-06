@@ -80,7 +80,7 @@ class FunctionCallsNamedParamsTest extends RuleTestCase
 						'value' => 'VALUE',
 					],
 				],
-			]
+			],
 		);
 	}
 

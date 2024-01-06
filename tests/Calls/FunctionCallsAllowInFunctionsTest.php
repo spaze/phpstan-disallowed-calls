@@ -35,7 +35,7 @@ class FunctionCallsAllowInFunctionsTest extends RuleTestCase
 						'\\Foo\\Bar\\Waldo\\fred()',
 					],
 				],
-			]
+			],
 		);
 	}
 

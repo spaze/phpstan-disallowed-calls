@@ -7,6 +7,7 @@ use PhpParser\Node\Attribute;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedAttribute;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
@@ -15,29 +16,18 @@ use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 class DisallowedAttributeRuleErrors
 {
 
-	/** @var Allowed */
-	private $allowed;
-
-	/** @var Identifier */
-	private $identifier;
-
-	/** @var Formatter */
-	private $formatter;
-
-
-	public function __construct(Allowed $allowed, Identifier $identifier, Formatter $formatter)
-	{
-		$this->allowed = $allowed;
-		$this->identifier = $identifier;
-		$this->formatter = $formatter;
+	public function __construct(
+		private readonly Allowed $allowed,
+		private readonly Identifier $identifier,
+		private readonly Formatter $formatter,
+	) {
 	}
 
 
 	/**
-	 * @param Attribute $attribute
-	 * @param Scope $scope
 	 * @param list<DisallowedAttribute> $disallowedAttributes
 	 * @return list<IdentifierRuleError>
+	 * @throws ShouldNotHappenException
 	 */
 	public function get(Attribute $attribute, Scope $scope, array $disallowedAttributes): array
 	{
@@ -54,7 +44,7 @@ class DisallowedAttributeRuleErrors
 				'Attribute %s is forbidden%s%s',
 				$attributeName,
 				$this->formatter->formatDisallowedMessage($disallowedAttribute->getMessage()),
-				$disallowedAttribute->getAttribute() !== $attributeName ? " [{$attributeName} matches {$disallowedAttribute->getAttribute()}]" : ''
+				$disallowedAttribute->getAttribute() !== $attributeName ? " [{$attributeName} matches {$disallowedAttribute->getAttribute()}]" : '',
 			));
 			$errorBuilder->identifier($disallowedAttribute->getErrorIdentifier() ?? ErrorIdentifiers::DISALLOWED_ATTRIBUTE);
 			if ($disallowedAttribute->getErrorTip()) {
