@@ -27,6 +27,7 @@
 	"require-dev": {
 		"nette/neon": "^3.2",
 		"nikic/php-parser": "^4.13 || ^5.0",
+		"ondrejmirtes/simple-downgrader": "^1.0.1",
 		"phpunit/phpunit": "^8.5 || ^10.1 || ^11.0",
 		"php-parallel-lint/php-parallel-lint": "^1.2",
 		"php-parallel-lint/php-console-highlighter": "^1.0",
@@ -39,14 +40,14 @@
 		"classmap": ["tests/src"]
 	},
 	"scripts": {
-		"lint": "vendor/bin/parallel-lint --colors src/ tests/",
+		"lint": "vendor/bin/parallel-lint --colors src/ tests/ build/",
 		"lint-7.x": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/TypesEverywhere.php --exclude tests/src/AttributesEverywhere.php --exclude tests/src/disallowed/functionCallsNamedParams.php --exclude tests/src/disallowed-allow/functionCallsNamedParams.php --exclude tests/src/disallowed/attributeUsages.php --exclude tests/src/disallowed-allow/attributeUsages.php --exclude tests/src/disallowed/constantDynamicUsages.php --exclude tests/src/disallowed-allow/constantDynamicUsages.php --exclude tests/src/Enums.php --exclude tests/src/disallowed/controlStructures.php --exclude tests/src/disallowed-allow/controlStructures.php",
 		"lint-8.0": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/TypesEverywhere.php --exclude tests/src/AttributesEverywhere.php --exclude tests/src/disallowed/constantDynamicUsages.php --exclude tests/src/disallowed-allow/constantDynamicUsages.php --exclude tests/src/Enums.php",
 		"lint-8.1": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/AttributesEverywhere.php --exclude tests/src/disallowed/constantDynamicUsages.php --exclude tests/src/disallowed-allow/constantDynamicUsages.php",
 		"lint-8.2": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/disallowed/constantDynamicUsages.php --exclude tests/src/disallowed-allow/constantDynamicUsages.php",
 		"lint-neon": "vendor/bin/neon-lint .",
-		"phpcs": "vendor/bin/phpcs src/ tests/",
-		"cs-fix": "vendor/bin/phpcbf src/ tests/",
+		"phpcs": "vendor/bin/phpcs src/ tests/ build/",
+		"cs-fix": "vendor/bin/phpcbf src/ tests/ build/",
 		"phpstan": "vendor/bin/phpstan --ansi analyse --configuration phpstan.neon",
 		"phpunit": "vendor/bin/phpunit --colors=always",
 		"test": [
