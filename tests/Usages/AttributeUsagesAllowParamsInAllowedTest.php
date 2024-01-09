@@ -70,15 +70,15 @@ class AttributeUsagesAllowParamsInAllowedTest extends RuleTestCase
 			],
 			[
 				'Attribute Attributes\AttributeEntity is forbidden.',
-				22,
+				25,
 			],
 			[
 				'Attribute Attributes\AttributeEntity is forbidden.',
-				28,
+				31,
 			],
 			[
 				'Attribute Attributes\AttributeEntity is forbidden.',
-				42,
+				45,
 			],
 		]);
 	}

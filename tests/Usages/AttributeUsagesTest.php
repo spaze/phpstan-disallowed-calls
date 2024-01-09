@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
+use Attributes\AttributeColumn;
 use Attributes\AttributeEntity;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
@@ -33,6 +34,22 @@ class AttributeUsagesTest extends RuleTestCase
 				[
 					'attribute' => '#[\Attributes\AttributeClass()]',
 				],
+				[
+					'attribute' => AttributeColumn::class,
+					'message' => 'use `utc_datetime_immutable` instead.',
+					'allowExceptCaseInsensitiveParams' => [
+						[
+							'name' => 'type',
+							'position' => 2,
+							'value' => 'datetime',
+						],
+						[
+							'name' => 'type',
+							'position' => 2,
+							'value' => 'datetime_immutable',
+						],
+					],
+				],
 			]
 		);
 	}
@@ -61,12 +78,16 @@ class AttributeUsagesTest extends RuleTestCase
 				18,
 			],
 			[
+				'Attribute Attributes\AttributeColumn is forbidden, use `utc_datetime_immutable` instead.',
+				21,
+			],
+			[
 				'Attribute Attributes\AttributeClass is forbidden.',
-				40,
+				43,
 			],
 			[
 				'Attribute Attributes\AttributeEntity is forbidden.',
-				42,
+				45,
 			],
 		]);
 
