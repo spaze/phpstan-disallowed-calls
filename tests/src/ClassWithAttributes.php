@@ -18,6 +18,9 @@ class ClassWithAttributes
 	#[AttributeEntity]
 	public static $pepper = 'ofc';
 
+	#[AttributeColumn(name: 'start_date_parsed', type: 'datetime')]
+	private $fries = 'large';
+
 
 	#[AttributeEntity(repositoryClass: UserRepository::class, readOnly: false)]
 	public function hasAvocado(): bool
