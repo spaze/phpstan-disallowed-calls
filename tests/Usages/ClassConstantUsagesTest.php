@@ -141,6 +141,27 @@ class ClassConstantUsagesTest extends RuleTestCase
 	}
 
 
+	public function testRuleDynamicClassConstantFetch(): void
+	{
+		// Based on the configuration above, in this file:
+		$this->analyse([__DIR__ . '/../src/disallowed/constantDynamicUsages.php'], [
+			[
+				'Using Waldo\Quux\Blade::RUNNER is forbidden, not a replicant.',
+				8,
+			],
+			[
+				'Using Waldo\Quux\Blade::DECKARD is forbidden, maybe a replicant.',
+				10,
+			],
+			[
+				'Using Waldo\Quux\Blade::RUNNER is forbidden, not a replicant.',
+				10,
+			],
+		]);
+		$this->analyse([__DIR__ . '/../src/disallowed-allow/constantDynamicUsages.php'], []);
+	}
+
+
 	public static function getAdditionalConfigFiles(): array
 	{
 		return [

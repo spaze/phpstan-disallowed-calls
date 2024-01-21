@@ -5,6 +5,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\ClassConstFetch;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
@@ -12,6 +13,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstant;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory;
@@ -80,17 +82,38 @@ class ClassConstantUsages implements Rule
 		if (!($node instanceof ClassConstFetch)) {
 			throw new ShouldNotHappenException(sprintf('$node should be %s but is %s', ClassConstFetch::class, get_class($node)));
 		}
-		if (!($node->name instanceof Identifier)) {
-			throw new ShouldNotHappenException(sprintf('$node->name should be %s but is %s', Identifier::class, get_class($node->name)));
+		if ($node->name instanceof Identifier) {
+			return $this->getConstantRuleErrors($scope, (string)$node->name, $this->typeResolver->getType($node->class, $scope));
 		}
-		$constant = (string)$node->name;
-		$type = $this->typeResolver->getType($node->class, $scope);
-		$usedOnType = $type->getObjectTypeOrClassStringObjectType();
+		if ($node->name instanceof Variable) {
+			$type = $scope->getType($node->name);
+			$errors = [];
+			foreach ($type->getConstantStrings() as $constantString) {
+				$errors = array_merge(
+					$errors,
+					$this->getConstantRuleErrors($scope, $constantString->getValue(), $this->typeResolver->getType($node->class, $scope))
+				);
+			}
+			return $errors;
+		}
+		throw new ShouldNotHappenException(sprintf('$node->name should be %s but is %s', Identifier::class, get_class($node->name)));
+	}
 
+
+	/**
+	 * @param Scope $scope
+	 * @param string $constant
+	 * @param Type $type
+	 * @return list<RuleError>
+	 * @throws ShouldNotHappenException
+	 */
+	private function getConstantRuleErrors(Scope $scope, string $constant, Type $type): array
+	{
 		if (strtolower($constant) === 'class') {
 			return [];
 		}
 
+		$usedOnType = $type->getObjectTypeOrClassStringObjectType();
 		$displayName = $usedOnType->getObjectClassNames() ? $this->getFullyQualified($usedOnType->getObjectClassNames(), $constant) : null;
 		if ($usedOnType->getConstantStrings()) {
 			$classNames = array_map(

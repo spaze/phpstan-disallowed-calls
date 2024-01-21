@@ -40,9 +40,10 @@
 	},
 	"scripts": {
 		"lint": "vendor/bin/parallel-lint --colors src/ tests/",
-		"lint-7.x": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/TypesEverywhere.php --exclude tests/src/AttributesEverywhere.php --exclude tests/src/disallowed/functionCallsNamedParams.php --exclude tests/src/disallowed-allow/functionCallsNamedParams.php --exclude tests/src/disallowed/attributeUsages.php --exclude tests/src/disallowed-allow/attributeUsages.php",
-		"lint-8.0": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/TypesEverywhere.php --exclude tests/src/AttributesEverywhere.php",
-		"lint-8.1": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/AttributesEverywhere.php",
+		"lint-7.x": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/TypesEverywhere.php --exclude tests/src/AttributesEverywhere.php --exclude tests/src/disallowed/functionCallsNamedParams.php --exclude tests/src/disallowed-allow/functionCallsNamedParams.php --exclude tests/src/disallowed/attributeUsages.php --exclude tests/src/disallowed-allow/attributeUsages.php --exclude tests/src/disallowed/constantDynamicUsages.php --exclude tests/src/disallowed-allow/constantDynamicUsages.php",
+		"lint-8.0": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/TypesEverywhere.php --exclude tests/src/AttributesEverywhere.php --exclude tests/src/disallowed/constantDynamicUsages.php --exclude tests/src/disallowed-allow/constantDynamicUsages.php",
+		"lint-8.1": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/AttributesEverywhere.php --exclude tests/src/disallowed/constantDynamicUsages.php --exclude tests/src/disallowed-allow/constantDynamicUsages.php",
+		"lint-8.2": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/disallowed/constantDynamicUsages.php --exclude tests/src/disallowed-allow/constantDynamicUsages.php",
 		"lint-neon": "vendor/bin/neon-lint .",
 		"phpcs": "vendor/bin/phpcs src/ tests/",
 		"cs-fix": "vendor/bin/phpcbf src/ tests/",
