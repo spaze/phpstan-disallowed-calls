@@ -10,7 +10,7 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 
 /**
- * @requires PHP > 8.0
+ * @requires PHP >= 8.0
  */
 class FunctionCallsNamedParamsTest extends RuleTestCase
 {
