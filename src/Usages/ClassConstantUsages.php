@@ -5,7 +5,6 @@ namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\ClassConstFetch;
-use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
@@ -85,18 +84,15 @@ class ClassConstantUsages implements Rule
 		if ($node->name instanceof Identifier) {
 			return $this->getConstantRuleErrors($scope, (string)$node->name, $this->typeResolver->getType($node->class, $scope));
 		}
-		if ($node->name instanceof Variable) {
-			$type = $scope->getType($node->name);
-			$errors = [];
-			foreach ($type->getConstantStrings() as $constantString) {
-				$errors = array_merge(
-					$errors,
-					$this->getConstantRuleErrors($scope, $constantString->getValue(), $this->typeResolver->getType($node->class, $scope))
-				);
-			}
-			return $errors;
+		$type = $scope->getType($node->name);
+		$errors = [];
+		foreach ($type->getConstantStrings() as $constantString) {
+			$errors = array_merge(
+				$errors,
+				$this->getConstantRuleErrors($scope, $constantString->getValue(), $this->typeResolver->getType($node->class, $scope))
+			);
 		}
-		throw new ShouldNotHappenException(sprintf('$node->name should be %s but is %s', Identifier::class, get_class($node->name)));
+		return $errors;
 	}
 
 

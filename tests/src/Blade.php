@@ -14,6 +14,10 @@ class Blade
 
 	public const MOVIE = Blade::WESLEY;
 
+	public static $runner = 'RUNNER';
+
+	public $deckard = 'DECKARD';
+
 
 	public function runner(int $everything = 0, bool $yes = false, string $roland = '303'): void
 	{
