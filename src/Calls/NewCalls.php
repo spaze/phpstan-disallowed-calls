@@ -86,10 +86,9 @@ class NewCalls implements Rule
 					$names[] = $interface->getName();
 				}
 			}
+			$definedIn = $reflection ? $reflection->getFileName() : null;
 
 			foreach ($names as $name) {
-				$classRef = $type->getClassReflection();
-				$definedIn = $classRef ? $classRef->getFileName() : null;
 				$name .= self::CONSTRUCT;
 				$errors = array_merge(
 					$errors,
