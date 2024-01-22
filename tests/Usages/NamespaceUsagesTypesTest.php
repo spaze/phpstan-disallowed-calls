@@ -10,7 +10,7 @@ use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 
 /**
- * @requires PHP > 8.1
+ * @requires PHP >= 8.1
  */
 class NamespaceUsagesTypesTest extends RuleTestCase
 {
