@@ -9,6 +9,7 @@ There are several different types (and configuration keys) that can be disallowe
 5. `disallowedNamespaces` or `disallowedClasses` - for usages of classes or classes from a namespace
 6. `disallowedSuperglobals` - for usages of superglobal variables like `$GLOBALS` or `$_POST`
 7. `disallowedAttributes` - for attributes like `#[Entity(class: Foo::class, something: true)]`
+8. `disallowedEnums` - for enums, both pure & backed, like `Suit::Hearts` (like class constants, enums need to be split to `enum: Suit` & `case: Hearts` in the configuration, see notes below)
 
 Use them to add rules to your `phpstan.neon` config file. I like to use a separate file (`disallowed-calls.neon`) for these which I'll include later on in the main `phpstan.neon` config file. Here's an example, update to your needs:
 
@@ -65,13 +66,19 @@ parameters:
         -
             attribute: Entity
             message: 'use our own custom Entity instead'
+
+    disallowedEnums:
+        -
+            enum: 'Suit'
+            case: 'Hearts'
+            message: 'use Diamonds instead'
 ```
 
 The `message` key is optional. Functions and methods can be specified with or without `()`. Omitting `()` is not recommended though to avoid confusing method calls with class constants.
 
 ### Disallowing multiple items
 
-If you want to disallow multiple calls, constants, class constants (same-class only), classes, namespaces or variables that share the same `message` and other config keys, you can use a list or an array to specify them all:
+If you want to disallow multiple calls, constants, class constants (same-class only), enum cases (same-enum only), classes, namespaces or variables that share the same `message` and other config keys, you can use a list or an array to specify them all:
 ```neon
 parameters:
     disallowedFunctionCalls:
@@ -161,3 +168,7 @@ To disallow naive object creation (`new ClassName()` or `new $classname`), disal
 ### Constants
 
 When [disallowing constants](disallowing-constants.md) please be aware of limitations and special requirements, see [docs](disallowing-constants.md).
+
+### Enums
+
+Similar to disallowing constants, enums have some limitations, see [docs](disallowing-enums.md).
