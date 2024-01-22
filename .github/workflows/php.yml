@@ -31,6 +31,8 @@ jobs:
             run: composer lint
           - php-version: "8.1"
             run: composer lint
+          - php-version: "8.2"
+            run: composer lint
         include:
           - php-version: "7.2"
             run: composer lint-7.x
@@ -42,6 +44,8 @@ jobs:
             run: composer lint-8.0
           - php-version: "8.1"
             run: composer lint-8.1
+          - php-version: "8.2"
+            run: composer lint-8.2
 
     steps:
     - uses: actions/checkout@v4
