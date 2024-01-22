@@ -7,6 +7,7 @@ parameters:
 	disallowedStaticCalls: []
 	disallowedFunctionCalls: []
 	disallowedConstants: []
+	disallowedEnums: []
 	disallowedSuperglobals: []
 	disallowedAttributes: []
 
@@ -165,6 +166,17 @@ parametersSchema:
 			?errorTip: string(),
 		])
 	)
+	disallowedEnums: listOf(
+		structure([
+			enum: string(),
+			case: anyOf(string(), listOf(string())),
+			?allowIn: listOf(string()),
+			?allowExceptIn: listOf(string()),
+			?disallowIn: listOf(string()),
+			?errorIdentifier: string(),
+			?errorTip: string(),
+		])
+	)
 	disallowedSuperglobals: listOf(
 		structure([
 			?superglobal: anyOf(string(), listOf(string())),
@@ -284,8 +296,12 @@ services:
 		factory: Spaze\PHPStan\Rules\Disallowed\Usages\ConstantUsages(disallowedConstants: %disallowedConstants%)
 		tags:
 			- phpstan.rules.rule
-	-
+	classConstantUsages:
 		factory: Spaze\PHPStan\Rules\Disallowed\Usages\ClassConstantUsages(disallowedConstants: %disallowedConstants%)
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\Usages\ClassConstantUsages(disallowedConstants: %disallowedEnums%)
 		tags:
 			- phpstan.rules.rule
 	-

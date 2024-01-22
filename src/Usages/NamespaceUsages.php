@@ -89,7 +89,8 @@ class NamespaceUsages implements Rule
 		} elseif ($node instanceof StaticCall && $node->class instanceof Name) {
 			$namespaces = [$node->class->toString()];
 		} elseif ($node instanceof ClassConstFetch && $node->class instanceof Name) {
-			$description = 'Class';
+			$classReflection = $scope->resolveTypeByName($node->class)->getClassReflection();
+			$description = $classReflection && $classReflection->isEnum() ? 'Enum' : 'Class';
 			$namespaces = [$node->class->toString()];
 		} elseif ($node instanceof Class_ && ($node->extends !== null || count($node->implements) > 0)) {
 			$namespaces = [];

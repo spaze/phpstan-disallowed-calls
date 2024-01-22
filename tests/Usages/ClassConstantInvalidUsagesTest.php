@@ -15,7 +15,7 @@ class ClassConstantInvalidUsagesTest extends RuleTestCase
 	 */
 	protected function getRule(): Rule
 	{
-		return self::getContainer()->getByType(ClassConstantUsages::class);
+		return self::getContainer()->getService('classConstantUsages');
 	}
 
 

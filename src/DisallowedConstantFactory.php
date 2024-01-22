@@ -20,7 +20,7 @@ class DisallowedConstantFactory
 
 
 	/**
-	 * @param array<array{class?:string, constant?:string|list<string>, message?:string, allowIn?:list<string>, allowExceptIn?:list<string>, disallowIn?:list<string>, errorIdentifier?:string, errorTip?:string}> $config
+	 * @param array<array{class?:string, enum?:string, constant?:string|list<string>, case?:string|list<string>, message?:string, allowIn?:list<string>, allowExceptIn?:list<string>, disallowIn?:list<string>, errorIdentifier?:string, errorTip?:string}> $config
 	 * @return list<DisallowedConstant>
 	 * @throws ShouldNotHappenException
 	 */
@@ -28,13 +28,13 @@ class DisallowedConstantFactory
 	{
 		$disallowedConstants = [];
 		foreach ($config as $disallowed) {
-			$constants = $disallowed['constant'] ?? null;
-			unset($disallowed['constant']);
+			$constants = $disallowed['constant'] ?? $disallowed['case'] ?? null;
+			unset($disallowed['constant'], $disallowed['case']);
 			if (!$constants) {
-				throw new ShouldNotHappenException("'constant' must be set in configuration items");
+				throw new ShouldNotHappenException("'constant', or 'case' for enums, must be set in configuration items");
 			}
 			foreach ((array)$constants as $constant) {
-				$class = $disallowed['class'] ?? null;
+				$class = $disallowed['class'] ?? $disallowed['enum'] ?? null;
 				$disallowedConstant = new DisallowedConstant(
 					$this->normalizer->normalizeNamespace($class ? "{$class}::{$constant}" : $constant),
 					$disallowed['message'] ?? null,
