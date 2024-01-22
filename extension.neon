@@ -157,7 +157,7 @@ parametersSchema:
 	disallowedConstants: listOf(
 		structure([
 			?class: string(),
-			?constant: anyOf(string(), listOf(string())),
+			constant: anyOf(string(), listOf(string())),
 			?message: string(),
 			?allowIn: listOf(string()),
 			?allowExceptIn: listOf(string()),
