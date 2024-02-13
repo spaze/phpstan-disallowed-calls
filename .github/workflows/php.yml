@@ -4,6 +4,8 @@ on:
     push:
     pull_request:
     workflow_dispatch:
+    schedule:
+        - cron: '24 20 * * *'
 
 jobs:
   lint-phpcs-phpstan:
