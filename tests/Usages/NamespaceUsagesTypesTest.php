@@ -5,6 +5,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
@@ -12,6 +13,7 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 /**
  * @requires PHP >= 8.1
  */
+#[RequiresPhp('>= 8.1')]
 class NamespaceUsagesTypesTest extends RuleTestCase
 {
 

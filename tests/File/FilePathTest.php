@@ -6,6 +6,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\File;
 use Generator;
 use PHPStan\File\FileHelper;
 use PHPStan\Testing\PHPStanTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class FilePathTest extends PHPStanTestCase
 {
@@ -28,6 +29,7 @@ class FilePathTest extends PHPStanTestCase
 	/**
 	 * @dataProvider pathProvider
 	 */
+	#[DataProvider('pathProvider')]
 	public function testFnMatch(string $path, string $file, string $fileWithRootDir): void
 	{
 		$this->assertTrue($this->filePath->fnMatch($path, $file));

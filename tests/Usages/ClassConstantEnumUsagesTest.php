@@ -7,6 +7,7 @@ use Enums\BackedEnum;
 use Enums\Enum;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors;
@@ -15,6 +16,7 @@ use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 /**
  * @requires PHP >= 8.1
  */
+#[RequiresPhp('>= 8.1')]
 class ClassConstantEnumUsagesTest extends RuleTestCase
 {
 

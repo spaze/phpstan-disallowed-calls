@@ -6,6 +6,7 @@ namespace Spaze\PHPStan\Rules\Disallowed;
 use Generator;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\PHPStanTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class DisallowedSuperglobalFactoryTest extends PHPStanTestCase
 {
@@ -16,6 +17,7 @@ class DisallowedSuperglobalFactoryTest extends PHPStanTestCase
 	 * @param class-string|null $exceptionClass
 	 * @throws ShouldNotHappenException
 	 */
+	#[DataProvider('superglobalsProvider')]
 	public function testNonSuperglobalInConfig(string $superglobal, ?string $exceptionClass)
 	{
 		if ($exceptionClass) {
