@@ -14,6 +14,7 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
+use PHPStan\Type\VerbosityLevel;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedWithParams;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeException;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeInConfigException;
@@ -25,6 +26,7 @@ use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueAny;
 use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueCaseInsensitiveExcept;
 use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueExcept;
 use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueExceptAny;
+use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueFlag;
 use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueFlagExcept;
 use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueFlagSpecific;
 use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueSpecific;
@@ -301,6 +303,13 @@ class Allowed
 			$type = new NullType();
 		} else {
 			throw new UnsupportedParamTypeInConfigException($paramPosition, $paramName, gettype($paramValue));
+		}
+		if (is_subclass_of($class, ParamValueFlag::class)) {
+			foreach ($type->getConstantScalarValues() as $value) {
+				if (!is_int($value)) {
+					throw new UnsupportedParamTypeInConfigException($paramPosition, $paramName, gettype($value) . ' of ' . $type->describe(VerbosityLevel::precise()));
+				}
+			}
 		}
 		return new $class($paramPosition, $paramName, $type);
 	}
