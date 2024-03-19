@@ -11,6 +11,7 @@ use PHPStan\File\FileHelper;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\PHPStanTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
 use Traits\TestClass;
 use Traits\TestTrait;
@@ -44,6 +45,7 @@ class AllowedPathTest extends PHPStanTestCase
 	/**
 	 * @dataProvider pathProvider
 	 */
+	#[DataProvider('pathProvider')]
 	public function testMatches(string $allowedPath, string $file, string $fileWithRootDir): void
 	{
 		$context = ScopeContext::create($file);

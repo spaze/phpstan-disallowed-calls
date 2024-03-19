@@ -5,6 +5,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Identifier;
 
 use Generator;
 use PHPStan\Testing\PHPStanTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class IdentifierTest extends PHPStanTestCase
 {
@@ -26,6 +27,7 @@ class IdentifierTest extends PHPStanTestCase
 	 * @return void
 	 * @dataProvider matchesProvider
 	 */
+	#[DataProvider('matchesProvider')]
 	public function testMatches(string $pattern, string $value, ?array $excludes): void
 	{
 		$this->assertTrue($this->identifier->matches($pattern, $value, $excludes));
@@ -39,6 +41,7 @@ class IdentifierTest extends PHPStanTestCase
 	 * @return void
 	 * @dataProvider doesNotMatchProvider
 	 */
+	#[DataProvider('doesNotMatchProvider')]
 	public function testDoesNotMatch(string $pattern, string $value, ?array $excludes): void
 	{
 		$this->assertFalse($this->identifier->matches($pattern, $value, $excludes));
