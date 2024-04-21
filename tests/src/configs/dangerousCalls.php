@@ -23,3 +23,4 @@ var_dump([]);
 var_export([]);
 var_export([1], true);
 var_export([2], false);
+phpinfo();
