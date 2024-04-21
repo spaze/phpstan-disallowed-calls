@@ -40,6 +40,7 @@ class DangerousConfigFunctionCallsTest extends RuleTestCase
 			['Calling var_dump() is forbidden, use some logger instead.', 22],
 			['Calling var_export() is forbidden, use some logger instead.', 23],
 			['Calling var_export() is forbidden, use some logger instead.', 25],
+			['Calling phpinfo() is forbidden, might reveal session id or other tokens in cookies.', 26, 'see https://www.michalspacek.com/stealing-session-ids-with-phpinfo-and-how-to-stop-it and use e.g. spaze/phpinfo instead'],
 		]);
 	}
 

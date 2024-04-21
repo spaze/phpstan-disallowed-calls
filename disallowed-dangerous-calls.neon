@@ -58,3 +58,7 @@ parameters:
 			message: 'use some logger instead'
 			allowParamsAnywhere:
 				2: true
+		-
+			function: 'phpinfo()'
+			message: 'might reveal session id or other tokens in cookies'
+			errorTip: 'see https://www.michalspacek.com/stealing-session-ids-with-phpinfo-and-how-to-stop-it and use e.g. spaze/phpinfo instead'
