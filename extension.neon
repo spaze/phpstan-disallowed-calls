@@ -10,6 +10,7 @@ parameters:
 	disallowedEnums: []
 	disallowedSuperglobals: []
 	disallowedAttributes: []
+	disallowedControlStructures: []
 
 parametersSchema:
 	allowInRootDir: schema(string(), nullable())
@@ -224,6 +225,18 @@ parametersSchema:
 			?errorTip: string(),
 		])
 	)
+	disallowedControlStructures: listOf(
+		structure([
+			?controlStructure: anyOf(string(), listOf(string())),
+			?structure: anyOf(string(), listOf(string())),
+			?message: string(),
+			?allowIn: listOf(string()),
+			?allowExceptIn: list(string()),
+			?disallowIn: list(string()),
+			?errorIdentifier: string(),
+			?errorTip: string(),
+		])
+	)
 
 services:
 	- Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed
@@ -231,6 +244,7 @@ services:
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedAttributeFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory
+	- Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalFactory
 	- Spaze\PHPStan\Rules\Disallowed\File\FilePath(rootDir: %filesRootDir%)
@@ -239,6 +253,7 @@ services:
 	- Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedAttributeRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors
+	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedControlStructureRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors
@@ -310,5 +325,65 @@ services:
 			- phpstan.rules.rule
 	-
 		factory: Spaze\PHPStan\Rules\Disallowed\Usages\AttributeUsages(disallowedAttributes: %disallowedAttributes%)
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\BreakControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\ContinueControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\DeclareControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\DoWhileControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\ElseControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\ElseIfControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\ForControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\ForeachControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\GotoControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\IfControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\MatchControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\RequireIncludeControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\ReturnControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\SwitchControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\WhileControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
 		tags:
 			- phpstan.rules.rule

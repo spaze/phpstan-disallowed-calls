@@ -10,6 +10,7 @@ There are several different types (and configuration keys) that can be disallowe
 6. `disallowedSuperglobals` - for usages of superglobal variables like `$GLOBALS` or `$_POST`
 7. `disallowedAttributes` - for attributes like `#[Entity(class: Foo::class, something: true)]`
 8. `disallowedEnums` - for enums, both pure & backed, like `Suit::Hearts` (like class constants, enums need to be split to `enum: Suit` & `case: Hearts` in the configuration, see notes below)
+9. `disallowedControlStructures` - for control structures like `if`, `else`, `elseif`, loops, `require` & `include`, and `goto`
 
 Use them to add rules to your `phpstan.neon` config file. I like to use a separate file (`disallowed-calls.neon`) for these which I'll include later on in the main `phpstan.neon` config file. Here's an example, update to your needs:
 
@@ -165,6 +166,8 @@ You can treat some language constructs as functions and disallow it in `disallow
 
 To disallow naive object creation (`new ClassName()` or `new $classname`), disallow `NameSpace\ClassName::__construct` in `disallowedMethodCalls`. Works even when there's no constructor defined in that class.
 
+You can also disallow control structures, see below.
+
 ### Constants
 
 When [disallowing constants](disallowing-constants.md) please be aware of limitations and special requirements, see [docs](disallowing-constants.md).
@@ -172,3 +175,27 @@ When [disallowing constants](disallowing-constants.md) please be aware of limita
 ### Enums
 
 Similar to disallowing constants, enums have some limitations, see [docs](disallowing-enums.md).
+
+### Control structures
+
+You can forbid [control structures](https://www.php.net/language.control-structures) like `if`, `else`, `elseif` (don't write it as `else if` because `else if` is parsed as `else` followed by `if` producing unexpected results), loops, `break`, `continue`, `goto`, `require`, `include` (and the `_once` variants).
+
+Currently, parameters are not checked, so it's not possible to disallow for example `declare`, but re-allow `declare(strict-types = 1)`.
+
+You can use `controlStructure` or `structure` directives, and both can be specified as arrays:
+```neon
+parameters:
+    disallowedControlStructures:
+        -
+            controlStructure:
+                - 'elseif'
+                - 'return'
+            allowIn:
+                - 'tests/foo/bar.php'
+        -
+            structure: 'goto'
+            message: "restructure the program's flow"
+            errorTip: 'https://xkcd.com/292/'
+            allowIn:
+                - 'tests/waldo.php'
+```
