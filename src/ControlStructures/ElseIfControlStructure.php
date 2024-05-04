@@ -1,0 +1,60 @@
+<?php
+declare(strict_types = 1);
+
+namespace Spaze\PHPStan\Rules\Disallowed\ControlStructures;
+
+use PhpParser\Node;
+use PhpParser\Node\Stmt\ElseIf_;
+use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
+use PHPStan\ShouldNotHappenException;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructure;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedControlStructureRuleErrors;
+
+/**
+ * Reports on using the elseif control structure.
+ * But not the "else if" as that's parsed as "else" followed by "if".
+ *
+ * @package Spaze\PHPStan\Rules\Disallowed
+ * @implements Rule<ElseIf_>
+ */
+class ElseIfControlStructure implements Rule
+{
+
+	/** @var DisallowedControlStructureRuleErrors */
+	private $disallowedControlStructureRuleErrors;
+
+	/** @var list<DisallowedControlStructure> */
+	private $disallowedControlStructures;
+
+
+	/**
+	 * @param DisallowedControlStructureRuleErrors $disallowedControlStructureRuleErrors
+	 * @param list<DisallowedControlStructure> $disallowedControlStructures
+	 */
+	public function __construct(DisallowedControlStructureRuleErrors $disallowedControlStructureRuleErrors, array $disallowedControlStructures)
+	{
+		$this->disallowedControlStructureRuleErrors = $disallowedControlStructureRuleErrors;
+		$this->disallowedControlStructures = $disallowedControlStructures;
+	}
+
+
+	public function getNodeType(): string
+	{
+		return ElseIf_::class;
+	}
+
+
+	/**
+	 * @param ElseIf_ $node
+	 * @param Scope $scope
+	 * @return list<RuleError>
+	 * @throws ShouldNotHappenException
+	 */
+	public function processNode(Node $node, Scope $scope): array
+	{
+		return $this->disallowedControlStructureRuleErrors->get($scope, 'elseif', $this->disallowedControlStructures);
+	}
+
+}
