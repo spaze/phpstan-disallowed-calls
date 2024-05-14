@@ -11,6 +11,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructure;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedControlStructureRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 
 /**
  * Reports on using the elseif control structure.
@@ -54,7 +55,7 @@ class ElseIfControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedControlStructureRuleErrors->get($scope, 'elseif', $this->disallowedControlStructures);
+		return $this->disallowedControlStructureRuleErrors->get($scope, 'elseif', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_ELSE_IF);
 	}
 
 }

@@ -11,6 +11,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructure;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedControlStructureRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 
 /**
  * Reports on using the declare control structure.
@@ -53,7 +54,7 @@ class DeclareControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedControlStructureRuleErrors->get($scope, 'declare', $this->disallowedControlStructures);
+		return $this->disallowedControlStructureRuleErrors->get($scope, 'declare', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_DECLARE);
 	}
 
 }

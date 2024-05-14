@@ -60,7 +60,6 @@ class StaticCalls implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		/** @var StaticCall $node */
 		return $this->disallowedMethodRuleErrors->get($node->class, $node, $scope, $this->disallowedCalls);
 	}
 

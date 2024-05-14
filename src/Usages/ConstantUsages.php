@@ -12,6 +12,7 @@ use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstant;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 
 /**
  * Reports on constant usage.
@@ -57,7 +58,7 @@ class ConstantUsages implements Rule
 	public function processNode(Node $node, Scope $scope): array
 	{
 		/** @var ConstFetch $node */
-		return $this->disallowedConstantRuleError->get((string)$node->name, $scope, null, $this->disallowedConstants);
+		return $this->disallowedConstantRuleError->get((string)$node->name, $scope, null, $this->disallowedConstants, ErrorIdentifiers::DISALLOWED_CONSTANT);
 	}
 
 }

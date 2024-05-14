@@ -5,7 +5,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\RuleErrors;
 
 use PhpParser\Node\Attribute;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\RuleError;
+use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedAttribute;
@@ -37,7 +37,7 @@ class DisallowedAttributeRuleErrors
 	 * @param Attribute $attribute
 	 * @param Scope $scope
 	 * @param list<DisallowedAttribute> $disallowedAttributes
-	 * @return list<RuleError>
+	 * @return list<IdentifierRuleError>
 	 */
 	public function get(Attribute $attribute, Scope $scope, array $disallowedAttributes): array
 	{
@@ -56,9 +56,7 @@ class DisallowedAttributeRuleErrors
 				$this->formatter->formatDisallowedMessage($disallowedAttribute->getMessage()),
 				$disallowedAttribute->getAttribute() !== $attributeName ? " [{$attributeName} matches {$disallowedAttribute->getAttribute()}]" : ''
 			));
-			if ($disallowedAttribute->getErrorIdentifier()) {
-				$errorBuilder->identifier($disallowedAttribute->getErrorIdentifier());
-			}
+			$errorBuilder->identifier($disallowedAttribute->getErrorIdentifier() ?? ErrorIdentifiers::DISALLOWED_ATTRIBUTE);
 			if ($disallowedAttribute->getErrorTip()) {
 				$errorBuilder->tip($disallowedAttribute->getErrorTip());
 			}

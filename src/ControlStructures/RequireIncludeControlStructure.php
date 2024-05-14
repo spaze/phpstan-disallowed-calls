@@ -11,6 +11,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructure;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedControlStructureRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 
 /**
  * Reports on using the foreach loop.
@@ -53,25 +54,29 @@ class RequireIncludeControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		$type = null;
+		$type = $identifier = null;
 		switch ($node->type) {
 			case Include_::TYPE_INCLUDE:
 				$type = 'include';
+				$identifier = ErrorIdentifiers::DISALLOWED_INCLUDE;
 				break;
 			case Include_::TYPE_REQUIRE:
 				$type = 'require';
+				$identifier = ErrorIdentifiers::DISALLOWED_REQUIRE;
 				break;
 			case Include_::TYPE_INCLUDE_ONCE:
 				$type = 'include_once';
+				$identifier = ErrorIdentifiers::DISALLOWED_INCLUDE_ONCE;
 				break;
 			case Include_::TYPE_REQUIRE_ONCE:
 				$type = 'require_once';
+				$identifier = ErrorIdentifiers::DISALLOWED_REQUIRE_ONCE;
 				break;
 		}
 		if ($type === null) {
 			return [];
 		}
-		return $this->disallowedControlStructureRuleErrors->get($scope, $type, $this->disallowedControlStructures);
+		return $this->disallowedControlStructureRuleErrors->get($scope, $type, $this->disallowedControlStructures, $identifier);
 	}
 
 }

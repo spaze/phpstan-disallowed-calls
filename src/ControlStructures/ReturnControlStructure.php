@@ -11,6 +11,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructure;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedControlStructureRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 
 /**
  * Reports on using the return control structure.
@@ -53,7 +54,7 @@ class ReturnControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedControlStructureRuleErrors->get($scope, 'return', $this->disallowedControlStructures);
+		return $this->disallowedControlStructureRuleErrors->get($scope, 'return', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_RETURN);
 	}
 
 }

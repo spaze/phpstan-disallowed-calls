@@ -103,6 +103,7 @@ The optional `errorTip` key can be used to show an additional message prefixed w
 ### Error identifiers
 
 The `errorIdentifier` key is optional. It can be used to provide a unique identifier to the PHPStan error.
+If not specified, a default identifier will be used, see the `\Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers` class for current list.
 
 ### Wildcards
 

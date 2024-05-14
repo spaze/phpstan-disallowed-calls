@@ -7,11 +7,11 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Empty_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 
 /**
  * Reports on dynamically calling empty().
@@ -51,14 +51,11 @@ class EmptyCalls implements Rule
 
 
 	/**
-	 * @param Empty_ $node
-	 * @param Scope $scope
-	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedCallsRuleErrors->get(null, $scope, 'empty', 'empty', null, $this->disallowedCalls);
+		return $this->disallowedCallsRuleErrors->get(null, $scope, 'empty', 'empty', null, $this->disallowedCalls, ErrorIdentifiers::DISALLOWED_EMPTY);
 	}
 
 }

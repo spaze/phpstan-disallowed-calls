@@ -44,9 +44,7 @@ class DisallowedVariableRuleErrors
 					$disallowedVariable->getVariable(),
 					$this->formatter->formatDisallowedMessage($disallowedVariable->getMessage())
 				));
-				if ($disallowedVariable->getErrorIdentifier()) {
-					$errorBuilder->identifier($disallowedVariable->getErrorIdentifier());
-				}
+				$errorBuilder->identifier($disallowedVariable->getErrorIdentifier() ?? ErrorIdentifiers::DISALLOWED_VARIABLE);
 				if ($disallowedVariable->getErrorTip()) {
 					$errorBuilder->tip($disallowedVariable->getErrorTip());
 				}

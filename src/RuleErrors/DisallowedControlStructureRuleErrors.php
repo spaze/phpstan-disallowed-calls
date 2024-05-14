@@ -32,10 +32,11 @@ class DisallowedControlStructureRuleErrors
 	 * @param Scope $scope
 	 * @param string $controlStructure
 	 * @param list<DisallowedControlStructure> $disallowedControlStructures
+	 * @param string $identifier
 	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
-	public function get(Scope $scope, string $controlStructure, array $disallowedControlStructures): array
+	public function get(Scope $scope, string $controlStructure, array $disallowedControlStructures, string $identifier): array
 	{
 		foreach ($disallowedControlStructures as $disallowedControlStructure) {
 			if (
@@ -47,9 +48,7 @@ class DisallowedControlStructureRuleErrors
 					$controlStructure,
 					$this->formatter->formatDisallowedMessage($disallowedControlStructure->getMessage())
 				));
-				if ($disallowedControlStructure->getErrorIdentifier()) {
-					$errorBuilder->identifier($disallowedControlStructure->getErrorIdentifier());
-				}
+				$errorBuilder->identifier($disallowedControlStructure->getErrorIdentifier() ?? $identifier);
 				if ($disallowedControlStructure->getErrorTip()) {
 					$errorBuilder->tip($disallowedControlStructure->getErrorTip());
 				}

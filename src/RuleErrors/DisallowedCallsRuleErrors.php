@@ -5,7 +5,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\RuleErrors;
 
 use PhpParser\Node\Expr\CallLike;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\RuleError;
+use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
@@ -46,11 +46,12 @@ class DisallowedCallsRuleErrors
 	 * @param string|null $displayName
 	 * @param string|null $definedIn
 	 * @param list<DisallowedCall> $disallowedCalls
+	 * @param string $identifier
 	 * @param string|null $message
-	 * @return list<RuleError>
+	 * @return list<IdentifierRuleError>
 	 * @throws ShouldNotHappenException
 	 */
-	public function get(?CallLike $node, Scope $scope, string $name, ?string $displayName, ?string $definedIn, array $disallowedCalls, ?string $message = null): array
+	public function get(?CallLike $node, Scope $scope, string $name, ?string $displayName, ?string $definedIn, array $disallowedCalls, string $identifier, ?string $message = null): array
 	{
 		foreach ($disallowedCalls as $disallowedCall) {
 			if (
@@ -64,9 +65,7 @@ class DisallowedCallsRuleErrors
 					$this->formatter->formatDisallowedMessage($disallowedCall->getMessage()),
 					$disallowedCall->getCall() !== $name ? " [{$name}() matches {$disallowedCall->getCall()}()]" : ''
 				));
-				if ($disallowedCall->getErrorIdentifier()) {
-					$errorBuilder->identifier($disallowedCall->getErrorIdentifier());
-				}
+				$errorBuilder->identifier($disallowedCall->getErrorIdentifier() ?? $identifier);
 				if ($disallowedCall->getErrorTip()) {
 					$errorBuilder->tip($disallowedCall->getErrorTip());
 				}
