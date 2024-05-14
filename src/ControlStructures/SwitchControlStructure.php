@@ -11,6 +11,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructure;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedControlStructureRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 
 /**
  * Reports on using the switch control structure.
@@ -53,7 +54,7 @@ class SwitchControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedControlStructureRuleErrors->get($scope, 'switch', $this->disallowedControlStructures);
+		return $this->disallowedControlStructureRuleErrors->get($scope, 'switch', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_SWITCH);
 	}
 
 }

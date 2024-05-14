@@ -8,12 +8,13 @@ use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ReflectionProvider;
+use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
-use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 
 /**
  * Reports on dynamically calling a disallowed function.
@@ -60,7 +61,7 @@ class FunctionCalls implements Rule
 	/**
 	 * @param FuncCall $node
 	 * @param Scope $scope
-	 * @return list<RuleError>
+	 * @return list<IdentifierRuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array
@@ -83,7 +84,7 @@ class FunctionCalls implements Rule
 			} else {
 				$definedIn = null;
 			}
-			$message = $this->disallowedCallsRuleErrors->get($node, $scope, (string)$name, (string)($displayName ?? $node->name), $definedIn, $this->disallowedCalls);
+			$message = $this->disallowedCallsRuleErrors->get($node, $scope, (string)$name, (string)($displayName ?? $node->name), $definedIn, $this->disallowedCalls, ErrorIdentifiers::DISALLOWED_FUNCTION);
 			if ($message) {
 				return $message;
 			}

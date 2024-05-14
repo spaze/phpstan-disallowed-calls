@@ -11,6 +11,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructure;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedControlStructureRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 
 /**
  * Reports on using the foreach loop.
@@ -53,7 +54,7 @@ class ForeachControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedControlStructureRuleErrors->get($scope, 'foreach', $this->disallowedControlStructures);
+		return $this->disallowedControlStructureRuleErrors->get($scope, 'foreach', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_FOREACH);
 	}
 
 }

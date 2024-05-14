@@ -14,6 +14,7 @@ use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 
 /**
  * Reports on creating objects (calling constructors).
@@ -92,7 +93,7 @@ class NewCalls implements Rule
 				$name .= self::CONSTRUCT;
 				$errors = array_merge(
 					$errors,
-					$this->disallowedCallsRuleErrors->get($node, $scope, $name, $type->getClassName() . self::CONSTRUCT, $definedIn, $this->disallowedCalls)
+					$this->disallowedCallsRuleErrors->get($node, $scope, $name, $type->getClassName() . self::CONSTRUCT, $definedIn, $this->disallowedCalls, ErrorIdentifiers::DISALLOWED_NEW)
 				);
 			}
 		}

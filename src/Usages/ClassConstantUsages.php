@@ -18,6 +18,7 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedConstant;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
 /**
@@ -133,7 +134,7 @@ class ClassConstantUsages implements Rule
 				return [];
 			}
 		}
-		return $this->disallowedConstantRuleErrors->get($this->getFullyQualified($classNames, $constant), $scope, $displayName, $this->disallowedConstants);
+		return $this->disallowedConstantRuleErrors->get($this->getFullyQualified($classNames, $constant), $scope, $displayName, $this->disallowedConstants, ErrorIdentifiers::DISALLOWED_CLASS_CONSTANT);
 	}
 
 
