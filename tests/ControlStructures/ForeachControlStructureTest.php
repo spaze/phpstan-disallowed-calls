@@ -9,7 +9,7 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedControlStructureRuleErrors;
 
-class WhilForeachControlStructureTest extends RuleTestCase
+class ForeachControlStructureTest extends RuleTestCase
 {
 
 	/**
