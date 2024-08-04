@@ -9,13 +9,9 @@ use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 class DisallowedNamespaceFactory
 {
 
-	/** @var Normalizer */
-	private $normalizer;
-
-
-	public function __construct(Normalizer $normalizer)
-	{
-		$this->normalizer = $normalizer;
+	public function __construct(
+		private readonly Normalizer $normalizer,
+	) {
 	}
 
 
@@ -44,7 +40,7 @@ class DisallowedNamespaceFactory
 					$disallowed['allowIn'] ?? [],
 					$disallowed['allowExceptIn'] ?? $disallowed['disallowIn'] ?? [],
 					$disallowed['errorIdentifier'] ?? null,
-					$disallowed['errorTip'] ?? null
+					$disallowed['errorTip'] ?? null,
 				);
 				$disallowedNamespaces[$disallowedNamespace->getNamespace()] = $disallowedNamespace;
 			}

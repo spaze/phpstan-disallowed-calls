@@ -17,37 +17,17 @@ use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 class DisallowedCallsRuleErrors
 {
 
-	/** @var Allowed */
-	private $allowed;
-
-	/** @var Identifier */
-	private $identifier;
-
-	/** @var FilePath */
-	private $filePath;
-
-	/** @var Formatter */
-	private $formatter;
-
-
-	public function __construct(Allowed $allowed, Identifier $identifier, FilePath $filePath, Formatter $formatter)
-	{
-		$this->allowed = $allowed;
-		$this->identifier = $identifier;
-		$this->filePath = $filePath;
-		$this->formatter = $formatter;
+	public function __construct(
+		private readonly Allowed $allowed,
+		private readonly Identifier $identifier,
+		private readonly FilePath $filePath,
+		private readonly Formatter $formatter,
+	) {
 	}
 
 
 	/**
-	 * @param CallLike|null $node
-	 * @param Scope $scope
-	 * @param string $name
-	 * @param string|null $displayName
-	 * @param string|null $definedIn
 	 * @param list<DisallowedCall> $disallowedCalls
-	 * @param string $identifier
-	 * @param string|null $message
 	 * @return list<IdentifierRuleError>
 	 * @throws ShouldNotHappenException
 	 */
@@ -57,13 +37,13 @@ class DisallowedCallsRuleErrors
 			if (
 				$this->identifier->matches($disallowedCall->getCall(), $name, $disallowedCall->getExcludes())
 				&& $this->definedInMatches($disallowedCall, $definedIn)
-				&& !$this->allowed->isAllowed($scope, isset($node) ? $node->getArgs() : null, $disallowedCall)
+				&& !$this->allowed->isAllowed($scope, $node?->getArgs(), $disallowedCall)
 			) {
 				$errorBuilder = RuleErrorBuilder::message(sprintf(
 					$message ?? 'Calling %s is forbidden%s%s',
 					($displayName && $displayName !== $name) ? "{$name}() (as {$displayName}())" : "{$name}()",
 					$this->formatter->formatDisallowedMessage($disallowedCall->getMessage()),
-					$disallowedCall->getCall() !== $name ? " [{$name}() matches {$disallowedCall->getCall()}()]" : ''
+					$disallowedCall->getCall() !== $name ? " [{$name}() matches {$disallowedCall->getCall()}()]" : '',
 				));
 				$errorBuilder->identifier($disallowedCall->getErrorIdentifier() ?? $identifier);
 				if ($disallowedCall->getErrorTip()) {

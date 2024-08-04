@@ -14,23 +14,14 @@ use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 class DisallowedVariableRuleErrors
 {
 
-	/** @var AllowedPath */
-	private $allowedPath;
-
-	/** @var Formatter */
-	private $formatter;
-
-
-	public function __construct(AllowedPath $allowedPath, Formatter $formatter)
-	{
-		$this->allowedPath = $allowedPath;
-		$this->formatter = $formatter;
+	public function __construct(
+		private readonly AllowedPath $allowedPath,
+		private readonly Formatter $formatter,
+	) {
 	}
 
 
 	/**
-	 * @param string $variable
-	 * @param Scope $scope
 	 * @param list<DisallowedVariable> $disallowedVariables
 	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
@@ -42,7 +33,7 @@ class DisallowedVariableRuleErrors
 				$errorBuilder = RuleErrorBuilder::message(sprintf(
 					'Using %s is forbidden%s',
 					$disallowedVariable->getVariable(),
-					$this->formatter->formatDisallowedMessage($disallowedVariable->getMessage())
+					$this->formatter->formatDisallowedMessage($disallowedVariable->getMessage()),
 				));
 				$errorBuilder->identifier($disallowedVariable->getErrorIdentifier() ?? ErrorIdentifiers::DISALLOWED_VARIABLE);
 				if ($disallowedVariable->getErrorTip()) {

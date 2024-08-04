@@ -8,47 +8,18 @@ use Spaze\PHPStan\Rules\Disallowed\Exceptions\NotImplementedYetException;
 class DisallowedVariable implements Disallowed
 {
 
-	/** @var string */
-	private $variable;
-
-	/** @var string|null */
-	private $message;
-
-	/** @var list<string> */
-	private $allowIn;
-
-	/** @var list<string> */
-	private $allowExceptIn;
-
-	/** @var string|null */
-	private $errorIdentifier;
-
-	/** @var string|null */
-	private $errorTip;
-
-
 	/**
-	 * @param string $variable
-	 * @param string|null $message
 	 * @param list<string> $allowIn
 	 * @param list<string> $allowExceptIn
-	 * @param string|null $errorIdentifier
-	 * @param string|null $errorTip
 	 */
 	public function __construct(
-		string $variable,
-		?string $message,
-		array $allowIn,
-		array $allowExceptIn,
-		?string $errorIdentifier,
-		?string $errorTip
+		private readonly string $variable,
+		private readonly ?string $message,
+		private readonly array $allowIn,
+		private readonly array $allowExceptIn,
+		private readonly ?string $errorIdentifier,
+		private readonly ?string $errorTip,
 	) {
-		$this->variable = $variable;
-		$this->message = $message;
-		$this->allowIn = $allowIn;
-		$this->allowExceptIn = $allowExceptIn;
-		$this->errorIdentifier = $errorIdentifier;
-		$this->errorTip = $errorTip;
 	}
 
 

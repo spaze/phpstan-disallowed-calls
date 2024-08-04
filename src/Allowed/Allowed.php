@@ -34,37 +34,17 @@ use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueSpecific;
 class Allowed
 {
 
-	/** @var Formatter */
-	private $formatter;
-
-	/** @var Normalizer */
-	private $normalizer;
-
-	/** @var AllowedPath */
-	private $allowedPath;
-
-	/** @var TypeStringResolver */
-	private $typeStringResolver;
-
-
 	public function __construct(
-		Formatter $formatter,
-		Normalizer $normalizer,
-		AllowedPath $allowedPath,
-		TypeStringResolver $typeStringResolver
+		private readonly Formatter $formatter,
+		private readonly Normalizer $normalizer,
+		private readonly AllowedPath $allowedPath,
+		private readonly TypeStringResolver $typeStringResolver,
 	) {
-		$this->formatter = $formatter;
-		$this->normalizer = $normalizer;
-		$this->allowedPath = $allowedPath;
-		$this->typeStringResolver = $typeStringResolver;
 	}
 
 
 	/**
-	 * @param Scope $scope
 	 * @param array<int, Arg>|null $args
-	 * @param DisallowedWithParams $disallowed
-	 * @return bool
 	 */
 	public function isAllowed(Scope $scope, ?array $args, DisallowedWithParams $disallowed): bool
 	{
@@ -115,11 +95,8 @@ class Allowed
 
 
 	/**
-	 * @param Scope $scope
 	 * @param array<int, Arg>|null $args
 	 * @param array<int|string, Param> $allowConfig
-	 * @param bool $paramsRequired
-	 * @return bool
 	 */
 	private function hasAllowedParams(Scope $scope, ?array $args, array $allowConfig, bool $paramsRequired): bool
 	{
@@ -141,7 +118,7 @@ class Allowed
 			foreach ($types as $type) {
 				try {
 					$disallowedParams = $disallowedParams || !$param->matches($type);
-				} catch (UnsupportedParamTypeException $e) {
+				} catch (UnsupportedParamTypeException) {
 					return !$paramsRequired;
 				}
 			}
@@ -151,10 +128,7 @@ class Allowed
 
 
 	/**
-	 * @param Scope $scope
 	 * @param array<int, Arg>|null $args
-	 * @param DisallowedWithParams $disallowed
-	 * @return bool
 	 */
 	private function hasAllowedParamsInAllowed(Scope $scope, ?array $args, DisallowedWithParams $disallowed): bool
 	{
@@ -170,9 +144,6 @@ class Allowed
 
 	/**
 	 * @param array<int, Arg> $args
-	 * @param Scope $scope
-	 * @param Param $param
-	 * @return Type|null
 	 */
 	private function getArgType(array $args, Scope $scope, Param $param): ?Type
 	{
@@ -190,9 +161,7 @@ class Allowed
 
 
 	/**
-	 * @param array $allowed
 	 * @phpstan-param AllowDirectivesConfig $allowed
-	 * @return AllowedConfig
 	 * @throws UnsupportedParamTypeInConfigException
 	 */
 	public function getConfig(array $allowed): AllowedConfig
@@ -248,7 +217,7 @@ class Allowed
 			$allowParamsInAllowed,
 			$allowParamsAnywhere,
 			$allowExceptParamsInAllowed,
-			$allowExceptParams
+			$allowExceptParams,
 		);
 	}
 
@@ -256,12 +225,11 @@ class Allowed
 	/**
 	 * @template T of ParamValue
 	 * @param class-string<T> $class
-	 * @param int|string $key
 	 * @param int|bool|string|null|array{position:int, value?:int|bool|string, typeString?:string, name?:string} $value
 	 * @return T
 	 * @throws UnsupportedParamTypeInConfigException
 	 */
-	private function paramFactory(string $class, $key, $value): ParamValue
+	private function paramFactory(string $class, int|string $key, int|bool|string|null|array $value): ParamValue
 	{
 		if (is_numeric($key)) {
 			if (is_array($value)) {

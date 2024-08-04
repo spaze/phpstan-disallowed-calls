@@ -14,6 +14,8 @@ use PhpParser\Node\Stmt\EnumCase;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
+use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedAttribute;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedAttributeFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedAttributeRuleErrors;
@@ -24,28 +26,21 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedAttributeRuleErrors;
 class AttributeUsages implements Rule
 {
 
-	/** @var DisallowedAttributeRuleErrors */
-	private $disallowedAttributeRuleErrors;
-
 	/** @var list<DisallowedAttribute> */
-	private $disallowedAttributes;
+	private readonly array $disallowedAttributes;
 
 	/** @var list<Attribute> */
-	private $attributes;
+	private array $attributes;
 
 
 	/**
-	 * @param DisallowedAttributeRuleErrors $disallowedAttributeRuleErrors
-	 * @param DisallowedAttributeFactory $disallowedAttributeFactory
-	 * @param array $disallowedAttributes
 	 * @phpstan-param DisallowedAttributesConfig $disallowedAttributes
 	 */
 	public function __construct(
-		DisallowedAttributeRuleErrors $disallowedAttributeRuleErrors,
+		private readonly DisallowedAttributeRuleErrors $disallowedAttributeRuleErrors,
 		DisallowedAttributeFactory $disallowedAttributeFactory,
-		array $disallowedAttributes
+		array $disallowedAttributes,
 	) {
-		$this->disallowedAttributeRuleErrors = $disallowedAttributeRuleErrors;
 		$this->disallowedAttributes = $disallowedAttributeFactory->createFromConfig($disallowedAttributes);
 	}
 
@@ -69,6 +64,10 @@ class AttributeUsages implements Rule
 	}
 
 
+	/**
+	 * @return list<RuleError>
+	 * @throws ShouldNotHappenException
+	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
 		$this->attributes = [];
@@ -92,7 +91,7 @@ class AttributeUsages implements Rule
 		foreach ($this->attributes as $attribute) {
 			$errors = array_merge(
 				$errors,
-				$this->disallowedAttributeRuleErrors->get($attribute, $scope, $this->disallowedAttributes)
+				$this->disallowedAttributeRuleErrors->get($attribute, $scope, $this->disallowedAttributes),
 			);
 		}
 		return $errors;

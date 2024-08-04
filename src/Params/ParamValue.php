@@ -8,29 +8,14 @@ use PHPStan\Type\Type;
 abstract class ParamValue implements Param
 {
 
-	/** @var ?int */
-	private $position;
-
-	/** @var ?string */
-	private $name;
-
-	/** @var Type */
-	private $type;
-
-
 	abstract public function matches(Type $type): bool;
 
 
-	/**
-	 * @param int|null $position
-	 * @param string|null $name
-	 * @param Type $type
-	 */
-	final public function __construct(?int $position, ?string $name, Type $type)
-	{
-		$this->position = $position;
-		$this->name = $name;
-		$this->type = $type;
+	final public function __construct(
+		private readonly ?int $position,
+		private readonly ?string $name,
+		private readonly Type $type,
+	) {
 	}
 
 

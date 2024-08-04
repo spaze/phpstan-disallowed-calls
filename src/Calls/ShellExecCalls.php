@@ -26,24 +26,20 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 class ShellExecCalls implements Rule
 {
 
-	/** @var DisallowedCallsRuleErrors */
-	private $disallowedCallsRuleErrors;
-
 	/** @var list<DisallowedCall> */
-	private $disallowedCalls;
+	private readonly array $disallowedCalls;
 
 
 	/**
-	 * @param DisallowedCallsRuleErrors $disallowedCallsRuleErrors
-	 * @param DisallowedCallFactory $disallowedCallFactory
-	 * @param array $forbiddenCalls
 	 * @phpstan-param ForbiddenCallsConfig $forbiddenCalls
 	 * @noinspection PhpUndefinedClassInspection ForbiddenCallsConfig is a type alias defined in PHPStan config
 	 * @throws ShouldNotHappenException
 	 */
-	public function __construct(DisallowedCallsRuleErrors $disallowedCallsRuleErrors, DisallowedCallFactory $disallowedCallFactory, array $forbiddenCalls)
-	{
-		$this->disallowedCallsRuleErrors = $disallowedCallsRuleErrors;
+	public function __construct(
+		private readonly DisallowedCallsRuleErrors $disallowedCallsRuleErrors,
+		DisallowedCallFactory $disallowedCallFactory,
+		array $forbiddenCalls,
+	) {
 		$this->disallowedCalls = $disallowedCallFactory->createFromConfig($forbiddenCalls);
 	}
 
@@ -67,7 +63,7 @@ class ShellExecCalls implements Rule
 			null,
 			$this->disallowedCalls,
 			ErrorIdentifiers::DISALLOWED_BACKTICK,
-			'Using the backtick operator (`...`) is forbidden because shell_exec() is forbidden%2$s%3$s'
+			'Using the backtick operator (`...`) is forbidden because shell_exec() is forbidden%2$s%3$s',
 		);
 	}
 

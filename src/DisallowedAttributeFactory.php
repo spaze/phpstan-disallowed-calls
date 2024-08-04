@@ -10,22 +10,14 @@ use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 class DisallowedAttributeFactory
 {
 
-	/** @var Allowed */
-	private $allowed;
-
-	/** @var Normalizer */
-	private $normalizer;
-
-
-	public function __construct(Allowed $allowed, Normalizer $normalizer)
-	{
-		$this->allowed = $allowed;
-		$this->normalizer = $normalizer;
+	public function __construct(
+		private readonly Allowed $allowed,
+		private readonly Normalizer $normalizer,
+	) {
 	}
 
 
 	/**
-	 * @param array $config
 	 * @phpstan-param DisallowedAttributesConfig $config
 	 * @return list<DisallowedAttribute>
 	 * @throws UnsupportedParamTypeInConfigException
@@ -46,7 +38,7 @@ class DisallowedAttributeFactory
 					$disallowed['message'] ?? null,
 					$this->allowed->getConfig($disallowed),
 					$disallowed['errorIdentifier'] ?? null,
-					$disallowed['errorTip'] ?? null
+					$disallowed['errorTip'] ?? null,
 				);
 				$disallowedAttributes[$disallowedAttribute->getAttribute()] = $disallowedAttribute;
 			}

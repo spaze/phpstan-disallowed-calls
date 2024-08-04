@@ -8,31 +8,6 @@ use Spaze\PHPStan\Rules\Disallowed\Params\Param;
 class AllowedConfig
 {
 
-	/** @var list<string> */
-	private $allowIn;
-
-	/** @var list<string> */
-	private $allowExceptIn;
-
-	/** @var list<string> */
-	private $allowInCalls;
-
-	/** @var list<string> */
-	private $allowExceptInCalls;
-
-	/** @var array<int|string, Param> */
-	private $allowParamsInAllowed;
-
-	/** @var array<int|string, Param> */
-	private $allowParamsAnywhere;
-
-	/** @var array<int|string, Param> */
-	private $allowExceptParamsInAllowed;
-
-	/** @var array<int|string, Param> */
-	private $allowExceptParams;
-
-
 	/**
 	 * @param list<string> $allowIn
 	 * @param list<string> $allowExceptIn
@@ -44,23 +19,15 @@ class AllowedConfig
 	 * @param array<int|string, Param> $allowExceptParams
 	 */
 	public function __construct(
-		array $allowIn,
-		array $allowExceptIn,
-		array $allowInCalls,
-		array $allowExceptInCalls,
-		array $allowParamsInAllowed,
-		array $allowParamsAnywhere,
-		array $allowExceptParamsInAllowed,
-		array $allowExceptParams
+		private readonly array $allowIn,
+		private readonly array $allowExceptIn,
+		private readonly array $allowInCalls,
+		private readonly array $allowExceptInCalls,
+		private readonly array $allowParamsInAllowed,
+		private readonly array $allowParamsAnywhere,
+		private readonly array $allowExceptParamsInAllowed,
+		private readonly array $allowExceptParams,
 	) {
-		$this->allowIn = $allowIn;
-		$this->allowExceptIn = $allowExceptIn;
-		$this->allowInCalls = $allowInCalls;
-		$this->allowExceptInCalls = $allowExceptInCalls;
-		$this->allowParamsInAllowed = $allowParamsInAllowed;
-		$this->allowParamsAnywhere = $allowParamsAnywhere;
-		$this->allowExceptParamsInAllowed = $allowExceptParamsInAllowed;
-		$this->allowExceptParams = $allowExceptParams;
 	}
 
 

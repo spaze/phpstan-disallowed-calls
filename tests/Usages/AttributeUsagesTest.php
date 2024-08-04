@@ -50,7 +50,7 @@ class AttributeUsagesTest extends RuleTestCase
 						],
 					],
 				],
-			]
+			],
 		);
 	}
 

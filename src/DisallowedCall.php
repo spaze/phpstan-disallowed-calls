@@ -8,53 +8,19 @@ use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedConfig;
 class DisallowedCall implements DisallowedWithParams
 {
 
-	/** @var string */
-	private $call;
-
-	/** @var list<string> */
-	private $excludes;
-
-	/** @var list<string> */
-	private $definedIn;
-
-	/** @var string|null */
-	private $message;
-
-	/** @var AllowedConfig */
-	private $allowedConfig;
-
-	/** @var string|null */
-	private $errorIdentifier;
-
-	/** @var string|null */
-	private $errorTip;
-
-
 	/**
-	 * @param string $call
 	 * @param list<string> $excludes
 	 * @param list<string> $definedIn
-	 * @param string|null $message
-	 * @param AllowedConfig $allowedConfig
-	 * @param string|null $errorIdentifier
-	 * @param string|null $errorTip
 	 */
 	public function __construct(
-		string $call,
-		array $excludes,
-		array $definedIn,
-		?string $message,
-		AllowedConfig $allowedConfig,
-		?string $errorIdentifier,
-		?string $errorTip
+		private readonly string $call,
+		private readonly array $excludes,
+		private readonly array $definedIn,
+		private readonly ?string $message,
+		private readonly AllowedConfig $allowedConfig,
+		private readonly ?string $errorIdentifier,
+		private readonly ?string $errorTip,
 	) {
-		$this->call = $call;
-		$this->excludes = $excludes;
-		$this->definedIn = $definedIn;
-		$this->message = $message;
-		$this->allowedConfig = $allowedConfig;
-		$this->errorIdentifier = $errorIdentifier;
-		$this->errorTip = $errorTip;
 	}
 
 

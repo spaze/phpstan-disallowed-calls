@@ -7,10 +7,7 @@ class Identifier
 {
 
 	/**
-	 * @param string $pattern
-	 * @param string $value
 	 * @param list<string> $excludes
-	 * @return bool
 	 */
 	public function matches(string $pattern, string $value, array $excludes): bool
 	{

@@ -33,7 +33,7 @@ class AttributeUsagesAllowInPathTest extends RuleTestCase
 						__DIR__ . '/../src/ClassWithAttributes.php',
 					],
 				],
-			]
+			],
 		);
 	}
 

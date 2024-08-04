@@ -33,7 +33,7 @@ class FunctionCallsTypeStringParamsInvalidFlagsConfigTest extends PHPStanTestCas
 						],
 					],
 				],
-			]
+			],
 		);
 	}
 

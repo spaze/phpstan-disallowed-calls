@@ -34,7 +34,7 @@ class FunctionCallsInMultipleNamespacesTest extends RuleTestCase
 				[
 					'function' => 'printf()',
 				],
-			]
+			],
 		);
 	}
 

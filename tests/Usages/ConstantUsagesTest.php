@@ -51,7 +51,7 @@ class ConstantUsagesTest extends RuleTestCase
 						__DIR__ . '/../src/disallowed/*.php',
 					],
 				],
-			]
+			],
 		);
 	}
 

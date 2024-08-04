@@ -89,7 +89,7 @@ class ClassConstantUsagesTest extends RuleTestCase
 						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
-			]
+			],
 		);
 	}
 

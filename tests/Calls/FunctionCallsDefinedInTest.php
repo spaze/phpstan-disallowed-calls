@@ -46,7 +46,7 @@ class FunctionCallsDefinedInTest extends RuleTestCase
 						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
-			]
+			],
 		);
 	}
 

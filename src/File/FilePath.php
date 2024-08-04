@@ -8,16 +8,13 @@ use PHPStan\File\FileHelper;
 class FilePath
 {
 
-	/** @var FileHelper */
-	private $fileHelper;
-
-	/** @var string|null */
-	private $rootDir;
+	private readonly ?string $rootDir;
 
 
-	public function __construct(FileHelper $fileHelper, ?string $rootDir = null)
-	{
-		$this->fileHelper = $fileHelper;
+	public function __construct(
+		private readonly FileHelper $fileHelper,
+		?string $rootDir = null,
+	) {
 		$this->rootDir = $rootDir !== null ? $this->fileHelper->normalizePath($fileHelper->absolutizePath($rootDir)) : null;
 	}
 
@@ -30,14 +27,10 @@ class FilePath
 
 	/**
 	 * Make path absolute unless it starts with a wildcard, then return as is.
-	 *
-	 * @param string $path
-	 * @param string|null $rootDir
-	 * @return string
 	 */
 	private function absolutizePath(string $path, ?string $rootDir): string
 	{
-		if (strpos($path, '*') === 0) {
+		if (str_starts_with($path, '*')) {
 			return $path;
 		}
 

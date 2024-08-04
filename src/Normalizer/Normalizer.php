@@ -30,7 +30,7 @@ class Normalizer
 
 	private function removeParentheses(string $element): string
 	{
-		return substr($element, -2) === '()' ? substr($element, 0, -2) : $element;
+		return str_ends_with($element, '()') ? substr($element, 0, -2) : $element;
 	}
 
 }

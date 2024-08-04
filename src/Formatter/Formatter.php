@@ -9,13 +9,9 @@ use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 class Formatter
 {
 
-	/** @var Normalizer */
-	private $normalizer;
-
-
-	public function __construct(Normalizer $normalizer)
-	{
-		$this->normalizer = $normalizer;
+	public function __construct(
+		private readonly Normalizer $normalizer,
+	) {
 	}
 
 

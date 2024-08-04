@@ -24,24 +24,20 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors;
 class StaticCalls implements Rule
 {
 
-	/** @var DisallowedMethodRuleErrors */
-	private $disallowedMethodRuleErrors;
-
 	/** @var list<DisallowedCall> */
-	private $disallowedCalls;
+	private readonly array $disallowedCalls;
 
 
 	/**
-	 * @param DisallowedMethodRuleErrors $disallowedMethodRuleErrors
-	 * @param DisallowedCallFactory $disallowedCallFactory
-	 * @param array $forbiddenCalls
 	 * @phpstan-param ForbiddenCallsConfig $forbiddenCalls
 	 * @noinspection PhpUndefinedClassInspection ForbiddenCallsConfig is a type alias defined in PHPStan config
 	 * @throws ShouldNotHappenException
 	 */
-	public function __construct(DisallowedMethodRuleErrors $disallowedMethodRuleErrors, DisallowedCallFactory $disallowedCallFactory, array $forbiddenCalls)
-	{
-		$this->disallowedMethodRuleErrors = $disallowedMethodRuleErrors;
+	public function __construct(
+		private readonly DisallowedMethodRuleErrors $disallowedMethodRuleErrors,
+		DisallowedCallFactory $disallowedCallFactory,
+		array $forbiddenCalls,
+	) {
 		$this->disallowedCalls = $disallowedCallFactory->createFromConfig($forbiddenCalls);
 	}
 
@@ -53,8 +49,6 @@ class StaticCalls implements Rule
 
 
 	/**
-	 * @param StaticCall $node
-	 * @param Scope $scope
 	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */

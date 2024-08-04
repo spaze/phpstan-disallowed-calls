@@ -10,13 +10,9 @@ use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
 class AllowedPath
 {
 
-	/** @var FilePath */
-	private $filePath;
-
-
-	public function __construct(FilePath $filePath)
-	{
-		$this->filePath = $filePath;
+	public function __construct(
+		private readonly FilePath $filePath,
+	) {
 	}
 
 

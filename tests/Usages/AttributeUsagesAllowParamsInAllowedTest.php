@@ -41,7 +41,7 @@ class AttributeUsagesAllowParamsInAllowedTest extends RuleTestCase
 						__DIR__ . '/../src/ClassWithAttributes.php',
 					],
 				],
-			]
+			],
 		);
 	}
 
