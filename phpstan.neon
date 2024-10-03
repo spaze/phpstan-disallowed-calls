@@ -13,6 +13,7 @@ parameters:
 
 includes:
 	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
+	- vendor/phpstan/phpstan-deprecation-rules/rules.neon
 	- extension.neon
 	- disallowed-dangerous-calls.neon
 	- disallowed-execution-calls.neon
