@@ -62,7 +62,7 @@ class Allowed
 
 	/**
 	 * @param Scope $scope
-	 * @param array<int, Arg>|null $args
+	 * @param array<Arg>|null $args
 	 * @param DisallowedWithParams $disallowed
 	 * @return bool
 	 */
@@ -116,7 +116,7 @@ class Allowed
 
 	/**
 	 * @param Scope $scope
-	 * @param array<int, Arg>|null $args
+	 * @param array<Arg>|null $args
 	 * @param array<int|string, Param> $allowConfig
 	 * @param bool $paramsRequired
 	 * @return bool
@@ -152,7 +152,7 @@ class Allowed
 
 	/**
 	 * @param Scope $scope
-	 * @param array<int, Arg>|null $args
+	 * @param array<Arg>|null $args
 	 * @param DisallowedWithParams $disallowed
 	 * @return bool
 	 */
@@ -169,7 +169,7 @@ class Allowed
 
 
 	/**
-	 * @param array<int, Arg> $args
+	 * @param array<Arg> $args
 	 * @param Scope $scope
 	 * @param Param $param
 	 * @return Type|null
