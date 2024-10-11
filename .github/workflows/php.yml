@@ -14,8 +14,6 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "7.2"
-          - "7.3"
           - "7.4"
           - "8.0"
           - "8.1"
@@ -27,10 +25,6 @@ jobs:
           - composer phpcs
           - composer phpstan
         exclude:
-          - php-version: "7.2"
-            run: composer lint
-          - php-version: "7.3"
-            run: composer lint
           - php-version: "7.4"
             run: composer lint
           - php-version: "8.0"
@@ -40,10 +34,6 @@ jobs:
           - php-version: "8.2"
             run: composer lint
         include:
-          - php-version: "7.2"
-            run: composer lint-7.x
-          - php-version: "7.3"
-            run: composer lint-7.x
           - php-version: "7.4"
             run: composer lint-7.x
           - php-version: "8.0"
@@ -115,8 +105,6 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "7.2"
-          - "7.3"
           - "7.4"
           - "8.0"
           - "8.1"
