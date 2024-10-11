@@ -24,14 +24,13 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedAttributeRuleErrors;
 class AttributeUsages implements Rule
 {
 
-	/** @var DisallowedAttributeRuleErrors */
-	private $disallowedAttributeRuleErrors;
+	private DisallowedAttributeRuleErrors $disallowedAttributeRuleErrors;
 
 	/** @var list<DisallowedAttribute> */
-	private $disallowedAttributes;
+	private array $disallowedAttributes;
 
 	/** @var list<Attribute> */
-	private $attributes;
+	private array $attributes;
 
 
 	/**

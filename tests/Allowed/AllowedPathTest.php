@@ -19,17 +19,13 @@ use Traits\TestTrait;
 class AllowedPathTest extends PHPStanTestCase
 {
 
-	/** @var AllowedPath */
-	private $allowedPath;
+	private AllowedPath $allowedPath;
 
-	/** @var AllowedPath */
-	private $allowedPathWithRootDir;
+	private AllowedPath $allowedPathWithRootDir;
 
-	/** @var ScopeFactory */
-	private $scopeFactory;
+	private ScopeFactory $scopeFactory;
 
-	/** @var ReflectionProvider */
-	private $reflectionProvider;
+	private ReflectionProvider $reflectionProvider;
 
 
 	protected function setUp(): void

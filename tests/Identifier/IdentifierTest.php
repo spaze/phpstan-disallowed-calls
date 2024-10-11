@@ -10,8 +10,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 class IdentifierTest extends PHPStanTestCase
 {
 
-	/** @var Identifier */
-	private $identifier;
+	private Identifier $identifier;
 
 
 	protected function setUp(): void

@@ -30,14 +30,12 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 class NamespaceUsages implements Rule
 {
 
-	/** @var DisallowedNamespaceRuleErrors */
-	private $disallowedNamespaceRuleErrors;
+	private DisallowedNamespaceRuleErrors $disallowedNamespaceRuleErrors;
 
 	/** @var list<DisallowedNamespace> */
-	private $disallowedNamespace;
+	private array $disallowedNamespace;
 
-	/** @var Normalizer */
-	private $normalizer;
+	private Normalizer $normalizer;
 
 
 	/**

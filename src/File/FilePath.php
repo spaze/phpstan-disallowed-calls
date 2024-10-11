@@ -8,11 +8,9 @@ use PHPStan\File\FileHelper;
 class FilePath
 {
 
-	/** @var FileHelper */
-	private $fileHelper;
+	private FileHelper $fileHelper;
 
-	/** @var string|null */
-	private $rootDir;
+	private ?string $rootDir;
 
 
 	public function __construct(FileHelper $fileHelper, ?string $rootDir = null)

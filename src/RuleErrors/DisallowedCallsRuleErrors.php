@@ -17,17 +17,13 @@ use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 class DisallowedCallsRuleErrors
 {
 
-	/** @var Allowed */
-	private $allowed;
+	private Allowed $allowed;
 
-	/** @var Identifier */
-	private $identifier;
+	private Identifier $identifier;
 
-	/** @var FilePath */
-	private $filePath;
+	private FilePath $filePath;
 
-	/** @var Formatter */
-	private $formatter;
+	private Formatter $formatter;
 
 
 	public function __construct(Allowed $allowed, Identifier $identifier, FilePath $filePath, Formatter $formatter)

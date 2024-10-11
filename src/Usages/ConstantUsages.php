@@ -23,11 +23,10 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 class ConstantUsages implements Rule
 {
 
-	/** @var DisallowedConstantRuleErrors */
-	private $disallowedConstantRuleError;
+	private DisallowedConstantRuleErrors $disallowedConstantRuleError;
 
 	/** @var list<DisallowedConstant> */
-	private $disallowedConstants;
+	private array $disallowedConstants;
 
 
 	/**

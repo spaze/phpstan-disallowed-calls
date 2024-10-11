@@ -14,11 +14,9 @@ use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 class DisallowedControlStructureRuleErrors
 {
 
-	/** @var AllowedPath */
-	private $allowedPath;
+	private AllowedPath $allowedPath;
 
-	/** @var Formatter */
-	private $formatter;
+	private Formatter $formatter;
 
 
 	public function __construct(AllowedPath $allowedPath, Formatter $formatter)

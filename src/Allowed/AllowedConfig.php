@@ -9,28 +9,28 @@ class AllowedConfig
 {
 
 	/** @var list<string> */
-	private $allowIn;
+	private array $allowIn;
 
 	/** @var list<string> */
-	private $allowExceptIn;
+	private array $allowExceptIn;
 
 	/** @var list<string> */
-	private $allowInCalls;
+	private array $allowInCalls;
 
 	/** @var list<string> */
-	private $allowExceptInCalls;
+	private array $allowExceptInCalls;
 
 	/** @var array<int|string, Param> */
-	private $allowParamsInAllowed;
+	private array $allowParamsInAllowed;
 
 	/** @var array<int|string, Param> */
-	private $allowParamsAnywhere;
+	private array $allowParamsAnywhere;
 
 	/** @var array<int|string, Param> */
-	private $allowExceptParamsInAllowed;
+	private array $allowExceptParamsInAllowed;
 
 	/** @var array<int|string, Param> */
-	private $allowExceptParams;
+	private array $allowExceptParams;
 
 
 	/**

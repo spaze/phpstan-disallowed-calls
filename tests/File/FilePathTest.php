@@ -11,11 +11,9 @@ use PHPUnit\Framework\Attributes\DataProvider;
 class FilePathTest extends PHPStanTestCase
 {
 
-	/** @var FilePath */
-	private $filePath;
+	private FilePath $filePath;
 
-	/** @var FilePath */
-	private $filePathWithRootDir;
+	private FilePath $filePathWithRootDir;
 
 
 	protected function setUp(): void

@@ -24,11 +24,10 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors;
 class MethodCalls implements Rule
 {
 
-	/** @var DisallowedMethodRuleErrors */
-	private $disallowedMethodRuleErrors;
+	private DisallowedMethodRuleErrors $disallowedMethodRuleErrors;
 
 	/** @var list<DisallowedCall> */
-	private $disallowedCalls;
+	private array $disallowedCalls;
 
 
 	/**

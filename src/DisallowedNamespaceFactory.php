@@ -9,8 +9,7 @@ use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 class DisallowedNamespaceFactory
 {
 
-	/** @var Normalizer */
-	private $normalizer;
+	private Normalizer $normalizer;
 
 
 	public function __construct(Normalizer $normalizer)

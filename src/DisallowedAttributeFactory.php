@@ -10,11 +10,9 @@ use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 class DisallowedAttributeFactory
 {
 
-	/** @var Allowed */
-	private $allowed;
+	private Allowed $allowed;
 
-	/** @var Normalizer */
-	private $normalizer;
+	private Normalizer $normalizer;
 
 
 	public function __construct(Allowed $allowed, Normalizer $normalizer)

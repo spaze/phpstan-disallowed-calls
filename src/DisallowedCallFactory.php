@@ -12,14 +12,11 @@ use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 class DisallowedCallFactory
 {
 
-	/** @var Formatter */
-	private $formatter;
+	private Formatter $formatter;
 
-	/** @var Normalizer */
-	private $normalizer;
+	private Normalizer $normalizer;
 
-	/** @var Allowed */
-	private $allowed;
+	private Allowed $allowed;
 
 
 	public function __construct(Formatter $formatter, Normalizer $normalizer, Allowed $allowed)

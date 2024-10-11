@@ -34,17 +34,13 @@ use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueSpecific;
 class Allowed
 {
 
-	/** @var Formatter */
-	private $formatter;
+	private Formatter $formatter;
 
-	/** @var Normalizer */
-	private $normalizer;
+	private Normalizer $normalizer;
 
-	/** @var AllowedPath */
-	private $allowedPath;
+	private AllowedPath $allowedPath;
 
-	/** @var TypeStringResolver */
-	private $typeStringResolver;
+	private TypeStringResolver $typeStringResolver;
 
 
 	public function __construct(

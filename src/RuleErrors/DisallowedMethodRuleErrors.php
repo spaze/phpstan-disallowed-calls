@@ -21,14 +21,11 @@ use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 class DisallowedMethodRuleErrors
 {
 
-	/** @var DisallowedCallsRuleErrors */
-	private $disallowedCallsRuleErrors;
+	private DisallowedCallsRuleErrors $disallowedCallsRuleErrors;
 
-	/** @var TypeResolver */
-	private $typeResolver;
+	private TypeResolver $typeResolver;
 
-	/** @var Formatter */
-	private $formatter;
+	private Formatter $formatter;
 
 
 	public function __construct(

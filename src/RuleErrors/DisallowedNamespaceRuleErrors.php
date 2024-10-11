@@ -14,14 +14,11 @@ use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 class DisallowedNamespaceRuleErrors
 {
 
-	/** @var AllowedPath */
-	private $allowedPath;
+	private AllowedPath $allowedPath;
 
-	/** @var Identifier */
-	private $identifier;
+	private Identifier $identifier;
 
-	/** @var Formatter */
-	private $formatter;
+	private Formatter $formatter;
 
 
 	public function __construct(AllowedPath $allowedPath, Identifier $identifier, Formatter $formatter)
