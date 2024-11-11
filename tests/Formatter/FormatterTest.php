@@ -8,8 +8,7 @@ use PHPStan\Testing\PHPStanTestCase;
 class FormatterTest extends PHPStanTestCase
 {
 
-	/** @var Formatter */
-	private $formatter;
+	private Formatter $formatter;
 
 
 	protected function setUp(): void

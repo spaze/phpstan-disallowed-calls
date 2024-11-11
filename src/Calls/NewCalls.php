@@ -26,11 +26,10 @@ class NewCalls implements Rule
 {
 	private const CONSTRUCT = '::__construct';
 
-	/** @var DisallowedCallsRuleErrors */
-	private $disallowedCallsRuleErrors;
+	private DisallowedCallsRuleErrors $disallowedCallsRuleErrors;
 
 	/** @var list<DisallowedCall> */
-	private $disallowedCalls;
+	private array $disallowedCalls;
 
 
 	/**

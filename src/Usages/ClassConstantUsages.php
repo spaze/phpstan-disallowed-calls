@@ -30,17 +30,14 @@ use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 class ClassConstantUsages implements Rule
 {
 
-	/** @var DisallowedConstantRuleErrors */
-	private $disallowedConstantRuleErrors;
+	private DisallowedConstantRuleErrors $disallowedConstantRuleErrors;
 
-	/** @var TypeResolver */
-	private $typeResolver;
+	private TypeResolver $typeResolver;
 
-	/** @var Formatter */
-	private $formatter;
+	private Formatter $formatter;
 
 	/** @var list<DisallowedConstant> */
-	private $disallowedConstants;
+	private array $disallowedConstants;
 
 
 	/**

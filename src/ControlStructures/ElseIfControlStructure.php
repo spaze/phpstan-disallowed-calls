@@ -23,11 +23,10 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 class ElseIfControlStructure implements Rule
 {
 
-	/** @var DisallowedControlStructureRuleErrors */
-	private $disallowedControlStructureRuleErrors;
+	private DisallowedControlStructureRuleErrors $disallowedControlStructureRuleErrors;
 
 	/** @var list<DisallowedControlStructure> */
-	private $disallowedControlStructures;
+	private array $disallowedControlStructures;
 
 
 	/**

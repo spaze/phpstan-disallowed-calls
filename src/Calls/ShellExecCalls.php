@@ -26,11 +26,10 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 class ShellExecCalls implements Rule
 {
 
-	/** @var DisallowedCallsRuleErrors */
-	private $disallowedCallsRuleErrors;
+	private DisallowedCallsRuleErrors $disallowedCallsRuleErrors;
 
 	/** @var list<DisallowedCall> */
-	private $disallowedCalls;
+	private array $disallowedCalls;
 
 
 	/**

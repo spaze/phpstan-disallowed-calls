@@ -22,11 +22,10 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 class ContinueControlStructure implements Rule
 {
 
-	/** @var DisallowedControlStructureRuleErrors */
-	private $disallowedControlStructureRuleErrors;
+	private DisallowedControlStructureRuleErrors $disallowedControlStructureRuleErrors;
 
 	/** @var list<DisallowedControlStructure> */
-	private $disallowedControlStructures;
+	private array $disallowedControlStructures;
 
 
 	/**

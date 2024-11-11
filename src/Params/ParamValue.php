@@ -8,14 +8,11 @@ use PHPStan\Type\Type;
 abstract class ParamValue implements Param
 {
 
-	/** @var ?int */
-	private $position;
+	private ?int $position;
 
-	/** @var ?string */
-	private $name;
+	private ?string $name;
 
-	/** @var Type */
-	private $type;
+	private Type $type;
 
 
 	abstract public function matches(Type $type): bool;

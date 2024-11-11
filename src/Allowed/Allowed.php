@@ -34,17 +34,13 @@ use Spaze\PHPStan\Rules\Disallowed\Params\ParamValueSpecific;
 class Allowed
 {
 
-	/** @var Formatter */
-	private $formatter;
+	private Formatter $formatter;
 
-	/** @var Normalizer */
-	private $normalizer;
+	private Normalizer $normalizer;
 
-	/** @var AllowedPath */
-	private $allowedPath;
+	private AllowedPath $allowedPath;
 
-	/** @var TypeStringResolver */
-	private $typeStringResolver;
+	private TypeStringResolver $typeStringResolver;
 
 
 	public function __construct(
@@ -62,7 +58,7 @@ class Allowed
 
 	/**
 	 * @param Scope $scope
-	 * @param array<int, Arg>|null $args
+	 * @param array<Arg>|null $args
 	 * @param DisallowedWithParams $disallowed
 	 * @return bool
 	 */
@@ -116,7 +112,7 @@ class Allowed
 
 	/**
 	 * @param Scope $scope
-	 * @param array<int, Arg>|null $args
+	 * @param array<Arg>|null $args
 	 * @param array<int|string, Param> $allowConfig
 	 * @param bool $paramsRequired
 	 * @return bool
@@ -152,7 +148,7 @@ class Allowed
 
 	/**
 	 * @param Scope $scope
-	 * @param array<int, Arg>|null $args
+	 * @param array<Arg>|null $args
 	 * @param DisallowedWithParams $disallowed
 	 * @return bool
 	 */
@@ -169,7 +165,7 @@ class Allowed
 
 
 	/**
-	 * @param array<int, Arg> $args
+	 * @param array<Arg> $args
 	 * @param Scope $scope
 	 * @param Param $param
 	 * @return Type|null

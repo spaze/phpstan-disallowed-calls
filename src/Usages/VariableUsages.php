@@ -21,11 +21,10 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedVariableRuleErrors;
 class VariableUsages implements Rule
 {
 
-	/** @var DisallowedVariableRuleErrors */
-	private $disallowedVariableRuleErrors;
+	private DisallowedVariableRuleErrors $disallowedVariableRuleErrors;
 
 	/** @var list<DisallowedVariable> */
-	private $disallowedVariables;
+	private array $disallowedVariables;
 
 
 	/**

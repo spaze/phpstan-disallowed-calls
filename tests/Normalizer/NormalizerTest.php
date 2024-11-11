@@ -9,8 +9,7 @@ use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 class NormalizerTest extends PHPStanTestCase
 {
 
-	/** @var Normalizer */
-	private $normalizer;
+	private Normalizer $normalizer;
 
 
 	protected function setUp(): void

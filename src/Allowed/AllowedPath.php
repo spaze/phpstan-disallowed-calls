@@ -10,8 +10,7 @@ use Spaze\PHPStan\Rules\Disallowed\File\FilePath;
 class AllowedPath
 {
 
-	/** @var FilePath */
-	private $filePath;
+	private FilePath $filePath;
 
 
 	public function __construct(FilePath $filePath)

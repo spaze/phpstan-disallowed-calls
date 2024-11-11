@@ -25,14 +25,12 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 class FunctionCalls implements Rule
 {
 
-	/** @var DisallowedCallsRuleErrors */
-	private $disallowedCallsRuleErrors;
+	private DisallowedCallsRuleErrors $disallowedCallsRuleErrors;
 
 	/** @var list<DisallowedCall> */
-	private $disallowedCalls;
+	private array $disallowedCalls;
 
-	/** @var ReflectionProvider */
-	private $reflectionProvider;
+	private ReflectionProvider $reflectionProvider;
 
 
 	/**

@@ -48,8 +48,7 @@ abstract class Option implements IteratorAggregate
  */
 final class None extends Option
 {
-	/** @var None|null */
-	private static $instance;
+	private static ?None $instance;
 
 	/**
 	 * @return None

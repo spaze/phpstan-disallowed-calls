@@ -8,23 +8,19 @@ use Spaze\PHPStan\Rules\Disallowed\Exceptions\NotImplementedYetException;
 class DisallowedVariable implements Disallowed
 {
 
-	/** @var string */
-	private $variable;
+	private string $variable;
 
-	/** @var string|null */
-	private $message;
+	private ?string $message;
 
 	/** @var list<string> */
-	private $allowIn;
+	private array $allowIn;
 
 	/** @var list<string> */
-	private $allowExceptIn;
+	private array $allowExceptIn;
 
-	/** @var string|null */
-	private $errorIdentifier;
+	private ?string $errorIdentifier;
 
-	/** @var string|null */
-	private $errorTip;
+	private ?string $errorTip;
 
 
 	/**

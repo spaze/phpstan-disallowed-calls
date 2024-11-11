@@ -8,23 +8,18 @@ use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedConfig;
 class DisallowedAttribute implements DisallowedWithParams
 {
 
-	/** @var string */
-	private $attribute;
+	private string $attribute;
 
 	/** @var list<string> */
-	private $excludes;
+	private array $excludes;
 
-	/** @var string|null */
-	private $message;
+	private ?string $message;
 
-	/** @var AllowedConfig */
-	private $allowedConfig;
+	private AllowedConfig $allowedConfig;
 
-	/** @var string|null */
-	private $errorIdentifier;
+	private ?string $errorIdentifier;
 
-	/** @var string|null */
-	private $errorTip;
+	private ?string $errorTip;
 
 
 	/**

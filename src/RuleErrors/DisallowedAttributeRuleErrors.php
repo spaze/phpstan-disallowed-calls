@@ -15,14 +15,11 @@ use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 class DisallowedAttributeRuleErrors
 {
 
-	/** @var Allowed */
-	private $allowed;
+	private Allowed $allowed;
 
-	/** @var Identifier */
-	private $identifier;
+	private Identifier $identifier;
 
-	/** @var Formatter */
-	private $formatter;
+	private Formatter $formatter;
 
 
 	public function __construct(Allowed $allowed, Identifier $identifier, Formatter $formatter)

@@ -14,12 +14,9 @@ use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 class DisallowedConstantRuleErrors
 {
 
+	private AllowedPath $allowedPath;
 
-	/** @var AllowedPath */
-	private $allowedPath;
-
-	/** @var Formatter */
-	private $formatter;
+	private Formatter $formatter;
 
 
 	public function __construct(AllowedPath $allowedPath, Formatter $formatter)
