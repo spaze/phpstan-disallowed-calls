@@ -24,6 +24,9 @@ jobs:
           - composer lint
           - composer phpcs
           - composer phpstan
+        update-options:
+          - ""
+          - "--prefer-lowest"
         exclude:
           - php-version: "7.4"
             run: composer lint
@@ -64,7 +67,7 @@ jobs:
       run: composer validate --strict --no-interaction
 
     - name: Install dependencies
-      run: composer update --no-progress --no-interaction
+      run: composer update --no-progress --no-interaction ${{ matrix.update-options }}
 
     - name: Run tests
       run: ${{ matrix.run }}
@@ -78,6 +81,9 @@ jobs:
           - "8.2"
           - "8.3"
           - "8.4"
+        update-options:
+          - ""
+          - "--prefer-lowest"
 
     steps:
       - uses: actions/checkout@v4
@@ -94,7 +100,7 @@ jobs:
           php -m
 
       - name: Install dependencies
-        run: composer update --no-progress --no-interaction
+        run: composer update --no-progress --no-interaction ${{ matrix.update-options }}
 
       - name: Run tests
         run: composer lint-neon
@@ -114,6 +120,9 @@ jobs:
         operating-system:
           - ubuntu-latest
           - windows-latest
+        update-options:
+          - ""
+          - "--prefer-lowest"
 
     steps:
       - uses: actions/checkout@v4
@@ -130,7 +139,7 @@ jobs:
           php -m
 
       - name: Install dependencies
-        run: composer update --no-progress --no-interaction
+        run: composer update --no-progress --no-interaction ${{ matrix.update-options }}
 
       - name: Run tests
         run: composer phpunit
