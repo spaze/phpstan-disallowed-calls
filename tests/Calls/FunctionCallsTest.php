@@ -7,6 +7,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
+use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 use Waldo\Quux\Blade;
 
@@ -23,6 +24,7 @@ class FunctionCallsTest extends RuleTestCase
 			$container->getByType(DisallowedCallsRuleErrors::class),
 			$container->getByType(DisallowedCallFactory::class),
 			$this->createReflectionProvider(),
+			$container->getByType(Normalizer::class),
 			[
 				[
 					'function' => '\var_dump()',
@@ -303,6 +305,38 @@ class FunctionCallsTest extends RuleTestCase
 			[
 				'Calling Foo\Bar\Waldo\config() is forbidden.',
 				91,
+			],
+			[
+				'Calling print_r() is forbidden, nope.',
+				102,
+			],
+			[
+				'Calling print_r() is forbidden, nope.',
+				103,
+			],
+			[
+				'Calling print_r() is forbidden, nope.',
+				106,
+			],
+			[
+				'Calling Print_R() is forbidden, nope. [Print_R() matches print_r()]',
+				107,
+			],
+			[
+				'Calling Foo\Bar\waldo() is forbidden, whoa, a namespace.',
+				110,
+			],
+			[
+				'Calling Foo\Bar\waldo() is forbidden, whoa, a namespace.',
+				111,
+			],
+			[
+				'Calling Foo\Bar\waldo() is forbidden, whoa, a namespace.',
+				114,
+			],
+			[
+				'Calling Foo\Bar\Waldo() is forbidden, whoa, a namespace. [Foo\Bar\Waldo() matches Foo\Bar\waldo()]',
+				115,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/functionCalls.php'], [

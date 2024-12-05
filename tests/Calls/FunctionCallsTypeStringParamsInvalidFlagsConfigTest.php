@@ -6,6 +6,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\PHPStanTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
+use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 
 class FunctionCallsTypeStringParamsInvalidFlagsConfigTest extends PHPStanTestCase
@@ -23,6 +24,7 @@ class FunctionCallsTypeStringParamsInvalidFlagsConfigTest extends PHPStanTestCas
 			$container->getByType(DisallowedCallsRuleErrors::class),
 			$container->getByType(DisallowedCallFactory::class),
 			$this->createReflectionProvider(),
+			$container->getByType(Normalizer::class),
 			[
 				[
 					'function' => '\Foo\Bar\Waldo\intParam1()',
