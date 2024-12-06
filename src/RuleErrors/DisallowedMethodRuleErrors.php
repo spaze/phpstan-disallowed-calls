@@ -57,7 +57,8 @@ class DisallowedMethodRuleErrors
 		if ($calledOnType->canCallMethods()->yes() && $calledOnType->hasMethod($node->name->name)->yes()) {
 			$method = $calledOnType->getMethod($node->name->name, $scope);
 			$declaringClass = $method->getDeclaringClass();
-			$classNames = $calledOnType->getObjectClassNames();
+			$classes = $calledOnType->getObjectClassReflections();
+			$classNames = array_map(fn($class): string => $class->isAnonymous() ? 'class@anonymous' : $class->getName(), $classes);
 			if (count($classNames) === 0) {
 				$calledAs = null;
 			} else {

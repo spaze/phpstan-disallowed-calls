@@ -72,3 +72,20 @@ $blade->runway();
 
 // allowed by path
 (new Interfaces\Implementation())->x();
+$foo = new class implements Interfaces\BaseInterface {
+
+	public function x(): void
+	{
+	}
+
+
+	public static function y(): void
+	{
+	}
+
+};
+$foo->x();
+
+// allowed by path
+$foo = new class extends Inheritance\Base {};
+$foo->x();

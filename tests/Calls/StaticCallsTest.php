@@ -177,6 +177,14 @@ class StaticCallsTest extends RuleTestCase
 				'Calling Interfaces\BaseInterface::y() (as Interfaces\Implementation::y()) is forbidden, method BaseInterface::y() is dangerous. [Interfaces\BaseInterface::y() matches Interfaces\BaseInterface::y*()]',
 				40,
 			],
+			[
+				'Calling Interfaces\BaseInterface::y() (as class@anonymous::y()) is forbidden, method BaseInterface::y() is dangerous. [Interfaces\BaseInterface::y() matches Interfaces\BaseInterface::y*()]',
+				53,
+			],
+			[
+				'Calling Inheritance\Base::woofer() (as class@anonymous::woofer()) is forbidden, method Base::woofer() is dangerous. [Inheritance\Base::woofer() matches Inheritance\Base::w*f*r()]',
+				57,
+			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/staticCalls.php'], [
 			[

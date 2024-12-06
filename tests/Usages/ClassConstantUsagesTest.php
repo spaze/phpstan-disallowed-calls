@@ -136,6 +136,10 @@ class ClassConstantUsagesTest extends RuleTestCase
 				'Using PhpOption\Option::NAME (as PhpOption\None::NAME) is forbidden, no PhpOption.',
 				37,
 			],
+			[
+				'Using Inheritance\Base::BELONG (as class@anonymous::BELONG) is forbidden, belong to us.',
+				44,
+			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/constantUsages.php'], []);
 	}

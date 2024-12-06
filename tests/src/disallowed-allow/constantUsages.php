@@ -38,3 +38,7 @@ $none::NAME;
 
 // not disallowed by path
 PHP_EOL;
+
+// allowed by path
+$foo = new class extends Base {};
+$foo::BELONG;

@@ -72,3 +72,20 @@ $blade->runway();
 
 // disallowed interface method
 (new Interfaces\Implementation())->x();
+$foo = new class implements Interfaces\BaseInterface {
+
+	public function x(): void
+	{
+	}
+
+
+	public static function y(): void
+	{
+	}
+
+};
+$foo->x();
+
+// disallowed parent method
+$foo = new class extends Inheritance\Base {};
+$foo->x();

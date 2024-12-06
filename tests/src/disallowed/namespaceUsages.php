@@ -50,4 +50,10 @@ class Service extends Base implements SomeInterface
 		return ZipArchive::EM_TRAD_PKWARE;
 	}
 
+
+	public function anonymousClass()
+	{
+		return new class extends Base {};
+	}
+
 }
