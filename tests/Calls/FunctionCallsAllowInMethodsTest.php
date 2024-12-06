@@ -7,6 +7,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
+use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 
 class FunctionCallsAllowInMethodsTest extends RuleTestCase
@@ -22,6 +23,7 @@ class FunctionCallsAllowInMethodsTest extends RuleTestCase
 			$container->getByType(DisallowedCallsRuleErrors::class),
 			$container->getByType(DisallowedCallFactory::class),
 			$this->createReflectionProvider(),
+			$container->getByType(Normalizer::class),
 			[
 				[
 					'function' => 'md5_file()',

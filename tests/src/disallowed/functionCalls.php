@@ -96,3 +96,20 @@ hash((new stdClass())->property . 'foo', 'NAH');
 
 // would match shell_* but is excluded
 shell_by();
+
+// disallowed
+$sneaky = 'print_r';
+$sneaky('foo');
+('print_r')('foo');
+
+$sneaky = '\print_r';
+$sneaky('foo');
+('\Print_R')('foo');
+
+$sneaky = 'Foo\Bar\waldo';
+$sneaky('foo');
+('Foo\Bar\waldo')('foo');
+
+$sneaky = '\Foo\Bar\waldo';
+$sneaky('foo');
+('\Foo\Bar\Waldo')('foo');

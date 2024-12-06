@@ -96,3 +96,20 @@ hash((new stdClass())->property . 'foo', 'NAH');
 
 // allowed by path
 shell_by();
+
+// allowed by path
+$sneaky = 'print_r';
+$sneaky('foo');
+('print_r')('foo');
+
+$sneaky = '\print_r';
+$sneaky('foo');
+('\Print_R')('foo');
+
+$sneaky = 'Foo\Bar\waldo';
+$sneaky('foo');
+('Foo\Bar\waldo')('foo');
+
+$sneaky = '\Foo\Bar\waldo';
+$sneaky('foo');
+('\Foo\Bar\Waldo')('foo');
