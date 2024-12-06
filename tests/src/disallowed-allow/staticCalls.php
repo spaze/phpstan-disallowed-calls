@@ -38,3 +38,20 @@ PhpOption\Some::create('value');
 
 // interface method allowed by path
 Interfaces\Implementation::y();
+$foo = new class implements Interfaces\BaseInterface {
+
+	public function x(): void
+	{
+	}
+
+
+	public static function y(): void
+	{
+	}
+
+};
+$foo::y();
+
+// allowed by path
+$foo = new class extends Inheritance\Base {};
+$foo::woofer();

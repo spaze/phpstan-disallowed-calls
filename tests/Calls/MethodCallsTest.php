@@ -213,6 +213,14 @@ class MethodCallsTest extends RuleTestCase
 				'Calling Interfaces\BaseInterface::x() (as Interfaces\Implementation::x()) is forbidden, BaseInterface::x*() methods are dangerous. [Interfaces\BaseInterface::x() matches Interfaces\BaseInterface::x*()]',
 				74,
 			],
+			[
+				'Calling Interfaces\BaseInterface::x() (as class@anonymous::x()) is forbidden, BaseInterface::x*() methods are dangerous. [Interfaces\BaseInterface::x() matches Interfaces\BaseInterface::x*()]',
+				87,
+			],
+			[
+				'Calling Inheritance\Base::x() (as class@anonymous::x()) is forbidden, Base::x*() methods are dangerous. [Inheritance\Base::x() matches Inheritance\Base::x*()]',
+				91,
+			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/methodCalls.php'], [
 			[

@@ -38,3 +38,20 @@ PhpOption\Some::create('value');
 
 // disallowed on interface
 Interfaces\Implementation::y();
+$foo = new class implements Interfaces\BaseInterface {
+
+	public function x(): void
+	{
+	}
+
+
+	public static function y(): void
+	{
+	}
+
+};
+$foo::y();
+
+// disallowed parent method
+$foo = new class extends Inheritance\Base {};
+$foo::woofer();
