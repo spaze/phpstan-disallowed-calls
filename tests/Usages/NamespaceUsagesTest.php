@@ -145,6 +145,10 @@ class NamespaceUsagesTest extends RuleTestCase
 				'Class ZipArchive is forbidden, use clippy instead of zippy.',
 				50,
 			],
+			[
+				'Namespace Inheritance\Base is forbidden, no inheritance sub base.',
+				56,
+			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/namespaceUsages.php'], []);
 	}
