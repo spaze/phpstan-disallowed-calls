@@ -55,3 +55,7 @@ $foo::y();
 // disallowed parent method
 $foo = new class extends Inheritance\Base {};
 $foo::woofer();
+
+$method = 'withCheese';
+Pulp\Royale::$method();
+Pulp\Royale::${'method'}();

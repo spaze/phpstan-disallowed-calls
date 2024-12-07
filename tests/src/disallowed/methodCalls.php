@@ -89,3 +89,8 @@ $foo->x();
 // disallowed parent method
 $foo = new class extends Inheritance\Base {};
 $foo->x();
+
+// disallowed dynamic method name
+$method = 'runner';
+$blade->$method(42, true, '909');
+$blade->${'method'}(42, true, '909');

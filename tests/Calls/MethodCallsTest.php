@@ -221,6 +221,14 @@ class MethodCallsTest extends RuleTestCase
 				'Calling Inheritance\Base::x() (as class@anonymous::x()) is forbidden, Base::x*() methods are dangerous. [Inheritance\Base::x() matches Inheritance\Base::x*()]',
 				91,
 			],
+			[
+				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe. [Waldo\Quux\Blade::runner() matches Waldo\Quux\Blade::run*()]",
+				95,
+			],
+			[
+				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe. [Waldo\Quux\Blade::runner() matches Waldo\Quux\Blade::run*()]",
+				96,
+			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/methodCalls.php'], [
 			[

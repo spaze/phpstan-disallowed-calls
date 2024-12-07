@@ -7,6 +7,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
@@ -49,13 +50,20 @@ class DisallowedMethodRuleErrors
 	 */
 	public function get($class, CallLike $node, Scope $scope, array $disallowedCalls): array
 	{
-		if (!isset($node->name) || !($node->name instanceof Identifier)) {
+		if ($node->name instanceof Identifier) {
+			$methodName = $node->name->name;
+		} elseif ($node->name instanceof Variable) {
+			$methodName = $this->typeResolver->getVariableStringValue($node->name, $scope);
+			if (!is_string($methodName)) {
+				return [];
+			}
+		} else {
 			return [];
 		}
 
 		$calledOnType = $this->typeResolver->getType($class, $scope);
-		if ($calledOnType->canCallMethods()->yes() && $calledOnType->hasMethod($node->name->name)->yes()) {
-			$method = $calledOnType->getMethod($node->name->name, $scope);
+		if ($calledOnType->canCallMethods()->yes() && $calledOnType->hasMethod($methodName)->yes()) {
+			$method = $calledOnType->getMethod($methodName, $scope);
 			$declaringClass = $method->getDeclaringClass();
 			$classes = $calledOnType->getObjectClassReflections();
 			$classNames = array_map(fn($class): string => $class->isAnonymous() ? 'class@anonymous' : $class->getName(), $classes);

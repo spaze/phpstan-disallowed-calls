@@ -8,6 +8,7 @@ use PHPStan\Testing\PHPStanTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
 class FunctionCallsUnsupportedParamConfigTest extends PHPStanTestCase
 {
@@ -25,6 +26,7 @@ class FunctionCallsUnsupportedParamConfigTest extends PHPStanTestCase
 			$container->getByType(DisallowedCallFactory::class),
 			$this->createReflectionProvider(),
 			$container->getByType(Normalizer::class),
+			$container->getByType(TypeResolver::class),
 			[
 				[
 					'function' => [

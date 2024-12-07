@@ -5,6 +5,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
@@ -17,6 +18,7 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
+use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
 /**
  * Reports on dynamically calling a disallowed function.
@@ -36,12 +38,15 @@ class FunctionCalls implements Rule
 
 	private Normalizer $normalizer;
 
+	private TypeResolver $typeResolver;
+
 
 	/**
 	 * @param DisallowedCallsRuleErrors $disallowedCallsRuleErrors
 	 * @param DisallowedCallFactory $disallowedCallFactory
 	 * @param ReflectionProvider $reflectionProvider
 	 * @param Normalizer $normalizer
+	 * @param TypeResolver $typeResolver
 	 * @param array $forbiddenCalls
 	 * @phpstan-param ForbiddenCallsConfig $forbiddenCalls
 	 * @noinspection PhpUndefinedClassInspection ForbiddenCallsConfig is a type alias defined in PHPStan config
@@ -52,12 +57,14 @@ class FunctionCalls implements Rule
 		DisallowedCallFactory $disallowedCallFactory,
 		ReflectionProvider $reflectionProvider,
 		Normalizer $normalizer,
+		TypeResolver $typeResolver,
 		array $forbiddenCalls
 	) {
 		$this->disallowedCallsRuleErrors = $disallowedCallsRuleErrors;
 		$this->disallowedCalls = $disallowedCallFactory->createFromConfig($forbiddenCalls);
 		$this->reflectionProvider = $reflectionProvider;
 		$this->normalizer = $normalizer;
+		$this->typeResolver = $typeResolver;
 	}
 
 
@@ -83,8 +90,8 @@ class FunctionCalls implements Rule
 			$names = [$namespacedName, $node->name];
 		} elseif ($node->name instanceof String_) {
 			$names = [new Name($this->normalizer->normalizeNamespace($node->name->value))];
-		} elseif ($node->name instanceof Node\Expr\Variable && is_string($node->name->name)) {
-			$value = $scope->getVariableType($node->name->name)->getConstantScalarValues()[0];
+		} elseif ($node->name instanceof Variable) {
+			$value = $this->typeResolver->getVariableStringValue($node->name, $scope);
 			if (!is_string($value)) {
 				return [];
 			}
