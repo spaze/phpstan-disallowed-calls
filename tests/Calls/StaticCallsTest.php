@@ -185,6 +185,14 @@ class StaticCallsTest extends RuleTestCase
 				'Calling Inheritance\Base::woofer() (as class@anonymous::woofer()) is forbidden, method Base::woofer() is dangerous. [Inheritance\Base::woofer() matches Inheritance\Base::w*f*r()]',
 				57,
 			],
+			[
+				'Calling Fiction\Pulp\Royale::withCheese() is forbidden, a Quarter Pounder with Cheese?',
+				60,
+			],
+			[
+				'Calling Fiction\Pulp\Royale::withCheese() is forbidden, a Quarter Pounder with Cheese?',
+				61,
+			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/staticCalls.php'], [
 			[

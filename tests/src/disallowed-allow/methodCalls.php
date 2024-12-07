@@ -89,3 +89,8 @@ $foo->x();
 // allowed by path
 $foo = new class extends Inheritance\Base {};
 $foo->x();
+
+// dynamic method name allowed by path and only with these params
+$method = 'runner';
+$blade->$method(42, true, '909');
+$blade->${'method'}(42, true, '909');
