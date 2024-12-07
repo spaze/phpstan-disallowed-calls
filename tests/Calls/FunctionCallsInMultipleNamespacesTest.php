@@ -9,6 +9,7 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
 class FunctionCallsInMultipleNamespacesTest extends RuleTestCase
 {
@@ -24,6 +25,7 @@ class FunctionCallsInMultipleNamespacesTest extends RuleTestCase
 			$container->getByType(DisallowedCallFactory::class),
 			$this->createReflectionProvider(),
 			$container->getByType(Normalizer::class),
+			$container->getByType(TypeResolver::class),
 			[
 				[
 					'function' => '__()',

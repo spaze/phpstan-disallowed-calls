@@ -9,6 +9,7 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 use Waldo\Quux\Blade;
 
 class FunctionCallsTest extends RuleTestCase
@@ -25,6 +26,7 @@ class FunctionCallsTest extends RuleTestCase
 			$container->getByType(DisallowedCallFactory::class),
 			$this->createReflectionProvider(),
 			$container->getByType(Normalizer::class),
+			$container->getByType(TypeResolver::class),
 			[
 				[
 					'function' => '\var_dump()',
@@ -335,8 +337,16 @@ class FunctionCallsTest extends RuleTestCase
 				114,
 			],
 			[
-				'Calling Foo\Bar\Waldo() is forbidden, whoa, a namespace. [Foo\Bar\Waldo() matches Foo\Bar\waldo()]',
+				'Calling Foo\Bar\waldo() is forbidden, whoa, a namespace.',
 				115,
+			],
+			[
+				'Calling Foo\Bar\waldo() is forbidden, whoa, a namespace.',
+				117,
+			],
+			[
+				'Calling Foo\Bar\Waldo() is forbidden, whoa, a namespace. [Foo\Bar\Waldo() matches Foo\Bar\waldo()]',
+				118,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/functionCalls.php'], [

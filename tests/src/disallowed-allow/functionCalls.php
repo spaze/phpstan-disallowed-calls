@@ -108,8 +108,11 @@ $sneaky('foo');
 
 $sneaky = 'Foo\Bar\waldo';
 $sneaky('foo');
-('Foo\Bar\waldo')('foo');
+${'sneaky'}('foo');
 
 $sneaky = '\Foo\Bar\waldo';
 $sneaky('foo');
+${'sneaky'}('foo');
+
+('Foo\Bar\waldo')('foo');
 ('\Foo\Bar\Waldo')('foo');
