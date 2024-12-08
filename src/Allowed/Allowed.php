@@ -181,7 +181,7 @@ class Allowed
 		if (!isset($found)) {
 			$found = $args[$param->getPosition() - 1] ?? null;
 		}
-		return isset($found) ? $scope->getType($found->value) : null;
+		return isset($found, $found->value) ? $scope->getType($found->value) : null;
 	}
 
 

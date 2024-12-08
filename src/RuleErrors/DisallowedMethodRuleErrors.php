@@ -17,6 +17,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
+use Spaze\PHPStan\Rules\Disallowed\PHPStan1Compatibility;
 use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
 class DisallowedMethodRuleErrors
@@ -62,6 +63,9 @@ class DisallowedMethodRuleErrors
 		}
 
 		$calledOnType = $this->typeResolver->getType($class, $scope);
+		if (PHPStan1Compatibility::isClassString($calledOnType)->yes()) {
+			$calledOnType = $calledOnType->getClassStringObjectType();
+		}
 		if ($calledOnType->canCallMethods()->yes() && $calledOnType->hasMethod($methodName)->yes()) {
 			$method = $calledOnType->getMethod($methodName, $scope);
 			$declaringClass = $method->getDeclaringClass();

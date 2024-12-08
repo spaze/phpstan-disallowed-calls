@@ -7,9 +7,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
-use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
-use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors;
 use Waldo\Quux\Blade;
 
 class FunctionCallsTest extends RuleTestCase
@@ -22,11 +20,8 @@ class FunctionCallsTest extends RuleTestCase
 	{
 		$container = self::getContainer();
 		return new FunctionCalls(
-			$container->getByType(DisallowedCallsRuleErrors::class),
+			$container->getByType(DisallowedFunctionRuleErrors::class),
 			$container->getByType(DisallowedCallFactory::class),
-			$this->createReflectionProvider(),
-			$container->getByType(Normalizer::class),
-			$container->getByType(TypeResolver::class),
 			[
 				[
 					'function' => '\var_dump()',
