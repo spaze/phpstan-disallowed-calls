@@ -4,8 +4,8 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\FunctionCallableNode;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
@@ -14,12 +14,12 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors;
 
 /**
- * Reports on dynamically calling a disallowed function.
+ * Reports on first class callable syntax for a disallowed method.
  *
  * @package Spaze\PHPStan\Rules\Disallowed
- * @implements Rule<FuncCall>
+ * @implements Rule<FunctionCallableNode>
  */
-class FunctionCalls implements Rule
+class FunctionFirstClassCallables implements Rule
 {
 
 	private DisallowedFunctionRuleErrors $disallowedFunctionRuleErrors;
@@ -48,19 +48,20 @@ class FunctionCalls implements Rule
 
 	public function getNodeType(): string
 	{
-		return FuncCall::class;
+		return FunctionCallableNode::class;
 	}
 
 
 	/**
-	 * @param FuncCall $node
+	 * @param FunctionCallableNode $node
 	 * @param Scope $scope
 	 * @return list<IdentifierRuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedFunctionRuleErrors->get($node, $scope, $this->disallowedCalls);
+		$originalNode = $node->getOriginalNode();
+		return $this->disallowedFunctionRuleErrors->get($originalNode, $scope, $this->disallowedCalls);
 	}
 
 }

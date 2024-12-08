@@ -62,6 +62,9 @@ class DisallowedMethodRuleErrors
 		}
 
 		$calledOnType = $this->typeResolver->getType($class, $scope);
+		if ($calledOnType->isClassString()->yes()) {
+			$calledOnType = $calledOnType->getClassStringObjectType();
+		}
 		if ($calledOnType->canCallMethods()->yes() && $calledOnType->hasMethod($methodName)->yes()) {
 			$method = $calledOnType->getMethod($methodName, $scope);
 			$declaringClass = $method->getDeclaringClass();

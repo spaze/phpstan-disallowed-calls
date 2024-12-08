@@ -6,10 +6,11 @@ namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors;
 
-class FunctionCallsAllowInMethodsTest extends RuleTestCase
+class FunctionFirstClassCallablesTest extends RuleTestCase
 {
 
 	/**
@@ -18,29 +19,16 @@ class FunctionCallsAllowInMethodsTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		$container = self::getContainer();
-		return new FunctionCalls(
+		return new FunctionFirstClassCallables(
 			$container->getByType(DisallowedFunctionRuleErrors::class),
 			$container->getByType(DisallowedCallFactory::class),
 			[
 				[
-					'function' => 'md5_file()',
-					'allowInMethods' => [
-						'\\Fiction\\Pulp\\Royale::withB*dCheese()',
-					],
-				],
-				[
-					'function' => 'sha1_file()',
-					'allowInFunctions' => [
-						'\\Fiction\\Pulp\\Royale::WithoutCheese()',
-					],
-					'allowParamsInAllowed' => [
-						2 => true,
-					],
-				],
-				[
-					'function' => 'sha1()',
-					'allowExceptInFunctions' => [
-						'\\Fiction\\Pulp\\Royale::__construct()',
+					'function' => 'print_r()',
+					'message' => 'nope',
+					'allowIn' => [
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
 					],
 				],
 			]
@@ -48,17 +36,23 @@ class FunctionCallsAllowInMethodsTest extends RuleTestCase
 	}
 
 
+	/**
+	 * @requires PHP >= 8.1
+	 */
+	#[RequiresPhp('>= 8.1')]
 	public function testRule(): void
 	{
 		// Based on the configuration above, in this file:
-		$this->analyse([__DIR__ . '/../src/Royale.php'], [
+		$this->analyse([__DIR__ . '/../src/disallowed/firstClassCallable.php'], [
 			[
 				// expect this error message:
-				'Calling sha1() is forbidden.',
+				'Calling print_r() is forbidden, nope.',
 				// on this line:
-				11,
+				6,
 			],
 		]);
+		// Based on the configuration above, no errors in this file:
+		$this->analyse([__DIR__ . '/../src/disallowed-allow/firstClassCallable.php'], []);
 	}
 
 

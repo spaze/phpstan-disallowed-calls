@@ -6,9 +6,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\PHPStanTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
-use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
-use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors;
 
 class FunctionCallsUnsupportedParamConfigTest extends PHPStanTestCase
 {
@@ -22,11 +20,8 @@ class FunctionCallsUnsupportedParamConfigTest extends PHPStanTestCase
 		$this->expectExceptionMessage('{foo(),bar()}: Parameter #2 $definitelyNotScalar has an unsupported type array specified in configuration');
 		$container = self::getContainer();
 		new FunctionCalls(
-			$container->getByType(DisallowedCallsRuleErrors::class),
+			$container->getByType(DisallowedFunctionRuleErrors::class),
 			$container->getByType(DisallowedCallFactory::class),
-			$this->createReflectionProvider(),
-			$container->getByType(Normalizer::class),
-			$container->getByType(TypeResolver::class),
 			[
 				[
 					'function' => [

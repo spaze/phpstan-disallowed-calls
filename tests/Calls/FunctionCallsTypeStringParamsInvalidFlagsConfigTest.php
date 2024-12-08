@@ -6,9 +6,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\PHPStanTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
-use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
-use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors;
 
 class FunctionCallsTypeStringParamsInvalidFlagsConfigTest extends PHPStanTestCase
 {
@@ -22,11 +20,8 @@ class FunctionCallsTypeStringParamsInvalidFlagsConfigTest extends PHPStanTestCas
 		$this->expectExceptionMessage("Foo\Bar\Waldo\intParam1(): Parameter #1 has an unsupported type string of 2|'bruh' specified in configuration");
 		$container = self::getContainer();
 		new FunctionCalls(
-			$container->getByType(DisallowedCallsRuleErrors::class),
+			$container->getByType(DisallowedFunctionRuleErrors::class),
 			$container->getByType(DisallowedCallFactory::class),
-			$this->createReflectionProvider(),
-			$container->getByType(Normalizer::class),
-			$container->getByType(TypeResolver::class),
 			[
 				[
 					'function' => '\Foo\Bar\Waldo\intParam1()',
