@@ -10,6 +10,9 @@ parameters:
 		ForbiddenCallsConfig: 'array<array{function?:string|list<string>, method?:string|list<string>, exclude?:string|list<string>, definedIn?:string|list<string>, message?:string, %typeAliases.AllowDirectives%, errorIdentifier?:string, errorTip?:string}>'
 		DisallowedAttributesConfig: 'array<array{attribute:string|list<string>, exclude?:string|list<string>, message?:string, %typeAliases.AllowDirectives%, errorIdentifier?:string, errorTip?:string}>'
 		AllowDirectivesConfig: 'array{%typeAliases.AllowDirectives%}'
+	excludePaths:
+		analyse:
+			- src/PHPStan1Compatibility.php
 
 includes:
 	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
