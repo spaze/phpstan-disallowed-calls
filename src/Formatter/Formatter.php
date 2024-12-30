@@ -32,12 +32,13 @@ class Formatter
 	{
 		if (count($identifiers) === 1) {
 			return $this->normalizer->normalizeNamespace($identifiers[0]);
-		} else {
-			array_walk($identifiers, function (string &$identifier): void {
-				$identifier = $this->normalizer->normalizeNamespace($identifier);
-			});
-			return '{' . implode(',', $identifiers) . '}';
 		}
+
+		array_walk($identifiers, function (string &$identifier): void {
+			$identifier = $this->normalizer->normalizeNamespace($identifier);
+		});
+
+		return '{' . implode(',', $identifiers) . '}';
 	}
 
 

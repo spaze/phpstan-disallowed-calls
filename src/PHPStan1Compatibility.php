@@ -22,10 +22,10 @@ class PHPStan1Compatibility
 		if (method_exists($type, 'isClassStringType')) {
 			// PHPStan 1.x
 			return $type->isClassStringType();
-		} else {
-			// PHPStan 2.x
-			return $type->isClassString();
 		}
+
+		// PHPStan 2.x
+		return $type->isClassString();
 	}
 
 }
