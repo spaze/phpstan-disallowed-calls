@@ -88,16 +88,16 @@ class NewCalls implements Rule
 			}
 			$definedIn = $reflection ? $reflection->getFileName() : null;
 
-			foreach ($names as $name) {
-				$name .= self::CONSTRUCT;
-				$errors = array_merge(
-					$errors,
-					$this->disallowedCallsRuleErrors->get($node, $scope, $name, $type->getClassName() . self::CONSTRUCT, $definedIn, $this->disallowedCalls, ErrorIdentifiers::DISALLOWED_NEW)
-				);
-			}
+			$errors = array_map(
+				function ($name) use ($node, $scope, $type, $definedIn) {
+					$name .= self::CONSTRUCT;
+					return $this->disallowedCallsRuleErrors->get($node, $scope, $name, $type->getClassName() . self::CONSTRUCT, $definedIn, $this->disallowedCalls, ErrorIdentifiers::DISALLOWED_NEW);
+				},
+				$names
+			);
 		}
 
-		return $errors;
+		return array_merge(...$errors);
 	}
 
 }

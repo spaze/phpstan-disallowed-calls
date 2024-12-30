@@ -123,21 +123,18 @@ class NamespaceUsages implements Rule
 			return [];
 		}
 
-		$errors = [];
-		foreach ($namespaces as $namespace) {
-			$errors = array_merge(
-				$errors,
-				$this->disallowedNamespaceRuleErrors->getDisallowedMessage(
-					$this->normalizer->normalizeNamespace($namespace),
-					$description ?? 'Namespace',
-					$scope,
-					$this->disallowedNamespace,
-					$identifier ?? $identifier = ErrorIdentifiers::DISALLOWED_NAMESPACE
-				)
-			);
-		}
+		$errors = array_map(
+			fn ($namespace) => $this->disallowedNamespaceRuleErrors->getDisallowedMessage(
+				$this->normalizer->normalizeNamespace($namespace),
+				$description ?? 'Namespace',
+				$scope,
+				$this->disallowedNamespace,
+				$identifier ?? ErrorIdentifiers::DISALLOWED_NAMESPACE
+			),
+			$namespaces
+		);
 
-		return $errors;
+		return array_merge(...$errors);
 	}
 
 }

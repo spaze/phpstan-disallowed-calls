@@ -87,14 +87,13 @@ class AttributeUsages implements Rule
 			return [];
 		}
 
-		$errors = [];
-		foreach ($this->attributes as $attribute) {
-			$errors = array_merge(
-				$errors,
-				$this->disallowedAttributeRuleErrors->get($attribute, $scope, $this->disallowedAttributes)
-			);
-		}
-		return $errors;
+
+		$errors = array_map(
+			fn($attribute) => $this->disallowedAttributeRuleErrors->get($attribute, $scope, $this->disallowedAttributes),
+			$this->attributes
+		);
+
+		return array_merge(...$errors);
 	}
 
 }
