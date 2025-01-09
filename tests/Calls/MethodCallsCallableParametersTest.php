@@ -31,28 +31,56 @@ class MethodCallsCallableParametersTest extends RuleTestCase
 			[
 				[
 					'function' => 'var_dump()',
+					'allowIn' => [
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
+					],
 				],
 			],
 			[
 				[
 					'method' => 'Callbacks::call()',
+					'allowIn' => [
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
+					],
 				],
 				[
 					'method' => 'CallbacksInterface::interfaceCall()',
+					'allowIn' => [
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
+					],
 				],
 				[
 					'method' => 'CallbacksTrait::traitCall()',
+					'allowIn' => [
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
+					],
 				],
 			],
 			[
 				[
 					'method' => 'Callbacks::staticCall()',
+					'allowIn' => [
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
+					],
 				],
 				[
 					'method' => 'CallbacksInterface::interfaceStaticCall()',
+					'allowIn' => [
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
+					],
 				],
 				[
 					'method' => 'CallbacksTrait::traitStaticCall()',
+					'allowIn' => [
+						__DIR__ . '/../src/disallowed-allow/*.php',
+						__DIR__ . '/../src/*-allow/*.*',
+					],
 				],
 			],
 		);
@@ -216,6 +244,8 @@ class MethodCallsCallableParametersTest extends RuleTestCase
 				163,
 			],
 		]);
+		// Based on the configuration above, no errors in this file:
+		$this->analyse([__DIR__ . '/../src/disallowed-allow/callableParameters.php'], []);
 	}
 
 
