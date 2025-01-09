@@ -13,6 +13,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallableParameterRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 
@@ -24,9 +25,11 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
  */
 class NewCalls implements Rule
 {
-	private const CONSTRUCT = '::__construct';
+	public const CONSTRUCT = '__construct';
 
 	private DisallowedCallsRuleErrors $disallowedCallsRuleErrors;
+
+	private DisallowedCallableParameterRuleErrors $disallowedCallableParameterRuleErrors;
 
 	/** @var list<DisallowedCall> */
 	private array $disallowedCalls;
@@ -34,15 +37,21 @@ class NewCalls implements Rule
 
 	/**
 	 * @param DisallowedCallsRuleErrors $disallowedCallsRuleErrors
+	 * @param DisallowedCallableParameterRuleErrors $disallowedCallableParameterRuleErrors
 	 * @param DisallowedCallFactory $disallowedCallFactory
 	 * @param array $forbiddenCalls
 	 * @phpstan-param ForbiddenCallsConfig $forbiddenCalls
 	 * @noinspection PhpUndefinedClassInspection ForbiddenCallsConfig is a type alias defined in PHPStan config
 	 * @throws ShouldNotHappenException
 	 */
-	public function __construct(DisallowedCallsRuleErrors $disallowedCallsRuleErrors, DisallowedCallFactory $disallowedCallFactory, array $forbiddenCalls)
-	{
+	public function __construct(
+		DisallowedCallsRuleErrors $disallowedCallsRuleErrors,
+		DisallowedCallableParameterRuleErrors $disallowedCallableParameterRuleErrors,
+		DisallowedCallFactory $disallowedCallFactory,
+		array $forbiddenCalls
+	) {
 		$this->disallowedCallsRuleErrors = $disallowedCallsRuleErrors;
+		$this->disallowedCallableParameterRuleErrors = $disallowedCallableParameterRuleErrors;
 		$this->disallowedCalls = $disallowedCallFactory->createFromConfig($forbiddenCalls);
 	}
 
@@ -89,11 +98,11 @@ class NewCalls implements Rule
 			$definedIn = $reflection ? $reflection->getFileName() : null;
 
 			foreach ($names as $name) {
-				$name .= self::CONSTRUCT;
-				$errors = array_merge(
-					$errors,
-					$this->disallowedCallsRuleErrors->get($node, $scope, $name, $type->getClassName() . self::CONSTRUCT, $definedIn, $this->disallowedCalls, ErrorIdentifiers::DISALLOWED_NEW)
-				);
+				$ruleErrors = $this->disallowedCallsRuleErrors->get($node, $scope, $name . '::' . self::CONSTRUCT, $type->getClassName() . '::' . self::CONSTRUCT, $definedIn, $this->disallowedCalls, ErrorIdentifiers::DISALLOWED_NEW);
+				$paramErrors = $this->disallowedCallableParameterRuleErrors->getForConstructor(new Name($name), $node, $scope);
+				if ($errors || $ruleErrors || $paramErrors) {
+					$errors = array_merge($errors, $ruleErrors, $paramErrors);
+				}
 			}
 		}
 

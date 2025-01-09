@@ -7,6 +7,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\ArgumentsNormalizer;
@@ -18,6 +19,7 @@ use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\TypeCombinator;
+use Spaze\PHPStan\Rules\Disallowed\Calls\NewCalls;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\PHPStan1Compatibility;
@@ -107,6 +109,34 @@ class DisallowedCallableParameterRuleErrors
 	 */
 	public function getForMethod($class, CallLike $node, Scope $scope): array
 	{
+		$names = $this->typeResolver->getNamesFromCall($node, $scope);
+		return $this->getForMethods($class, $names, $node, $scope);
+	}
+
+
+	/**
+	 * @param Name|Expr $class
+	 * @param New_ $node
+	 * @param Scope $scope
+	 * @return list<IdentifierRuleError>
+	 * @throws ShouldNotHappenException
+	 */
+	public function getForConstructor($class, New_ $node, Scope $scope): array
+	{
+		return $this->getForMethods($class, [new Name(NewCalls::CONSTRUCT)], $node, $scope);
+	}
+
+
+	/**
+	 * @param Name|Expr $class
+	 * @param list<Name> $names
+	 * @param CallLike $node
+	 * @param Scope $scope
+	 * @return list<IdentifierRuleError>
+	 * @throws ShouldNotHappenException
+	 */
+	public function getForMethods($class, array $names, CallLike $node, Scope $scope): array
+	{
 		$ruleErrors = [];
 		$classType = $this->typeResolver->getType($class, $scope);
 		if (PHPStan1Compatibility::isClassString($classType)->yes()) {
@@ -117,7 +147,7 @@ class DisallowedCallableParameterRuleErrors
 				continue;
 			}
 			$classReflection = $this->reflectionProvider->getClass($className);
-			foreach ($this->typeResolver->getNamesFromCall($node, $scope) as $name) {
+			foreach ($names as $name) {
 				if (!$classReflection->hasMethod($name->toString())) {
 					continue;
 				}
@@ -134,7 +164,7 @@ class DisallowedCallableParameterRuleErrors
 
 	/**
 	 * @param Scope $scope
-	 * @param FuncCall|MethodCall|StaticCall $node
+	 * @param CallLike $node
 	 * @param ExtendedMethodReflection|FunctionReflection $reflection
 	 * @return list<IdentifierRuleError>
 	 * @throws ShouldNotHappenException

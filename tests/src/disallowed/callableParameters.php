@@ -166,3 +166,31 @@ CallableParams::staticCall([$callbacksPlusPlus, 'interfaceCall']);
 CallableParams::staticCall([$callbacksPlusPlus, 'interfaceStaticCall']);
 CallableParams::staticCall([$callbacksPlusPlus, 'traitCall']);
 CallableParams::staticCall([CallbacksPlusPlus::class, 'traitStaticCall']);
+
+class ConstructorCallable
+{
+	public function __construct(?callable $callback, ?string $string = null) {}
+}
+
+// disallowed callable params in constructors
+new ConstructorCallable('var_dump');
+new ConstructorCallable($varDump);
+new ConstructorCallable(string: null, callback: $varDump);
+new ConstructorCallable([$callbacks, 'call']);
+new ConstructorCallable([$callbacks, $call]);
+new ConstructorCallable([new Callbacks, $call]);
+new ConstructorCallable([$callbacks2, 'call']);
+new ConstructorCallable([$callbacks2, $call]);
+new ConstructorCallable([new Callbacks2, $call]);
+new ConstructorCallable(['Callbacks', 'staticCall']);
+new ConstructorCallable(['Callbacks', $staticCall]);
+new ConstructorCallable([Callbacks::class, 'staticCall']);
+new ConstructorCallable([Callbacks::class, $staticCall]);
+new ConstructorCallable(['Callbacks2', 'staticCall']);
+new ConstructorCallable(['Callbacks2', $staticCall]);
+new ConstructorCallable([Callbacks2::class, 'staticCall']);
+new ConstructorCallable([Callbacks2::class, $staticCall]);
+
+// not a callable param
+new ConstructorCallable(null, 'var_dump');
+new ConstructorCallable(string: $varDump, callback: null);
