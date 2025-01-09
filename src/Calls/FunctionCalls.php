@@ -11,6 +11,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallableParameterRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors;
 
 /**
@@ -24,12 +25,15 @@ class FunctionCalls implements Rule
 
 	private DisallowedFunctionRuleErrors $disallowedFunctionRuleErrors;
 
+	private DisallowedCallableParameterRuleErrors $disallowedCallableParameterRuleErrors;
+
 	/** @var list<DisallowedCall> */
 	private array $disallowedCalls;
 
 
 	/**
 	 * @param DisallowedFunctionRuleErrors $disallowedFunctionRuleErrors
+	 * @param DisallowedCallableParameterRuleErrors $disallowedCallableParameterRuleErrors
 	 * @param DisallowedCallFactory $disallowedCallFactory
 	 * @param array $forbiddenCalls
 	 * @phpstan-param ForbiddenCallsConfig $forbiddenCalls
@@ -38,10 +42,12 @@ class FunctionCalls implements Rule
 	 */
 	public function __construct(
 		DisallowedFunctionRuleErrors $disallowedFunctionRuleErrors,
+		DisallowedCallableParameterRuleErrors $disallowedCallableParameterRuleErrors,
 		DisallowedCallFactory $disallowedCallFactory,
 		array $forbiddenCalls
 	) {
 		$this->disallowedFunctionRuleErrors = $disallowedFunctionRuleErrors;
+		$this->disallowedCallableParameterRuleErrors = $disallowedCallableParameterRuleErrors;
 		$this->disallowedCalls = $disallowedCallFactory->createFromConfig($forbiddenCalls);
 	}
 
@@ -60,7 +66,9 @@ class FunctionCalls implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedFunctionRuleErrors->get($node, $scope, $this->disallowedCalls);
+		$errors = $this->disallowedFunctionRuleErrors->get($node, $scope, $this->disallowedCalls);
+		$paramErrors = $this->disallowedCallableParameterRuleErrors->getForFunction($node, $scope);
+		return $errors || $paramErrors ? array_merge($errors, $paramErrors) : [];
 	}
 
 }

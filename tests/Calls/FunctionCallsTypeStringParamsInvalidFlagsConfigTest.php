@@ -6,6 +6,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\PHPStanTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallableParameterRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors;
 
 class FunctionCallsTypeStringParamsInvalidFlagsConfigTest extends PHPStanTestCase
@@ -21,6 +22,7 @@ class FunctionCallsTypeStringParamsInvalidFlagsConfigTest extends PHPStanTestCas
 		$container = self::getContainer();
 		new FunctionCalls(
 			$container->getByType(DisallowedFunctionRuleErrors::class),
+			$container->getByType(DisallowedCallableParameterRuleErrors::class),
 			$container->getByType(DisallowedCallFactory::class),
 			[
 				[

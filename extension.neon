@@ -252,6 +252,7 @@ services:
 	- Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier
 	- Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedAttributeRuleErrors
+	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallableParameterRuleErrors(forbiddenFunctionCalls: %disallowedFunctionCalls%, forbiddenMethodCalls: %disallowedMethodCalls%, forbiddenStaticCalls: %disallowedStaticCalls%)
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedControlStructureRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors

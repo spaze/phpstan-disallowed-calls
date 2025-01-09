@@ -7,14 +7,13 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
-use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Rules\RuleError;
+use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\ShouldNotHappenException;
+use PHPStan\Type\Type;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\PHPStan1Compatibility;
@@ -46,59 +45,86 @@ class DisallowedMethodRuleErrors
 	 * @param MethodCall|StaticCall $node
 	 * @param Scope $scope
 	 * @param list<DisallowedCall> $disallowedCalls
-	 * @return list<RuleError>
+	 * @return list<IdentifierRuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	public function get($class, CallLike $node, Scope $scope, array $disallowedCalls): array
 	{
-		if ($node->name instanceof Identifier) {
-			$methodName = $node->name->name;
-		} elseif ($node->name instanceof Variable) {
-			$methodName = $this->typeResolver->getVariableStringValue($node->name, $scope);
-			if (!is_string($methodName)) {
-				return [];
-			}
-		} else {
-			return [];
-		}
-
 		$calledOnType = $this->typeResolver->getType($class, $scope);
 		if (PHPStan1Compatibility::isClassString($calledOnType)->yes()) {
 			$calledOnType = $calledOnType->getClassStringObjectType();
 		}
-		if ($calledOnType->canCallMethods()->yes() && $calledOnType->hasMethod($methodName)->yes()) {
-			$method = $calledOnType->getMethod($methodName, $scope);
-			$declaringClass = $method->getDeclaringClass();
-			$classes = $calledOnType->getObjectClassReflections();
-			$classNames = array_map(fn($class): string => $class->isAnonymous() ? 'class@anonymous' : $class->getName(), $classes);
-			if (count($classNames) === 0) {
-				$calledAs = null;
-			} else {
-				$calledAs = $this->formatter->getFullyQualified($this->formatter->formatIdentifier($classNames), $method);
+		$errors = [];
+		foreach ($this->typeResolver->getNamesFromCall($node, $scope) as $name) {
+			$methodErrors = $this->getErrors($calledOnType, $name->toString(), $node, $scope, $disallowedCalls);
+			if ($methodErrors) {
+				$errors = array_merge($errors, $methodErrors);
 			}
+		}
+		return $errors;
+	}
 
-			$ruleErrors = $this->getRuleErrors(array_values($declaringClass->getTraits()), $method, $node, $scope, $calledAs, $disallowedCalls);
-			if ($ruleErrors) {
-				return $ruleErrors;
-			}
-			$ruleErrors = $this->getRuleErrors(array_values($declaringClass->getInterfaces()), $method, $node, $scope, $calledAs, $disallowedCalls);
-			if ($ruleErrors) {
-				return $ruleErrors;
-			}
-		} else {
+
+	/**
+	 * @param string $class
+	 * @param string $method
+	 * @param Scope $scope
+	 * @param list<DisallowedCall> $disallowedCalls
+	 * @return list<IdentifierRuleError>
+	 * @throws ShouldNotHappenException
+	 */
+	public function getByString(string $class, string $method, Scope $scope, array $disallowedCalls): array
+	{
+		$className = new Name($class);
+		$calledOnType = $this->typeResolver->getType($className, $scope);
+		return $this->getErrors($calledOnType, $method, null, $scope, $disallowedCalls);
+	}
+
+
+	/**
+	 * @param Type $calledOnType
+	 * @param string $methodName
+	 * @param MethodCall|StaticCall|null $node
+	 * @param Scope $scope
+	 * @param list<DisallowedCall> $disallowedCalls
+	 * @return list<IdentifierRuleError>
+	 * @throws ShouldNotHappenException
+	 */
+	private function getErrors(Type $calledOnType, string $methodName, ?CallLike $node, Scope $scope, array $disallowedCalls): array
+	{
+		if (!$calledOnType->canCallMethods()->yes() || !$calledOnType->hasMethod($methodName)->yes()) {
 			return [];
 		}
-		return $this->getRuleErrors([$declaringClass], $method, $node, $scope, $calledAs, $disallowedCalls);
+
+		$method = $calledOnType->getMethod($methodName, $scope);
+		$declaringClass = $method->getDeclaringClass();
+		$classNames = array_map(fn($class): string => $class->isAnonymous() ? 'class@anonymous' : $class->getName(), $calledOnType->getObjectClassReflections());
+		if (count($classNames) === 0) {
+			$calledAs = null;
+		} else {
+			$calledAs = $this->formatter->getFullyQualified($this->formatter->formatIdentifier($classNames), $method);
+		}
+
+		$classes = [$declaringClass];
+		$traits = $declaringClass->getTraits();
+		if ($traits) {
+			$classes = array_merge($classes, array_values($traits));
+		}
+		$interfaces = $declaringClass->getInterfaces();
+		if ($interfaces) {
+			$classes = array_merge($classes, array_values($interfaces));
+		}
+		return $this->getRuleErrors($classes, $method, $node, $scope, $calledAs, $disallowedCalls);
 	}
 
 
 	/**
 	 * @param list<ClassReflection> $classes
 	 * @param list<DisallowedCall> $disallowedCalls
-	 * @return list<RuleError>
+	 * @return list<IdentifierRuleError>
 	 * @throws ShouldNotHappenException
 	 */
-	private function getRuleErrors(array $classes, MethodReflection $method, CallLike $node, Scope $scope, ?string $calledAs, array $disallowedCalls): array
+	private function getRuleErrors(array $classes, MethodReflection $method, ?CallLike $node, Scope $scope, ?string $calledAs, array $disallowedCalls): array
 	{
 		foreach ($classes as $class) {
 			if ($class->hasMethod($method->getName())) {
