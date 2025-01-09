@@ -7,6 +7,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallableParameterRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors;
 
 class MethodCallsTest extends RuleTestCase
@@ -20,6 +21,7 @@ class MethodCallsTest extends RuleTestCase
 		$container = self::getContainer();
 		return new MethodCalls(
 			$container->getByType(DisallowedMethodRuleErrors::class),
+			$container->getByType(DisallowedCallableParameterRuleErrors::class),
 			$container->getByType(DisallowedCallFactory::class),
 			[
 				[
