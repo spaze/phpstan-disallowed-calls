@@ -92,29 +92,29 @@ class DisallowedMethodRuleErrors
 	 */
 	private function getErrors(Type $calledOnType, string $methodName, ?CallLike $node, Scope $scope, array $disallowedCalls): array
 	{
-		if ($calledOnType->canCallMethods()->yes() && $calledOnType->hasMethod($methodName)->yes()) {
-			$method = $calledOnType->getMethod($methodName, $scope);
-			$declaringClass = $method->getDeclaringClass();
-			$classes = $calledOnType->getObjectClassReflections();
-			$classNames = array_map(fn($class): string => $class->isAnonymous() ? 'class@anonymous' : $class->getName(), $classes);
-			if (count($classNames) === 0) {
-				$calledAs = null;
-			} else {
-				$calledAs = $this->formatter->getFullyQualified($this->formatter->formatIdentifier($classNames), $method);
-			}
-
-			$ruleErrors = $this->getRuleErrors(array_values($declaringClass->getTraits()), $method, $node, $scope, $calledAs, $disallowedCalls);
-			if ($ruleErrors) {
-				return $ruleErrors;
-			}
-			$ruleErrors = $this->getRuleErrors(array_values($declaringClass->getInterfaces()), $method, $node, $scope, $calledAs, $disallowedCalls);
-			if ($ruleErrors) {
-				return $ruleErrors;
-			}
-		} else {
+		if (!$calledOnType->canCallMethods()->yes() || !$calledOnType->hasMethod($methodName)->yes()) {
 			return [];
 		}
-		return $this->getRuleErrors([$declaringClass], $method, $node, $scope, $calledAs, $disallowedCalls);
+
+		$method = $calledOnType->getMethod($methodName, $scope);
+		$declaringClass = $method->getDeclaringClass();
+		$classNames = array_map(fn($class): string => $class->isAnonymous() ? 'class@anonymous' : $class->getName(), $calledOnType->getObjectClassReflections());
+		if (count($classNames) === 0) {
+			$calledAs = null;
+		} else {
+			$calledAs = $this->formatter->getFullyQualified($this->formatter->formatIdentifier($classNames), $method);
+		}
+
+		$classes = [$declaringClass];
+		$traits = $declaringClass->getTraits();
+		if ($traits) {
+			$classes = array_merge($classes, array_values($traits));
+		}
+		$interfaces = $declaringClass->getInterfaces();
+		if ($interfaces) {
+			$classes = array_merge($classes, array_values($interfaces));
+		}
+		return $this->getRuleErrors($classes, $method, $node, $scope, $calledAs, $disallowedCalls);
 	}
 
 
