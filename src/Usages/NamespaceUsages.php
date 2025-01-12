@@ -125,16 +125,16 @@ class NamespaceUsages implements Rule
 
 		$errors = [];
 		foreach ($namespaces as $namespace) {
-			$errors = array_merge(
-				$errors,
-				$this->disallowedNamespaceRuleErrors->getDisallowedMessage(
-					$this->normalizer->normalizeNamespace($namespace),
-					$description ?? 'Namespace',
-					$scope,
-					$this->disallowedNamespace,
-					$identifier ?? $identifier = ErrorIdentifiers::DISALLOWED_NAMESPACE
-				)
+			$ruleErrors = $this->disallowedNamespaceRuleErrors->getDisallowedMessage(
+				$this->normalizer->normalizeNamespace($namespace),
+				$description ?? 'Namespace',
+				$scope,
+				$this->disallowedNamespace,
+				$identifier ?? $identifier = ErrorIdentifiers::DISALLOWED_NAMESPACE
 			);
+			if ($ruleErrors) {
+				$errors = array_merge($errors, $ruleErrors);
+			}
 		}
 
 		return $errors;
