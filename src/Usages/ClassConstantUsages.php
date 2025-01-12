@@ -85,10 +85,10 @@ class ClassConstantUsages implements Rule
 		$type = $scope->getType($node->name);
 		$errors = [];
 		foreach ($type->getConstantStrings() as $constantString) {
-			$errors = array_merge(
-				$errors,
-				$this->getConstantRuleErrors($scope, $constantString->getValue(), $this->typeResolver->getType($node->class, $scope))
-			);
+			$ruleErrors = $this->getConstantRuleErrors($scope, $constantString->getValue(), $this->typeResolver->getType($node->class, $scope));
+			if ($ruleErrors) {
+				$errors = array_merge($errors, $ruleErrors);
+			}
 		}
 		return $errors;
 	}
