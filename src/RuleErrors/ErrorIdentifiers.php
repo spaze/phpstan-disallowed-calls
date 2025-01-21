@@ -30,6 +30,7 @@ class ErrorIdentifiers
 	public const DISALLOWED_IF = 'disallowed.if';
 	public const DISALLOWED_INCLUDE = 'disallowed.include';
 	public const DISALLOWED_INCLUDE_ONCE = 'disallowed.includeOnce';
+	public const DISALLOWED_ISSET = 'disallowed.isset';
 	public const DISALLOWED_MATCH = 'disallowed.match';
 	public const DISALLOWED_METHOD = 'disallowed.method';
 	public const DISALLOWED_NAMESPACE = 'disallowed.namespace';
