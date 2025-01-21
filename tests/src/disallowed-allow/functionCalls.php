@@ -116,3 +116,5 @@ ${'sneaky'}('foo');
 
 ('Foo\Bar\waldo')('foo');
 ('\Foo\Bar\Waldo')('foo');
+
+isset($bottle);
