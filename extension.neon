@@ -302,6 +302,10 @@ services:
 		tags:
 			- phpstan.rules.rule
 	-
+		factory: Spaze\PHPStan\Rules\Disallowed\Calls\UnsetCalls(forbiddenCalls: %disallowedFunctionCalls%)
+		tags:
+			- phpstan.rules.rule
+	-
 		factory: Spaze\PHPStan\Rules\Disallowed\Calls\ExitDieCalls(forbiddenCalls: %disallowedFunctionCalls%)
 		tags:
 			- phpstan.rules.rule
