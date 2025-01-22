@@ -41,6 +41,7 @@ class ErrorIdentifiers
 	public const DISALLOWED_RETURN = 'disallowed.return';
 	public const DISALLOWED_SWITCH = 'disallowed.switch';
 	public const DISALLOWED_TRAIT = 'disallowed.trait';
+	public const DISALLOWED_UNSET = 'disallowed.unset';
 	public const DISALLOWED_VARIABLE = 'disallowed.variable';
 	public const DISALLOWED_WHILE = 'disallowed.while';
 

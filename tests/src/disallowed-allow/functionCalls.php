@@ -118,3 +118,4 @@ ${'sneaky'}('foo');
 ('\Foo\Bar\Waldo')('foo');
 
 isset($bottle);
+unset($bottle);

@@ -165,6 +165,7 @@ You can treat some language constructs as functions and disallow it in `disallow
 - `exit()`
 - `isset()`
 - `print()`
+- `unset()`
 
 To disallow naive object creation (`new ClassName()` or `new $classname`), disallow `NameSpace\ClassName::__construct` in `disallowedMethodCalls`. Works even when there's no constructor defined in that class.
 
