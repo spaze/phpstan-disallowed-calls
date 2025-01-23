@@ -14,7 +14,6 @@ use PHPStan\Analyser\ArgumentsNormalizer;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ExtendedMethodReflection;
 use PHPStan\Reflection\FunctionReflection;
-use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\ShouldNotHappenException;
@@ -171,10 +170,13 @@ class DisallowedCallableParameterRuleErrors
 	 */
 	private function getErrors(CallLike $node, Scope $scope, $reflection): array
 	{
+		$variants = $reflection->getVariants();
+		if (count($variants) !== 1) {
+			return [];
+		}
 		$ruleErrors = [];
-		$parametersAcceptor = ParametersAcceptorSelector::selectFromArgs($scope, $node->getArgs(), $reflection->getVariants());
-		$reorderedArgs = ArgumentsNormalizer::reorderArgs($parametersAcceptor, $node->getArgs()) ?? $node->getArgs();
-		foreach ($parametersAcceptor->getParameters() as $key => $parameter) {
+		$reorderedArgs = ArgumentsNormalizer::reorderArgs($variants[0], $node->getArgs()) ?? $node->getArgs();
+		foreach ($variants[0]->getParameters() as $key => $parameter) {
 			if (!TypeCombinator::removeNull($parameter->getType())->isCallable()->yes() || !isset($reorderedArgs[$key])) {
 				continue;
 			}
