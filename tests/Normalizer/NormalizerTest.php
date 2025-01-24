@@ -1,10 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Normalizer;
+namespace Spaze\PHPStan\Rules\Disallowed\Normalizer;
 
 use PHPStan\Testing\PHPStanTestCase;
-use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 
 class NormalizerTest extends PHPStanTestCase
 {
