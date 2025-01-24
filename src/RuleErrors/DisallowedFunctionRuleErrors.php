@@ -65,7 +65,7 @@ class DisallowedFunctionRuleErrors
 	 */
 	public function getByString(string $name, Scope $scope, array $disallowedCalls): array
 	{
-		return $this->getErrors(new Name($name), $scope, null, null, $disallowedCalls);
+		return $name === '' ? [] : $this->getErrors(new Name($name), $scope, null, null, $disallowedCalls);
 	}
 
 
