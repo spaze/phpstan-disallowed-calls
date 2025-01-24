@@ -47,7 +47,12 @@ class Bug288DocblockTemplateCallableParamTest extends RuleTestCase
 
 	public function testRule(): void
 	{
-		$this->analyse([__DIR__ . '/../src/bugs/Bug288DocblockTemplateCallableParam.php'], []);
+		$this->analyse([__DIR__ . '/../src/bugs/Bug288DocblockTemplateCallableParam.php'], [
+			[
+				'Calling disallowedFunction() is forbidden.',
+				15,
+			],
+		]);
 	}
 
 
