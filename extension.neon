@@ -276,6 +276,7 @@ parametersSchema:
 
 services:
 	- Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed
+	- Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedConfigFactory
 	- Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedAttributeFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory
