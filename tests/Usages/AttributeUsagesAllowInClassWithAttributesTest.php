@@ -26,7 +26,7 @@ class AttributeUsagesAllowInClassWithAttributesTest extends RuleTestCase
 				],
 				[
 					'attribute' => '\Attributes\Attribute5',
-					'allowExceptInClassWithAttributes' => [
+					'disallowInClassWithAttributes' => [
 						'\Attributes\Attribute3',
 					],
 				],
