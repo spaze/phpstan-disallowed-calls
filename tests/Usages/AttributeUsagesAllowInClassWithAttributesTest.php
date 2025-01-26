@@ -40,11 +40,11 @@ class AttributeUsagesAllowInClassWithAttributesTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/../src/AttributeClass.php'], [
 			[
 				'Attribute Attributes\Attribute5 is forbidden.',
-				27,
+				32,
 			],
 			[
 				'Attribute Attributes\Attribute4 is forbidden.',
-				38,
+				45,
 			],
 		]);
 	}

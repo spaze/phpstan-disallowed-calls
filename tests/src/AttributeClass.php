@@ -4,6 +4,8 @@ declare(strict_types = 1);
 namespace Attributes;
 
 use Attribute;
+use Waldo\Foo\Bar;
+use Waldo\Quux\Blade;
 
 #[Attribute]
 #[Attribute2]
@@ -16,6 +18,9 @@ class AttributeClass
 		md5('QNKCDZO');
 		sha1('aaroZmOk');
 		strlen('anazgoh');
+		Bar::NAME;
+		(new Bar())->bar();
+		Blade::RUNNER;
 	}
 
 }
@@ -28,6 +33,8 @@ class AttributeClass2
 	public function method(): void
 	{
 		strlen('anazgoh');
+		(new Bar())->foo();
+		Blade::RUNNER;
 	}
 
 }
@@ -40,6 +47,8 @@ class ChildAttributeClass extends AttributeClass
 	{
 		md5('QNKCDZO');
 		strlen('anazgoh');
+		(new Bar())->foo();
+		Blade::RUNNER;
 	}
 
 }
@@ -51,6 +60,8 @@ class ChildAttributeClass2
 	public function method(): void
 	{
 		strlen('anazgoh');
+		(new Bar())->foo();
+		Blade::RUNNER;
 	}
 
 }

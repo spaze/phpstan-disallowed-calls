@@ -6,54 +6,55 @@ namespace Spaze\PHPStan\Rules\Disallowed\RuleErrors;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\RuleErrorBuilder;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
+use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespace;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
+use Spaze\PHPStan\Rules\Disallowed\Usages\NamespaceUsage;
 
 class DisallowedNamespaceRuleErrors
 {
 
-	private AllowedPath $allowedPath;
+	private Allowed $allowed;
 
 	private Identifier $identifier;
 
 	private Formatter $formatter;
 
 
-	public function __construct(AllowedPath $allowedPath, Identifier $identifier, Formatter $formatter)
+	public function __construct(Allowed $allowed, Identifier $identifier, Formatter $formatter)
 	{
-		$this->allowedPath = $allowedPath;
+		$this->allowed = $allowed;
 		$this->identifier = $identifier;
 		$this->formatter = $formatter;
 	}
 
 
 	/**
-	 * @param string $namespace
+	 * @param NamespaceUsage $namespaceUsage
 	 * @param string $description
 	 * @param Scope $scope
 	 * @param list<DisallowedNamespace> $disallowedNamespaces
 	 * @param string $identifier
 	 * @return list<IdentifierRuleError>
 	 */
-	public function getDisallowedMessage(string $namespace, string $description, Scope $scope, array $disallowedNamespaces, string $identifier): array
+	public function getDisallowedMessage(NamespaceUsage $namespaceUsage, string $description, Scope $scope, array $disallowedNamespaces, string $identifier): array
 	{
 		foreach ($disallowedNamespaces as $disallowedNamespace) {
-			if ($this->allowedPath->isAllowedPath($scope, $disallowedNamespace)) {
-				continue;
-			}
-
-			if (!$this->identifier->matches($disallowedNamespace->getNamespace(), $namespace, $disallowedNamespace->getExcludes())) {
+			if (
+				!$this->identifier->matches($disallowedNamespace->getNamespace(), $namespaceUsage->getNamespace(), $disallowedNamespace->getExcludes())
+				|| $this->allowed->isAllowed($scope, null, $disallowedNamespace)
+				|| ($disallowedNamespace->isAllowInUse() && $namespaceUsage->isUseItem())
+			) {
 				continue;
 			}
 
 			$errorBuilder = RuleErrorBuilder::message(sprintf(
 				'%s %s is forbidden%s%s',
 				$description,
-				$namespace,
+				$namespaceUsage->getNamespace(),
 				$this->formatter->formatDisallowedMessage($disallowedNamespace->getMessage()),
-				$disallowedNamespace->getNamespace() !== $namespace ? " [{$namespace} matches {$disallowedNamespace->getNamespace()}]" : ''
+				$disallowedNamespace->getNamespace() !== $namespaceUsage->getNamespace() ? " [{$namespaceUsage->getNamespace()} matches {$disallowedNamespace->getNamespace()}]" : ''
 			));
 			$errorBuilder->identifier($disallowedNamespace->getErrorIdentifier() ?? $identifier);
 			if ($disallowedNamespace->getErrorTip()) {

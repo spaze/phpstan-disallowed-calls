@@ -53,11 +53,11 @@ class FunctionCallsAllowInClassWithAttributesTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/../src/AttributeClass.php'], [
 			[
 				'Calling strlen() is forbidden.',
-				30,
+				35,
 			],
 			[
 				'Calling md5() is forbidden.',
-				41,
+				48,
 			],
 		]);
 	}

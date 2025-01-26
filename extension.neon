@@ -24,6 +24,16 @@ parametersSchema:
 			?allowIn: listOf(string()),
 			?allowExceptIn: listOf(string()),
 			?disallowIn: listOf(string()),
+			?allowInClassWithAttributes: listOf(string()),
+			?allowExceptInClassWithAttributes: listOf(string()),
+			?disallowInClassWithAttributes: listOf(string()),
+			?allowInCallWithAttributes: listOf(string()),
+			?allowExceptInCallWithAttributes: listOf(string()),
+			?disallowInCallWithAttributes: listOf(string()),
+			?allowInClassWithMethodAttributes: listOf(string()),
+			?allowExceptInClassWithMethodAttributes: listOf(string()),
+			?disallowInClassWithMethodAttributes: listOf(string()),
+			?allowInUse: bool(),
 			?errorIdentifier: string(),
 			?errorTip: string(),
 		])
@@ -37,6 +47,16 @@ parametersSchema:
 			?allowIn: listOf(string()),
 			?allowExceptIn: listOf(string()),
 			?disallowIn: listOf(string()),
+			?allowInClassWithAttributes: listOf(string()),
+			?allowExceptInClassWithAttributes: listOf(string()),
+			?disallowInClassWithAttributes: listOf(string()),
+			?allowInCallWithAttributes: listOf(string()),
+			?allowExceptInCallWithAttributes: listOf(string()),
+			?disallowInCallWithAttributes: listOf(string()),
+			?allowInClassWithMethodAttributes: listOf(string()),
+			?allowExceptInClassWithMethodAttributes: listOf(string()),
+			?disallowInClassWithMethodAttributes: listOf(string()),
+			?allowInUse: bool(),
 			?errorIdentifier: string(),
 			?errorTip: string(),
 		])
@@ -298,6 +318,7 @@ services:
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedVariableRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver
+	- Spaze\PHPStan\Rules\Disallowed\Usages\NamespaceUsageFactory
 	-
 		factory: Spaze\PHPStan\Rules\Disallowed\Usages\NamespaceUsages(forbiddenNamespaces: %disallowedNamespaces%)
 		tags:

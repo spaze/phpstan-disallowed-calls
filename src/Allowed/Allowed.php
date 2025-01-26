@@ -11,6 +11,7 @@ use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
+use Spaze\PHPStan\Rules\Disallowed\Disallowed;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedWithParams;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeException;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
@@ -36,14 +37,15 @@ class Allowed
 	/**
 	 * @param Scope $scope
 	 * @param array<Arg>|null $args
-	 * @param DisallowedWithParams $disallowed
+	 * @param Disallowed|DisallowedWithParams $disallowed
 	 * @return bool
 	 */
-	public function isAllowed(Scope $scope, ?array $args, DisallowedWithParams $disallowed): bool
+	public function isAllowed(Scope $scope, ?array $args, Disallowed $disallowed): bool
 	{
+		$hasParams = $disallowed instanceof DisallowedWithParams;
 		foreach ($disallowed->getAllowInCalls() as $call) {
 			if ($this->callMatches($scope, $call)) {
-				return $this->hasAllowedParamsInAllowed($scope, $args, $disallowed);
+				return !$hasParams || $this->hasAllowedParamsInAllowed($scope, $args, $disallowed);
 			}
 		}
 		foreach ($disallowed->getAllowExceptInCalls() as $call) {
@@ -53,7 +55,7 @@ class Allowed
 		}
 		foreach ($disallowed->getAllowIn() as $allowedPath) {
 			if ($this->allowedPath->matches($scope, $allowedPath)) {
-				return $this->hasAllowedParamsInAllowed($scope, $args, $disallowed);
+				return !$hasParams || $this->hasAllowedParamsInAllowed($scope, $args, $disallowed);
 			}
 		}
 		if ($disallowed->getAllowExceptIn()) {
@@ -64,10 +66,10 @@ class Allowed
 			}
 			return true;
 		}
-		if ($disallowed->getAllowExceptParams()) {
+		if ($hasParams && $disallowed->getAllowExceptParams()) {
 			return $this->hasAllowedParams($scope, $args, $disallowed->getAllowExceptParams(), false);
 		}
-		if ($disallowed->getAllowParamsAnywhere()) {
+		if ($hasParams && $disallowed->getAllowParamsAnywhere()) {
 			return $this->hasAllowedParams($scope, $args, $disallowed->getAllowParamsAnywhere(), true);
 		}
 		if ($disallowed->getAllowInClassWithAttributes() && $scope->isInClass()) {
