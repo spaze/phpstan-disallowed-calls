@@ -5,6 +5,8 @@ namespace Spaze\PHPStan\Rules\Disallowed\Allowed;
 
 use PhpParser\Node\Arg;
 use PHPStan\Analyser\Scope;
+use PHPStan\BetterReflection\Reflection\Adapter\FakeReflectionAttribute;
+use PHPStan\BetterReflection\Reflection\Adapter\ReflectionAttribute;
 use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\Type;
@@ -67,6 +69,18 @@ class Allowed
 		}
 		if ($disallowed->getAllowParamsAnywhere()) {
 			return $this->hasAllowedParams($scope, $args, $disallowed->getAllowParamsAnywhere(), true);
+		}
+		if ($disallowed->getAllowInClassWithAttributes() && $scope->isInClass()) {
+			return $this->hasAllowedAttribute(
+				$scope->getClassReflection()->getNativeReflection()->getAttributes(),
+				$disallowed->getAllowInClassWithAttributes(),
+			);
+		}
+		if ($disallowed->getAllowExceptInClassWithAttributes() && $scope->isInClass()) {
+			return !$this->hasAllowedAttribute(
+				$scope->getClassReflection()->getNativeReflection()->getAttributes(),
+				$disallowed->getAllowExceptInClassWithAttributes(),
+			);
 		}
 		return false;
 	}
@@ -136,6 +150,28 @@ class Allowed
 			return $this->hasAllowedParams($scope, $args, $disallowed->getAllowParamsInAllowed(), true);
 		}
 		return true;
+	}
+
+
+	/**
+	 * @param list<ReflectionAttribute|FakeReflectionAttribute> $attributes
+	 * @param list<string> $allowConfig
+	 * @return bool
+	 */
+	private function hasAllowedAttribute(array $attributes, array $allowConfig): bool
+	{
+		$names = [];
+		foreach ($attributes as $attribute) {
+			$names[] = $attribute->getName();
+		}
+		foreach ($allowConfig as $allowAttribute) {
+			foreach ($names as $name) {
+				if (fnmatch($allowAttribute, $name, FNM_NOESCAPE | FNM_CASEFOLD)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 

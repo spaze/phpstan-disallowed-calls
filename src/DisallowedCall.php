@@ -133,6 +133,18 @@ class DisallowedCall implements DisallowedWithParams
 	}
 
 
+	public function getAllowInClassWithAttributes(): array
+	{
+		return $this->allowedConfig->getAllowInClassWithAttributes();
+	}
+
+
+	public function getAllowExceptInClassWithAttributes(): array
+	{
+		return $this->allowedConfig->getAllowExceptInClassWithAttributes();
+	}
+
+
 	public function getErrorIdentifier(): ?string
 	{
 		return $this->errorIdentifier;
