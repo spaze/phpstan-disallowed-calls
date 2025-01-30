@@ -72,31 +72,17 @@ class Allowed
 		if ($hasParams && $disallowed->getAllowParamsAnywhere()) {
 			return $this->hasAllowedParams($scope, $args, $disallowed->getAllowParamsAnywhere(), true);
 		}
-		if ($disallowed->getAllowInClassWithAttributes() && $scope->isInClass()) {
-			return $this->hasAllowedAttribute(
-				$scope->getClassReflection()->getNativeReflection()->getAttributes(),
-				$disallowed->getAllowInClassWithAttributes(),
-			);
+		if ($disallowed->getAllowInClassWithAttributes()) {
+			return $this->hasAllowedAttribute($this->getAttributes($scope), $disallowed->getAllowInClassWithAttributes());
 		}
-		if ($disallowed->getAllowExceptInClassWithAttributes() && $scope->isInClass()) {
-			return !$this->hasAllowedAttribute(
-				$scope->getClassReflection()->getNativeReflection()->getAttributes(),
-				$disallowed->getAllowExceptInClassWithAttributes(),
-			);
+		if ($disallowed->getAllowExceptInClassWithAttributes()) {
+			return !$this->hasAllowedAttribute($this->getAttributes($scope), $disallowed->getAllowExceptInClassWithAttributes());
 		}
-		if ($disallowed->getAllowInClassWithMethodAttributes() && $scope->isInClass()) {
-			$attributes = [];
-			foreach ($scope->getClassReflection()->getNativeReflection()->getMethods() as $method) {
-				$attributes = array_merge($attributes, $method->getAttributes());
-			}
-			return $this->hasAllowedAttribute($attributes, $disallowed->getAllowInClassWithMethodAttributes());
+		if ($disallowed->getAllowInClassWithMethodAttributes()) {
+			return $this->hasAllowedAttribute($this->getAllMethodAttributes($scope), $disallowed->getAllowInClassWithMethodAttributes());
 		}
-		if ($disallowed->getAllowExceptInClassWithMethodAttributes() && $scope->isInClass()) {
-			$attributes = [];
-			foreach ($scope->getClassReflection()->getNativeReflection()->getMethods() as $method) {
-				$attributes = array_merge($attributes, $method->getAttributes());
-			}
-			return !$this->hasAllowedAttribute($attributes, $disallowed->getAllowExceptInClassWithMethodAttributes());
+		if ($disallowed->getAllowExceptInClassWithMethodAttributes()) {
+			return !$this->hasAllowedAttribute($this->getAllMethodAttributes($scope), $disallowed->getAllowExceptInClassWithMethodAttributes());
 		}
 		return false;
 	}
@@ -209,6 +195,36 @@ class Allowed
 			$found = $args[$param->getPosition() - 1] ?? null;
 		}
 		return isset($found, $found->value) ? $scope->getType($found->value) : null;
+	}
+
+
+	/**
+	 * @param Scope $scope
+	 * @return list<FakeReflectionAttribute>|list<ReflectionAttribute>
+	 */
+	private function getAttributes(Scope $scope): array
+	{
+		return $scope->isInClass() ? $scope->getClassReflection()->getNativeReflection()->getAttributes() : [];
+	}
+
+
+	/**
+	 * @param Scope $scope
+	 * @return list<FakeReflectionAttribute>|list<ReflectionAttribute>
+	 */
+	private function getAllMethodAttributes(Scope $scope): array
+	{
+		if (!$scope->isInClass()) {
+			return [];
+		}
+		$attributes = [];
+		foreach ($scope->getClassReflection()->getNativeReflection()->getMethods() as $method) {
+			$methodAttributes = $method->getAttributes();
+			if ($methodAttributes !== []) {
+				$attributes = array_merge($attributes, $methodAttributes);
+			}
+		}
+		return $attributes;
 	}
 
 }
