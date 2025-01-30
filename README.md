@@ -55,6 +55,7 @@ Let's say you have disallowed `foo()` with custom rules. But you want to re-allo
 - [Allow with specified parameters](docs/allow-with-parameters.md)
 - [Allow with specified flags](docs/allow-with-flags.md)
 - [Allow in class with given attributes](docs/allow-in-class-with-attributes.md)
+- [Allow in class with given attributes on any method](docs/allow-in-class-with-method-attributes.md)
 
 [Re-allowing attributes](docs/allow-attributes.md) uses a similar [configuration](docs/allow-attributes.md).
 

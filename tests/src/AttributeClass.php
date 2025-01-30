@@ -65,3 +65,64 @@ class ChildAttributeClass2
 	}
 
 }
+
+use Constructor\ClassWithConstructor;
+use Constructor\ClassWithoutConstructor;
+
+class MethodsWithAttributes1
+{
+
+	#[\Attribute7]
+	public function attributes1(): void
+	{
+		var_dump(1337);
+		print_r(1338);
+		new ClassWithConstructor();
+		new ClassWithoutConstructor();
+	}
+
+
+	#[\Attribute8]
+	public function attributes2(): void
+	{
+	}
+
+}
+
+class MethodsWithAttributes2
+{
+
+	#[\Attribute7]
+	public function method1(): void
+	{
+		var_dump(1337);
+		print_r(1338);
+		new ClassWithConstructor();
+		new ClassWithoutConstructor();
+	}
+
+
+	#[\Attribute6]
+	public function method2(): void
+	{
+	}
+
+
+	#[\Attribute8]
+	public function method3(): void
+	{
+	}
+
+
+	#[\Attribute7, \Attribute9]
+	public function method4(): void
+	{
+	}
+
+
+	#[\Attribute7, \Attribute10]
+	public function method5(): void
+	{
+	}
+
+}

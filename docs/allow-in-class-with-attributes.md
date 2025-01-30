@@ -71,7 +71,7 @@ class Foo
 }
 ```
 
-The attribute names in the _allow_ directives support [fnmatch()](https://www.php.net/function.fnmatch) patterns.
+The attribute names in the _allow_ directives support [fnmatch()](https://www.php.net/function.fnmatch) patterns, and only one needs to match if multiple are specified.
 
 ### Allow namespace or classname use in `use` imports
 

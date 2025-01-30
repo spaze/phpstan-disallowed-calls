@@ -43,6 +43,18 @@ class FunctionCallsAllowInClassWithAttributesTest extends RuleTestCase
 						'\Attributes\Attribute3',
 					],
 				],
+				[
+					'function' => 'var_dump()',
+					'allowInClassWithMethodAttributes' => [
+						'Attribute6',
+					],
+				],
+				[
+					'function' => 'print_r()',
+					'allowExceptInClassWithMethodAttributes' => [
+						'Attribute6',
+					],
+				],
 			]
 		);
 	}
@@ -58,6 +70,14 @@ class FunctionCallsAllowInClassWithAttributesTest extends RuleTestCase
 			[
 				'Calling md5() is forbidden.',
 				48,
+			],
+			[
+				'Calling var_dump() is forbidden.',
+				78,
+			],
+			[
+				'Calling print_r() is forbidden.',
+				99,
 			],
 		]);
 	}

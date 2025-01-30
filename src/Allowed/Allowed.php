@@ -84,6 +84,20 @@ class Allowed
 				$disallowed->getAllowExceptInClassWithAttributes(),
 			);
 		}
+		if ($disallowed->getAllowInClassWithMethodAttributes() && $scope->isInClass()) {
+			$attributes = [];
+			foreach ($scope->getClassReflection()->getNativeReflection()->getMethods() as $method) {
+				$attributes = array_merge($attributes, $method->getAttributes());
+			}
+			return $this->hasAllowedAttribute($attributes, $disallowed->getAllowInClassWithMethodAttributes());
+		}
+		if ($disallowed->getAllowExceptInClassWithMethodAttributes() && $scope->isInClass()) {
+			$attributes = [];
+			foreach ($scope->getClassReflection()->getNativeReflection()->getMethods() as $method) {
+				$attributes = array_merge($attributes, $method->getAttributes());
+			}
+			return !$this->hasAllowedAttribute($attributes, $disallowed->getAllowExceptInClassWithMethodAttributes());
+		}
 		return false;
 	}
 

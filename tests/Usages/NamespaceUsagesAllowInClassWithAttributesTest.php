@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
+use Constructor\ClassWithConstructor;
+use Constructor\ClassWithoutConstructor;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
@@ -29,6 +31,20 @@ class NamespaceUsagesAllowInClassWithAttributesTest extends RuleTestCase
 					'class' => 'Waldo\Quux\Blade',
 					'disallowInClassWithAttributes' => [
 						'\Attributes\Attribute3',
+					],
+					'allowInUse' => true,
+				],
+				[
+					'class' => ClassWithConstructor::class,
+					'allowInClassWithMethodAttributes' => [
+						'Attribute6',
+					],
+					'allowInUse' => true,
+				],
+				[
+					'class' => ClassWithoutConstructor::class,
+					'allowExceptInClassWithMethodAttributes' => [
+						'Attribute6',
 					],
 					'allowInUse' => true,
 				],
@@ -59,6 +75,14 @@ class NamespaceUsagesAllowInClassWithAttributesTest extends RuleTestCase
 			[
 				'Class Waldo\Foo\Bar is forbidden.',
 				63,
+			],
+			[
+				'Class Constructor\ClassWithConstructor is forbidden.',
+				80,
+			],
+			[
+				'Class Constructor\ClassWithoutConstructor is forbidden.',
+				101,
 			],
 		]);
 	}

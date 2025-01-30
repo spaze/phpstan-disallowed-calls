@@ -30,6 +30,30 @@ class AttributeUsagesAllowInClassWithAttributesTest extends RuleTestCase
 						'\Attributes\Attribute3',
 					],
 				],
+				[
+					'attribute' => 'Attribute7',
+					'allowInClassWithMethodAttributes' => [
+						'Attribute8',
+					],
+				],
+				[
+					'attribute' => 'Attribute8',
+					'allowExceptInClassWithMethodAttributes' => [
+						'Attribute7',
+					],
+				],
+				[
+					'attribute' => 'Attribute9',
+					'allowInClassWithMethodAttributes' => [
+						'Attribute7',
+					],
+				],
+				[
+					'attribute' => 'Attribute10',
+					'allowExceptInClassWithMethodAttributes' => [
+						'Attribute7',
+					],
+				],
 			]
 		);
 	}
@@ -45,6 +69,18 @@ class AttributeUsagesAllowInClassWithAttributesTest extends RuleTestCase
 			[
 				'Attribute Attributes\Attribute4 is forbidden.',
 				45,
+			],
+			[
+				'Attribute Attribute8 is forbidden.',
+				85,
+			],
+			[
+				'Attribute Attribute8 is forbidden.',
+				111,
+			],
+			[
+				'Attribute Attribute10 is forbidden.',
+				123,
 			],
 		]);
 	}
