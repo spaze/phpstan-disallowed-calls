@@ -27,10 +27,10 @@ class AllowedConfig
 	private array $allowExceptInClassWithAttributes;
 
 	/** @var list<string> */
-	private array $allowInCallWithAttributes;
+	private array $allowInCallsWithAttributes;
 
 	/** @var list<string> */
-	private array $allowExceptInCallWithAttributes;
+	private array $allowExceptInCallsWithAttributes;
 
 	/** @var list<string> */
 	private array $allowInClassWithMethodAttributes;
@@ -58,8 +58,8 @@ class AllowedConfig
 	 * @param list<string> $allowExceptInCalls
 	 * @param list<string> $allowInClassWithAttributes
 	 * @param list<string> $allowExceptInClassWithAttributes
-	 * @param list<string> $allowInCallWithAttributes
-	 * @param list<string> $allowExceptInCallWithAttributes
+	 * @param list<string> $allowInCallsWithAttributes
+	 * @param list<string> $allowExceptInCallsWithAttributes
 	 * @param list<string> $allowInClassWithMethodAttributes
 	 * @param list<string> $allowExceptInClassWithMethodAttributes
 	 * @param array<int|string, Param> $allowParamsInAllowed
@@ -74,8 +74,8 @@ class AllowedConfig
 		array $allowExceptInCalls,
 		array $allowInClassWithAttributes,
 		array $allowExceptInClassWithAttributes,
-		array $allowInCallWithAttributes,
-		array $allowExceptInCallWithAttributes,
+		array $allowInCallsWithAttributes,
+		array $allowExceptInCallsWithAttributes,
 		array $allowInClassWithMethodAttributes,
 		array $allowExceptInClassWithMethodAttributes,
 		array $allowParamsInAllowed,
@@ -89,8 +89,8 @@ class AllowedConfig
 		$this->allowExceptInCalls = $allowExceptInCalls;
 		$this->allowInClassWithAttributes = $allowInClassWithAttributes;
 		$this->allowExceptInClassWithAttributes = $allowExceptInClassWithAttributes;
-		$this->allowInCallWithAttributes = $allowInCallWithAttributes;
-		$this->allowExceptInCallWithAttributes = $allowExceptInCallWithAttributes;
+		$this->allowInCallsWithAttributes = $allowInCallsWithAttributes;
+		$this->allowExceptInCallsWithAttributes = $allowExceptInCallsWithAttributes;
 		$this->allowInClassWithMethodAttributes = $allowInClassWithMethodAttributes;
 		$this->allowExceptInClassWithMethodAttributes = $allowExceptInClassWithMethodAttributes;
 		$this->allowParamsInAllowed = $allowParamsInAllowed;
@@ -157,18 +157,18 @@ class AllowedConfig
 	/**
 	 * @return list<string>
 	 */
-	public function getAllowInCallWithAttributes(): array
+	public function getAllowInCallsWithAttributes(): array
 	{
-		return $this->allowInCallWithAttributes;
+		return $this->allowInCallsWithAttributes;
 	}
 
 
 	/**
 	 * @return list<string>
 	 */
-	public function getAllowExceptInCallWithAttributes(): array
+	public function getAllowExceptInCallsWithAttributes(): array
 	{
-		return $this->allowExceptInCallWithAttributes;
+		return $this->allowExceptInCallsWithAttributes;
 	}
 
 

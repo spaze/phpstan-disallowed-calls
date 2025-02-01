@@ -98,6 +98,18 @@ class DisallowedControlStructure implements Disallowed
 	}
 
 
+	public function getAllowInCallsWithAttributes(): array
+	{
+		throw new NotImplementedYetException();
+	}
+
+
+	public function getAllowExceptInCallsWithAttributes(): array
+	{
+		throw new NotImplementedYetException();
+	}
+
+
 	public function getAllowInClassWithMethodAttributes(): array
 	{
 		throw new NotImplementedYetException();

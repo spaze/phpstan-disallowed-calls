@@ -47,7 +47,7 @@ class AllowedConfigFactory
 	public function getConfig(array $allowed): AllowedConfig
 	{
 		$allowInCalls = $allowExceptInCalls = $allowInClassWithAttributes = $allowExceptInClassWithAttributes = [];
-		$allowInCallWithAttributes = $allowExceptInCallWithAttributes = $allowInClassWithMethodAttributes = $allowExceptInClassWithMethodAttributes = [];
+		$allowInCallsWithAttributes = $allowExceptInCallsWithAttributes = $allowInClassWithMethodAttributes = $allowExceptInClassWithMethodAttributes = [];
 		$allowParamsInAllowed = $allowParamsAnywhere = $allowExceptParamsInAllowed = $allowExceptParams = [];
 
 		foreach ($allowed['allowInFunctions'] ?? $allowed['allowInMethods'] ?? [] as $allowedCall) {
@@ -62,11 +62,11 @@ class AllowedConfigFactory
 		foreach ($allowed['allowExceptInClassWithAttributes'] ?? $allowed['disallowInClassWithAttributes'] ?? [] as $allowExceptInClassAttribute) {
 			$allowExceptInClassWithAttributes[] = $this->normalizer->normalizeAttribute($allowExceptInClassAttribute);
 		}
-		foreach ($allowed['allowInCallWithAttributes'] ?? [] as $allowInMethodAttribute) {
-			$allowInCallWithAttributes[] = $this->normalizer->normalizeAttribute($allowInMethodAttribute);
+		foreach ($allowed['allowInFunctionsWithAttributes'] ?? $allowed['allowInMethodsWithAttributes'] ?? [] as $allowInMethodAttribute) {
+			$allowInCallsWithAttributes[] = $this->normalizer->normalizeAttribute($allowInMethodAttribute);
 		}
-		foreach ($allowed['allowExceptInCallWithAttributes'] ?? $allowed['disallowInCallWithAttributes'] ?? [] as $allowExceptInMethodAttribute) {
-			$allowExceptInCallWithAttributes[] = $this->normalizer->normalizeAttribute($allowExceptInMethodAttribute);
+		foreach ($allowed['allowExceptInFunctionsWithAttributes'] ?? $allowed['allowExceptInMethodsWithAttributes'] ?? $allowed['disallowInFunctionsWithAttributes'] ?? $allowed['disallowInMethodsWithAttributes'] ?? [] as $allowExceptInMethodAttribute) {
+			$allowExceptInCallsWithAttributes[] = $this->normalizer->normalizeAttribute($allowExceptInMethodAttribute);
 		}
 		foreach ($allowed['allowInClassWithMethodAttributes'] ?? [] as $allowInAnyMethodAttribute) {
 			$allowInClassWithMethodAttributes[] = $this->normalizer->normalizeAttribute($allowInAnyMethodAttribute);
@@ -117,8 +117,8 @@ class AllowedConfigFactory
 			$allowExceptInCalls,
 			$allowInClassWithAttributes,
 			$allowExceptInClassWithAttributes,
-			$allowInCallWithAttributes,
-			$allowExceptInCallWithAttributes,
+			$allowInCallsWithAttributes,
+			$allowExceptInCallsWithAttributes,
 			$allowInClassWithMethodAttributes,
 			$allowExceptInClassWithMethodAttributes,
 			$allowParamsInAllowed,

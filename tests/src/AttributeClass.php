@@ -126,3 +126,38 @@ class MethodsWithAttributes2
 	}
 
 }
+
+use PhpOption\None;
+use PhpOption\Some;
+
+class CallsWithAttributes
+{
+
+	#[\Attribute10]
+	public function method1(): void
+	{
+		strtolower('');
+		strtoupper('');
+		new None();
+		new Some(303);
+		#[\Attribute12]
+		function foo(): void {};
+		#[\Attribute13]
+		function bar(): void {};
+	}
+
+
+	#[\Attribute11]
+	public function method2(): void
+	{
+		strtolower('');
+		strtoupper('');
+		new None();
+		new Some(303);
+		#[\Attribute12]
+		function foo(): void {};
+		#[\Attribute13]
+		function bar(): void {};
+	}
+
+}

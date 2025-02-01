@@ -45,6 +45,18 @@ interface Disallowed
 	/**
 	 * @return list<string>
 	 */
+	public function getAllowInCallsWithAttributes(): array;
+
+
+	/**
+	 * @return list<string>
+	 */
+	public function getAllowExceptInCallsWithAttributes(): array;
+
+
+	/**
+	 * @return list<string>
+	 */
 	public function getAllowInClassWithMethodAttributes(): array;
 
 

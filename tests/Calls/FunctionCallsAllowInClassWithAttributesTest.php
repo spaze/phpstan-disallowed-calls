@@ -44,6 +44,18 @@ class FunctionCallsAllowInClassWithAttributesTest extends RuleTestCase
 					],
 				],
 				[
+					'function' => 'strtolower()',
+					'allowInMethodsWithAttributes' => [
+						'Attribute10',
+					],
+				],
+				[
+					'function' => 'strtoupper()',
+					'allowExceptInMethodsWithAttributes' => [
+						'Attribute11',
+					],
+				],
+				[
 					'function' => 'var_dump()',
 					'allowInClassWithMethodAttributes' => [
 						'Attribute6',
@@ -78,6 +90,14 @@ class FunctionCallsAllowInClassWithAttributesTest extends RuleTestCase
 			[
 				'Calling print_r() is forbidden.',
 				99,
+			],
+			[
+				'Calling strtolower() is forbidden.',
+				153,
+			],
+			[
+				'Calling strtoupper() is forbidden.',
+				154,
 			],
 		]);
 	}

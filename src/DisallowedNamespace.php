@@ -110,6 +110,18 @@ class DisallowedNamespace implements Disallowed
 	}
 
 
+	public function getAllowInCallsWithAttributes(): array
+	{
+		return $this->allowedConfig->getAllowInCallsWithAttributes();
+	}
+
+
+	public function getAllowExceptInCallsWithAttributes(): array
+	{
+		return $this->allowedConfig->getAllowExceptInCallsWithAttributes();
+	}
+
+
 	public function getAllowInClassWithMethodAttributes(): array
 	{
 		return $this->allowedConfig->getAllowInClassWithMethodAttributes();

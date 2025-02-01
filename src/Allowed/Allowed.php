@@ -78,6 +78,12 @@ class Allowed
 		if ($disallowed->getAllowExceptInClassWithAttributes()) {
 			return !$this->hasAllowedAttribute($this->getAttributes($scope), $disallowed->getAllowExceptInClassWithAttributes());
 		}
+		if ($disallowed->getAllowInCallsWithAttributes()) {
+			return $this->hasAllowedAttribute($this->getCallAttributes($scope), $disallowed->getAllowInCallsWithAttributes());
+		}
+		if ($disallowed->getAllowExceptInCallsWithAttributes()) {
+			return !$this->hasAllowedAttribute($this->getCallAttributes($scope), $disallowed->getAllowExceptInCallsWithAttributes());
+		}
 		if ($disallowed->getAllowInClassWithMethodAttributes()) {
 			return $this->hasAllowedAttribute($this->getAllMethodAttributes($scope), $disallowed->getAllowInClassWithMethodAttributes());
 		}
@@ -205,6 +211,22 @@ class Allowed
 	private function getAttributes(Scope $scope): array
 	{
 		return $scope->isInClass() ? $scope->getClassReflection()->getNativeReflection()->getAttributes() : [];
+	}
+
+
+	/**
+	 * @param Scope $scope
+	 * @return list<FakeReflectionAttribute>|list<ReflectionAttribute>
+	 */
+	private function getCallAttributes(Scope $scope): array
+	{
+		if ($scope->getFunction() instanceof MethodReflection) {
+			return $scope->isInClass() ? $scope->getClassReflection()->getNativeReflection()->getMethod($scope->getFunction()->getName())->getAttributes() : [];
+		} elseif ($scope->getFunction() instanceof FunctionReflection) {
+			return []; // @todo
+		} else {
+			return [];
+		}
 	}
 
 
