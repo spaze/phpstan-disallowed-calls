@@ -7,6 +7,8 @@ use PhpParser\Node\Arg;
 use PHPStan\Analyser\Scope;
 use PHPStan\BetterReflection\Reflection\Adapter\FakeReflectionAttribute;
 use PHPStan\BetterReflection\Reflection\Adapter\ReflectionAttribute;
+use PHPStan\BetterReflection\Reflection\ReflectionAttribute as BetterReflectionAttribute;
+use PHPStan\BetterReflection\Reflector\Reflector;
 use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\Type;
@@ -22,14 +24,18 @@ class Allowed
 
 	private Formatter $formatter;
 
+	private Reflector $reflector;
+
 	private AllowedPath $allowedPath;
 
 
 	public function __construct(
 		Formatter $formatter,
+		Reflector $reflector,
 		AllowedPath $allowedPath
 	) {
 		$this->formatter = $formatter;
+		$this->reflector = $reflector;
 		$this->allowedPath = $allowedPath;
 	}
 
@@ -162,7 +168,7 @@ class Allowed
 
 
 	/**
-	 * @param list<ReflectionAttribute|FakeReflectionAttribute> $attributes
+	 * @param list<FakeReflectionAttribute|ReflectionAttribute|BetterReflectionAttribute> $attributes
 	 * @param list<string> $allowConfig
 	 * @return bool
 	 */
@@ -216,14 +222,15 @@ class Allowed
 
 	/**
 	 * @param Scope $scope
-	 * @return list<FakeReflectionAttribute>|list<ReflectionAttribute>
+	 * @return list<FakeReflectionAttribute|ReflectionAttribute|BetterReflectionAttribute>
 	 */
 	private function getCallAttributes(Scope $scope): array
 	{
-		if ($scope->getFunction() instanceof MethodReflection) {
-			return $scope->isInClass() ? $scope->getClassReflection()->getNativeReflection()->getMethod($scope->getFunction()->getName())->getAttributes() : [];
-		} elseif ($scope->getFunction() instanceof FunctionReflection) {
-			return []; // @todo
+		$function = $scope->getFunction();
+		if ($function instanceof MethodReflection) {
+			return $scope->isInClass() ? $scope->getClassReflection()->getNativeReflection()->getMethod($function->getName())->getAttributes() : [];
+		} elseif ($function instanceof FunctionReflection) {
+			return $this->reflector->reflectFunction($function->getName())->getAttributes();
 		} else {
 			return [];
 		}

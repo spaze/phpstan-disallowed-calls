@@ -103,6 +103,21 @@ class FunctionCallsAllowInClassWithAttributesTest extends RuleTestCase
 	}
 
 
+	public function testRuleInFunctions(): void
+	{
+		$this->analyse([__DIR__ . '/../src/AttributeFunctions.php'], [
+			[
+				'Calling strtolower() is forbidden.',
+				15,
+			],
+			[
+				'Calling strtoupper() is forbidden.',
+				16,
+			],
+		]);
+	}
+
+
 	public static function getAdditionalConfigFiles(): array
 	{
 		return [
