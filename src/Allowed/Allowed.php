@@ -17,6 +17,7 @@ use Spaze\PHPStan\Rules\Disallowed\Disallowed;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedWithParams;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeException;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
+use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 use Spaze\PHPStan\Rules\Disallowed\Params\Param;
 
 class Allowed
@@ -26,16 +27,20 @@ class Allowed
 
 	private Reflector $reflector;
 
+	private Identifier $identifier;
+
 	private AllowedPath $allowedPath;
 
 
 	public function __construct(
 		Formatter $formatter,
 		Reflector $reflector,
+		Identifier $identifier,
 		AllowedPath $allowedPath
 	) {
 		$this->formatter = $formatter;
 		$this->reflector = $reflector;
+		$this->identifier = $identifier;
 		$this->allowedPath = $allowedPath;
 	}
 
@@ -109,7 +114,7 @@ class Allowed
 		} else {
 			$name = '';
 		}
-		return fnmatch($call, $name, FNM_NOESCAPE | FNM_CASEFOLD);
+		return $this->identifier->matches($call, $name);
 	}
 
 
@@ -180,7 +185,7 @@ class Allowed
 		}
 		foreach ($allowConfig as $allowAttribute) {
 			foreach ($names as $name) {
-				if (fnmatch($allowAttribute, $name, FNM_NOESCAPE | FNM_CASEFOLD)) {
+				if ($this->identifier->matches($allowAttribute, $name)) {
 					return true;
 				}
 			}
