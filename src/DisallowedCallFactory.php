@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PHPStan\ShouldNotHappenException;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
+use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedConfigFactory;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeInConfigException;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
@@ -16,14 +16,14 @@ class DisallowedCallFactory
 
 	private Normalizer $normalizer;
 
-	private Allowed $allowed;
+	private AllowedConfigFactory $allowedConfigFactory;
 
 
-	public function __construct(Formatter $formatter, Normalizer $normalizer, Allowed $allowed)
+	public function __construct(Formatter $formatter, Normalizer $normalizer, AllowedConfigFactory $allowedConfigFactory)
 	{
 		$this->formatter = $formatter;
 		$this->normalizer = $normalizer;
-		$this->allowed = $allowed;
+		$this->allowedConfigFactory = $allowedConfigFactory;
 	}
 
 
@@ -55,7 +55,7 @@ class DisallowedCallFactory
 						$excludes,
 						(array)($disallowed['definedIn'] ?? []),
 						$disallowed['message'] ?? null,
-						$this->allowed->getConfig($disallowed),
+						$this->allowedConfigFactory->getConfig($disallowed),
 						$disallowed['errorIdentifier'] ?? null,
 						$disallowed['errorTip'] ?? null
 					);

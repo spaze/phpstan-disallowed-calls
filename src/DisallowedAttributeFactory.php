@@ -3,21 +3,21 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed;
 
-use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
+use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedConfigFactory;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeInConfigException;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 
 class DisallowedAttributeFactory
 {
 
-	private Allowed $allowed;
+	private AllowedConfigFactory $allowedConfigFactory;
 
 	private Normalizer $normalizer;
 
 
-	public function __construct(Allowed $allowed, Normalizer $normalizer)
+	public function __construct(AllowedConfigFactory $allowedConfigFactory, Normalizer $normalizer)
 	{
-		$this->allowed = $allowed;
+		$this->allowedConfigFactory = $allowedConfigFactory;
 		$this->normalizer = $normalizer;
 	}
 
@@ -42,7 +42,7 @@ class DisallowedAttributeFactory
 					$this->normalizer->normalizeAttribute($attribute),
 					$excludes,
 					$disallowed['message'] ?? null,
-					$this->allowed->getConfig($disallowed),
+					$this->allowedConfigFactory->getConfig($disallowed),
 					$disallowed['errorIdentifier'] ?? null,
 					$disallowed['errorTip'] ?? null
 				);

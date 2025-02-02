@@ -7,7 +7,6 @@ use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use PHPUnit\Framework\Attributes\RequiresPhp;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
-use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 
 /**
@@ -23,7 +22,7 @@ class NamespaceUsagesTypesTest extends RuleTestCase
 		return new NamespaceUsages(
 			$container->getByType(DisallowedNamespaceRuleErrors::class),
 			$container->getByType(DisallowedNamespaceFactory::class),
-			$container->getByType(Normalizer::class),
+			$container->getByType(NamespaceUsageFactory::class),
 			[
 				[
 					'class' => 'Waldo\Quux\Blade',

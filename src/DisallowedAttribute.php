@@ -118,6 +118,42 @@ class DisallowedAttribute implements DisallowedWithParams
 	}
 
 
+	public function getAllowInClassWithAttributes(): array
+	{
+		return $this->allowedConfig->getAllowInClassWithAttributes();
+	}
+
+
+	public function getAllowExceptInClassWithAttributes(): array
+	{
+		return $this->allowedConfig->getAllowExceptInClassWithAttributes();
+	}
+
+
+	public function getAllowInCallsWithAttributes(): array
+	{
+		return $this->allowedConfig->getAllowInCallsWithAttributes();
+	}
+
+
+	public function getAllowExceptInCallsWithAttributes(): array
+	{
+		return $this->allowedConfig->getAllowExceptInCallsWithAttributes();
+	}
+
+
+	public function getAllowInClassWithMethodAttributes(): array
+	{
+		return $this->allowedConfig->getAllowInClassWithMethodAttributes();
+	}
+
+
+	public function getAllowExceptInClassWithMethodAttributes(): array
+	{
+		return $this->allowedConfig->getAllowExceptInClassWithMethodAttributes();
+	}
+
+
 	public function getErrorIdentifier(): ?string
 	{
 		return $this->errorIdentifier;

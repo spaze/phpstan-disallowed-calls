@@ -86,6 +86,42 @@ class DisallowedVariable implements Disallowed
 	}
 
 
+	public function getAllowInClassWithAttributes(): array
+	{
+		throw new NotImplementedYetException();
+	}
+
+
+	public function getAllowExceptInClassWithAttributes(): array
+	{
+		throw new NotImplementedYetException();
+	}
+
+
+	public function getAllowInCallsWithAttributes(): array
+	{
+		throw new NotImplementedYetException();
+	}
+
+
+	public function getAllowExceptInCallsWithAttributes(): array
+	{
+		throw new NotImplementedYetException();
+	}
+
+
+	public function getAllowInClassWithMethodAttributes(): array
+	{
+		throw new NotImplementedYetException();
+	}
+
+
+	public function getAllowExceptInClassWithMethodAttributes(): array
+	{
+		throw new NotImplementedYetException();
+	}
+
+
 	public function getErrorIdentifier(): ?string
 	{
 		return $this->errorIdentifier;

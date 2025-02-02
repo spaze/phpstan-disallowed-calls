@@ -4,23 +4,33 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PHPStan\ShouldNotHappenException;
+use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedConfigFactory;
+use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeInConfigException;
+use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 
 class DisallowedNamespaceFactory
 {
 
+	private Formatter $formatter;
+
 	private Normalizer $normalizer;
 
+	private AllowedConfigFactory $allowedConfigFactory;
 
-	public function __construct(Normalizer $normalizer)
+
+	public function __construct(Formatter $formatter, Normalizer $normalizer, AllowedConfigFactory $allowedConfigFactory)
 	{
+		$this->formatter = $formatter;
 		$this->normalizer = $normalizer;
+		$this->allowedConfigFactory = $allowedConfigFactory;
 	}
 
 
 	/**
-	 * @param array<array{namespace?:string|list<string>, class?:string|list<string>, exclude?:string|list<string>, message?:string, allowIn?:list<string>, allowExceptIn?:list<string>, disallowIn?:list<string>, errorIdentifier?:string, errorTip?:string}> $config
+	 * @param array<array{namespace?:string|list<string>, class?:string|list<string>, exclude?:string|list<string>, message?:string, allowIn?:list<string>, allowExceptIn?:list<string>, disallowIn?:list<string>, allowInUse?:bool, errorIdentifier?:string, errorTip?:string}> $config
 	 * @return list<DisallowedNamespace>
+	 * @throws ShouldNotHappenException
 	 */
 	public function createFromConfig(array $config): array
 	{
@@ -35,17 +45,22 @@ class DisallowedNamespaceFactory
 			foreach ((array)($disallowed['exclude'] ?? []) as $exclude) {
 				$excludes[] = $this->normalizer->normalizeNamespace($exclude);
 			}
-			foreach ((array)$namespaces as $namespace) {
-				$disallowedNamespace = new DisallowedNamespace(
-					$this->normalizer->normalizeNamespace($namespace),
-					$excludes,
-					$disallowed['message'] ?? null,
-					$disallowed['allowIn'] ?? [],
-					$disallowed['allowExceptIn'] ?? $disallowed['disallowIn'] ?? [],
-					$disallowed['errorIdentifier'] ?? null,
-					$disallowed['errorTip'] ?? null
-				);
-				$disallowedNamespaces[$disallowedNamespace->getNamespace()] = $disallowedNamespace;
+			$namespaces = (array)$namespaces;
+			try {
+				foreach ($namespaces as $namespace) {
+					$disallowedNamespace = new DisallowedNamespace(
+						$this->normalizer->normalizeNamespace($namespace),
+						$excludes,
+						$disallowed['message'] ?? null,
+						$this->allowedConfigFactory->getConfig($disallowed),
+						$disallowed['allowInUse'] ?? false,
+						$disallowed['errorIdentifier'] ?? null,
+						$disallowed['errorTip'] ?? null
+					);
+					$disallowedNamespaces[$disallowedNamespace->getNamespace()] = $disallowedNamespace;
+				}
+			} catch (UnsupportedParamTypeInConfigException $e) {
+				throw new ShouldNotHappenException(sprintf('%s: %s', $this->formatter->formatIdentifier($namespaces), $e->getMessage()));
 			}
 		}
 		return array_values($disallowedNamespaces);

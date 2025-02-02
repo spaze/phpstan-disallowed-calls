@@ -29,4 +29,40 @@ interface Disallowed
 	 */
 	public function getAllowExceptInCalls(): array;
 
+
+	/**
+	 * @return list<string>
+	 */
+	public function getAllowInClassWithAttributes(): array;
+
+
+	/**
+	 * @return list<string>
+	 */
+	public function getAllowExceptInClassWithAttributes(): array;
+
+
+	/**
+	 * @return list<string>
+	 */
+	public function getAllowInCallsWithAttributes(): array;
+
+
+	/**
+	 * @return list<string>
+	 */
+	public function getAllowExceptInCallsWithAttributes(): array;
+
+
+	/**
+	 * @return list<string>
+	 */
+	public function getAllowInClassWithMethodAttributes(): array;
+
+
+	/**
+	 * @return list<string>
+	 */
+	public function getAllowExceptInClassWithMethodAttributes(): array;
+
 }

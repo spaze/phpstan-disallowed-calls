@@ -24,6 +24,19 @@ parametersSchema:
 			?allowIn: listOf(string()),
 			?allowExceptIn: listOf(string()),
 			?disallowIn: listOf(string()),
+			?allowInClassWithAttributes: listOf(string()),
+			?allowExceptInClassWithAttributes: listOf(string()),
+			?disallowInClassWithAttributes: listOf(string()),
+			?allowInFunctionsWithAttributes: listOf(string()),
+			?allowInMethodsWithAttributes: listOf(string()),
+			?allowExceptInFunctionsWithAttributes: listOf(string()),
+			?allowExceptInMethodsWithAttributes: listOf(string()),
+			?disallowInFunctionsWithAttributes: listOf(string()),
+			?disallowInMethodsWithAttributes: listOf(string()),
+			?allowInClassWithMethodAttributes: listOf(string()),
+			?allowExceptInClassWithMethodAttributes: listOf(string()),
+			?disallowInClassWithMethodAttributes: listOf(string()),
+			?allowInUse: bool(),
 			?errorIdentifier: string(),
 			?errorTip: string(),
 		])
@@ -37,6 +50,19 @@ parametersSchema:
 			?allowIn: listOf(string()),
 			?allowExceptIn: listOf(string()),
 			?disallowIn: listOf(string()),
+			?allowInClassWithAttributes: listOf(string()),
+			?allowExceptInClassWithAttributes: listOf(string()),
+			?disallowInClassWithAttributes: listOf(string()),
+			?allowInFunctionsWithAttributes: listOf(string()),
+			?allowInMethodsWithAttributes: listOf(string()),
+			?allowExceptInFunctionsWithAttributes: listOf(string()),
+			?allowExceptInMethodsWithAttributes: listOf(string()),
+			?disallowInFunctionsWithAttributes: listOf(string()),
+			?disallowInMethodsWithAttributes: listOf(string()),
+			?allowInClassWithMethodAttributes: listOf(string()),
+			?allowExceptInClassWithMethodAttributes: listOf(string()),
+			?disallowInClassWithMethodAttributes: listOf(string()),
+			?allowInUse: bool(),
 			?errorIdentifier: string(),
 			?errorTip: string(),
 		])
@@ -75,6 +101,18 @@ parametersSchema:
 			?disallowParamFlags: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?typeString: string(), ?name: string()])), anyOf(int(), string())),
 			?allowExceptCaseInsensitiveParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?typeString: string(), ?name: string()])), anyOf(int(), string())),
 			?disallowCaseInsensitiveParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?typeString: string(), ?name: string()])), anyOf(int(), string())),
+			?allowInClassWithAttributes: listOf(string()),
+			?allowExceptInClassWithAttributes: listOf(string()),
+			?disallowInClassWithAttributes: listOf(string()),
+			?allowInFunctionsWithAttributes: listOf(string()),
+			?allowInMethodsWithAttributes: listOf(string()),
+			?allowExceptInFunctionsWithAttributes: listOf(string()),
+			?allowExceptInMethodsWithAttributes: listOf(string()),
+			?disallowInFunctionsWithAttributes: listOf(string()),
+			?disallowInMethodsWithAttributes: listOf(string()),
+			?allowInClassWithMethodAttributes: listOf(string()),
+			?allowExceptInClassWithMethodAttributes: listOf(string()),
+			?disallowInClassWithMethodAttributes: listOf(string()),
 			?errorIdentifier: string(),
 			?errorTip: string(),
 		])
@@ -113,6 +151,18 @@ parametersSchema:
 			?disallowParamFlags: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?typeString: string(), ?name: string()])), anyOf(int(), string())),
 			?allowExceptCaseInsensitiveParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?typeString: string(), ?name: string()])), anyOf(int(), string())),
 			?disallowCaseInsensitiveParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?typeString: string(), ?name: string()])), anyOf(int(), string())),
+			?allowInClassWithAttributes: listOf(string()),
+			?allowExceptInClassWithAttributes: listOf(string()),
+			?disallowInClassWithAttributes: listOf(string()),
+			?allowInFunctionsWithAttributes: listOf(string()),
+			?allowInMethodsWithAttributes: listOf(string()),
+			?allowExceptInFunctionsWithAttributes: listOf(string()),
+			?allowExceptInMethodsWithAttributes: listOf(string()),
+			?disallowInFunctionsWithAttributes: listOf(string()),
+			?disallowInMethodsWithAttributes: listOf(string()),
+			?allowInClassWithMethodAttributes: listOf(string()),
+			?allowExceptInClassWithMethodAttributes: listOf(string()),
+			?disallowInClassWithMethodAttributes: listOf(string()),
 			?errorIdentifier: string(),
 			?errorTip: string(),
 		])
@@ -151,6 +201,18 @@ parametersSchema:
 			?disallowParamFlags: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?typeString: string(), ?name: string()])), anyOf(int(), string())),
 			?allowExceptCaseInsensitiveParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?typeString: string(), ?name: string()])), anyOf(int(), string())),
 			?disallowCaseInsensitiveParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?typeString: string(), ?name: string()])), anyOf(int(), string())),
+			?allowInClassWithAttributes: listOf(string()),
+			?allowExceptInClassWithAttributes: listOf(string()),
+			?disallowInClassWithAttributes: listOf(string()),
+			?allowInFunctionsWithAttributes: listOf(string()),
+			?allowInMethodsWithAttributes: listOf(string()),
+			?allowExceptInFunctionsWithAttributes: listOf(string()),
+			?allowExceptInMethodsWithAttributes: listOf(string()),
+			?disallowInFunctionsWithAttributes: listOf(string()),
+			?disallowInMethodsWithAttributes: listOf(string()),
+			?allowInClassWithMethodAttributes: listOf(string()),
+			?allowExceptInClassWithMethodAttributes: listOf(string()),
+			?disallowInClassWithMethodAttributes: listOf(string()),
 			?errorIdentifier: string(),
 			?errorTip: string(),
 		])
@@ -221,6 +283,18 @@ parametersSchema:
 			?disallowParamFlags: arrayOf(anyOf(int(), structure([position: int(), ?value: int(), ?typeString: string(), ?name: string()])), anyOf(int(), string())),
 			?allowExceptCaseInsensitiveParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?typeString: string(), ?name: string()])), anyOf(int(), string())),
 			?disallowCaseInsensitiveParams: arrayOf(anyOf(int(), string(), bool(), structure([position: int(), ?value: anyOf(int(), string(), bool()), ?typeString: string(), ?name: string()])), anyOf(int(), string())),
+			?allowInClassWithAttributes: listOf(string()),
+			?allowExceptInClassWithAttributes: listOf(string()),
+			?disallowInClassWithAttributes: listOf(string()),
+			?allowInFunctionsWithAttributes: listOf(string()),
+			?allowInMethodsWithAttributes: listOf(string()),
+			?allowExceptInFunctionsWithAttributes: listOf(string()),
+			?allowExceptInMethodsWithAttributes: listOf(string()),
+			?disallowInFunctionsWithAttributes: listOf(string()),
+			?disallowInMethodsWithAttributes: listOf(string()),
+			?allowInClassWithMethodAttributes: listOf(string()),
+			?allowExceptInClassWithMethodAttributes: listOf(string()),
+			?disallowInClassWithMethodAttributes: listOf(string()),
 			?errorIdentifier: string(),
 			?errorTip: string(),
 		])
@@ -240,6 +314,7 @@ parametersSchema:
 
 services:
 	- Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed
+	- Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedConfigFactory
 	- Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedAttributeFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory
@@ -261,6 +336,7 @@ services:
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedVariableRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver
+	- Spaze\PHPStan\Rules\Disallowed\Usages\NamespaceUsageFactory
 	-
 		factory: Spaze\PHPStan\Rules\Disallowed\Usages\NamespaceUsages(forbiddenNamespaces: %disallowedNamespaces%)
 		tags:
