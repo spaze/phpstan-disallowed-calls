@@ -9,11 +9,10 @@ use PhpParser\Node\PropertyHook;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
-use PHPStan\BetterReflection\Reflector\Exception\IdentifierNotFound;
-use PHPStan\BetterReflection\Reflector\Reflector;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use Spaze\PHPStan\Rules\Disallowed\Disallowed;
@@ -30,7 +29,7 @@ class Allowed
 
 	private Formatter $formatter;
 
-	private Reflector $reflector;
+	private ReflectionProvider $reflectionProvider;
 
 	private Identifier $identifier;
 
@@ -39,12 +38,12 @@ class Allowed
 
 	public function __construct(
 		Formatter $formatter,
-		Reflector $reflector,
+		ReflectionProvider $reflectionProvider,
 		Identifier $identifier,
 		AllowedPath $allowedPath
 	) {
 		$this->formatter = $formatter;
-		$this->reflector = $reflector;
+		$this->reflectionProvider = $reflectionProvider;
 		$this->identifier = $identifier;
 		$this->allowedPath = $allowedPath;
 	}
@@ -320,7 +319,7 @@ class Allowed
 		if (!$scope->isInClass()) {
 			return [];
 		}
-		return array_map(static fn($a) => $a->getName(), $scope->getClassReflection()->getNativeReflection()->getAttributes());
+		return array_map(static fn($a) => $a->getName(), $scope->getClassReflection()->getAttributes());
 	}
 
 
@@ -332,39 +331,22 @@ class Allowed
 	private function getCallAttributes(?Node $node, Scope $scope): array
 	{
 		$function = $scope->getFunction();
-		if ($function instanceof MethodReflection) {
-			if (!$scope->isInClass()) {
-				return [];
-			}
-			// Property hooks can't be looked up with getMethod(), their names are like `$property::get`
-			if (preg_match('/^\$(.+)::(get|set)$/i', $function->getName(), $matches) === 1) {
-				$hook = $scope->getClassReflection()->getNativeReflection()->getProperty($matches[1])->getHooks()[strtolower($matches[2])] ?? null;
-				return $hook !== null ? array_map(static fn($a) => $a->getName(), $hook->getAttributes()) : [];
-			}
-			return array_map(static fn($a) => $a->getName(), $scope->getClassReflection()->getNativeReflection()->getMethod($function->getName())->getAttributes());
-		} elseif ($function instanceof FunctionReflection) {
-			try {
-				return array_map(static fn($a) => $a->getName(), $this->reflector->reflectFunction($function->getName())->getAttributes());
-			} catch (IdentifierNotFound $e) {
-				// Named functions declared inside other functions or methods can't be reflected, PHPStan doesn't support them anyway
-				return [];
-			}
-		} elseif ($function === null) {
-			if ($node instanceof ClassMethod && $scope->isInClass()) {
-				return array_map(static fn($a) => $a->getName(), $scope->getClassReflection()->getNativeReflection()->getMethod($node->name->name)->getAttributes());
-			} elseif ($node instanceof Function_) {
-				return array_map(static fn($a) => $a->getName(), $this->reflector->reflectFunction(($node->namespacedName ?? $node->name)->toString())->getAttributes());
-			}
+		if ($function !== null) {
+			return array_map(static fn($a) => $a->getName(), $function->getAttributes());
+		} elseif ($node instanceof ClassMethod && $scope->isInClass()) {
+			return array_map(static fn($a) => $a->getName(), $scope->getClassReflection()->getNativeMethod($node->name->name)->getAttributes());
+		} elseif ($node instanceof Function_ && $node->namespacedName !== null) {
+			return array_map(static fn($a) => $a->getName(), $this->reflectionProvider->getFunction($node->namespacedName, $scope)->getAttributes());
+		} elseif ($node instanceof PropertyHook) {
 			// Attributes placed on a property hook are checked in the class scope, use the hook's own attributes like for methods
-			if ($node instanceof PropertyHook) {
-				$names = [];
-				foreach ($node->attrGroups as $attrGroup) {
-					foreach ($attrGroup->attrs as $attr) {
-						$names[] = $attr->name->toString();
-					}
+			$names = [];
+			foreach ($node->attrGroups as $attrGroup) {
+				foreach ($attrGroup->attrs as $attr) {
+					$names[] = $attr->name->toString();
 				}
-				return $names;
 			}
+			return $names;
+		} else {
 			// $scope->getFunction() is null in param/return type hints, use the enclosing function attributes stored by TypeHintContextVisitor
 			if ($node !== null) {
 				$names = $node->getAttribute(TypeHintContextVisitor::ATTRIBUTE_ENCLOSING_FUNCTION_ATTR_NAMES);
