@@ -38,7 +38,7 @@ class SetCurrentFunctionNameHelperRule implements Rule
 	public function processNode(Node $node, Scope $scope): array
 	{
 		if ($node->namespacedName !== null) {
-			$this->attributesWhenInSignature->setCurrentFunctionName($node->namespacedName->toString());
+			$this->attributesWhenInSignature->setCurrentFunctionName($node->namespacedName);
 		}
 		return [];
 	}

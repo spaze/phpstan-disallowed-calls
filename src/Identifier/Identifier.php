@@ -3,17 +3,17 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Identifier;
 
-use PHPStan\BetterReflection\Reflector\Exception\IdentifierNotFound;
-use PHPStan\BetterReflection\Reflector\Reflector;
+use PHPStan\Reflection\ReflectionProvider;
 
 class Identifier
 {
-	private Reflector $reflector;
+
+	private ReflectionProvider $reflectionProvider;
 
 
-	public function __construct(Reflector $reflector)
+	public function __construct(ReflectionProvider $reflectionProvider)
 	{
-		$this->reflector = $reflector;
+		$this->reflectionProvider = $reflectionProvider;
 	}
 
 
@@ -40,12 +40,10 @@ class Identifier
 			}
 		}
 		if ($matches && $excludeWithAttributes) {
-			try {
-				$attributes = array_map(fn($a) => $a->getName(), $this->reflector->reflectClass($value)->getAttributes());
-			} catch (IdentifierNotFound $e) {
-				$attributes = [];
+			if (!$this->reflectionProvider->hasClass($value)) {
+				return true;
 			}
-
+			$attributes = array_map(fn($a) => $a->getName(), $this->reflectionProvider->getClass($value)->getAttributes());
 			foreach ($attributes as $attribute) {
 				foreach ($excludeWithAttributes as $excludeWithAttribute) {
 					if (fnmatch($excludeWithAttribute, $attribute, FNM_NOESCAPE | FNM_CASEFOLD)) {
