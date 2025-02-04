@@ -103,19 +103,19 @@ class MethodsWithAttributes2
 
 
 	#[\Attribute6]
-	public function method2(): void
+	private function method2(): void
 	{
 	}
 
 
 	#[\Attribute8]
-	public function method3(): void
+	protected function method3(): void
 	{
 	}
 
 
 	#[\Attribute7, \Attribute9]
-	public function method4(): void
+	final public static function method4(): void
 	{
 	}
 
