@@ -1,7 +1,7 @@
 ## Allow in class with given attributes on any method
 
 You can allow or disallow a function or a method, an attribute, a namespace or a classname in a class where any method, including the method the call is done in, but not the class itself, has the specified attribute.
-This is done with `allowInClassWithMethodAttributes` and `allowExceptInClassWithMethodAttributes` (or `disallowInClassWithMethodAttributes` which is an alias).
+This is done with `allowInClassWithMethodAttributes` and `allowExceptInClassWithMethodAttributes` (or `disallowInClassWithMethodAttributes` which is an alias). The method with the attribute can also be static, final or even abstract, and the method visibility doesn't matter.
 
 ```neon
 parameters:
