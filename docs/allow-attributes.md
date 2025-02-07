@@ -5,7 +5,7 @@ Disallowed PHP attributes can be allowed again using the same configuration as w
 parameters:
     disallowedAttributes:
         -
-            attribute: Entity
+            attribute: 'Doctrine\ORM\Mapping\Entity'
             message: 'you must specify $repositoryClass parameter with Entity'
             allowParamsAnywhereAnyValue:
                 -
