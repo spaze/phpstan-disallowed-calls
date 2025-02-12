@@ -53,7 +53,7 @@ class DisallowedCallsRuleErrors
 			if (
 				$this->identifier->matches($disallowedCall->getCall(), $name, $disallowedCall->getExcludes())
 				&& $this->definedInMatches($disallowedCall, $definedIn)
-				&& !$this->allowed->isAllowed($scope, isset($node) ? $node->getArgs() : null, $disallowedCall)
+				&& !$this->allowed->isAllowed($node, $scope, isset($node) ? $node->getArgs() : null, $disallowedCall)
 			) {
 				$errorBuilder = RuleErrorBuilder::message(sprintf(
 					$message ?? 'Calling %s is forbidden%s%s',

@@ -25,3 +25,32 @@ parameters:
 ```
 
 The attribute names support [fnmatch()](https://www.php.net/function.fnmatch) patterns. If you specify multiple attributes, the method or the function in which the item should be allowed or disallowed, needs to have just one of them.
+
+### Attributes on methods
+
+In case of disallowing attributes and then re-allowing them in methods with attributes, the disallowed attributes can be both _inside_ the method, and _on_ the method.
+This means that the following code with the following configuration is also valid, even though `Attribute1` is technically not used _inside_ the method.
+
+```php
+class Foo
+{
+
+    #[Attribute1]
+    #[Attribute2]
+    public function bar()
+    {
+    }
+
+}
+```
+
+```neon
+parameters:
+    disallowedAttributes:
+        -
+            attribute: Attribute1
+            allowInMethodsWithAttributes:
+                - Attribute2
+```
+
+No error would be reported for `Attribute1` as it is used "in" a method with `Attribute2`.

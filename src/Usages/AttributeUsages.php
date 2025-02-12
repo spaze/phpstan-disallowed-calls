@@ -89,7 +89,7 @@ class AttributeUsages implements Rule
 
 		$errors = [];
 		foreach ($this->attributes as $attribute) {
-			$ruleErrors = $this->disallowedAttributeRuleErrors->get($attribute, $scope, $this->disallowedAttributes);
+			$ruleErrors = $this->disallowedAttributeRuleErrors->get($node, $attribute, $scope, $this->disallowedAttributes);
 			if ($ruleErrors) {
 				$errors = array_merge($errors, $ruleErrors);
 			}

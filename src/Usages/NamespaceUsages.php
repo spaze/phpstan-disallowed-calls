@@ -122,6 +122,7 @@ class NamespaceUsages implements Rule
 		$errors = [];
 		foreach ($namespaces as $namespaceUsage) {
 			$ruleErrors = $this->disallowedNamespaceRuleErrors->getDisallowedMessage(
+				$node,
 				$namespaceUsage,
 				$description ?? 'Namespace',
 				$scope,

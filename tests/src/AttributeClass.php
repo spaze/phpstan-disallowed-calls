@@ -133,7 +133,7 @@ use PhpOption\Some;
 class CallsWithAttributes
 {
 
-	#[\Attribute10]
+	#[\Attribute10, \Attribute12]
 	public function method1(): void
 	{
 		strtolower('');
@@ -147,7 +147,7 @@ class CallsWithAttributes
 	}
 
 
-	#[\Attribute11]
+	#[\Attribute11, \Attribute13]
 	public function method2(): void
 	{
 		strtolower('');

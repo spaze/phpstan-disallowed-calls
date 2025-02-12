@@ -3,7 +3,10 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Allowed;
 
+use PhpParser\Node;
 use PhpParser\Node\Arg;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
 use PHPStan\BetterReflection\Reflection\Adapter\FakeReflectionAttribute;
 use PHPStan\BetterReflection\Reflection\Adapter\ReflectionAttribute;
@@ -46,12 +49,13 @@ class Allowed
 
 
 	/**
+	 * @param Node|null $node
 	 * @param Scope $scope
 	 * @param array<Arg>|null $args
 	 * @param Disallowed|DisallowedWithParams $disallowed
 	 * @return bool
 	 */
-	public function isAllowed(Scope $scope, ?array $args, Disallowed $disallowed): bool
+	public function isAllowed(?Node $node, Scope $scope, ?array $args, Disallowed $disallowed): bool
 	{
 		$hasParams = $disallowed instanceof DisallowedWithParams;
 		foreach ($disallowed->getAllowInCalls() as $call) {
@@ -90,10 +94,10 @@ class Allowed
 			return !$this->hasAllowedAttribute($this->getAttributes($scope), $disallowed->getAllowExceptInClassWithAttributes());
 		}
 		if ($disallowed->getAllowInCallsWithAttributes()) {
-			return $this->hasAllowedAttribute($this->getCallAttributes($scope), $disallowed->getAllowInCallsWithAttributes());
+			return $this->hasAllowedAttribute($this->getCallAttributes($node, $scope), $disallowed->getAllowInCallsWithAttributes());
 		}
 		if ($disallowed->getAllowExceptInCallsWithAttributes()) {
-			return !$this->hasAllowedAttribute($this->getCallAttributes($scope), $disallowed->getAllowExceptInCallsWithAttributes());
+			return !$this->hasAllowedAttribute($this->getCallAttributes($node, $scope), $disallowed->getAllowExceptInCallsWithAttributes());
 		}
 		if ($disallowed->getAllowInClassWithMethodAttributes()) {
 			return $this->hasAllowedAttribute($this->getAllMethodAttributes($scope), $disallowed->getAllowInClassWithMethodAttributes());
@@ -226,19 +230,25 @@ class Allowed
 
 
 	/**
+	 * @param Node|null $node
 	 * @param Scope $scope
 	 * @return list<FakeReflectionAttribute|ReflectionAttribute|BetterReflectionAttribute>
 	 */
-	private function getCallAttributes(Scope $scope): array
+	private function getCallAttributes(?Node $node, Scope $scope): array
 	{
 		$function = $scope->getFunction();
 		if ($function instanceof MethodReflection) {
 			return $scope->isInClass() ? $scope->getClassReflection()->getNativeReflection()->getMethod($function->getName())->getAttributes() : [];
 		} elseif ($function instanceof FunctionReflection) {
 			return $this->reflector->reflectFunction($function->getName())->getAttributes();
-		} else {
-			return [];
+		} elseif ($function === null) {
+			if ($node instanceof ClassMethod && $scope->isInClass()) {
+				return $scope->getClassReflection()->getNativeReflection()->getMethod($node->name->name)->getAttributes();
+			} elseif ($node instanceof Function_) {
+				return $this->reflector->reflectFunction($node->name->name)->getAttributes();
+			}
 		}
+		return [];
 	}
 
 
