@@ -95,12 +95,27 @@ class AttributeUsagesAllowInClassWithAttributesTest extends RuleTestCase
 				123,
 			],
 			[
+				'Attribute Attribute13 is forbidden.',
+				150,
+			],
+			[
 				'Attribute Attribute12 is forbidden.',
 				157,
 			],
 			[
 				'Attribute Attribute13 is forbidden.',
 				159,
+			],
+		]);
+	}
+
+
+	public function testRuleInFunctions(): void
+	{
+		$this->analyse([__DIR__ . '/../src/AttributeFunctions.php'], [
+			[
+				'Attribute Attribute13 is forbidden.',
+				26,
 			],
 		]);
 	}

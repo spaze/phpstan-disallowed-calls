@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\RuleErrors;
 
+use PhpParser\Node;
 use PhpParser\Node\Attribute;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\IdentifierRuleError;
@@ -31,19 +32,19 @@ class DisallowedAttributeRuleErrors
 
 
 	/**
-	 * @param Attribute $attribute
+	 * @param Node $node
 	 * @param Scope $scope
 	 * @param list<DisallowedAttribute> $disallowedAttributes
 	 * @return list<IdentifierRuleError>
 	 */
-	public function get(Attribute $attribute, Scope $scope, array $disallowedAttributes): array
+	public function get(Node $node, Attribute $attribute, Scope $scope, array $disallowedAttributes): array
 	{
 		foreach ($disallowedAttributes as $disallowedAttribute) {
 			$attributeName = $attribute->name->toString();
 			if (!$this->identifier->matches($disallowedAttribute->getAttribute(), $attributeName, $disallowedAttribute->getExcludes())) {
 				continue;
 			}
-			if ($this->allowed->isAllowed($scope, $attribute->args, $disallowedAttribute)) {
+			if ($this->allowed->isAllowed($node, $scope, $attribute->args, $disallowedAttribute)) {
 				continue;
 			}
 

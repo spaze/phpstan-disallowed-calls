@@ -15,3 +15,15 @@ function withAttribute11(): void
 	strtolower('');
 	strtoupper('');
 }
+
+
+#[\Attribute10, \Attribute12]
+function withAttribute10And12(): void
+{
+}
+
+
+#[\Attribute11, \Attribute13]
+function withAttribute11And13(): void
+{
+}

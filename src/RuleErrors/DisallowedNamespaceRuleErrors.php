@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\RuleErrors;
 
+use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\RuleErrorBuilder;
@@ -31,6 +32,7 @@ class DisallowedNamespaceRuleErrors
 
 
 	/**
+	 * @param Node $node
 	 * @param NamespaceUsage $namespaceUsage
 	 * @param string $description
 	 * @param Scope $scope
@@ -38,12 +40,12 @@ class DisallowedNamespaceRuleErrors
 	 * @param string $identifier
 	 * @return list<IdentifierRuleError>
 	 */
-	public function getDisallowedMessage(NamespaceUsage $namespaceUsage, string $description, Scope $scope, array $disallowedNamespaces, string $identifier): array
+	public function getDisallowedMessage(Node $node, NamespaceUsage $namespaceUsage, string $description, Scope $scope, array $disallowedNamespaces, string $identifier): array
 	{
 		foreach ($disallowedNamespaces as $disallowedNamespace) {
 			if (
 				!$this->identifier->matches($disallowedNamespace->getNamespace(), $namespaceUsage->getNamespace(), $disallowedNamespace->getExcludes())
-				|| $this->allowed->isAllowed($scope, null, $disallowedNamespace)
+				|| $this->allowed->isAllowed($node, $scope, null, $disallowedNamespace)
 				|| ($disallowedNamespace->isAllowInUse() && $namespaceUsage->isUseItem())
 			) {
 				continue;
