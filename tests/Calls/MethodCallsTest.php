@@ -131,6 +131,21 @@ class MethodCallsTest extends RuleTestCase
 						__DIR__ . '/../src/disallowed/*.php',
 					],
 				],
+				// test allowed instances
+				[
+					'method' => 'DateTimeZone::getLocation()',
+					'allowInInstanceOf' => [
+						'\Waldo\Foo\Bar',
+						'Stringable',
+					],
+				],
+				[
+					'method' => 'DateTimeImmutable::format()',
+					'allowExceptInInstanceOf' => [
+						'\Waldo\Foo\Bar',
+						'Stringable',
+					],
+				],
 			]
 		);
 	}
@@ -240,6 +255,25 @@ class MethodCallsTest extends RuleTestCase
 			[
 				"Calling Waldo\Quux\Blade::runner() is forbidden, I've seen tests you people wouldn't believe. [Waldo\Quux\Blade::runner() matches Waldo\Quux\Blade::run*()]",
 				11,
+			],
+		]);
+	}
+
+
+	public function testAllowInInstanceOf(): void
+	{
+		$this->analyse([__DIR__ . '/../src/Bar.php'], [
+			[
+				'Calling DateTimeImmutable::format() is forbidden.',
+				42,
+			],
+			[
+				'Calling DateTimeZone::getLocation() is forbidden.',
+				59,
+			],
+			[
+				'Calling DateTimeImmutable::format() is forbidden.',
+				80,
 			],
 		]);
 	}

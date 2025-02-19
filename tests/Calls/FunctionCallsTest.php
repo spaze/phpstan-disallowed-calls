@@ -9,6 +9,8 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallableParameterRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors;
+use Stringable;
+use Waldo\Foo\Bar;
 use Waldo\Quux\Blade;
 
 class FunctionCallsTest extends RuleTestCase
@@ -201,6 +203,21 @@ class FunctionCallsTest extends RuleTestCase
 						1 => 'string-key',
 					],
 				],
+				// test allowed instances
+				[
+					'function' => 'simplexml_load_string',
+					'allowInInstanceOf' => [
+						Bar::class,
+						Stringable::class,
+					],
+				],
+				[
+					'function' => '\Dom\import_simplexml()',
+					'disallowInInstanceOf' => [
+						Bar::class,
+						Stringable::class,
+					],
+				],
 			]
 		);
 	}
@@ -374,6 +391,25 @@ class FunctionCallsTest extends RuleTestCase
 			[
 				'Calling htmlspecialchars() is forbidden.',
 				70,
+			],
+		]);
+	}
+
+
+	public function testAllowInInstanceOf(): void
+	{
+		$this->analyse([__DIR__ . '/../src/Bar.php'], [
+			[
+				'Calling Dom\import_simplexml() is forbidden.',
+				38,
+			],
+			[
+				'Calling simplexml_load_string() is forbidden.',
+				56,
+			],
+			[
+				'Calling Dom\import_simplexml() is forbidden.',
+				76,
 			],
 		]);
 	}

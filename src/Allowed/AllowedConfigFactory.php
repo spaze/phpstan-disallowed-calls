@@ -46,7 +46,7 @@ class AllowedConfigFactory
 	 */
 	public function getConfig(array $allowed): AllowedConfig
 	{
-		$allowInCalls = $allowExceptInCalls = $allowInClassWithAttributes = $allowExceptInClassWithAttributes = [];
+		$allowInCalls = $allowExceptInCalls = $allowInInstanceOf = $allowExceptInInstanceOf = $allowInClassWithAttributes = $allowExceptInClassWithAttributes = [];
 		$allowInCallsWithAttributes = $allowExceptInCallsWithAttributes = $allowInClassWithMethodAttributes = $allowExceptInClassWithMethodAttributes = [];
 		$allowParamsInAllowed = $allowParamsAnywhere = $allowExceptParamsInAllowed = $allowExceptParams = [];
 
@@ -55,6 +55,12 @@ class AllowedConfigFactory
 		}
 		foreach ($allowed['allowExceptInFunctions'] ?? $allowed['allowExceptInMethods'] ?? $allowed['disallowInFunctions'] ?? $allowed['disallowInMethods'] ?? [] as $disallowedCall) {
 			$allowExceptInCalls[] = $this->normalizer->normalizeCall($disallowedCall);
+		}
+		foreach ($allowed['allowInInstanceOf'] ?? [] as $allowedInstanceOf) {
+			$allowInInstanceOf[] = $this->normalizer->normalizeNamespace($allowedInstanceOf);
+		}
+		foreach ($allowed['allowExceptInInstanceOf'] ?? $allowed['disallowInInstanceOf'] ?? [] as $disallowedInstanceOf) {
+			$allowExceptInInstanceOf[] = $this->normalizer->normalizeNamespace($disallowedInstanceOf);
 		}
 		foreach ($allowed['allowInClassWithAttributes'] ?? [] as $allowInClassAttribute) {
 			$allowInClassWithAttributes[] = $this->normalizer->normalizeAttribute($allowInClassAttribute);
@@ -115,6 +121,8 @@ class AllowedConfigFactory
 			$allowed['allowExceptIn'] ?? $allowed['disallowIn'] ?? [],
 			$allowInCalls,
 			$allowExceptInCalls,
+			$allowInInstanceOf,
+			$allowExceptInInstanceOf,
 			$allowInClassWithAttributes,
 			$allowExceptInClassWithAttributes,
 			$allowInCallsWithAttributes,

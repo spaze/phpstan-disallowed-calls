@@ -53,6 +53,7 @@ class NamespaceUsagesTest extends RuleTestCase
 					'allowIn' => [
 						__DIR__ . '/../src/disallowed-allow/*.php',
 						__DIR__ . '/../src/*-allow/*.*',
+						__DIR__ . '/../src/Bar.php', // Bar.php is analyzed below and has a class that extends Waldo\Foo\Bar, which would otherwise be reported
 					],
 				],
 				[
@@ -69,6 +70,22 @@ class NamespaceUsagesTest extends RuleTestCase
 					'message' => 'use clippy instead of zippy',
 					'disallowIn' => [
 						__DIR__ . '/../src/disallowed/*.php',
+					],
+				],
+				// test allowed instances
+				[
+					'namespace' => 'DateTimeZone',
+					'allowInInstanceOf' => [
+						'\Waldo\Foo\Bar',
+						'Stringable',
+					],
+					'allowInUse' => true,
+				],
+				[
+					'namespace' => 'DateTimeImmutable',
+					'allowExceptInInstanceOf' => [
+						'\Waldo\Foo\Bar',
+						'Stringable',
 					],
 				],
 			]
@@ -150,6 +167,49 @@ class NamespaceUsagesTest extends RuleTestCase
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/namespaceUsages.php'], []);
+	}
+
+
+	public function testAllowInInstanceOf(): void
+	{
+		$this->analyse([__DIR__ . '/../src/Bar.php'], [
+			[
+				'Class DateTimeImmutable is forbidden.',
+				32,
+			],
+			[
+				'Class DateTimeImmutable is forbidden.',
+				35,
+			],
+			[
+				'Class DateTimeImmutable is forbidden.',
+				41,
+			],
+			[
+				'Class DateTimeZone is forbidden.',
+				50,
+			],
+			[
+				'Class DateTimeZone is forbidden.',
+				54,
+			],
+			[
+				'Class DateTimeZone is forbidden.',
+				58,
+			],
+			[
+				'Class DateTimeImmutable is forbidden.',
+				70,
+			],
+			[
+				'Class DateTimeImmutable is forbidden.',
+				73,
+			],
+			[
+				'Class DateTimeImmutable is forbidden.',
+				79,
+			],
+		]);
 	}
 
 

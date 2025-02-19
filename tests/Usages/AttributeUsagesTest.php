@@ -7,9 +7,14 @@ use Attributes\AttributeColumn;
 use Attributes\AttributeEntity;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedAttributeFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedAttributeRuleErrors;
 
+/**
+ * @requires PHP >= 8.0
+ */
+#[RequiresPhp('>= 8.0')]
 class AttributeUsagesTest extends RuleTestCase
 {
 
@@ -33,6 +38,10 @@ class AttributeUsagesTest extends RuleTestCase
 				],
 				[
 					'attribute' => '#[\Attributes\AttributeClass()]',
+					'allowInInstanceOf' => [
+						'\Waldo\Foo\Bar',
+						'Stringable',
+					],
 				],
 				[
 					'attribute' => AttributeColumn::class,
@@ -48,6 +57,14 @@ class AttributeUsagesTest extends RuleTestCase
 							'position' => 2,
 							'value' => 'datetime_immutable',
 						],
+					],
+				],
+				// test allowed instances
+				[
+					'attribute' => '\Attributes\AttributeColumn2',
+					'allowExceptInInstanceOf' => [
+						'\Waldo\Foo\Bar',
+						'Stringable',
 					],
 				],
 			]
@@ -159,6 +176,25 @@ class AttributeUsagesTest extends RuleTestCase
 			[
 				'Attribute Attributes\AttributeClass is forbidden.',
 				77,
+			],
+		]);
+	}
+
+
+	public function testAllowInInstanceOf(): void
+	{
+		$this->analyse([__DIR__ . '/../src/Bar.php'], [
+			[
+				'Attribute Attributes\AttributeColumn2 is forbidden.',
+				34,
+			],
+			[
+				'Attribute Attributes\AttributeClass is forbidden.',
+				53,
+			],
+			[
+				'Attribute Attributes\AttributeColumn2 is forbidden.',
+				72,
 			],
 		]);
 	}

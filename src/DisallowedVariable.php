@@ -80,6 +80,18 @@ class DisallowedVariable implements Disallowed
 	}
 
 
+	public function getAllowInInstanceOf(): array
+	{
+		throw new NotImplementedYetException();
+	}
+
+
+	public function getAllowExceptInInstanceOf(): array
+	{
+		throw new NotImplementedYetException();
+	}
+
+
 	public function getAllowExceptInCalls(): array
 	{
 		throw new NotImplementedYetException();
