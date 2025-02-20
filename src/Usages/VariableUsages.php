@@ -61,7 +61,7 @@ class VariableUsages implements Rule
 			return [];
 		}
 
-		return $this->disallowedVariableRuleErrors->get('$' . $variableName, $scope, $this->disallowedVariables);
+		return $this->disallowedVariableRuleErrors->get('$' . $variableName, $node, $scope, $this->disallowedVariables);
 	}
 
 }

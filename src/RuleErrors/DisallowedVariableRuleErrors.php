@@ -3,40 +3,42 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\RuleErrors;
 
+use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
+use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedVariable;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 
 class DisallowedVariableRuleErrors
 {
 
-	private AllowedPath $allowedPath;
+	private Allowed $allowed;
 
 	private Formatter $formatter;
 
 
-	public function __construct(AllowedPath $allowedPath, Formatter $formatter)
+	public function __construct(Allowed $allowed, Formatter $formatter)
 	{
-		$this->allowedPath = $allowedPath;
+		$this->allowed = $allowed;
 		$this->formatter = $formatter;
 	}
 
 
 	/**
 	 * @param string $variable
+	 * @param Node $node
 	 * @param Scope $scope
 	 * @param list<DisallowedVariable> $disallowedVariables
 	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
-	public function get(string $variable, Scope $scope, array $disallowedVariables): array
+	public function get(string $variable, Node $node, Scope $scope, array $disallowedVariables): array
 	{
 		foreach ($disallowedVariables as $disallowedVariable) {
-			if ($disallowedVariable->getVariable() === $variable && !$this->allowedPath->isAllowedPath($scope, $disallowedVariable)) {
+			if ($disallowedVariable->getVariable() === $variable && !$this->allowed->isAllowed($node, $scope, null, $disallowedVariable)) {
 				$errorBuilder = RuleErrorBuilder::message(sprintf(
 					'Using %s is forbidden%s',
 					$disallowedVariable->getVariable(),

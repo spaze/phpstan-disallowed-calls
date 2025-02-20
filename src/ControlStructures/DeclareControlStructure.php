@@ -53,7 +53,7 @@ class DeclareControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedControlStructureRuleErrors->get($scope, 'declare', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_DECLARE);
+		return $this->disallowedControlStructureRuleErrors->get($node, $scope, 'declare', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_DECLARE);
 	}
 
 }

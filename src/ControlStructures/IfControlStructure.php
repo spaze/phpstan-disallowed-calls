@@ -53,7 +53,7 @@ class IfControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedControlStructureRuleErrors->get($scope, 'if', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_IF);
+		return $this->disallowedControlStructureRuleErrors->get($node, $scope, 'if', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_IF);
 	}
 
 }

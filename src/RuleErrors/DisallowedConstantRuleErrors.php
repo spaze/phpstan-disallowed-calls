@@ -3,31 +3,33 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\RuleErrors;
 
+use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath;
+use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstant;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 
 class DisallowedConstantRuleErrors
 {
 
-	private AllowedPath $allowedPath;
+	private Allowed $allowed;
 
 	private Formatter $formatter;
 
 
-	public function __construct(AllowedPath $allowedPath, Formatter $formatter)
+	public function __construct(Allowed $allowed, Formatter $formatter)
 	{
-		$this->allowedPath = $allowedPath;
+		$this->allowed = $allowed;
 		$this->formatter = $formatter;
 	}
 
 
 	/**
 	 * @param string $constant
+	 * @param Node $node
 	 * @param Scope $scope
 	 * @param string|null $displayName
 	 * @param list<DisallowedConstant> $disallowedConstants
@@ -35,10 +37,10 @@ class DisallowedConstantRuleErrors
 	 * @return list<IdentifierRuleError>
 	 * @throws ShouldNotHappenException
 	 */
-	public function get(string $constant, Scope $scope, ?string $displayName, array $disallowedConstants, string $identifier): array
+	public function get(string $constant, Node $node, Scope $scope, ?string $displayName, array $disallowedConstants, string $identifier): array
 	{
 		foreach ($disallowedConstants as $disallowedConstant) {
-			if ($disallowedConstant->getConstant() === $constant && !$this->allowedPath->isAllowedPath($scope, $disallowedConstant)) {
+			if ($disallowedConstant->getConstant() === $constant && !$this->allowed->isAllowed($node, $scope, null, $disallowedConstant)) {
 				$errorBuilder = RuleErrorBuilder::message(sprintf(
 					'Using %s%s is forbidden%s',
 					$disallowedConstant->getConstant(),

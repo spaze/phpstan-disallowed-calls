@@ -80,12 +80,12 @@ class ClassConstantUsages implements Rule
 			throw new ShouldNotHappenException(sprintf('$node should be %s but is %s', ClassConstFetch::class, get_class($node)));
 		}
 		if ($node->name instanceof Identifier) {
-			return $this->getConstantRuleErrors($scope, (string)$node->name, $this->typeResolver->getType($node->class, $scope));
+			return $this->getConstantRuleErrors($node, $scope, (string)$node->name, $this->typeResolver->getType($node->class, $scope));
 		}
 		$type = $scope->getType($node->name);
 		$errors = [];
 		foreach ($type->getConstantStrings() as $constantString) {
-			$ruleErrors = $this->getConstantRuleErrors($scope, $constantString->getValue(), $this->typeResolver->getType($node->class, $scope));
+			$ruleErrors = $this->getConstantRuleErrors($node, $scope, $constantString->getValue(), $this->typeResolver->getType($node->class, $scope));
 			if ($ruleErrors) {
 				$errors = array_merge($errors, $ruleErrors);
 			}
@@ -95,13 +95,14 @@ class ClassConstantUsages implements Rule
 
 
 	/**
+	 * @param Node $node
 	 * @param Scope $scope
 	 * @param string $constant
 	 * @param Type $type
 	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
-	private function getConstantRuleErrors(Scope $scope, string $constant, Type $type): array
+	private function getConstantRuleErrors(Node $node, Scope $scope, string $constant, Type $type): array
 	{
 		if (strtolower($constant) === 'class') {
 			return [];
@@ -133,7 +134,7 @@ class ClassConstantUsages implements Rule
 				return [];
 			}
 		}
-		return $this->disallowedConstantRuleErrors->get($this->getFullyQualified($classNames, $constant), $scope, $displayName, $this->disallowedConstants, ErrorIdentifiers::DISALLOWED_CLASS_CONSTANT);
+		return $this->disallowedConstantRuleErrors->get($this->getFullyQualified($classNames, $constant), $node, $scope, $displayName, $this->disallowedConstants, ErrorIdentifiers::DISALLOWED_CLASS_CONSTANT);
 	}
 
 

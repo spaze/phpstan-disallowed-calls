@@ -53,7 +53,7 @@ class WhileControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedControlStructureRuleErrors->get($scope, 'while', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_WHILE);
+		return $this->disallowedControlStructureRuleErrors->get($node, $scope, 'while', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_WHILE);
 	}
 
 }

@@ -53,7 +53,7 @@ class ForControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedControlStructureRuleErrors->get($scope, 'for', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_FOR);
+		return $this->disallowedControlStructureRuleErrors->get($node, $scope, 'for', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_FOR);
 	}
 
 }

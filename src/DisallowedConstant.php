@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed;
 
-use Spaze\PHPStan\Rules\Disallowed\Exceptions\NotImplementedYetException;
+use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedConfig;
 
 class DisallowedConstant implements Disallowed
 {
@@ -12,11 +12,7 @@ class DisallowedConstant implements Disallowed
 
 	private ?string $message;
 
-	/** @var list<string> */
-	private array $allowIn;
-
-	/** @var list<string> */
-	private array $allowExceptIn;
+	private AllowedConfig $allowedConfig;
 
 	private ?string $errorIdentifier;
 
@@ -26,23 +22,20 @@ class DisallowedConstant implements Disallowed
 	/**
 	 * @param string $constant
 	 * @param string|null $message
-	 * @param list<string> $allowIn
-	 * @param list<string> $allowExceptIn
+	 * @param AllowedConfig $allowedConfig
 	 * @param string|null $errorIdentifier
 	 * @param string|null $errorTip
 	 */
 	public function __construct(
 		string $constant,
 		?string $message,
-		array $allowIn,
-		array $allowExceptIn,
+		AllowedConfig $allowedConfig,
 		?string $errorIdentifier,
 		?string $errorTip
 	) {
 		$this->constant = $constant;
 		$this->message = $message;
-		$this->allowIn = $allowIn;
-		$this->allowExceptIn = $allowExceptIn;
+		$this->allowedConfig = $allowedConfig;
 		$this->errorIdentifier = $errorIdentifier;
 		$this->errorTip = $errorTip;
 	}
@@ -63,74 +56,74 @@ class DisallowedConstant implements Disallowed
 	/** @inheritDoc */
 	public function getAllowIn(): array
 	{
-		return $this->allowIn;
+		return $this->allowedConfig->getAllowIn();
 	}
 
 
 	/** @inheritDoc */
 	public function getAllowExceptIn(): array
 	{
-		return $this->allowExceptIn;
+		return $this->allowedConfig->getAllowExceptIn();
 	}
 
 
 	public function getAllowInCalls(): array
 	{
-		throw new NotImplementedYetException();
+		return $this->allowedConfig->getAllowInCalls();
 	}
 
 
 	public function getAllowExceptInCalls(): array
 	{
-		throw new NotImplementedYetException();
+		return $this->allowedConfig->getAllowExceptInCalls();
 	}
 
 
 	public function getAllowInInstanceOf(): array
 	{
-		throw new NotImplementedYetException();
+		return $this->allowedConfig->getAllowInInstanceOf();
 	}
 
 
 	public function getAllowExceptInInstanceOf(): array
 	{
-		throw new NotImplementedYetException();
+		return $this->allowedConfig->getAllowExceptInInstancesOf();
 	}
 
 
 	public function getAllowInClassWithAttributes(): array
 	{
-		throw new NotImplementedYetException();
+		return $this->allowedConfig->getAllowInClassWithAttributes();
 	}
 
 
 	public function getAllowExceptInClassWithAttributes(): array
 	{
-		throw new NotImplementedYetException();
+		return $this->allowedConfig->getAllowExceptInClassWithAttributes();
 	}
 
 
 	public function getAllowInCallsWithAttributes(): array
 	{
-		throw new NotImplementedYetException();
+		return $this->allowedConfig->getAllowInCallsWithAttributes();
 	}
 
 
 	public function getAllowExceptInCallsWithAttributes(): array
 	{
-		throw new NotImplementedYetException();
+		return $this->allowedConfig->getAllowExceptInCallsWithAttributes();
 	}
 
 
 	public function getAllowInClassWithMethodAttributes(): array
 	{
-		throw new NotImplementedYetException();
+		return $this->allowedConfig->getAllowInClassWithMethodAttributes();
 	}
 
 
 	public function getAllowExceptInClassWithMethodAttributes(): array
 	{
-		throw new NotImplementedYetException();
+		return $this->allowedConfig->getAllowExceptInClassWithMethodAttributes();
 	}
 
 

@@ -54,7 +54,7 @@ class ElseIfControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedControlStructureRuleErrors->get($scope, 'elseif', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_ELSE_IF);
+		return $this->disallowedControlStructureRuleErrors->get($node, $scope, 'elseif', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_ELSE_IF);
 	}
 
 }

@@ -4,17 +4,26 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PHPStan\ShouldNotHappenException;
+use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedConfigFactory;
+use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeInConfigException;
+use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 
 class DisallowedConstantFactory
 {
 
+	private Formatter $formatter;
+
 	private Normalizer $normalizer;
 
+	private AllowedConfigFactory $allowedConfigFactory;
 
-	public function __construct(Normalizer $normalizer)
+
+	public function __construct(Formatter $formatter, Normalizer $normalizer, AllowedConfigFactory $allowedConfigFactory)
 	{
+		$this->formatter = $formatter;
 		$this->normalizer = $normalizer;
+		$this->allowedConfigFactory = $allowedConfigFactory;
 	}
 
 
@@ -32,17 +41,21 @@ class DisallowedConstantFactory
 			if (!$constants) {
 				throw new ShouldNotHappenException("'constant', or 'case' for enums, must be set in configuration items");
 			}
-			foreach ((array)$constants as $constant) {
-				$class = $disallowed['class'] ?? $disallowed['enum'] ?? null;
-				$disallowedConstant = new DisallowedConstant(
-					$this->normalizer->normalizeNamespace($class ? "{$class}::{$constant}" : $constant),
-					$disallowed['message'] ?? null,
-					$disallowed['allowIn'] ?? [],
-					$disallowed['allowExceptIn'] ?? $disallowed['disallowIn'] ?? [],
-					$disallowed['errorIdentifier'] ?? null,
-					$disallowed['errorTip'] ?? null
-				);
-				$disallowedConstants[$disallowedConstant->getConstant()] = $disallowedConstant;
+			$constants = (array)$constants;
+			try {
+				foreach ($constants as $constant) {
+					$class = $disallowed['class'] ?? $disallowed['enum'] ?? null;
+					$disallowedConstant = new DisallowedConstant(
+						$this->normalizer->normalizeNamespace($class ? "{$class}::{$constant}" : $constant),
+						$disallowed['message'] ?? null,
+						$this->allowedConfigFactory->getConfig($disallowed),
+						$disallowed['errorIdentifier'] ?? null,
+						$disallowed['errorTip'] ?? null
+					);
+					$disallowedConstants[$disallowedConstant->getConstant()] = $disallowedConstant;
+				}
+			} catch (UnsupportedParamTypeInConfigException $e) {
+				throw new ShouldNotHappenException(sprintf('%s: %s', $this->formatter->formatIdentifier($constants), $e->getMessage()));
 			}
 		}
 		return array_values($disallowedConstants);
