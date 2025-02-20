@@ -33,6 +33,18 @@ interface Disallowed
 	/**
 	 * @return list<string>
 	 */
+	public function getAllowInInstanceOf(): array;
+
+
+	/**
+	 * @return list<string>
+	 */
+	public function getAllowExceptInInstanceOf(): array;
+
+
+	/**
+	 * @return list<string>
+	 */
 	public function getAllowInClassWithAttributes(): array;
 
 

@@ -94,6 +94,18 @@ class DisallowedAttribute implements DisallowedWithParams
 	}
 
 
+	public function getAllowInInstanceOf(): array
+	{
+		return $this->allowedConfig->getAllowInInstanceOf();
+	}
+
+
+	public function getAllowExceptInInstanceOf(): array
+	{
+		return $this->allowedConfig->getAllowExceptInInstancesOf();
+	}
+
+
 	public function getAllowParamsInAllowed(): array
 	{
 		return $this->allowedConfig->getAllowParamsInAllowed();

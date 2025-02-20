@@ -14,3 +14,13 @@ class AttributeColumn
 	}
 
 }
+
+#[\Attribute]
+class AttributeColumn2
+{
+}
+
+#[\Attribute]
+class AttributeColumn3 extends AttributeColumn2
+{
+}

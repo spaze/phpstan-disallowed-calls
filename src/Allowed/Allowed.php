@@ -81,6 +81,12 @@ class Allowed
 			}
 			return true;
 		}
+		if ($disallowed->getAllowInInstanceOf()) {
+			return $this->isInstanceOf($scope, $disallowed->getAllowInInstanceOf());
+		}
+		if ($disallowed->getAllowExceptInInstanceOf()) {
+			return !$this->isInstanceOf($scope, $disallowed->getAllowExceptInInstanceOf());
+		}
 		if ($hasParams && $disallowed->getAllowExceptParams()) {
 			return $this->hasAllowedParams($scope, $args, $disallowed->getAllowExceptParams(), false);
 		}
@@ -119,6 +125,22 @@ class Allowed
 			$name = '';
 		}
 		return $this->identifier->matches($call, $name);
+	}
+
+
+	/**
+	 * @param Scope $scope
+	 * @param list<string> $allowConfig
+	 * @return bool
+	 */
+	private function isInstanceOf(Scope $scope, array $allowConfig): bool
+	{
+		foreach ($allowConfig as $allowInstanceOf) {
+			if ($scope->isInClass() && $scope->getClassReflection()->is($allowInstanceOf)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 
