@@ -53,7 +53,7 @@ class DoWhileControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedControlStructureRuleErrors->get($scope, 'do-while', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_DO_WHILE);
+		return $this->disallowedControlStructureRuleErrors->get($node, $scope, 'do-while', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_DO_WHILE);
 	}
 
 }

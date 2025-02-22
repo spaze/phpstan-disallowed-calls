@@ -3,13 +3,6 @@
 It is possible to allow a previously disallowed item when done in a class with specified attributes.
 You can use the `allowInClassWithAttributes` configuration option.
 
-This is supported for the following items:
-- function calls
-- method calls
-- attribute usages
-- namespace usages
-- classname usages
-
 For example, if you'd have a configuration like this:
 
 ```neon

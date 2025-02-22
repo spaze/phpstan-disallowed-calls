@@ -1,6 +1,6 @@
 ## Allow in methods or functions
 
-To allow a previously disallowed method or function only when called from a different method or function in any file, use `allowInFunctions` (or `allowInMethods` alias):
+To allow a previously disallowed item like method or function etc. only when called from a different method or function in any file, use `allowInFunctions` (or `allowInMethods` alias):
 
 ```neon
 parameters:

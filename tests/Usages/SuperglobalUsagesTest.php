@@ -28,6 +28,9 @@ class SuperglobalUsagesTest extends RuleTestCase
 						__DIR__ . '/../src/disallowed-allow/*.php',
 						__DIR__ . '/../src/*-allow/*.*',
 					],
+					'allowInInstanceOf' => [
+						'\Superglobals\Superglobals',
+					],
 					'errorTip' => 'So long and thanks for all the tips',
 				],
 				[
@@ -40,6 +43,9 @@ class SuperglobalUsagesTest extends RuleTestCase
 						__DIR__ . '/../src/disallowed-allow/*.php',
 						__DIR__ . '/../src/*-allow/*.*',
 					],
+					'allowInMethods' => [
+						'\Superglobals\ChildSuperglobals::leMethod()',
+					],
 				],
 				// test disallowed paths
 				[
@@ -47,6 +53,38 @@ class SuperglobalUsagesTest extends RuleTestCase
 					'message' => 'so $_GET or $_POST?',
 					'disallowIn' => [
 						__DIR__ . '/../src/disallowed/*.php',
+					],
+				],
+				// test allowed instances
+				[
+					'superglobal' => '$_SERVER',
+					'allowExceptInInstanceOf' => [
+						'\Superglobals\Superglobals2',
+					],
+				],
+				// test allowed attributes
+				[
+					'superglobal' => '$_FILES',
+					'allowInMethodsWithAttributes' => [
+						'\Attributes\AttributeClass',
+					],
+				],
+				[
+					'superglobal' => '$_COOKIE',
+					'allowExceptInMethodsWithAttributes' => [
+						'\Attributes\AttributeColumn2',
+					],
+				],
+				[
+					'superglobal' => '$_SESSION',
+					'allowInClassWithAttributes' => [
+						'\Attributes\AttributeClass',
+					],
+				],
+				[
+					'superglobal' => '$_ENV',
+					'allowInClassWithMethodAttributes' => [
+						'AttributeClass2',
 					],
 				],
 			])
@@ -83,6 +121,46 @@ class SuperglobalUsagesTest extends RuleTestCase
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/superglobalUsages.php'], []);
+	}
+
+
+	public function testRuleAllow(): void
+	{
+		$this->analyse([__DIR__ . '/../src/Superglobals.php'], [
+			[
+				'Using $GLOBALS is forbidden, the cake is a lie.',
+				45,
+				'So long and thanks for all the tips',
+			],
+			[
+				'Using $_SERVER is forbidden.',
+				46,
+			],
+			[
+				'Using $_GET is forbidden, the cake is a lie.',
+				47,
+			],
+			[
+				'Using $_POST is forbidden, the cake is a lie.',
+				48,
+			],
+			[
+				'Using $_FILES is forbidden.',
+				49,
+			],
+			[
+				'Using $_COOKIE is forbidden.',
+				50,
+			],
+			[
+				'Using $_SESSION is forbidden.',
+				51,
+			],
+			[
+				'Using $_ENV is forbidden.',
+				52,
+			],
+		]);
 	}
 
 

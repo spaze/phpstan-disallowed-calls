@@ -53,7 +53,7 @@ class SwitchControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedControlStructureRuleErrors->get($scope, 'switch', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_SWITCH);
+		return $this->disallowedControlStructureRuleErrors->get($node, $scope, 'switch', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_SWITCH);
 	}
 
 }

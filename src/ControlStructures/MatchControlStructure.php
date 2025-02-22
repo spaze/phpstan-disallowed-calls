@@ -53,7 +53,7 @@ class MatchControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedControlStructureRuleErrors->get($scope, 'match', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_MATCH);
+		return $this->disallowedControlStructureRuleErrors->get($node, $scope, 'match', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_MATCH);
 	}
 
 }

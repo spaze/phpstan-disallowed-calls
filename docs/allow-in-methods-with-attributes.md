@@ -1,6 +1,6 @@
 ## Allow in methods or functions with given attributes
 
-Similar to [allowing items in methods or functions by name](allow-in-methods.md), you can allow or disallow items like functions and method calls, attributes, namespace and classname usage in methods and functions with given attributes.
+Similar to [allowing items in methods or functions by name](allow-in-methods.md), you can allow or disallow items like functions and method calls, attributes, namespace and classname usage etc. in methods and functions with given attributes.
 
 You can use `allowInMethodsWithAttributes` (or the `allowInFunctionsWithAttributes` alias) for that:
 

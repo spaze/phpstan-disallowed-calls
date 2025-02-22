@@ -53,7 +53,7 @@ class GotoControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedControlStructureRuleErrors->get($scope, 'goto', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_GOTO);
+		return $this->disallowedControlStructureRuleErrors->get($node, $scope, 'goto', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_GOTO);
 	}
 
 }

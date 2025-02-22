@@ -53,7 +53,7 @@ class ContinueControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedControlStructureRuleErrors->get($scope, 'continue', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_CONTINUE);
+		return $this->disallowedControlStructureRuleErrors->get($node, $scope, 'continue', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_CONTINUE);
 	}
 
 }

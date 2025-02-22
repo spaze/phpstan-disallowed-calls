@@ -53,7 +53,7 @@ class BreakControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedControlStructureRuleErrors->get($scope, 'break', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_BREAK);
+		return $this->disallowedControlStructureRuleErrors->get($node, $scope, 'break', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_BREAK);
 	}
 
 }

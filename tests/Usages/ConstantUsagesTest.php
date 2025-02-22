@@ -51,6 +51,69 @@ class ConstantUsagesTest extends RuleTestCase
 						__DIR__ . '/../src/disallowed/*.php',
 					],
 				],
+				// test allowed instances
+				[
+					'constant' => 'FILTER_FLAG_EMAIL_UNICODE',
+					'allowInInstanceOf' => [
+						'\Constants\Constants',
+					],
+				],
+				[
+					'constant' => 'FILTER_FLAG_ENCODE_HIGH',
+					'allowExceptInInstanceOf' => [
+						'\Constants\Constants',
+					],
+				],
+				// test allowed methods
+				[
+					'constant' => 'FILTER_FLAG_ALLOW_HEX',
+					'allowInMethods' => [
+						'\Constants\ChildConstants::leMethod()',
+					],
+				],
+				[
+					'constant' => 'FILTER_FLAG_NO_ENCODE_QUOTES',
+					'disallowInMethods' => [
+						'\Constants\ChildConstants::leMethod()',
+					],
+				],
+				// test allowed attributes
+				[
+					'constant' => 'FILTER_FLAG_ALLOW_OCTAL',
+					'allowInMethodsWithAttributes' => [
+						'\Attributes\AttributeClass',
+					],
+				],
+				[
+					'constant' => 'FILTER_FLAG_ALLOW_FRACTION',
+					'allowExceptInMethodsWithAttributes' => [
+						'\Attributes\AttributeColumn2',
+					],
+				],
+				[
+					'constant' => 'FILTER_FLAG_ENCODE_AMP',
+					'allowInClassWithAttributes' => [
+						'\Attributes\AttributeClass',
+					],
+				],
+				[
+					'constant' => 'FILTER_FLAG_ENCODE_LOW',
+					'allowExceptInClassWithAttributes' => [
+						'\Attributes\AttributeColumn2',
+					],
+				],
+				[
+					'constant' => 'FILTER_FLAG_IPV4',
+					'allowInClassWithMethodAttributes' => [
+						'AttributeClass2',
+					],
+				],
+				[
+					'constant' => 'FILTER_FLAG_IPV6',
+					'allowExceptInClassWithMethodAttributes' => [
+						'Attributes\AttributeColumn3',
+					],
+				],
 			]
 		);
 	}
@@ -82,6 +145,48 @@ class ConstantUsagesTest extends RuleTestCase
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/constantUsages.php'], []);
+		$this->analyse([__DIR__ . '/../src/Constants.php'], [
+			[
+				'Using FILTER_FLAG_ENCODE_HIGH is forbidden.',
+				22,
+			],
+			[
+				'Using FILTER_FLAG_NO_ENCODE_QUOTES is forbidden.',
+				24,
+			],
+			[
+				'Using FILTER_FLAG_EMAIL_UNICODE is forbidden.',
+				47,
+			],
+			[
+				'Using FILTER_FLAG_ALLOW_HEX is forbidden.',
+				49,
+			],
+			[
+				'Using FILTER_FLAG_ALLOW_OCTAL is forbidden.',
+				51,
+			],
+			[
+				'Using FILTER_FLAG_ALLOW_FRACTION is forbidden.',
+				52,
+			],
+			[
+				'Using FILTER_FLAG_ENCODE_AMP is forbidden.',
+				53,
+			],
+			[
+				'Using FILTER_FLAG_ENCODE_LOW is forbidden.',
+				54,
+			],
+			[
+				'Using FILTER_FLAG_IPV4 is forbidden.',
+				55,
+			],
+			[
+				'Using FILTER_FLAG_IPV6 is forbidden.',
+				56,
+			],
+		]);
 	}
 
 

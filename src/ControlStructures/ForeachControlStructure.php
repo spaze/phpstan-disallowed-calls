@@ -53,7 +53,7 @@ class ForeachControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedControlStructureRuleErrors->get($scope, 'foreach', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_FOREACH);
+		return $this->disallowedControlStructureRuleErrors->get($node, $scope, 'foreach', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_FOREACH);
 	}
 
 }

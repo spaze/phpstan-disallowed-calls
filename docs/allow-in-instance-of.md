@@ -1,6 +1,6 @@
 ## Allow in classes, child classes, classes implementing an interface
 
-Use `allowInInstanceOf`, named after the PHP's `instanceof` operator, if you want to allow a function or a method call, an attribute, a classname, or a namespace in
+Use `allowInInstanceOf`, named after the PHP's `instanceof` operator, if you want to allow an item like function or a method call, an attribute, a classname, or a namespace etc. in
 - a class of given name
 - a class that inherits from a class of given name
 - a class that implements given interface

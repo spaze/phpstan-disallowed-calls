@@ -53,7 +53,7 @@ class ElseControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedControlStructureRuleErrors->get($scope, 'else', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_ELSE);
+		return $this->disallowedControlStructureRuleErrors->get($node, $scope, 'else', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_ELSE);
 	}
 
 }

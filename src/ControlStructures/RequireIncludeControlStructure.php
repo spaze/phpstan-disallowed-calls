@@ -75,7 +75,7 @@ class RequireIncludeControlStructure implements Rule
 		if ($type === null) {
 			return [];
 		}
-		return $this->disallowedControlStructureRuleErrors->get($scope, $type, $this->disallowedControlStructures, $identifier);
+		return $this->disallowedControlStructureRuleErrors->get($node, $scope, $type, $this->disallowedControlStructures, $identifier);
 	}
 
 }

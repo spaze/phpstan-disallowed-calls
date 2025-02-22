@@ -53,7 +53,7 @@ class ReturnControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedControlStructureRuleErrors->get($scope, 'return', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_RETURN);
+		return $this->disallowedControlStructureRuleErrors->get($node, $scope, 'return', $this->disallowedControlStructures, ErrorIdentifiers::DISALLOWED_RETURN);
 	}
 
 }
