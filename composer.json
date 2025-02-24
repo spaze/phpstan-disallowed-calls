@@ -31,7 +31,7 @@
 		"php-parallel-lint/php-parallel-lint": "^1.2",
 		"php-parallel-lint/php-console-highlighter": "^1.0",
 		"phpstan/phpstan-deprecation-rules": "^1.2 || ^2.0",
-		"spaze/coding-standard": "^1.7"
+		"spaze/coding-standard": "^1.8"
 	},
 	"autoload": {
 		"psr-4": {"Spaze\\PHPStan\\Rules\\Disallowed\\": "src"}
