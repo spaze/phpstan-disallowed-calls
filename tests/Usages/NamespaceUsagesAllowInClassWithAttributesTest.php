@@ -3,12 +3,21 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
+use Attributes\CallsWithAttributes;
 use Constructor\ClassWithConstructor;
 use Constructor\ClassWithoutConstructor;
 use PhpOption\None;
 use PhpOption\Some;
+use PhpParser\Node;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Function_;
+use PHPStan\Analyser\Scope;
+use PHPStan\DependencyInjection\Container;
+use PHPStan\Node\InClassMethodNode;
+use PHPStan\Node\InFunctionNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use Spaze\PHPStan\Rules\Disallowed\Allowed\GetAttributesWhenInSignature;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 
@@ -17,11 +26,8 @@ class NamespaceUsagesAllowInClassWithAttributesTest extends RuleTestCase
 
 	protected function getRule(): Rule
 	{
-		$container = self::getContainer();
-		return new NamespaceUsages(
-			$container->getByType(DisallowedNamespaceRuleErrors::class),
-			$container->getByType(DisallowedNamespaceFactory::class),
-			$container->getByType(NamespaceUsageFactory::class),
+		return new class (
+			self::getContainer(),
 			[
 				[
 					'namespace' => 'Waldo\Foo\Bar',
@@ -65,7 +71,50 @@ class NamespaceUsagesAllowInClassWithAttributesTest extends RuleTestCase
 					'allowInUse' => true,
 				],
 			]
-		);
+		) extends NamespaceUsages {
+
+			private Container $container;
+
+
+			public function __construct(
+				Container $container,
+				array $forbiddenNamespaces
+			) {
+				parent::__construct(
+					$container->getByType(DisallowedNamespaceRuleErrors::class),
+					$container->getByType(DisallowedNamespaceFactory::class),
+					$container->getByType(NamespaceUsageFactory::class),
+					$forbiddenNamespaces,
+				);
+				$this->container = $container;
+			}
+
+
+			public function processNode(Node $node, Scope $scope): array
+			{
+				$this->emulateHelperRules($node);
+				return parent::processNode($node, $scope);
+			}
+
+
+			/**
+			 * Emulates processing the SetCurrentClassMethodNameHelperRule and UnsetCurrentClassMethodNameHelperRule rules,
+			 * which are not processed in tests.
+			 */
+			private function emulateHelperRules(Node $node): void
+			{
+				if ($node instanceof ClassMethod) {
+					$this->container->getByType(GetAttributesWhenInSignature::class)->setCurrentClassMethodName(CallsWithAttributes::class, $node->name->toString());
+				} elseif ($node instanceof InClassMethodNode) {
+					$this->container->getByType(GetAttributesWhenInSignature::class)->unsetCurrentClassMethodName();
+				} elseif ($node instanceof Function_) {
+					$this->container->getByType(GetAttributesWhenInSignature::class)->setCurrentFunctionName($node->namespacedName->toString());
+				} elseif ($node instanceof InFunctionNode) {
+					$this->container->getByType(GetAttributesWhenInSignature::class)->unsetCurrentFunctionName();
+				}
+			}
+
+		};
 	}
 
 
@@ -102,11 +151,53 @@ class NamespaceUsagesAllowInClassWithAttributesTest extends RuleTestCase
 			],
 			[
 				'Class PhpOption\None is forbidden.',
+				151,
+			],
+			[
+				'Class PhpOption\Some is forbidden.',
+				151,
+			],
+			[
+				'Class PhpOption\None is forbidden.',
+				151,
+			],
+			[
+				'Class PhpOption\Some is forbidden.',
+				151,
+			],
+			[
+				'Class PhpOption\None is forbidden.',
 				155,
 			],
 			[
 				'Class PhpOption\Some is forbidden.',
 				156,
+			],
+		]);
+		$this->analyse([__DIR__ . '/../src/Functions.php'], [
+			[
+				'Class PhpOption\None is forbidden.',
+				84,
+			],
+			[
+				'Class PhpOption\Some is forbidden.',
+				84,
+			],
+			[
+				'Class PhpOption\None is forbidden.',
+				84,
+			],
+			[
+				'Class PhpOption\Some is forbidden.',
+				84,
+			],
+			[
+				'Class PhpOption\None is forbidden.',
+				86,
+			],
+			[
+				'Class PhpOption\Some is forbidden.',
+				87,
 			],
 		]);
 	}
