@@ -134,7 +134,7 @@ class CallsWithAttributes
 {
 
 	#[\Attribute10, \Attribute12]
-	public function method1(): void
+	public function method1(None|Some $union, None $none, Some $some, Blade $foo, $bar): void
 	{
 		strtolower('');
 		strtoupper('');
@@ -148,7 +148,7 @@ class CallsWithAttributes
 
 
 	#[\Attribute11, \Attribute13]
-	public function method2(): void
+	public function method2(None|Some $union, None $none, Some $some, Blade $foo, $bar): void
 	{
 		strtolower('');
 		strtoupper('');

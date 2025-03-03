@@ -32,6 +32,8 @@ class Allowed
 
 	private Identifier $identifier;
 
+	private GetAttributesWhenInSignature $attributesWhenInSignature;
+
 	private AllowedPath $allowedPath;
 
 
@@ -39,11 +41,13 @@ class Allowed
 		Formatter $formatter,
 		Reflector $reflector,
 		Identifier $identifier,
+		GetAttributesWhenInSignature $attributesWhenInSignature,
 		AllowedPath $allowedPath
 	) {
 		$this->formatter = $formatter;
 		$this->reflector = $reflector;
 		$this->identifier = $identifier;
+		$this->attributesWhenInSignature = $attributesWhenInSignature;
 		$this->allowedPath = $allowedPath;
 	}
 
@@ -268,6 +272,10 @@ class Allowed
 				return $scope->getClassReflection()->getNativeReflection()->getMethod($node->name->name)->getAttributes();
 			} elseif ($node instanceof Function_) {
 				return $this->reflector->reflectFunction($node->name->name)->getAttributes();
+			}
+			$attributes = $this->attributesWhenInSignature->get($scope);
+			if ($attributes !== null) {
+				return $attributes;
 			}
 		}
 		return [];

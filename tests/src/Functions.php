@@ -68,3 +68,21 @@ function intParam4(int $param): void
 function mixedParam1($param): void
 {
 }
+
+use PhpOption\None;
+use PhpOption\Some;
+use Waldo\Quux\Blade;
+
+#[\Attribute10, \Attribute12]
+function method1(None|Some $union, None $none, Some $some, Blade $foo, $bar): void
+{
+	new None();
+	new Some(303);
+}
+
+#[\Attribute11, \Attribute13]
+function method2(None|Some $union, None $none, Some $some, Blade $foo, $bar): void
+{
+	new None();
+	new Some(303);
+}

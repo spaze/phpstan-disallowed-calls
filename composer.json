@@ -26,7 +26,7 @@
 	},
 	"require-dev": {
 		"nette/neon": "^3.3.1",
-		"nikic/php-parser": "^4.13 || ^5.0",
+		"nikic/php-parser": "^4.13.2 || ^5.0",
 		"phpunit/phpunit": "^8.5.14 || ^10.1 || ^11.0 || ^12.0",
 		"php-parallel-lint/php-parallel-lint": "^1.2",
 		"php-parallel-lint/php-console-highlighter": "^1.0",
@@ -41,7 +41,7 @@
 	},
 	"scripts": {
 		"lint": "vendor/bin/parallel-lint --colors src/ tests/",
-		"lint-7.x": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/TypesEverywhere.php --exclude tests/src/AttributesEverywhere.php --exclude tests/src/disallowed/functionCallsNamedParams.php --exclude tests/src/disallowed-allow/functionCallsNamedParams.php --exclude tests/src/disallowed/attributeUsages.php --exclude tests/src/disallowed-allow/attributeUsages.php --exclude tests/src/disallowed/constantDynamicUsages.php --exclude tests/src/disallowed-allow/constantDynamicUsages.php --exclude tests/src/Bar.php --exclude tests/src/Enums.php --exclude tests/src/disallowed/controlStructures.php --exclude tests/src/disallowed-allow/controlStructures.php --exclude tests/src/disallowed/firstClassCallable.php --exclude tests/src/disallowed-allow/firstClassCallable.php --exclude tests/src/disallowed/callableParameters.php --exclude tests/src/disallowed-allow/callableParameters.php",
+		"lint-7.x": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/TypesEverywhere.php --exclude tests/src/AttributesEverywhere.php --exclude tests/src/disallowed/functionCallsNamedParams.php --exclude tests/src/disallowed-allow/functionCallsNamedParams.php --exclude tests/src/disallowed/attributeUsages.php --exclude tests/src/disallowed-allow/attributeUsages.php --exclude tests/src/disallowed/constantDynamicUsages.php --exclude tests/src/disallowed-allow/constantDynamicUsages.php --exclude tests/src/AttributeClass.php --exclude tests/src/Bar.php --exclude tests/src/Enums.php --exclude tests/src/Functions.php --exclude tests/src/disallowed/controlStructures.php --exclude tests/src/disallowed-allow/controlStructures.php --exclude tests/src/disallowed/firstClassCallable.php --exclude tests/src/disallowed-allow/firstClassCallable.php --exclude tests/src/disallowed/callableParameters.php --exclude tests/src/disallowed-allow/callableParameters.php",
 		"lint-8.0": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/TypesEverywhere.php --exclude tests/src/AttributesEverywhere.php --exclude tests/src/disallowed/constantDynamicUsages.php --exclude tests/src/disallowed-allow/constantDynamicUsages.php --exclude tests/src/Enums.php --exclude tests/src/disallowed/firstClassCallable.php --exclude tests/src/disallowed-allow/firstClassCallable.php",
 		"lint-8.1": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/AttributesEverywhere.php --exclude tests/src/disallowed/constantDynamicUsages.php --exclude tests/src/disallowed-allow/constantDynamicUsages.php --exclude tests/src/disallowed/firstClassCallable.php --exclude tests/src/disallowed-allow/firstClassCallable.php",
 		"lint-8.2": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/disallowed/constantDynamicUsages.php --exclude tests/src/disallowed-allow/constantDynamicUsages.php",
