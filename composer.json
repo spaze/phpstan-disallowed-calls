@@ -1,7 +1,7 @@
 {
 	"name": "spaze/phpstan-disallowed-calls",
 	"type": "phpstan-extension",
-	"description": "PHPStan rules to detect disallowed method & function calls, constant, namespace & superglobal usages",
+	"description": "PHPStan rules to detect disallowed method & function calls, constant, namespace, attribute & superglobal usages, with powerful rules to re-allow a call or a usage in places where it should be allowed.",
 	"license": "MIT",
 	"authors": [
 		{
