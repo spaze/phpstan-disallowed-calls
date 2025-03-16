@@ -3,29 +3,28 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Allowed;
 
+use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
-use PHPStan\BetterReflection\Reflection\Adapter\FakeReflectionAttribute;
-use PHPStan\BetterReflection\Reflection\Adapter\ReflectionAttribute;
-use PHPStan\BetterReflection\Reflection\ReflectionAttribute as BetterReflectionAttribute;
-use PHPStan\BetterReflection\Reflector\Reflector;
+use PHPStan\Reflection\AttributeReflection;
+use PHPStan\Reflection\ReflectionProvider;
 
 class GetAttributesWhenInSignature
 {
 
-	private Reflector $reflector;
+	private ReflectionProvider $reflectionProvider;
 
 	/** @var class-string|null */
 	private ?string $currentClass = null;
 
 	private ?string $currentMethod = null;
 
-	/** @var string|null */
-	private ?string $currentFunction = null;
+	/** @var Name|null */
+	private ?Name $currentFunction = null;
 
 
-	public function __construct(Reflector $reflector)
+	public function __construct(ReflectionProvider $reflectionProvider)
 	{
-		$this->reflector = $reflector;
+		$this->reflectionProvider = $reflectionProvider;
 	}
 
 
@@ -38,7 +37,7 @@ class GetAttributesWhenInSignature
 	 * or the function name in a Function_ and a InFunctionNode rules.
 	 *
 	 * @param Scope $scope
-	 * @return list<FakeReflectionAttribute|ReflectionAttribute|BetterReflectionAttribute>|null
+	 * @return list<AttributeReflection>|null
 	 */
 	public function get(Scope $scope): ?array
 	{
@@ -48,9 +47,9 @@ class GetAttributesWhenInSignature
 			&& $scope->isInClass()
 			&& $scope->getClassReflection()->getName() === $this->currentClass
 		) {
-			return $scope->getClassReflection()->getNativeReflection()->getMethod($this->currentMethod)->getAttributes();
+			return $scope->getClassReflection()->getNativeMethod($this->currentMethod)->getAttributes();
 		} elseif ($this->currentFunction !== null) {
-			return $this->reflector->reflectFunction($this->currentFunction)->getAttributes();
+			return $this->reflectionProvider->getFunction($this->currentFunction, $scope)->getAttributes();
 		}
 		return null;
 	}
@@ -75,10 +74,10 @@ class GetAttributesWhenInSignature
 
 
 	/**
-	 * @param string $functionName
+	 * @param Name $functionName
 	 * @return void
 	 */
-	public function setCurrentFunctionName(string $functionName): void
+	public function setCurrentFunctionName(Name $functionName): void
 	{
 		$this->currentFunction = $functionName;
 	}
