@@ -20,6 +20,7 @@ parametersSchema:
 			?namespace: anyOf(string(), listOf(string())),
 			?class: anyOf(string(), listOf(string())),
 			?exclude: anyOf(string(), listOf(string())),
+			?excludeClassesWithAttribute: anyOf(string(), listOf(string())),
 			?message: string(),
 			?allowIn: listOf(string()),
 			?allowExceptIn: listOf(string()),

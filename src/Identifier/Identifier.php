@@ -10,9 +10,10 @@ class Identifier
 	 * @param string $pattern
 	 * @param string $value
 	 * @param list<string> $excludes
+	 * @param list<string> $excludeClassesWithAttribute
 	 * @return bool
 	 */
-	public function matches(string $pattern, string $value, array $excludes = []): bool
+	public function matches(string $pattern, string $value, array $excludes = [], array $excludeClassesWithAttribute = []): bool
 	{
 		$matches = false;
 		if ($pattern === $value) {
@@ -27,6 +28,12 @@ class Identifier
 				}
 			}
 		}
+		if ($matches && $excludeClassesWithAttribute) {
+            $attributes = array_map(fn ($a) => $a->getName(), (new \ReflectionClass($value))->getAttributes());
+            if (array_intersect($excludeClassesWithAttribute, $attributes)) {
+                return false;
+            }
+        }
 		return $matches;
 	}
 

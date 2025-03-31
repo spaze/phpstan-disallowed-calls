@@ -45,12 +45,17 @@ class DisallowedNamespaceFactory
 			foreach ((array)($disallowed['exclude'] ?? []) as $exclude) {
 				$excludes[] = $this->normalizer->normalizeNamespace($exclude);
 			}
+			$excludeClassesWithAttribute = [];
+            foreach ((array)($disallowed['excludeClassesWithAttribute'] ?? []) as $excludeClassWithAttribute) {
+				$excludeClassesWithAttribute[] = $this->normalizer->normalizeNamespace($excludeClassWithAttribute);
+			}
 			$namespaces = (array)$namespaces;
 			try {
 				foreach ($namespaces as $namespace) {
 					$disallowedNamespace = new DisallowedNamespace(
 						$this->normalizer->normalizeNamespace($namespace),
 						$excludes,
+						$excludeClassesWithAttribute,
 						$disallowed['message'] ?? null,
 						$this->allowedConfigFactory->getConfig($disallowed),
 						$disallowed['allowInUse'] ?? false,
