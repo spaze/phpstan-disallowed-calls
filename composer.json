@@ -49,7 +49,7 @@
 		"phpcs": "vendor/bin/phpcs src/ tests/",
 		"cs-fix": "vendor/bin/phpcbf src/ tests/",
 		"phpstan": "vendor/bin/phpstan --ansi analyse --configuration phpstan.neon",
-		"phpunit": "vendor/bin/phpunit --colors=always",
+		"phpunit": "php -d zend.assertions=1 vendor/bin/phpunit --colors=always",
 		"test": [
 			"@lint",
 			"@lint-neon",
