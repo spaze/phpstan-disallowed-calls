@@ -11,7 +11,6 @@ use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespace;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
-use Spaze\PHPStan\Rules\Disallowed\Identifier\IdentifierWithAttribute;
 use Spaze\PHPStan\Rules\Disallowed\Usages\NamespaceUsage;
 
 class DisallowedNamespaceRuleErrors

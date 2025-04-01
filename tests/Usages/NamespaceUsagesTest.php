@@ -96,7 +96,7 @@ class NamespaceUsagesTest extends RuleTestCase
 					'excludeWithAttribute' => [
 						AttributeClass::class,
 					],
-				]
+				],
 			]
 		);
 	}
@@ -126,8 +126,8 @@ class NamespaceUsagesTest extends RuleTestCase
 				9,
 			],
 			// [
-			// 	'Namespace PrivateModule\PublicClass is forbidden, no private modules. [PrivateModule\PublicClass matches PrivateModule\*]',
-			// 	10,
+			//  'Namespace PrivateModule\PublicClass is forbidden, no private modules. [PrivateModule\PublicClass matches PrivateModule\*]',
+			//  10,
 			// ],
 			[
 				'Namespace Traits\TestTrait is forbidden, no TestTrait.',
@@ -183,8 +183,8 @@ class NamespaceUsagesTest extends RuleTestCase
 				58,
 			],
 			// [
-			// 	'Class PrivateModule\PublicClass is forbidden, no private modules. [PrivateModule\PublicClass matches PrivateModule\*]',
-			// 	63,
+			//  'Class PrivateModule\PublicClass is forbidden, no private modules. [PrivateModule\PublicClass matches PrivateModule\*]',
+			//  63,
 			// ],
 			[
 				'Class PrivateModule\PrivateClass is forbidden, no private modules. [PrivateModule\PrivateClass matches PrivateModule\*]',

@@ -71,6 +71,7 @@ class DisallowedNamespace implements Disallowed
 		return $this->excludes;
 	}
 
+
 	/**
 	 * @return list<string>
 	 */
