@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Identifier;
 
-class Identifier
+class IdentifierWithAttribute
 {
 
 	/**
@@ -13,7 +13,7 @@ class Identifier
 	 * @param list<string> $excludeWithAttributes
 	 * @return bool
 	 */
-	public function matches(string $pattern, string $value, array $excludes = [], array $excludeWithAttributes = []): bool
+	public function matches(string $pattern, string $value, array $excludes = []): bool
 	{
 		$matches = false;
 		if ($pattern === $value) {
@@ -41,4 +41,14 @@ class Identifier
 		return $matches;
 	}
 
+	public function andDoesntHaveAttribute(string $attribute): bool
+	{
+		$attributes = array_map(fn ($a) => $a->getName(), (new \ReflectionClass($value))->getAttributes());
+		foreach ($attributes as $attribute) {
+			if (fnmatch($attribute, $value, FNM_NOESCAPE | FNM_CASEFOLD)) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

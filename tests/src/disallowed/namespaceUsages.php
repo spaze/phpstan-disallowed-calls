@@ -6,6 +6,8 @@ namespace Whatever;
 use Framework\SomeInterface;
 use Inheritance\Base;
 use Inheritance\Sub;
+use PrivateModule\PrivateClass;
+use PrivateModule\PublicClass;
 use Traits\TestTrait;
 use Waldo\Foo\Bar;
 use Waldo\Quux\blade;
@@ -54,6 +56,16 @@ class Service extends Base implements SomeInterface
 	public function anonymousClass()
 	{
 		return new class extends Base {};
+	}
+
+	public function usePublicClass()
+	{
+		return new PublicClass();
+	}
+
+	public function usePrivateClass()
+	{
+		return new PrivateClass();
 	}
 
 }

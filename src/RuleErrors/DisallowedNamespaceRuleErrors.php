@@ -11,6 +11,7 @@ use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespace;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
+use Spaze\PHPStan\Rules\Disallowed\Identifier\IdentifierWithAttribute;
 use Spaze\PHPStan\Rules\Disallowed\Usages\NamespaceUsage;
 
 class DisallowedNamespaceRuleErrors
@@ -44,8 +45,7 @@ class DisallowedNamespaceRuleErrors
 	{
 		foreach ($disallowedNamespaces as $disallowedNamespace) {
 			if (
-				!$this->identifier->matches($disallowedNamespace->getNamespace(), $namespaceUsage->getNamespace(), $disallowedNamespace->getExcludes(), $disallowedNamespace->getExcludeClassesWithAttribute())
-				|| $this->allowed->isAllowed($node, $scope, null, $disallowedNamespace)
+				!$this->identifier->matches($disallowedNamespace->getNamespace(), $namespaceUsage->getNamespace(), $disallowedNamespace->getExcludes())
 				|| ($disallowedNamespace->isAllowInUse() && $namespaceUsage->isUseItem())
 			) {
 				continue;
