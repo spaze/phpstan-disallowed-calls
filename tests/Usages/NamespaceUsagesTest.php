@@ -94,7 +94,7 @@ class NamespaceUsagesTest extends RuleTestCase
 					'namespace' => 'PrivateModule\*',
 					'message' => 'no private modules',
 					'excludeWithAttribute' => [
-						AttributeClass::class,
+						'\Attributes\*Class',
 					],
 				],
 			]
