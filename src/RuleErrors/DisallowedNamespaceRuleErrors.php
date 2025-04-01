@@ -45,7 +45,7 @@ class DisallowedNamespaceRuleErrors
 	{
 		foreach ($disallowedNamespaces as $disallowedNamespace) {
 			if (
-				!$this->identifier->matches($disallowedNamespace->getNamespace(), $namespaceUsage->getNamespace(), $disallowedNamespace->getExcludes())
+				!$this->identifier->matches($disallowedNamespace->getNamespace(), $namespaceUsage->getNamespace(), $disallowedNamespace->getExcludes(), $disallowedNamespace->getExcludeWithAttributes())
 				|| ($disallowedNamespace->isAllowInUse() && $namespaceUsage->isUseItem())
 			) {
 				continue;
