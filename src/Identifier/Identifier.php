@@ -3,8 +3,16 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Identifier;
 
+use PHPStan\BetterReflection\Reflector\Reflector;
+
 class Identifier
 {
+	private Reflector $reflector;
+
+	public function __construct(Reflector $reflector)
+	{
+		$this->reflector = $reflector;
+	}
 
 	/**
 	 * @param string $pattern
@@ -29,8 +37,8 @@ class Identifier
 			}
 		}
 		if ($matches && $excludeWithAttributes) {
-			$attributes = PHP_VERSION_ID >= 80000 && (class_exists($value) || interface_exists($value))
-				? array_map(fn ($a) => $a->getName(), (new \ReflectionClass($value))->getAttributes())
+			$attributes = class_exists($value) || interface_exists($value)
+				? array_map(fn ($a) => $a->getName(), $this->reflector->reflectClass($value)->getAttributes())
 				: [];
 
 			foreach ($attributes as $attribute) {

@@ -8,10 +8,6 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 
-/**
- * @requires PHP >= 8.0
- */
-#[RequiresPhp('>= 8.0')]
 class NamespaceUsagesExcludeAttributeTest extends RuleTestCase
 {
 
