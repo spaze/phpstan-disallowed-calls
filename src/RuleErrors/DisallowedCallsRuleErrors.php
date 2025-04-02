@@ -49,11 +49,12 @@ class DisallowedCallsRuleErrors
 	 */
 	public function get(?CallLike $node, Scope $scope, string $name, ?string $displayName, ?string $definedIn, array $disallowedCalls, string $identifier, ?string $message = null): array
 	{
+		$args = isset($node) && !$node->isFirstClassCallable() ? $node->getArgs() : null;
 		foreach ($disallowedCalls as $disallowedCall) {
 			if (
 				$this->identifier->matches($disallowedCall->getCall(), $name, $disallowedCall->getExcludes())
 				&& $this->definedInMatches($disallowedCall, $definedIn)
-				&& !$this->allowed->isAllowed($node, $scope, isset($node) ? $node->getArgs() : null, $disallowedCall)
+				&& !$this->allowed->isAllowed($node, $scope, $args, $disallowedCall)
 			) {
 				$errorBuilder = RuleErrorBuilder::message(sprintf(
 					$message ?? 'Calling %s is forbidden%s%s',
