@@ -29,7 +29,7 @@ class Identifier
 			}
 		}
 		if ($matches && $excludeWithAttributes) {
-			$attributes = class_exists($value) || interface_exists($value)
+			$attributes = method_exists(\ReflectionClass::class, 'getAttributes') && (class_exists($value) || interface_exists($value))
 				? array_map(fn ($a) => $a->getName(), (new \ReflectionClass($value))->getAttributes())
 				: [];
 

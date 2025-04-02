@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
-use Attributes\AttributeClass;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
@@ -89,14 +88,6 @@ class NamespaceUsagesTest extends RuleTestCase
 						'Stringable',
 					],
 				],
-				// test excluded attributes
-				[
-					'namespace' => 'PrivateModule\*',
-					'message' => 'no private modules',
-					'excludeWithAttribute' => [
-						'\Attributes\*Class',
-					],
-				],
 			]
 		);
 	}
@@ -122,73 +113,57 @@ class NamespaceUsagesTest extends RuleTestCase
 				8,
 			],
 			[
-				'Namespace PrivateModule\PrivateClass is forbidden, no private modules. [PrivateModule\PrivateClass matches PrivateModule\*]',
-				9,
-			],
-			// [
-			//  'Namespace PrivateModule\PublicClass is forbidden, no private modules. [PrivateModule\PublicClass matches PrivateModule\*]',
-			//  10,
-			// ],
-			[
 				'Namespace Traits\TestTrait is forbidden, no TestTrait.',
-				11,
+				9,
 			],
 			[
 				'Namespace Waldo\Foo\Bar is forbidden, no FooBar. [Waldo\Foo\Bar matches Waldo\Foo\bar]',
-				12,
+				10,
 			],
 			[
 				'Namespace Waldo\Quux\blade is forbidden, no blade. [Waldo\Quux\blade matches Waldo\Quux\Blade]',
-				13,
+				11,
 			],
 			[
 				'Namespace ZipArchive is forbidden, use clippy instead of zippy.',
-				14,
+				12,
 			],
 			[
 				'Namespace Inheritance\Base is forbidden, no inheritance sub base.',
-				16,
+				14,
 			],
 			[
 				'Namespace Framework\SomeInterface is forbidden, no framework some. [Framework\SomeInterface matches Framew*rk\Some*]',
-				16,
+				14,
 				'Work more on your frames',
 			],
 			[
 				'Trait Traits\TestTrait is forbidden, no TestTrait.',
-				19,
+				17,
 			],
 			[
 				'Class Waldo\Quux\blade is forbidden, no blade. [Waldo\Quux\blade matches Waldo\Quux\Blade]',
-				26,
+				24,
 			],
 			[
 				'Namespace Inheritance\Sub is forbidden, no inheritance sub base.',
-				34,
+				32,
 			],
 			[
 				'Class Waldo\Foo\Bar is forbidden, no FooBar. [Waldo\Foo\Bar matches Waldo\Foo\bar]',
-				40,
+				38,
 			],
 			[
 				'Class Waldo\Foo\Bar is forbidden, no FooBar. [Waldo\Foo\Bar matches Waldo\Foo\bar]',
-				46,
+				44,
 			],
 			[
 				'Class ZipArchive is forbidden, use clippy instead of zippy.',
-				52,
+				50,
 			],
 			[
 				'Namespace Inheritance\Base is forbidden, no inheritance sub base.',
-				58,
-			],
-			// [
-			//  'Class PrivateModule\PublicClass is forbidden, no private modules. [PrivateModule\PublicClass matches PrivateModule\*]',
-			//  63,
-			// ],
-			[
-				'Class PrivateModule\PrivateClass is forbidden, no private modules. [PrivateModule\PrivateClass matches PrivateModule\*]',
-				68,
+				56,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/namespaceUsages.php'], []);
