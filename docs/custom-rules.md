@@ -149,6 +149,23 @@ parameters:
     filesRootDir: %rootDir%/../../..
 ```
 
+### Wildcards, except when having an attribute
+
+If there's this one function, method, namespace, class (or multiple of them) that you'd like to exclude from the set, you can do that with `excludeWithAttribute`:
+
+```neon
+parameters:
+    disallowedNamespaces:
+        -
+            namespace: 'App\PrivateModule\*'
+            excludeWithAttribute:
+                - '\App\Support\IsPublic'
+```
+
+This config would disallow all `App\PrivateModule` classes except those classes marked with a `#[\App\Support\IsPublic] attribute`.
+
+Please note `excludeWithAttribute` also accepts [`fnmatch`](https://www.php.net/function.fnmatch) patterns so please be careful to not create a contradicting config, and that it can accept both a string and an array of strings.
+
 ### Resolving relative paths
 
 Relative paths in `definedIn` are resolved based on the current working directory. When running PHPStan from a directory or subdirectory which is not your "root" directory, the paths will probably not work.

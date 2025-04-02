@@ -28,7 +28,7 @@ class DisallowedNamespaceFactory
 
 
 	/**
-	 * @param array<array{namespace?:string|list<string>, class?:string|list<string>, exclude?:string|list<string>, message?:string, allowIn?:list<string>, allowExceptIn?:list<string>, disallowIn?:list<string>, allowInUse?:bool, errorIdentifier?:string, errorTip?:string}> $config
+	 * @param array<array{namespace?:string|list<string>, class?:string|list<string>, exclude?:string|list<string>, excludeWithAttribute?:string|list<string>, message?:string, allowIn?:list<string>, allowExceptIn?:list<string>, disallowIn?:list<string>, allowInUse?:bool, errorIdentifier?:string, errorTip?:string}> $config
 	 * @return list<DisallowedNamespace>
 	 * @throws ShouldNotHappenException
 	 */
@@ -45,12 +45,17 @@ class DisallowedNamespaceFactory
 			foreach ((array)($disallowed['exclude'] ?? []) as $exclude) {
 				$excludes[] = $this->normalizer->normalizeNamespace($exclude);
 			}
+			$excludeWithAttributes = [];
+			foreach ((array)($disallowed['excludeWithAttribute'] ?? []) as $excludeWithAttribute) {
+				$excludeWithAttributes[] = $this->normalizer->normalizeNamespace($excludeWithAttribute);
+			}
 			$namespaces = (array)$namespaces;
 			try {
 				foreach ($namespaces as $namespace) {
 					$disallowedNamespace = new DisallowedNamespace(
 						$this->normalizer->normalizeNamespace($namespace),
 						$excludes,
+						$excludeWithAttributes,
 						$disallowed['message'] ?? null,
 						$this->allowedConfigFactory->getConfig($disallowed),
 						$disallowed['allowInUse'] ?? false,

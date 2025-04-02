@@ -34,6 +34,7 @@ class DisallowedNamespaceRuleErrors
 	/**
 	 * @param Node $node
 	 * @param NamespaceUsage $namespaceUsage
+	 *
 	 * @param string $description
 	 * @param Scope $scope
 	 * @param list<DisallowedNamespace> $disallowedNamespaces
@@ -44,7 +45,7 @@ class DisallowedNamespaceRuleErrors
 	{
 		foreach ($disallowedNamespaces as $disallowedNamespace) {
 			if (
-				!$this->identifier->matches($disallowedNamespace->getNamespace(), $namespaceUsage->getNamespace(), $disallowedNamespace->getExcludes())
+				!$this->identifier->matches($disallowedNamespace->getNamespace(), $namespaceUsage->getNamespace(), $disallowedNamespace->getExcludes(), $disallowedNamespace->getExcludeWithAttributes())
 				|| $this->allowed->isAllowed($node, $scope, null, $disallowedNamespace)
 				|| ($disallowedNamespace->isAllowInUse() && $namespaceUsage->isUseItem())
 			) {
