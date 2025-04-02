@@ -29,7 +29,7 @@ class Identifier
 			}
 		}
 		if ($matches && $excludeWithAttributes) {
-			$attributes = method_exists(\ReflectionClass::class, 'getAttributes') && (class_exists($value) || interface_exists($value))
+			$attributes = PHP_VERSION_ID >= 80000 && (class_exists($value) || interface_exists($value))
 				? array_map(fn ($a) => $a->getName(), (new \ReflectionClass($value))->getAttributes())
 				: [];
 
