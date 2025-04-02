@@ -9,10 +9,12 @@ class Identifier
 {
 	private Reflector $reflector;
 
+
 	public function __construct(Reflector $reflector)
 	{
 		$this->reflector = $reflector;
 	}
+
 
 	/**
 	 * @param string $pattern
