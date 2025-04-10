@@ -13,6 +13,9 @@ class DisallowedNamespace implements Disallowed
 	/** @var list<string> */
 	private array $excludes;
 
+	/** @var list<string> */
+	private array $excludeWithAttributes;
+
 	private ?string $message;
 
 	private ?string $errorIdentifier;
@@ -27,6 +30,7 @@ class DisallowedNamespace implements Disallowed
 	/**
 	 * @param string $namespace
 	 * @param list<string> $excludes
+	 * @param list<string> $excludeWithAttributes
 	 * @param string|null $message
 	 * @param AllowedConfig $allowedConfig
 	 * @param string|null $errorIdentifier
@@ -35,6 +39,7 @@ class DisallowedNamespace implements Disallowed
 	public function __construct(
 		string $namespace,
 		array $excludes,
+		array $excludeWithAttributes,
 		?string $message,
 		AllowedConfig $allowedConfig,
 		bool $allowInUse,
@@ -43,6 +48,7 @@ class DisallowedNamespace implements Disallowed
 	) {
 		$this->namespace = $namespace;
 		$this->excludes = $excludes;
+		$this->excludeWithAttributes = $excludeWithAttributes;
 		$this->message = $message;
 		$this->allowedConfig = $allowedConfig;
 		$this->allowInUse = $allowInUse;
@@ -63,6 +69,15 @@ class DisallowedNamespace implements Disallowed
 	public function getExcludes(): array
 	{
 		return $this->excludes;
+	}
+
+
+	/**
+	 * @return list<string>
+	 */
+	public function getExcludeWithAttributes(): array
+	{
+		return $this->excludeWithAttributes;
 	}
 
 

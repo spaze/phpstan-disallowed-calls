@@ -130,6 +130,23 @@ parameters:
 This config would disallow all `pcntl` functions except (an imaginary) `pcntl_foobar()`.
 Please note `exclude` also accepts [`fnmatch`](https://www.php.net/function.fnmatch) patterns so please be careful to not create a contradicting config, and that it can accept both a string and an array of strings.
 
+### Wildcards, except when having an attribute
+
+If there's this one class (or multiple of them) that you'd like to exclude from the set, you can do that with `excludeWithAttribute`:
+
+```neon
+parameters:
+    disallowedClasses:
+        -
+            class: 'App\PrivateModule\*'
+            excludeWithAttribute:
+                - '\App\Support\IsPublic'
+```
+
+This config would disallow all `App\PrivateModule\*` classes except those classes marked with a `#[\App\Support\IsPublic] attribute`.
+
+Please note `excludeWithAttribute` also accepts [`fnmatch`](https://www.php.net/function.fnmatch) patterns, and that it can accept both a string and an array of strings.
+
 ### Wildcards, except when defined in this path
 
 Another option how to limit the set of functions or methods selected by the `function` or `method` directive is a file path in which these are defined which mostly makes sense when a [`fnmatch`](https://www.php.net/function.fnmatch) pattern is used in those directives.
