@@ -17,6 +17,7 @@ parameters:
 			- src/PHPStan1Compatibility.php
 
 includes:
+	- phpstan-ignore-errors.php
 	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
 	- vendor/phpstan/phpstan-deprecation-rules/rules.neon
 	- extension.neon
