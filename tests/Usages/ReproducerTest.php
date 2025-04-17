@@ -25,6 +25,10 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 
 class ReproducerTest extends RuleTestCase
 {
+	protected function shouldNarrowMethodScopeFromConstructor(): bool
+	{
+		return true;
+	}
 
 	protected function getRule(): Rule
 	{
