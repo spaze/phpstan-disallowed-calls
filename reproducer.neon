@@ -1,0 +1,11 @@
+includes:
+	- %currentWorkingDirectory%/extension.neon
+parameters:
+	disallowedClasses:
+		-
+			class: Reproducer\EventRecorder
+			allowInMethodsWithAttributes: [Reproducer\AsCommandHandler]
+			allowInUse: true
+	level: max
+	paths:
+		- %currentWorkingDirectory%/tests/src/ReproducerClass.php
