@@ -11,6 +11,7 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 
 /**
  * @requires PHP >= 8.1
+ * @extends RuleTestCase<NamespaceUsages>
  */
 #[RequiresPhp('>= 8.1')]
 class NamespaceUsagesTypesTest extends RuleTestCase

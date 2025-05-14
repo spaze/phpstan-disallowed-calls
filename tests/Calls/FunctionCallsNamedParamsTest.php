@@ -13,6 +13,7 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors;
 
 /**
  * @requires PHP >= 8.0
+ * @extends RuleTestCase<FunctionCalls>
  */
 #[RequiresPhp('>= 8.0')]
 class FunctionCallsNamedParamsTest extends RuleTestCase

@@ -10,6 +10,9 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors;
 
+/**
+ * @extends RuleTestCase<ConstantUsages>
+ */
 class ConstantUsagesTest extends RuleTestCase
 {
 

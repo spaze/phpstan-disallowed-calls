@@ -10,6 +10,9 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallableParameterRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 
+/**
+ * @extends RuleTestCase<NewCalls>
+ */
 class NewCallsDefinedInTest extends RuleTestCase
 {
 

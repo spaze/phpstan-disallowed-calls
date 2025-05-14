@@ -7,6 +7,9 @@ use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
 
+/**
+ * @extends RuleTestCase<ClassConstantUsages>
+ */
 class ClassConstantInvalidUsagesTest extends RuleTestCase
 {
 
@@ -15,7 +18,9 @@ class ClassConstantInvalidUsagesTest extends RuleTestCase
 	 */
 	protected function getRule(): Rule
 	{
-		return self::getContainer()->getService('classConstantUsages');
+		$service = self::getContainer()->getService('classConstantUsages');
+		assert($service instanceof ClassConstantUsages);
+		return $service;
 	}
 
 

@@ -7,6 +7,9 @@ use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\Calls\EvalCalls;
 
+/**
+ * @extends RuleTestCase<EvalCalls>
+ */
 class DangerousConfigEvalCallsTest extends RuleTestCase
 {
 

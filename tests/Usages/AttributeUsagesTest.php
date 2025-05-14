@@ -13,6 +13,7 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedAttributeRuleErrors;
 
 /**
  * @requires PHP >= 8.0
+ * @extends RuleTestCase<AttributeUsages>
  */
 #[RequiresPhp('>= 8.0')]
 class AttributeUsagesTest extends RuleTestCase

@@ -13,6 +13,9 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
+/**
+ * @extends RuleTestCase<MethodCalls>
+ */
 class MethodCallsCallableParametersTest extends RuleTestCase
 {
 

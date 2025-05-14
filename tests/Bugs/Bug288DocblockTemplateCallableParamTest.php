@@ -14,6 +14,9 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
+/**
+ * @extends RuleTestCase<MethodCalls>
+ */
 class Bug288DocblockTemplateCallableParamTest extends RuleTestCase
 {
 

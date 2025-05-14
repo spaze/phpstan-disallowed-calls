@@ -7,6 +7,9 @@ use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\Calls\MethodCalls;
 
+/**
+ * @extends RuleTestCase<MethodCalls>
+ */
 class InsecureConfigMethodCallsTest extends RuleTestCase
 {
 

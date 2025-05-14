@@ -9,6 +9,9 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedControlStructureRuleErrors;
 
+/**
+ * @extends RuleTestCase<WhileControlStructure>
+ */
 class WhileControlStructureTest extends RuleTestCase
 {
 

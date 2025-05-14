@@ -10,6 +10,9 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedAttributeFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedAttributeRuleErrors;
 use Waldo\Quux\Blade;
 
+/**
+ * @extends RuleTestCase<AttributeUsages>
+ */
 class AttributeUsagesAllowParamsInAllowedTest extends RuleTestCase
 {
 

@@ -9,6 +9,9 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedControlStructureRuleErrors;
 
+/**
+ * @extends RuleTestCase<DeclareControlStructure>
+ */
 class DeclareControlStructureTest extends RuleTestCase
 {
 

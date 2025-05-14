@@ -8,6 +8,9 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 
+/**
+ * @extends RuleTestCase<NamespaceUsages>
+ */
 class NamespaceUsagesTest extends RuleTestCase
 {
 
