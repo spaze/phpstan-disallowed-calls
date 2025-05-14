@@ -17,6 +17,8 @@ parameters:
 		analyse:
 			- src/PHPStan1Compatibility.php
 			- tests/src
+	bootstrapFiles:
+		- phpstan-attributes.php
 
 includes:
 	- phpstan-exclude-paths.php
