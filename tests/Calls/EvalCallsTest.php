@@ -9,6 +9,9 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors;
 
+/**
+ * @extends RuleTestCase<EvalCalls>
+ */
 class EvalCallsTest extends RuleTestCase
 {
 

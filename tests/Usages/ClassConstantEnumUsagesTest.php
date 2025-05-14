@@ -15,6 +15,7 @@ use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
 /**
  * @requires PHP >= 8.1
+ * @extends RuleTestCase<ClassConstantUsages>
  */
 #[RequiresPhp('>= 8.1')]
 class ClassConstantEnumUsagesTest extends RuleTestCase

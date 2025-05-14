@@ -9,6 +9,9 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedVariableRuleErrors;
 
+/**
+ * @extends RuleTestCase<VariableUsages>
+ */
 class SuperglobalUsagesTest extends RuleTestCase
 {
 

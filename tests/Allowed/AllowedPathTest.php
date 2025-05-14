@@ -30,6 +30,7 @@ class AllowedPathTest extends PHPStanTestCase
 
 	protected function setUp(): void
 	{
+		/** @phpstan-ignore phpstanApi.constructor (Can't get the instance from the DI container because it has the workingDirectory set to the .phar path) */
 		$fileHelper = new FileHelper(__DIR__);
 		$this->allowedPath = new AllowedPath(new FilePath($fileHelper));
 		$this->allowedPathWithRootDir = new AllowedPath(new FilePath($fileHelper, '/foo/bar'));
@@ -98,8 +99,14 @@ class AllowedPathTest extends PHPStanTestCase
 	{
 		$classReflection = $this->reflectionProvider->getClass(TestClass::class);
 		$traitReflection = $this->reflectionProvider->getClass(TestTrait::class);
-		$context = ScopeContext::create($classReflection->getFileName())->enterClass($classReflection)->enterTrait($traitReflection);
-		$this->assertTrue($this->allowedPath->matches($this->scopeFactory->create($context), $traitReflection->getFileName()));
+		$classFile = $classReflection->getFileName();
+		assert($classFile !== null);
+		$context = ScopeContext::create($classFile);
+		/** @phpstan-ignore phpstanApi.method, phpstanApi.method (🤞 for both methods) */
+		$context = $context->enterClass($classReflection)->enterTrait($traitReflection);
+		$traitFile = $traitReflection->getFileName();
+		assert($traitFile !== null);
+		$this->assertTrue($this->allowedPath->matches($this->scopeFactory->create($context), $traitFile));
 	}
 
 }

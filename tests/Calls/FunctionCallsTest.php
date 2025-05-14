@@ -13,6 +13,9 @@ use Stringable;
 use Waldo\Foo\Bar;
 use Waldo\Quux\Blade;
 
+/**
+ * @extends RuleTestCase<FunctionCalls>
+ */
 class FunctionCallsTest extends RuleTestCase
 {
 

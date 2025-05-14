@@ -24,7 +24,7 @@ class FunctionCallsUnsupportedParamConfigTest extends PHPStanTestCase
 			$container->getByType(DisallowedFunctionRuleErrors::class),
 			$container->getByType(DisallowedCallableParameterRuleErrors::class),
 			$container->getByType(DisallowedCallFactory::class),
-			[
+			[ /** @phpstan-ignore argument.type (The test tests a bad config, so a wrong "'key' => 'unsupported'" value is expected here) */
 				[
 					'function' => [
 						'foo()',

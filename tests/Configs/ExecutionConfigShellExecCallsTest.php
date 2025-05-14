@@ -7,6 +7,9 @@ use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\Calls\ShellExecCalls;
 
+/**
+ * @extends RuleTestCase<ShellExecCalls>
+ */
 class ExecutionConfigShellExecCallsTest extends RuleTestCase
 {
 

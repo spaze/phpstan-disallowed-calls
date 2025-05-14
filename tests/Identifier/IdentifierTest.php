@@ -22,12 +22,12 @@ class IdentifierTest extends PHPStanTestCase
 	/**
 	 * @param string $pattern
 	 * @param string $value
-	 * @param list<string>|null $excludes
+	 * @param list<string> $excludes
 	 * @return void
 	 * @dataProvider matchesProvider
 	 */
 	#[DataProvider('matchesProvider')]
-	public function testMatches(string $pattern, string $value, ?array $excludes): void
+	public function testMatches(string $pattern, string $value, array $excludes): void
 	{
 		$this->assertTrue($this->identifier->matches($pattern, $value, $excludes));
 	}
@@ -36,12 +36,12 @@ class IdentifierTest extends PHPStanTestCase
 	/**
 	 * @param string $pattern
 	 * @param string $value
-	 * @param list<string>|null $excludes
+	 * @param list<string> $excludes
 	 * @return void
 	 * @dataProvider doesNotMatchProvider
 	 */
 	#[DataProvider('doesNotMatchProvider')]
-	public function testDoesNotMatch(string $pattern, string $value, ?array $excludes): void
+	public function testDoesNotMatch(string $pattern, string $value, array $excludes): void
 	{
 		$this->assertFalse($this->identifier->matches($pattern, $value, $excludes));
 	}

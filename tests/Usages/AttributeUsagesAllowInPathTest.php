@@ -9,6 +9,9 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedAttributeFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedAttributeRuleErrors;
 
+/**
+ * @extends RuleTestCase<AttributeUsages>
+ */
 class AttributeUsagesAllowInPathTest extends RuleTestCase
 {
 

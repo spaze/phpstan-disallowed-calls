@@ -10,6 +10,9 @@ use PHPUnit\Framework\Attributes\RequiresPhp;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors;
 
+/**
+ * @extends RuleTestCase<FunctionFirstClassCallables>
+ */
 class FunctionFirstClassCallablesTest extends RuleTestCase
 {
 

@@ -9,6 +9,9 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedControlStructureRuleErrors;
 
+/**
+ * @extends RuleTestCase<ElseIfControlStructure>
+ */
 class ElseIfControlStructureTest extends RuleTestCase
 {
 
@@ -60,6 +63,7 @@ class ElseIfControlStructureTest extends RuleTestCase
 		$this->expectException(ShouldNotHappenException::class);
 		$this->expectExceptionMessage("Use 'elseif' instead of 'else if', because 'else if' is parsed as 'else' followed by 'if' and the behaviour may be unexpected if using 'else if' in the configuration");
 		$container = self::getContainer();
+		/** @phpstan-ignore new.resultUnused (Throws an exception, which is tested) */
 		new ElseIfControlStructure(
 			$container->getByType(DisallowedControlStructureRuleErrors::class),
 			$container->getByType(DisallowedControlStructureFactory::class)->getDisallowedControlStructures([

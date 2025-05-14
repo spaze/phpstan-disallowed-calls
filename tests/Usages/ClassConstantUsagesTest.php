@@ -11,6 +11,9 @@ use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
+/**
+ * @extends RuleTestCase<ClassConstantUsages>
+ */
 class ClassConstantUsagesTest extends RuleTestCase
 {
 

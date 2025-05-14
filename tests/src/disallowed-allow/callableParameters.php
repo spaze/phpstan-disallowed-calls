@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-function foo(callable $callback): void { $callback(); }
+function foo(callable $callback): void { $callback(123); }
 
 class Callbacks
 {
