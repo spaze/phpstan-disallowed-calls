@@ -19,6 +19,7 @@ parameters:
 			- tests/src
 
 includes:
+	- phpstan-exclude-paths.php
 	- phpstan-ignore-errors.php
 	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
 	- vendor/phpstan/phpstan-deprecation-rules/rules.neon
