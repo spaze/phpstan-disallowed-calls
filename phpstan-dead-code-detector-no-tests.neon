@@ -1,0 +1,9 @@
+parameters:
+	customRulesetUsed: true
+	reportUnmatchedIgnoredErrors: false
+	paths:
+		- src
+
+includes:
+	- extension.neon
+	- vendor/shipmonk/dead-code-detector/rules.neon
