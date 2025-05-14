@@ -98,8 +98,12 @@ class AllowedPathTest extends PHPStanTestCase
 	{
 		$classReflection = $this->reflectionProvider->getClass(TestClass::class);
 		$traitReflection = $this->reflectionProvider->getClass(TestTrait::class);
-		$context = ScopeContext::create($classReflection->getFileName())->enterClass($classReflection)->enterTrait($traitReflection);
-		$this->assertTrue($this->allowedPath->matches($this->scopeFactory->create($context), $traitReflection->getFileName()));
+		$classFile = $classReflection->getFileName();
+		assert($classFile !== null);
+		$context = ScopeContext::create($classFile)->enterClass($classReflection)->enterTrait($traitReflection);
+		$traitFile = $traitReflection->getFileName();
+		assert($traitFile !== null);
+		$this->assertTrue($this->allowedPath->matches($this->scopeFactory->create($context), $traitFile));
 	}
 
 }

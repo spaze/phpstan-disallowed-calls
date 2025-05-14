@@ -32,7 +32,7 @@ class ConstantUsages implements Rule
 	/**
 	 * @param DisallowedConstantRuleErrors $disallowedConstantRuleErrors
 	 * @param DisallowedConstantFactory $disallowedConstantFactory
-	 * @param array<array{constant?:string, message?:string, allowIn?:list<string>}> $disallowedConstants
+	 * @param array<array{constant?:string|list<string>, message?:string, allowIn?:list<string>}> $disallowedConstants
 	 * @throws ShouldNotHappenException
 	 */
 	public function __construct(DisallowedConstantRuleErrors $disallowedConstantRuleErrors, DisallowedConstantFactory $disallowedConstantFactory, array $disallowedConstants)

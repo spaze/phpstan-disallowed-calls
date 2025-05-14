@@ -110,7 +110,7 @@ class NamespaceUsagesAllowInClassWithAttributesTest extends RuleTestCase
 					$this->container->getByType(GetAttributesWhenInSignature::class)->setCurrentClassMethodName(CallsWithAttributes::class, $node->name->toString());
 				} elseif ($node instanceof InClassMethodNode) {
 					$this->container->getByType(GetAttributesWhenInSignature::class)->unsetCurrentClassMethodName();
-				} elseif ($node instanceof Function_) {
+				} elseif ($node instanceof Function_ && $node->namespacedName !== null) {
 					$this->container->getByType(GetAttributesWhenInSignature::class)->setCurrentFunctionName($node->namespacedName->toString());
 				} elseif ($node instanceof InFunctionNode) {
 					$this->container->getByType(GetAttributesWhenInSignature::class)->unsetCurrentFunctionName();

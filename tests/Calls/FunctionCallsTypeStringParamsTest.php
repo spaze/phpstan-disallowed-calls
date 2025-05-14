@@ -140,7 +140,7 @@ class FunctionCallsTypeStringParamsTest extends RuleTestCase
 						[
 							'position' => 1,
 							'name' => 'param',
-							'value' => 'is ignored when typeString is specified',
+							'value' => -0, // Ignored when typeString is specified
 							'typeString' => '2',
 						],
 					],
@@ -155,7 +155,7 @@ class FunctionCallsTypeStringParamsTest extends RuleTestCase
 						[
 							'position' => 1,
 							'name' => 'param',
-							'value' => 'is ignored when typeString is specified',
+							'value' => -0, // Ignored when typeString is specified
 							'typeString' => '2|8',
 						],
 					],
@@ -170,7 +170,7 @@ class FunctionCallsTypeStringParamsTest extends RuleTestCase
 						[
 							'position' => 1,
 							'name' => 'param',
-							'value' => 'is ignored when typeString is specified',
+							'value' => -0, // Ignored when typeString is specified
 							'typeString' => '2|8',
 						],
 					],
@@ -185,7 +185,7 @@ class FunctionCallsTypeStringParamsTest extends RuleTestCase
 						[
 							'position' => 1,
 							'name' => 'param',
-							'value' => 'is ignored when typeString is specified',
+							'value' => -0, // Ignored when typeString is specified
 							'typeString' => '2|8',
 						],
 					],
