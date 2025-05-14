@@ -108,11 +108,11 @@ class NamespaceUsagesAllowInClassWithAttributesTest extends RuleTestCase
 			{
 				if ($node instanceof ClassMethod) {
 					$this->container->getByType(GetAttributesWhenInSignature::class)->setCurrentClassMethodName(CallsWithAttributes::class, $node->name->toString());
-				} elseif ($node instanceof InClassMethodNode) {
+				} elseif ($node instanceof InClassMethodNode) { /** @phpstan-ignore phpstanApi.instanceofAssumption (🤞) */
 					$this->container->getByType(GetAttributesWhenInSignature::class)->unsetCurrentClassMethodName();
 				} elseif ($node instanceof Function_ && $node->namespacedName !== null) {
 					$this->container->getByType(GetAttributesWhenInSignature::class)->setCurrentFunctionName($node->namespacedName->toString());
-				} elseif ($node instanceof InFunctionNode) {
+				} elseif ($node instanceof InFunctionNode) { /** @phpstan-ignore phpstanApi.instanceofAssumption (🤞) */
 					$this->container->getByType(GetAttributesWhenInSignature::class)->unsetCurrentFunctionName();
 				}
 			}

@@ -18,6 +18,7 @@ class FilePathTest extends PHPStanTestCase
 
 	protected function setUp(): void
 	{
+		/** @phpstan-ignore phpstanApi.constructor (Can't get the instance from the DI container because it has the workingDirectory set to the .phar path) */
 		$fileHelper = new FileHelper(__DIR__);
 		$this->filePath = new FilePath($fileHelper);
 		$this->filePathWithRootDir = new FilePath($fileHelper, '/foo/bar');
@@ -71,6 +72,14 @@ class FilePathTest extends PHPStanTestCase
 			'\\src\\foo\\bar\\',
 			__DIR__ . '/src/foo/bar',
 			'/foo/bar/src/foo/bar',
+		];
+	}
+
+
+	public static function getAdditionalConfigFiles(): array
+	{
+		return [
+			__DIR__ . '/../../extension.neon',
 		];
 	}
 
