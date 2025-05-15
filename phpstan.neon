@@ -19,12 +19,23 @@ parameters:
 			- tests/src
 	bootstrapFiles:
 		- phpstan-attributes.php
+	ignoreErrors:
+		-
+			identifier: shipmonk.deadMethod # Used in extension.neon
+			paths:
+				- src/DisallowedSuperglobalFactory.php
+				- src/DisallowedControlStructureFactory.php
+	shipmonkDeadCode:
+		usageExcluders:
+			tests:
+				enabled: true
 
 includes:
 	- phpstan-exclude-paths.php
 	- phpstan-ignore-errors.php
 	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
 	- vendor/phpstan/phpstan-deprecation-rules/rules.neon
+	- vendor/shipmonk/dead-code-detector/rules.neon
 	- extension.neon
 	- disallowed-dangerous-calls.neon
 	- disallowed-execution-calls.neon
