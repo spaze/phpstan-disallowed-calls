@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed\Usages;
+namespace Spaze\PHPStan\Rules\Disallowed\UsageFactory;
 
 class NamespaceUsage
 {
