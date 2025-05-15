@@ -5,8 +5,6 @@
 phpcs.xml export-ignore
 phpstan.neon export-ignore
 phpstan-attributes.php export-ignore
-phpstan-dead-code-detector.neon export-ignore
-phpstan-dead-code-detector-no-tests.neon export-ignore
 phpstan-exclude-paths.php export-ignore
 phpstan-ignore-errors.php export-ignore
 phpunit.xml export-ignore
