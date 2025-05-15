@@ -38,7 +38,7 @@
 		"psr-4": {"Spaze\\PHPStan\\Rules\\Disallowed\\": "src"}
 	},
 	"autoload-dev": {
-		"classmap": ["tests/src"]
+		"classmap": ["tests"]
 	},
 	"scripts": {
 		"lint": "vendor/bin/parallel-lint --colors src/ tests/",
