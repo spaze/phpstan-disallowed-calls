@@ -117,7 +117,7 @@ class DisallowedCall implements DisallowedWithParams
 
 	public function getAllowExceptInInstanceOf(): array
 	{
-		return $this->allowedConfig->getAllowExceptInInstancesOf();
+		return $this->allowedConfig->getAllowExceptInInstanceOf();
 	}
 
 

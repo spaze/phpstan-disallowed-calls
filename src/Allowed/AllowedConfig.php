@@ -160,7 +160,7 @@ class AllowedConfig
 	/**
 	 * @return list<string>
 	 */
-	public function getAllowExceptInInstancesOf(): array
+	public function getAllowExceptInInstanceOf(): array
 	{
 		return $this->allowExceptInInstanceOf;
 	}

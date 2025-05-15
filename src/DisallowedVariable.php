@@ -81,7 +81,7 @@ class DisallowedVariable implements Disallowed
 
 	public function getAllowExceptInInstanceOf(): array
 	{
-		return $this->allowedConfig->getAllowExceptInInstancesOf();
+		return $this->allowedConfig->getAllowExceptInInstanceOf();
 	}
 
 
