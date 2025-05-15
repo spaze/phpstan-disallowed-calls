@@ -499,6 +499,18 @@ services:
 		tags:
 			- phpstan.rules.rule
 	-
+		factory: Spaze\PHPStan\Rules\Disallowed\Calls\FunctionFirstClassCallables(forbiddenCalls: %disallowedFunctionCalls%)
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\Calls\MethodFirstClassCallables(forbiddenCalls: %disallowedMethodCalls%)
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\Calls\StaticFirstClassCallables(forbiddenCalls: %disallowedStaticCalls%)
+		tags:
+			- phpstan.rules.rule
+	-
 		factory: Spaze\PHPStan\Rules\Disallowed\Usages\ConstantUsages(disallowedConstants: %disallowedConstants%)
 		tags:
 			- phpstan.rules.rule
