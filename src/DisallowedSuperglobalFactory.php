@@ -8,7 +8,7 @@ use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedConfigFactory;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeInConfigException;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 
-class DisallowedSuperglobalFactory implements DisallowedVariableFactory
+class DisallowedSuperglobalFactory
 {
 
 	/**
