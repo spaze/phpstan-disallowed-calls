@@ -56,8 +56,6 @@
 			"@lint-neon",
 			"@phpcs",
 			"@phpstan",
-			"@phpstan-dead-code-detector",
-			"@phpstan-dead-code-detector-no-tests",
 			"@phpunit"
 		]
 	},
