@@ -8,6 +8,7 @@ use PHPStan\Testing\RuleTestCase;
 use PHPUnit\Framework\Attributes\RequiresPhp;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\UsageFactory\NamespaceUsageFactory;
 
 /**
  * @requires PHP >= 8.1

@@ -22,6 +22,7 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespace;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
+use Spaze\PHPStan\Rules\Disallowed\UsageFactory\NamespaceUsageFactory;
 
 /**
  * @implements Rule<Node>

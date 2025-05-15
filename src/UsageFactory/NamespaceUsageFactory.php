@@ -1,9 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed\Usages;
+namespace Spaze\PHPStan\Rules\Disallowed\UsageFactory;
 
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
+use Spaze\PHPStan\Rules\Disallowed\UsageFactory\NamespaceUsage;
 
 class NamespaceUsageFactory
 {

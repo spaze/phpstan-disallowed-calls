@@ -441,7 +441,7 @@ services:
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedVariableRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver
-	- Spaze\PHPStan\Rules\Disallowed\Usages\NamespaceUsageFactory
+	- Spaze\PHPStan\Rules\Disallowed\UsageFactory\NamespaceUsageFactory
 	-
 		factory: Spaze\PHPStan\Rules\Disallowed\Usages\NamespaceUsages(forbiddenNamespaces: %disallowedNamespaces%)
 		tags:
