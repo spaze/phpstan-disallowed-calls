@@ -50,8 +50,6 @@
 		"phpcs": "vendor/bin/phpcs src/ tests/",
 		"cs-fix": "vendor/bin/phpcbf src/ tests/",
 		"phpstan": "vendor/bin/phpstan --ansi analyse --configuration phpstan.neon",
-		"phpstan-dead-code-detector": "vendor/bin/phpstan --ansi analyse --configuration phpstan-dead-code-detector.neon",
-		"phpstan-dead-code-detector-no-tests": "vendor/bin/phpstan --ansi analyse --configuration phpstan-dead-code-detector-no-tests.neon",
 		"phpunit": "php -d zend.assertions=1 vendor/bin/phpunit --colors=always",
 		"test": [
 			"@lint",
