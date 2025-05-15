@@ -1,0 +1,50 @@
+name: End-to-End Tests
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          -
+            repo: spaze/michalspacek.cz
+            php-version: "8.4"
+            run: make --directory=app phpstan
+            composer-params: --working-dir=app
+
+    steps:
+    - name: Checkout ${{ matrix.repo }}
+      uses: actions/checkout@v4
+      with:
+          repository: '${{ matrix.repo }}'
+
+    - name: OS info
+      run: cat /etc/os-release
+
+    - name: Install PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        coverage: "none"
+        php-version: "${{ matrix.php-version }}"
+
+    - name: PHP info
+      run: |
+        php -v
+        php -m
+
+    - name: Get the latest extension version
+      id: latest
+      run: echo "version=$(gh release list --repo spaze/phpstan-disallowed-calls --exclude-drafts --exclude-pre-releases --limit 1 --json tagName --jq ".[0].tagName")" >> $GITHUB_OUTPUT
+      env:
+        GH_TOKEN: ${{ github.token }}
+
+    - name: Update the extension to "dev-${{ github.head_ref }} as ${{ steps.latest.outputs.version }}"
+      run: composer require ${{ matrix.composer-params }} --dev "spaze/phpstan-disallowed-calls:dev-${{ github.head_ref }} as ${{ steps.latest.outputs.version }}" --with-all-dependencies
+
+    - name: Run tests
+      run: ${{ matrix.run }}
