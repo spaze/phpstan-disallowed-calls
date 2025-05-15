@@ -20,7 +20,4 @@ interface Param
 
 	public function getName(): ?string;
 
-
-	public function getType(): Type;
-
 }

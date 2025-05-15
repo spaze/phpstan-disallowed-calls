@@ -143,3 +143,34 @@ jobs:
 
       - name: Run tests
         run: composer phpunit
+
+  dead-code-detector:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version:
+          - "8.4"
+        run:
+          - composer phpstan-dead-code-detector
+          - composer phpstan-dead-code-detector-no-tests
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "Install PHP"
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: "none"
+          php-version: "${{ matrix.php-version }}"
+
+      - name: PHP info
+        run: |
+          php -v
+          php -m
+
+      - name: Install dependencies
+        run: composer update --no-progress --no-interaction
+
+      - name: Run tests
+        run: ${{ matrix.run }}
