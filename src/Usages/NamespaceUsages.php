@@ -16,8 +16,8 @@ use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\Enum_;
 use PhpParser\Node\Stmt\Interface_;
 use PhpParser\Node\Stmt\TraitUse;
-use PhpParser\Node\Stmt\UseUse;
 use PhpParser\Node\UnionType;
+use PhpParser\Node\UseItem;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
@@ -87,7 +87,7 @@ class NamespaceUsages implements Rule
 			$position = $this->getPosition($node);
 		} elseif ($node instanceof ClassConst && $node->type !== null) {
 			$namespaces = $this->createTypeUsages($node->type, $scope);
-		} elseif ($node instanceof UseUse) {
+		} elseif ($node instanceof UseItem) {
 			$namespaces = [$this->namespaceUsageFactory->create($node->name->toString(), 'Namespace', ErrorIdentifiers::DISALLOWED_NAMESPACE, true)];
 		} elseif ($node instanceof StaticCall && $node->class instanceof FullyQualified) {
 			$namespaces = [$this->namespaceUsageFactory->createClassUsage($node->class, $scope)];
