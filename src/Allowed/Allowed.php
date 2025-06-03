@@ -8,12 +8,10 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
-use PHPStan\BetterReflection\Reflection\Adapter\FakeReflectionAttribute;
-use PHPStan\BetterReflection\Reflection\Adapter\ReflectionAttribute;
-use PHPStan\BetterReflection\Reflection\ReflectionAttribute as BetterReflectionAttribute;
-use PHPStan\BetterReflection\Reflector\Reflector;
+use PHPStan\Reflection\AttributeReflection;
 use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use Spaze\PHPStan\Rules\Disallowed\Disallowed;
@@ -28,7 +26,7 @@ class Allowed
 
 	private Formatter $formatter;
 
-	private Reflector $reflector;
+	private ReflectionProvider $reflectionProvider;
 
 	private Identifier $identifier;
 
@@ -39,13 +37,13 @@ class Allowed
 
 	public function __construct(
 		Formatter $formatter,
-		Reflector $reflector,
+		ReflectionProvider $reflectionProvider,
 		Identifier $identifier,
 		GetAttributesWhenInSignature $attributesWhenInSignature,
 		AllowedPath $allowedPath
 	) {
 		$this->formatter = $formatter;
-		$this->reflector = $reflector;
+		$this->reflectionProvider = $reflectionProvider;
 		$this->identifier = $identifier;
 		$this->attributesWhenInSignature = $attributesWhenInSignature;
 		$this->allowedPath = $allowedPath;
@@ -203,7 +201,7 @@ class Allowed
 
 
 	/**
-	 * @param list<FakeReflectionAttribute|ReflectionAttribute|BetterReflectionAttribute> $attributes
+	 * @param list<AttributeReflection> $attributes
 	 * @param list<string> $allowConfig
 	 * @return bool
 	 */
@@ -247,32 +245,29 @@ class Allowed
 
 	/**
 	 * @param Scope $scope
-	 * @return list<FakeReflectionAttribute>|list<ReflectionAttribute>
+	 * @return list<AttributeReflection>
 	 */
 	private function getAttributes(Scope $scope): array
 	{
-		return $scope->isInClass() ? $scope->getClassReflection()->getNativeReflection()->getAttributes() : [];
+		return $scope->isInClass() ? $scope->getClassReflection()->getAttributes() : [];
 	}
 
 
 	/**
 	 * @param Node|null $node
 	 * @param Scope $scope
-	 * @return list<FakeReflectionAttribute|ReflectionAttribute|BetterReflectionAttribute>
+	 * @return list<AttributeReflection>
 	 */
 	private function getCallAttributes(?Node $node, Scope $scope): array
 	{
 		$function = $scope->getFunction();
-		if ($function instanceof MethodReflection) {
-			return $scope->isInClass() ? $scope->getClassReflection()->getNativeReflection()->getMethod($function->getName())->getAttributes() : [];
-		} elseif ($function instanceof FunctionReflection) {
-			return $this->reflector->reflectFunction($function->getName())->getAttributes();
-		} elseif ($function === null) {
-			if ($node instanceof ClassMethod && $scope->isInClass()) {
-				return $scope->getClassReflection()->getNativeReflection()->getMethod($node->name->name)->getAttributes();
-			} elseif ($node instanceof Function_) {
-				return $this->reflector->reflectFunction($node->name->name)->getAttributes();
-			}
+		if ($function !== null) {
+			return $function->getAttributes();
+		} elseif ($node instanceof ClassMethod && $scope->isInClass()) {
+			return $scope->getClassReflection()->getNativeMethod($node->name->name)->getAttributes();
+		} elseif ($node instanceof Function_ && $node->namespacedName !== null) {
+			return $this->reflectionProvider->getFunction($node->namespacedName, $scope)->getAttributes();
+		} else {
 			$attributes = $this->attributesWhenInSignature->get($scope);
 			if ($attributes !== null) {
 				return $attributes;
@@ -284,7 +279,7 @@ class Allowed
 
 	/**
 	 * @param Scope $scope
-	 * @return list<FakeReflectionAttribute>|list<ReflectionAttribute>
+	 * @return list<AttributeReflection>
 	 */
 	private function getAllMethodAttributes(Scope $scope): array
 	{
@@ -292,8 +287,9 @@ class Allowed
 			return [];
 		}
 		$attributes = [];
-		foreach ($scope->getClassReflection()->getNativeReflection()->getMethods() as $method) {
-			$methodAttributes = $method->getAttributes();
+		$classReflection = $scope->getClassReflection();
+		foreach ($classReflection->getNativeReflection()->getMethods() as $method) {
+			$methodAttributes = $classReflection->getNativeMethod($method->getName())->getAttributes();
 			if ($methodAttributes !== []) {
 				$attributes = array_merge($attributes, $methodAttributes);
 			}
