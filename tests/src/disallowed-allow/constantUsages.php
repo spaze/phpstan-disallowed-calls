@@ -42,3 +42,23 @@ PHP_EOL;
 // allowed by path
 $foo = new class extends Base {};
 $foo::BELONG;
+
+// invalid types but PHPStan shouldn't crash
+/** @var string $cBeams */
+$cBeams::GLITTER;
+
+/** @var string $monster */
+$monster = DateTime::class;
+$monster::COOKIE;
+
+/** @var class-string $monster */
+$monster = DateTime::class;
+$monster::COOKIE;
+
+// this constant doesn't exist but PHPStan shouldn't crash
+/** @var class-string<DateTimeZone> $tz */
+$tz = DateTimeZone::class;
+$tz::FTC;
+
+/** @var mixed $tz */
+$tz::ALL;

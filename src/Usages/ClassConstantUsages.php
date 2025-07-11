@@ -9,11 +9,9 @@ use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
-use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
-use PHPStan\Type\VerbosityLevel;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstant;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
@@ -120,19 +118,10 @@ class ClassConstantUsages implements Rule
 				$usedOnType->getConstantStrings()
 			);
 		} else {
-			if ($usedOnType->hasConstant($constant)->yes()) {
-				$classNames = [$usedOnType->getConstant($constant)->getDeclaringClass()->getDisplayName()];
-			} elseif ($type->hasConstant($constant)->no()) {
-				return [
-					RuleErrorBuilder::message(sprintf(
-						'Cannot access constant %s on %s.',
-						$constant,
-						$type->describe(VerbosityLevel::getRecommendedLevelByType($type))
-					))->build(),
-				];
-			} else {
+			if (!$usedOnType->hasConstant($constant)->yes()) {
 				return [];
 			}
+			$classNames = [$usedOnType->getConstant($constant)->getDeclaringClass()->getDisplayName()];
 		}
 		return $this->disallowedConstantRuleErrors->get($this->getFullyQualified($classNames, $constant), $node, $scope, $displayName, $this->disallowedConstants, ErrorIdentifiers::DISALLOWED_CLASS_CONSTANT);
 	}
