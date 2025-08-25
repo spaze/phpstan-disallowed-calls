@@ -37,7 +37,7 @@ $none = PhpOption\None::create();
 $none::NAME;
 
 // not disallowed by path
-PHP_EOL;
+echo PHP_EOL;
 
 // allowed by path
 $foo = new class extends Base {};
