@@ -29,6 +29,8 @@ parameters:
 		usageExcluders:
 			tests:
 				enabled: true
+		detect:
+			deadEnumCases: true
 
 includes:
 	- phpstan-exclude-paths.php
