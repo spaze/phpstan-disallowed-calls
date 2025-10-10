@@ -8,6 +8,9 @@ use PHPStan\Type\Type;
 final class ParamValueAny extends ParamValue
 {
 
+	/**
+	 * @throws void
+	 */
 	public function matches(Type $type): bool
 	{
 		return true;
