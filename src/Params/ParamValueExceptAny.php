@@ -8,6 +8,9 @@ use PHPStan\Type\Type;
 final class ParamValueExceptAny extends ParamValue
 {
 
+	/**
+	 * @throws void
+	 */
 	public function matches(Type $type): bool
 	{
 		return false;
