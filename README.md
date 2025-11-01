@@ -96,3 +96,4 @@ There's a similar project with a slightly different configuration, created almos
 
 ## Framework or package-specific configurations
 - For [Nette Framework](https://github.com/spaze/phpstan-disallowed-calls-nette)
+- For [Symfony](https://github.com/spaze/phpstan-disallowed-calls-symfony)
