@@ -18,7 +18,7 @@ jobs:
             composer-params: --working-dir=app
           -
             repo: spaze/security-txt
-            php-version: "8.4"
+            php-version: "8.5"
             run: composer phpstan
 
     steps:
