@@ -23,7 +23,7 @@ jobs:
 
     steps:
     - name: Checkout ${{ matrix.repo }}
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
           repository: '${{ matrix.repo }}'
 
