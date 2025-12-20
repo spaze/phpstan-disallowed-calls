@@ -38,7 +38,13 @@ $disallowedCalls = [
 
 $config = [];
 foreach ($disallowedCalls as [$section, $disabled, $key]) {
+	if ($disabled === false) {
+		continue;
+	}
 	$calls = preg_split('/,/', $disabled, -1, PREG_SPLIT_NO_EMPTY);
+	if ($calls === false) {
+		continue;
+	}
 	foreach ($calls as $call) {
 		$config[$section][] = [$key => $call];
 	}
