@@ -46,8 +46,8 @@
 		"lint-8.1": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/AttributesEverywhere.php --exclude tests/src/disallowed/constantDynamicUsages.php --exclude tests/src/disallowed-allow/constantDynamicUsages.php --exclude tests/src/disallowed/firstClassCallable.php --exclude tests/src/disallowed-allow/firstClassCallable.php",
 		"lint-8.2": "vendor/bin/parallel-lint --colors src/ tests/ --exclude tests/src/disallowed/constantDynamicUsages.php --exclude tests/src/disallowed-allow/constantDynamicUsages.php",
 		"lint-neon": "vendor/bin/neon-lint .",
-		"phpcs": "vendor/bin/phpcs src/ tests/",
-		"cs-fix": "vendor/bin/phpcbf src/ tests/",
+		"phpcs": "vendor/bin/phpcs src/ tests/ bin/",
+		"cs-fix": "vendor/bin/phpcbf src/ tests/ bin/",
 		"phpstan": "vendor/bin/phpstan --ansi analyse --configuration phpstan.neon",
 		"phpunit": "php -d zend.assertions=1 vendor/bin/phpunit --colors=always",
 		"test": [
