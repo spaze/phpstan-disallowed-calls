@@ -13,7 +13,7 @@ jobs:
         include:
           -
             repo: spaze/michalspacek.cz
-            php-version: "8.4"
+            php-version: "8.5"
             run: make --directory=app phpstan
             composer-params: --working-dir=app
           -
