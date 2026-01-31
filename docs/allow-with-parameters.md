@@ -146,11 +146,11 @@ parameters:
                 -
                     position: 4
                     name: 'flags'
-                    value: ::JSON_THROW_ON_ERROR
+                    value: 4194304 # JSON_THROW_ON_ERROR; using ::constant(JSON_THROW_ON_ERROR) is discouraged as it may break when PHPStan updates nette/di
 ```
 
 This format allows to detect the value in both cases whether it's used with a traditional positional parameter (e.g. `json_decode($foo, null, 512, JSON_THROW_ON_ERROR)`) or a named parameter (e.g. `json_decode($foo, flags: JSON_THROW_ON_ERROR)`).
-All keys are optional but if you don't specify `name`, the named parameter will not be found in a call like e.g. `json_decode($foo, null, 512, JSON_THROW_ON_ERROR)`.
+All keys are optional but if you don't specify `name`, the named parameter will not be found in a call like e.g. `json_decode($foo, null, 512, flags: JSON_THROW_ON_ERROR)`.
 And vice versa, if you don't specify the `position` key, only the named parameter will be found matching this definition, not the positional one.
 
 You can use shortcuts like
