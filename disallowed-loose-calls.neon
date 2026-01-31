@@ -9,4 +9,4 @@ parameters:
 			function: 'htmlspecialchars()'
 			message: 'set the $flags parameter to `ENT_QUOTES` to also convert single quotes to entities to prevent some HTML injection bugs'
 			allowParamFlagsAnywhere:
-				2: 3 # ENT_QUOTES
+				2: 3 # ENT_QUOTES; using ::constant(ENT_QUOTES) is discouraged as it may break when PHPStan updates nette/di

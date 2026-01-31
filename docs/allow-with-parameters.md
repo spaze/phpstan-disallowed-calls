@@ -146,7 +146,7 @@ parameters:
                 -
                     position: 4
                     name: 'flags'
-                    value: ::JSON_THROW_ON_ERROR
+                    value: 4194304 # JSON_THROW_ON_ERROR; using ::constant(JSON_THROW_ON_ERROR) is discouraged as it may break when PHPStan updates nette/di
 ```
 
 This format allows to detect the value in both cases whether it's used with a traditional positional parameter (e.g. `json_decode($foo, null, 512, JSON_THROW_ON_ERROR)`) or a named parameter (e.g. `json_decode($foo, flags: JSON_THROW_ON_ERROR)`).
