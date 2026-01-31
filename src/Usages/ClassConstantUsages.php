@@ -121,7 +121,7 @@ class ClassConstantUsages implements Rule
 			if (!$usedOnType->hasConstant($constant)->yes()) {
 				return [];
 			}
-			$classNames = [$usedOnType->getConstant($constant)->getDeclaringClass()->getDisplayName()];
+			$classNames = [$usedOnType->getConstant($constant)->getDeclaringClass()->getDisplayName(false)];
 		}
 		return $this->disallowedConstantRuleErrors->get($this->getFullyQualified($classNames, $constant), $node, $scope, $displayName, $this->disallowedConstants, ErrorIdentifiers::DISALLOWED_CLASS_CONSTANT);
 	}
