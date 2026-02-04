@@ -19,7 +19,8 @@ class DisallowedAttribute implements DisallowedWithParams
 
 	private ?string $errorIdentifier;
 
-	private ?string $errorTip;
+	/** @var list<string> */
+	private array $errorTip;
 
 
 	/**
@@ -28,7 +29,7 @@ class DisallowedAttribute implements DisallowedWithParams
 	 * @param string|null $message
 	 * @param AllowedConfig $allowedConfig
 	 * @param string|null $errorIdentifier
-	 * @param string|null $errorTip
+	 * @param string|list<string> $errorTip
 	 */
 	public function __construct(
 		string $attribute,
@@ -36,14 +37,14 @@ class DisallowedAttribute implements DisallowedWithParams
 		?string $message,
 		AllowedConfig $allowedConfig,
 		?string $errorIdentifier,
-		?string $errorTip
+		$errorTip
 	) {
 		$this->attribute = $attribute;
 		$this->excludes = $excludes;
 		$this->message = $message;
 		$this->allowedConfig = $allowedConfig;
 		$this->errorIdentifier = $errorIdentifier;
-		$this->errorTip = $errorTip;
+		$this->errorTip = (array)$errorTip;
 	}
 
 
@@ -172,7 +173,10 @@ class DisallowedAttribute implements DisallowedWithParams
 	}
 
 
-	public function getErrorTip(): ?string
+	/**
+	 * @return list<string>
+	 */
+	public function getErrorTip(): array
 	{
 		return $this->errorTip;
 	}

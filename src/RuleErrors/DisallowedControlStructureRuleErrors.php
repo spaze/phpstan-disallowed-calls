@@ -19,11 +19,14 @@ class DisallowedControlStructureRuleErrors
 
 	private Formatter $formatter;
 
+	private ErrorTips $errorTips;
 
-	public function __construct(Allowed $allowed, Formatter $formatter)
+
+	public function __construct(Allowed $allowed, Formatter $formatter, ErrorTips $errorTips)
 	{
 		$this->allowed = $allowed;
 		$this->formatter = $formatter;
+		$this->errorTips = $errorTips;
 	}
 
 
@@ -49,9 +52,7 @@ class DisallowedControlStructureRuleErrors
 					$this->formatter->formatDisallowedMessage($disallowedControlStructure->getMessage())
 				));
 				$errorBuilder->identifier($disallowedControlStructure->getErrorIdentifier() ?? $identifier);
-				if ($disallowedControlStructure->getErrorTip()) {
-					$errorBuilder->tip($disallowedControlStructure->getErrorTip());
-				}
+				$this->errorTips->add($disallowedControlStructure->getErrorTip(), $errorBuilder);
 				return [
 					$errorBuilder->build(),
 				];

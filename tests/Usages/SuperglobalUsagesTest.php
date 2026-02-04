@@ -57,6 +57,10 @@ class SuperglobalUsagesTest extends RuleTestCase
 					'disallowIn' => [
 						__DIR__ . '/../src/disallowed/*.php',
 					],
+					'errorTip' => [
+						'Choose one',
+						'Or the other',
+					],
 				],
 				// test allowed instances
 				[
@@ -121,6 +125,7 @@ class SuperglobalUsagesTest extends RuleTestCase
 			[
 				'Using $_REQUEST is forbidden, so $_GET or $_POST?',
 				26,
+				"• Choose one\n• Or the other",
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/superglobalUsages.php'], []);

@@ -50,6 +50,10 @@ class NamespaceUsagesTest extends RuleTestCase
 						__DIR__ . '/../src/disallowed-allow/*.php',
 						__DIR__ . '/../src/*-allow/*.*',
 					],
+					'errorTip' => [
+						'Dexempo',
+						'Vederex',
+					],
 				],
 				[
 					'class' => 'Waldo\Foo\bar',
@@ -127,6 +131,7 @@ class NamespaceUsagesTest extends RuleTestCase
 			[
 				'Namespace Waldo\Quux\blade is forbidden, no blade. [Waldo\Quux\blade matches Waldo\Quux\Blade]',
 				11,
+				"• Dexempo\n• Vederex",
 			],
 			[
 				'Namespace ZipArchive is forbidden, use clippy instead of zippy.',
@@ -148,6 +153,7 @@ class NamespaceUsagesTest extends RuleTestCase
 			[
 				'Class Waldo\Quux\blade is forbidden, no blade. [Waldo\Quux\blade matches Waldo\Quux\Blade]',
 				24,
+				"• Dexempo\n• Vederex",
 			],
 			[
 				'Namespace Inheritance\Sub is forbidden, no inheritance sub base.',

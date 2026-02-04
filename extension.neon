@@ -42,7 +42,7 @@ parametersSchema:
 			?disallowInClassWithMethodAttributes: listOf(string()),
 			?allowInUse: bool(),
 			?errorIdentifier: string(),
-			?errorTip: string(),
+			?errorTip: anyOf(string(), listOf(string())),
 		])
 	)
 	disallowedClasses: listOf(
@@ -72,7 +72,7 @@ parametersSchema:
 			?disallowInClassWithMethodAttributes: listOf(string()),
 			?allowInUse: bool(),
 			?errorIdentifier: string(),
-			?errorTip: string(),
+			?errorTip: anyOf(string(), listOf(string())),
 		])
 	)
 	disallowedMethodCalls: listOf(
@@ -125,7 +125,7 @@ parametersSchema:
 			?allowExceptInClassWithMethodAttributes: listOf(string()),
 			?disallowInClassWithMethodAttributes: listOf(string()),
 			?errorIdentifier: string(),
-			?errorTip: string(),
+			?errorTip: anyOf(string(), listOf(string())),
 		])
 	)
 	disallowedStaticCalls: listOf(
@@ -178,7 +178,7 @@ parametersSchema:
 			?allowExceptInClassWithMethodAttributes: listOf(string()),
 			?disallowInClassWithMethodAttributes: listOf(string()),
 			?errorIdentifier: string(),
-			?errorTip: string(),
+			?errorTip: anyOf(string(), listOf(string())),
 		])
 	)
 	disallowedFunctionCalls: listOf(
@@ -231,7 +231,7 @@ parametersSchema:
 			?allowExceptInClassWithMethodAttributes: listOf(string()),
 			?disallowInClassWithMethodAttributes: listOf(string()),
 			?errorIdentifier: string(),
-			?errorTip: string(),
+			?errorTip: anyOf(string(), listOf(string())),
 		])
 	)
 	disallowedConstants: listOf(
@@ -264,7 +264,7 @@ parametersSchema:
 			?allowExceptInClassWithMethodAttributes: listOf(string()),
 			?disallowInClassWithMethodAttributes: listOf(string()),
 			?errorIdentifier: string(),
-			?errorTip: string(),
+			?errorTip: anyOf(string(), listOf(string())),
 		])
 	)
 	disallowedEnums: listOf(
@@ -296,7 +296,7 @@ parametersSchema:
 			?allowExceptInClassWithMethodAttributes: listOf(string()),
 			?disallowInClassWithMethodAttributes: listOf(string()),
 			?errorIdentifier: string(),
-			?errorTip: string(),
+			?errorTip: anyOf(string(), listOf(string())),
 		])
 	)
 	disallowedSuperglobals: listOf(
@@ -328,7 +328,7 @@ parametersSchema:
 			?allowExceptInClassWithMethodAttributes: listOf(string()),
 			?disallowInClassWithMethodAttributes: listOf(string()),
 			?errorIdentifier: string(),
-			?errorTip: string(),
+			?errorTip: anyOf(string(), listOf(string())),
 		])
 	)
 	disallowedAttributes: listOf(
@@ -379,7 +379,7 @@ parametersSchema:
 			?allowExceptInClassWithMethodAttributes: listOf(string()),
 			?disallowInClassWithMethodAttributes: listOf(string()),
 			?errorIdentifier: string(),
-			?errorTip: string(),
+			?errorTip: anyOf(string(), listOf(string())),
 		])
 	)
 	disallowedControlStructures: listOf(
@@ -412,7 +412,7 @@ parametersSchema:
 			?allowExceptInClassWithMethodAttributes: listOf(string()),
 			?disallowInClassWithMethodAttributes: listOf(string()),
 			?errorIdentifier: string(),
-			?errorTip: string(),
+			?errorTip: anyOf(string(), listOf(string())),
 		])
 	)
 
@@ -440,6 +440,7 @@ services:
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedVariableRuleErrors
+	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorTips
 	- Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver
 	- Spaze\PHPStan\Rules\Disallowed\UsageFactory\NamespaceUsageFactory
 	-

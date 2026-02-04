@@ -28,7 +28,7 @@ class DisallowedConstantFactory
 
 
 	/**
-	 * @param array<array{class?:string, enum?:string, constant?:string|list<string>, case?:string|list<string>, message?:string, allowIn?:list<string>, allowExceptIn?:list<string>, disallowIn?:list<string>, errorIdentifier?:string, errorTip?:string}> $config
+	 * @param array<array{class?:string, enum?:string, constant?:string|list<string>, case?:string|list<string>, message?:string, allowIn?:list<string>, allowExceptIn?:list<string>, disallowIn?:list<string>, errorIdentifier?:string, errorTip?:string|list<string>}> $config
 	 * @return list<DisallowedConstant>
 	 * @throws ShouldNotHappenException
 	 */
@@ -50,7 +50,7 @@ class DisallowedConstantFactory
 						$disallowed['message'] ?? null,
 						$this->allowedConfigFactory->getConfig($disallowed),
 						$disallowed['errorIdentifier'] ?? null,
-						$disallowed['errorTip'] ?? null
+						$disallowed['errorTip'] ?? []
 					);
 					$disallowedConstants[$disallowedConstant->getConstant()] = $disallowedConstant;
 				}

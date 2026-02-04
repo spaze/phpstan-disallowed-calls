@@ -25,13 +25,16 @@ class DisallowedCallsRuleErrors
 
 	private Formatter $formatter;
 
+	private ErrorTips $errorTips;
 
-	public function __construct(Allowed $allowed, Identifier $identifier, FilePath $filePath, Formatter $formatter)
+
+	public function __construct(Allowed $allowed, Identifier $identifier, FilePath $filePath, Formatter $formatter, ErrorTips $errorTips)
 	{
 		$this->allowed = $allowed;
 		$this->identifier = $identifier;
 		$this->filePath = $filePath;
 		$this->formatter = $formatter;
+		$this->errorTips = $errorTips;
 	}
 
 
@@ -63,9 +66,7 @@ class DisallowedCallsRuleErrors
 					$disallowedCall->getCall() !== $name ? " [{$name}() matches {$disallowedCall->getCall()}()]" : ''
 				));
 				$errorBuilder->identifier($disallowedCall->getErrorIdentifier() ?? $identifier);
-				if ($disallowedCall->getErrorTip()) {
-					$errorBuilder->tip($disallowedCall->getErrorTip());
-				}
+				$this->errorTips->add($disallowedCall->getErrorTip(), $errorBuilder);
 				return [
 					$errorBuilder->build(),
 				];

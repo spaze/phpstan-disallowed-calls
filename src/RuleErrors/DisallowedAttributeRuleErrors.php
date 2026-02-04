@@ -22,12 +22,15 @@ class DisallowedAttributeRuleErrors
 
 	private Formatter $formatter;
 
+	private ErrorTips $errorTips;
 
-	public function __construct(Allowed $allowed, Identifier $identifier, Formatter $formatter)
+
+	public function __construct(Allowed $allowed, Identifier $identifier, Formatter $formatter, ErrorTips $errorTips)
 	{
 		$this->allowed = $allowed;
 		$this->identifier = $identifier;
 		$this->formatter = $formatter;
+		$this->errorTips = $errorTips;
 	}
 
 
@@ -55,9 +58,7 @@ class DisallowedAttributeRuleErrors
 				$disallowedAttribute->getAttribute() !== $attributeName ? " [{$attributeName} matches {$disallowedAttribute->getAttribute()}]" : ''
 			));
 			$errorBuilder->identifier($disallowedAttribute->getErrorIdentifier() ?? ErrorIdentifiers::DISALLOWED_ATTRIBUTE);
-			if ($disallowedAttribute->getErrorTip()) {
-				$errorBuilder->tip($disallowedAttribute->getErrorTip());
-			}
+			$this->errorTips->add($disallowedAttribute->getErrorTip(), $errorBuilder);
 			return [
 				$errorBuilder->build(),
 			];

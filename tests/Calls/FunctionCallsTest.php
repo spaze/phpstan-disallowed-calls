@@ -56,6 +56,10 @@ class FunctionCallsTest extends RuleTestCase
 						__DIR__ . '/../src/disallowed-allow/*.php',
 						__DIR__ . '/../src/*-allow/*.*',
 					],
+					'errorTip' => [
+						'See docs',
+						'Press F',
+					],
 				],
 				[
 					'function' => '\Foo\Bar\waldo()',
@@ -244,6 +248,7 @@ class FunctionCallsTest extends RuleTestCase
 			[
 				'Calling printf() is forbidden.',
 				9,
+				"• See docs\n• Press F",
 			],
 			[
 				'Calling Foo\Bar\waldo() is forbidden, whoa, a namespace.',

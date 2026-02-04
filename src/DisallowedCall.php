@@ -22,7 +22,8 @@ class DisallowedCall implements DisallowedWithParams
 
 	private ?string $errorIdentifier;
 
-	private ?string $errorTip;
+	/** @var list<string> */
+	private array $errorTip;
 
 
 	/**
@@ -32,7 +33,7 @@ class DisallowedCall implements DisallowedWithParams
 	 * @param string|null $message
 	 * @param AllowedConfig $allowedConfig
 	 * @param string|null $errorIdentifier
-	 * @param string|null $errorTip
+	 * @param string|list<string> $errorTip
 	 */
 	public function __construct(
 		string $call,
@@ -41,7 +42,7 @@ class DisallowedCall implements DisallowedWithParams
 		?string $message,
 		AllowedConfig $allowedConfig,
 		?string $errorIdentifier,
-		?string $errorTip
+		$errorTip
 	) {
 		$this->call = $call;
 		$this->excludes = $excludes;
@@ -49,7 +50,7 @@ class DisallowedCall implements DisallowedWithParams
 		$this->message = $message;
 		$this->allowedConfig = $allowedConfig;
 		$this->errorIdentifier = $errorIdentifier;
-		$this->errorTip = $errorTip;
+		$this->errorTip = (array)$errorTip;
 	}
 
 
@@ -187,7 +188,10 @@ class DisallowedCall implements DisallowedWithParams
 	}
 
 
-	public function getErrorTip(): ?string
+	/**
+	 * @return list<string>
+	 */
+	public function getErrorTip(): array
 	{
 		return $this->errorTip;
 	}

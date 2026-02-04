@@ -44,7 +44,7 @@ class DisallowedAttributeFactory
 					$disallowed['message'] ?? null,
 					$this->allowedConfigFactory->getConfig($disallowed),
 					$disallowed['errorIdentifier'] ?? null,
-					$disallowed['errorTip'] ?? null
+					$disallowed['errorTip'] ?? []
 				);
 				$disallowedAttributes[$disallowedAttribute->getAttribute()] = $disallowedAttribute;
 			}

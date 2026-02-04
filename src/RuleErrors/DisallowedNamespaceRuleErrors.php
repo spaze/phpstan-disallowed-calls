@@ -22,12 +22,15 @@ class DisallowedNamespaceRuleErrors
 
 	private Formatter $formatter;
 
+	private ErrorTips $errorTips;
 
-	public function __construct(Allowed $allowed, Identifier $identifier, Formatter $formatter)
+
+	public function __construct(Allowed $allowed, Identifier $identifier, Formatter $formatter, ErrorTips $errorTips)
 	{
 		$this->allowed = $allowed;
 		$this->identifier = $identifier;
 		$this->formatter = $formatter;
+		$this->errorTips = $errorTips;
 	}
 
 
@@ -59,9 +62,7 @@ class DisallowedNamespaceRuleErrors
 				$disallowedNamespace->getNamespace() !== $namespaceUsage->getNamespace() ? " [{$namespaceUsage->getNamespace()} matches {$disallowedNamespace->getNamespace()}]" : ''
 			));
 			$errorBuilder->identifier($disallowedNamespace->getErrorIdentifier() ?? $identifier);
-			if ($disallowedNamespace->getErrorTip()) {
-				$errorBuilder->tip($disallowedNamespace->getErrorTip());
-			}
+			$this->errorTips->add($disallowedNamespace->getErrorTip(), $errorBuilder);
 			return [
 				$errorBuilder->build(),
 			];
