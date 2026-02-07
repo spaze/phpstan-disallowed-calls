@@ -19,11 +19,14 @@ class DisallowedConstantRuleErrors
 
 	private Formatter $formatter;
 
+	private ErrorTips $errorTips;
 
-	public function __construct(Allowed $allowed, Formatter $formatter)
+
+	public function __construct(Allowed $allowed, Formatter $formatter, ErrorTips $errorTips)
 	{
 		$this->allowed = $allowed;
 		$this->formatter = $formatter;
+		$this->errorTips = $errorTips;
 	}
 
 
@@ -48,9 +51,7 @@ class DisallowedConstantRuleErrors
 					$this->formatter->formatDisallowedMessage($disallowedConstant->getMessage())
 				));
 				$errorBuilder->identifier($disallowedConstant->getErrorIdentifier() ?? $identifier);
-				if ($disallowedConstant->getErrorTip()) {
-					$errorBuilder->tip($disallowedConstant->getErrorTip());
-				}
+				$this->errorTips->add($disallowedConstant->getErrorTip(), $errorBuilder);
 				return [
 					$errorBuilder->build(),
 				];

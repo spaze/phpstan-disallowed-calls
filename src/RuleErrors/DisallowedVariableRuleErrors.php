@@ -19,11 +19,14 @@ class DisallowedVariableRuleErrors
 
 	private Formatter $formatter;
 
+	private ErrorTips $errorTips;
 
-	public function __construct(Allowed $allowed, Formatter $formatter)
+
+	public function __construct(Allowed $allowed, Formatter $formatter, ErrorTips $errorTips)
 	{
 		$this->allowed = $allowed;
 		$this->formatter = $formatter;
+		$this->errorTips = $errorTips;
 	}
 
 
@@ -45,9 +48,7 @@ class DisallowedVariableRuleErrors
 					$this->formatter->formatDisallowedMessage($disallowedVariable->getMessage())
 				));
 				$errorBuilder->identifier($disallowedVariable->getErrorIdentifier() ?? ErrorIdentifiers::DISALLOWED_VARIABLE);
-				if ($disallowedVariable->getErrorTip()) {
-					$errorBuilder->tip($disallowedVariable->getErrorTip());
-				}
+				$this->errorTips->add($disallowedVariable->getErrorTip(), $errorBuilder);
 				return [
 					$errorBuilder->build(),
 				];

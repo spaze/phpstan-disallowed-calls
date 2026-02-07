@@ -20,7 +20,8 @@ class DisallowedNamespace implements Disallowed
 
 	private ?string $errorIdentifier;
 
-	private ?string $errorTip;
+	/** @var list<string> */
+	private array $errorTip;
 
 	private AllowedConfig $allowedConfig;
 
@@ -34,7 +35,7 @@ class DisallowedNamespace implements Disallowed
 	 * @param string|null $message
 	 * @param AllowedConfig $allowedConfig
 	 * @param string|null $errorIdentifier
-	 * @param string|null $errorTip
+	 * @param string|list<string> $errorTip
 	 */
 	public function __construct(
 		string $namespace,
@@ -44,7 +45,7 @@ class DisallowedNamespace implements Disallowed
 		AllowedConfig $allowedConfig,
 		bool $allowInUse,
 		?string $errorIdentifier,
-		?string $errorTip
+		$errorTip
 	) {
 		$this->namespace = $namespace;
 		$this->excludes = $excludes;
@@ -53,7 +54,7 @@ class DisallowedNamespace implements Disallowed
 		$this->allowedConfig = $allowedConfig;
 		$this->allowInUse = $allowInUse;
 		$this->errorIdentifier = $errorIdentifier;
-		$this->errorTip = $errorTip;
+		$this->errorTip = (array)$errorTip;
 	}
 
 
@@ -173,7 +174,10 @@ class DisallowedNamespace implements Disallowed
 	}
 
 
-	public function getErrorTip(): ?string
+	/**
+	 * @return list<string>
+	 */
+	public function getErrorTip(): array
 	{
 		return $this->errorTip;
 	}

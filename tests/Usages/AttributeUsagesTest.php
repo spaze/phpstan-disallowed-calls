@@ -59,6 +59,7 @@ class AttributeUsagesTest extends RuleTestCase
 							'value' => 'datetime_immutable',
 						],
 					],
+					'errorTip' => 'Bar or Stringable',
 				],
 				// test allowed instances
 				[
@@ -66,6 +67,10 @@ class AttributeUsagesTest extends RuleTestCase
 					'allowExceptInInstanceOf' => [
 						'\Waldo\Foo\Bar',
 						'Stringable',
+					],
+					'errorTip' => [
+						'DateTime',
+						'or Immutable',
 					],
 				],
 			]
@@ -98,6 +103,7 @@ class AttributeUsagesTest extends RuleTestCase
 			[
 				'Attribute Attributes\AttributeColumn is forbidden, use `utc_datetime_immutable` instead.',
 				21,
+				'Bar or Stringable',
 			],
 			[
 				'Attribute Attributes\AttributeClass is forbidden.',
@@ -188,6 +194,7 @@ class AttributeUsagesTest extends RuleTestCase
 			[
 				'Attribute Attributes\AttributeColumn2 is forbidden.',
 				34,
+				"• DateTime\n• or Immutable",
 			],
 			[
 				'Attribute Attributes\AttributeClass is forbidden.',
@@ -196,6 +203,7 @@ class AttributeUsagesTest extends RuleTestCase
 			[
 				'Attribute Attributes\AttributeColumn2 is forbidden.',
 				72,
+				"• DateTime\n• or Immutable",
 			],
 		]);
 	}

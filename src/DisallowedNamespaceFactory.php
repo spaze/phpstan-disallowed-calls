@@ -28,7 +28,7 @@ class DisallowedNamespaceFactory
 
 
 	/**
-	 * @param array<array{namespace?:string|list<string>, class?:string|list<string>, exclude?:string|list<string>, excludeWithAttribute?:string|list<string>, message?:string, allowIn?:list<string>, allowExceptIn?:list<string>, disallowIn?:list<string>, allowInUse?:bool, errorIdentifier?:string, errorTip?:string}> $config
+	 * @param array<array{namespace?:string|list<string>, class?:string|list<string>, exclude?:string|list<string>, excludeWithAttribute?:string|list<string>, message?:string, allowIn?:list<string>, allowExceptIn?:list<string>, disallowIn?:list<string>, allowInUse?:bool, errorIdentifier?:string, errorTip?:string|list<string>}> $config
 	 * @return list<DisallowedNamespace>
 	 * @throws ShouldNotHappenException
 	 */
@@ -60,7 +60,7 @@ class DisallowedNamespaceFactory
 						$this->allowedConfigFactory->getConfig($disallowed),
 						$disallowed['allowInUse'] ?? false,
 						$disallowed['errorIdentifier'] ?? null,
-						$disallowed['errorTip'] ?? null
+						$disallowed['errorTip'] ?? []
 					);
 					$disallowedNamespaces[$disallowedNamespace->getNamespace()] = $disallowedNamespace;
 				}

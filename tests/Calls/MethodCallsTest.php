@@ -133,6 +133,10 @@ class MethodCallsTest extends RuleTestCase
 					'allowExceptIn' => [
 						__DIR__ . '/../src/disallowed/*.php',
 					],
+					'errorTip' => [
+						'Dexempo',
+						'Multo',
+					],
 				],
 				// test allowed instances
 				[
@@ -228,6 +232,7 @@ class MethodCallsTest extends RuleTestCase
 			[
 				'Calling Waldo\Quux\Blade::andSorcery() is forbidden, use magic.',
 				68,
+				"• Dexempo\n• Multo",
 			],
 			[
 				'Calling Interfaces\BaseInterface::x() (as Interfaces\Implementation::x()) is forbidden, BaseInterface::x*() methods are dangerous. [Interfaces\BaseInterface::x() matches Interfaces\BaseInterface::x*()]',

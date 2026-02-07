@@ -48,7 +48,7 @@ class DisallowedControlStructureFactory
 
 
 	/**
-	 * @param array<array{controlStructure?:string|list<string>, structure?:string|list<string>, message?:string, allowIn?:list<string>, allowExceptIn?:list<string>, disallowIn?:list<string>, errorIdentifier?:string, errorTip?:string}> $config
+	 * @param array<array{controlStructure?:string|list<string>, structure?:string|list<string>, message?:string, allowIn?:list<string>, allowExceptIn?:list<string>, disallowIn?:list<string>, errorIdentifier?:string, errorTip?:string|list<string>}> $config
 	 * @return list<DisallowedControlStructure>
 	 * @throws ShouldNotHappenException
 	 */
@@ -75,7 +75,7 @@ class DisallowedControlStructureFactory
 						$disallowed['message'] ?? null,
 						$this->allowedConfigFactory->getConfig($disallowed),
 						$disallowed['errorIdentifier'] ?? null,
-						$disallowed['errorTip'] ?? null
+						$disallowed['errorTip'] ?? []
 					);
 					$disallowedControlStructures[$disallowedControlStructure->getControlStructure()] = $disallowedControlStructure;
 				}

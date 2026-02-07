@@ -30,6 +30,10 @@ class MatchControlStructureTest extends RuleTestCase
 						__DIR__ . '/../src/disallowed-allow/*.php',
 						__DIR__ . '/../src/*-allow/*.*',
 					],
+					'errorTip' => [
+						'Mix',
+						'Match',
+					],
 				],
 			])
 		);
@@ -45,6 +49,8 @@ class MatchControlStructureTest extends RuleTestCase
 				'Using the match control structure is forbidden.',
 				// on this line:
 				112,
+				// with this tip:
+				"• Mix\n• Match",
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/controlStructures.php'], []);

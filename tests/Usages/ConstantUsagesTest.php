@@ -37,6 +37,10 @@ class ConstantUsagesTest extends RuleTestCase
 						__DIR__ . '/../src/disallowed-allow/*.php',
 						__DIR__ . '/../src/*-allow/*.*',
 					],
+					'errorTip' => [
+						'No priv',
+						'No res',
+					],
 				],
 				[
 					'constant' => '\FILTER_FLAG_NO_PRIV_RANGE',
@@ -141,6 +145,7 @@ class ConstantUsagesTest extends RuleTestCase
 			[
 				'Using FILTER_FLAG_NO_RES_RANGE is forbidden, the cake is a lie.',
 				10,
+				"• No priv\n• No res",
 			],
 			[
 				'Using PHP_EOL is forbidden.',
