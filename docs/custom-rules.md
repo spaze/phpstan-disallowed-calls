@@ -100,6 +100,19 @@ parameters:
 
 The optional `errorTip` key can be used to show an additional message prefixed with 💡 that's rendered below the error message in the analysis result.
 
+You can add multiple tips using an array:
+```neon
+parameters:
+    disallowedMethodCalls:
+        -
+            method: ...
+            message: ...
+            errorTip:
+                - 'See docs'
+                - 'Call a friend'
+```
+Note that in such a case PHPStan will automatically prefix the messages with an extra `•` character.
+
 ### Error identifiers
 
 The `errorIdentifier` key is optional. It can be used to provide a unique identifier to the PHPStan error.
