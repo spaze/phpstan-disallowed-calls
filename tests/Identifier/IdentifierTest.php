@@ -47,6 +47,9 @@ class IdentifierTest extends PHPStanTestCase
 	}
 
 
+	/**
+	 * @return Generator<int, array{0:string, 1:string, 2:list<string>}>
+	 */
 	public static function matchesProvider(): Generator
 	{
 		yield ['foo', 'foo', []];
@@ -59,6 +62,9 @@ class IdentifierTest extends PHPStanTestCase
 	}
 
 
+	/**
+	 * @return Generator<int, array{0:string, 1:string, 2:list<string>}>
+	 */
 	public static function doesNotMatchProvider(): Generator
 	{
 		yield ['foo', 'bar', []];

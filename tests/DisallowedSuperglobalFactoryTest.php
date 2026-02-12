@@ -30,6 +30,9 @@ class DisallowedSuperglobalFactoryTest extends PHPStanTestCase
 	}
 
 
+	/**
+	 * @return Generator<int, array{0:string, class-string<ShouldNotHappenException>|null}>
+	 */
 	public static function superglobalsProvider(): Generator
 	{
 		yield ['$GLOBALS', null];
