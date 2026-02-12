@@ -36,6 +36,9 @@ class FilePathTest extends PHPStanTestCase
 	}
 
 
+	/**
+	 * @return Generator<int, array{0:string, 1:string, 2:string}>
+	 */
 	public static function pathProvider(): Generator
 	{
 		yield [
