@@ -13,8 +13,8 @@ use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\TraitUse;
-use PhpParser\Node\Stmt\UseUse;
 use PhpParser\Node\UnionType;
+use PhpParser\Node\UseItem;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
@@ -85,7 +85,7 @@ class NamespaceUsages implements Rule
 					$namespaces[] = $this->namespaceUsageFactory->create($type->toString());
 				}
 			}
-		} elseif ($node instanceof UseUse) {
+		} elseif ($node instanceof UseItem) {
 			$namespaces = [$this->namespaceUsageFactory->create($node->name->toString(), true)];
 		} elseif ($node instanceof StaticCall && $node->class instanceof Name) {
 			$namespaces = [$this->namespaceUsageFactory->create($node->class->toString())];
