@@ -71,9 +71,8 @@ class RequireIncludeControlStructure implements Rule
 				$type = 'require_once';
 				$identifier = ErrorIdentifiers::DISALLOWED_REQUIRE_ONCE;
 				break;
-		}
-		if ($type === null) {
-			return [];
+			default:
+				return [];
 		}
 		return $this->disallowedControlStructureRuleErrors->get($node, $scope, $type, $this->disallowedControlStructures, $identifier);
 	}
