@@ -60,8 +60,12 @@ parameters:
 
     disallowedSuperglobals:
         -
-            superglobal: '$_GET'
-            message: 'use the Request methods instead'
+            superglobal:
+                - '$_GET'
+                - '$_POST'
+                - '$_REQUEST'
+                - '$_COOKIE'
+            message: 'use the respective methods of the Request object as provided by our framework'
 
     disallowedAttributes:
         -
