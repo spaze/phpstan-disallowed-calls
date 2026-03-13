@@ -3,7 +3,7 @@
 
 [![PHP Tests](https://github.com/spaze/phpstan-disallowed-calls/workflows/PHP%20Tests/badge.svg)](https://github.com/spaze/phpstan-disallowed-calls/actions?query=workflow%3A%22PHP+Tests%22)
 
-There are some functions, methods, and constants which should not be used in production code. One good example is `var_dump()`,
+There are some functions, methods, constants, namespaces, attributes, variables and properties which should not be used in production code. One good example is the `var_dump()` function,
 it is often used to quickly debug problems but should be removed before committing the code. And sometimes it's not.
 
 Another example would be a generic logger. Let's say you're using one of the generic logging libraries but you have your own logger
