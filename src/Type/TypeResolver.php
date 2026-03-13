@@ -7,7 +7,9 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Expr\StaticPropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
@@ -54,12 +56,12 @@ class TypeResolver
 
 
 	/**
-	 * @param FuncCall|MethodCall|StaticCall $node
+	 * @param FuncCall|MethodCall|StaticCall|PropertyFetch|StaticPropertyFetch $node
 	 * @param Scope $scope
 	 * @return list<Name>
 	 * @throws ShouldNotHappenException
 	 */
-	public function getNamesFromCall(Node $node, Scope $scope): array
+	public function getNames(Node $node, Scope $scope): array
 	{
 		if ($node->name instanceof Name) {
 			$namespacedName = $node->name->getAttribute('namespacedName');
@@ -79,6 +81,15 @@ class TypeResolver
 			return [new Name($node->name->name)];
 		}
 		return [];
+	}
+
+
+	/**
+	 * @return list<string>
+	 */
+	public function getClassNames(Type $type): array
+	{
+		return array_map(fn($class): string => $class->isAnonymous() ? 'class@anonymous' : $class->getName(), $type->getObjectClassReflections());
 	}
 
 }

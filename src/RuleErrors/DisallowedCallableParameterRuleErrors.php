@@ -85,7 +85,7 @@ class DisallowedCallableParameterRuleErrors
 	public function getForFunction(FuncCall $node, Scope $scope): array
 	{
 		$ruleErrors = [];
-		foreach ($this->typeResolver->getNamesFromCall($node, $scope) as $name) {
+		foreach ($this->typeResolver->getNames($node, $scope) as $name) {
 			if (!$this->reflectionProvider->hasFunction($name, $scope)) {
 				continue;
 			}
@@ -108,7 +108,7 @@ class DisallowedCallableParameterRuleErrors
 	 */
 	public function getForMethod($class, CallLike $node, Scope $scope): array
 	{
-		$names = $this->typeResolver->getNamesFromCall($node, $scope);
+		$names = $this->typeResolver->getNames($node, $scope);
 		return $this->getForMethods($class, $names, $node, $scope);
 	}
 

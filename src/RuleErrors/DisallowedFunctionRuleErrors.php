@@ -46,7 +46,7 @@ class DisallowedFunctionRuleErrors
 		if ($displayName !== null && !($displayName instanceof Name)) {
 			throw new ShouldNotHappenException();
 		}
-		foreach ($this->typeResolver->getNamesFromCall($node, $scope) as $name) {
+		foreach ($this->typeResolver->getNames($node, $scope) as $name) {
 			$errors = $this->getErrors($name, $scope, $node, $displayName, $disallowedCalls);
 			if ($errors) {
 				return $errors;

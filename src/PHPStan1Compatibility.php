@@ -3,6 +3,9 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed;
 
+use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
+use PHPStan\Reflection\PropertyReflection;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\Type;
 
@@ -25,6 +28,54 @@ class PHPStan1Compatibility
 		} else {
 			// PHPStan 2.x
 			return $type->isClassString();
+		}
+	}
+
+
+	public static function hasInstanceProperty(string $property, ClassReflection $class): bool
+	{
+		if (!method_exists($class, 'hasInstanceProperty')) {
+			// PHPStan 1.x
+			return $class->hasProperty($property);
+		} else {
+			// PHPStan 2.x
+			return $class->hasInstanceProperty($property);
+		}
+	}
+
+
+	public static function getInstanceProperty(string $property, ClassReflection $class, Scope $scope): PropertyReflection
+	{
+		if (!method_exists($class, 'getInstanceProperty')) {
+			// PHPStan 1.x
+			return $class->getProperty($property, $scope);
+		} else {
+			// PHPStan 2.x
+			return $class->getInstanceProperty($property, $scope);
+		}
+	}
+
+
+	public static function hasStaticProperty(string $property, ClassReflection $class): bool
+	{
+		if (!method_exists($class, 'hasStaticProperty')) {
+			// PHPStan 1.x
+			return $class->hasProperty($property);
+		} else {
+			// PHPStan 2.x
+			return $class->hasStaticProperty($property);
+		}
+	}
+
+
+	public static function getStaticProperty(string $property, ClassReflection $class, Scope $scope): PropertyReflection
+	{
+		if (!method_exists($class, 'getStaticProperty')) {
+			// PHPStan 1.x
+			return $class->getProperty($property, $scope);
+		} else {
+			// PHPStan 2.x
+			return $class->getStaticProperty($property);
 		}
 	}
 

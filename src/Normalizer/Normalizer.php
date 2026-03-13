@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Normalizer;
 
+use PHPStan\ShouldNotHappenException;
+
 class Normalizer
 {
 
@@ -25,6 +27,18 @@ class Normalizer
 		$attribute = rtrim($attribute, ']');
 		$attribute = $this->removeParentheses($attribute);
 		return $this->normalizeNamespace($attribute);
+	}
+
+
+	public function normalizeProperty(string $property): string
+	{
+		if (substr_count($property, '::') !== 1) {
+			throw new ShouldNotHappenException("Property '{$property}' is invalid, use 'Namespace\\Class::\$property' syntax");
+		}
+		if (!str_contains($property, '::$')) {
+			$property = str_replace('::', '::$', $property);
+		}
+		return $this->normalizeNamespace($property);
 	}
 
 

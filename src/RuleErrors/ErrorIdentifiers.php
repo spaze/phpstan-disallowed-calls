@@ -36,6 +36,7 @@ class ErrorIdentifiers
 	public const DISALLOWED_NAMESPACE = 'disallowed.namespace';
 	public const DISALLOWED_NEW = 'disallowed.new';
 	public const DISALLOWED_PRINT = 'disallowed.print';
+	public const DISALLOWED_PROPERTY = 'disallowed.property';
 	public const DISALLOWED_REQUIRE = 'disallowed.require';
 	public const DISALLOWED_REQUIRE_ONCE = 'disallowed.requireOnce';
 	public const DISALLOWED_RETURN = 'disallowed.return';
