@@ -6,6 +6,9 @@ namespace Fiction\Pulp;
 class Royale
 {
 
+	public ?int $whopper = null;
+
+
 	public function __construct()
 	{
 		$foo = sha1('they got the metric system there');

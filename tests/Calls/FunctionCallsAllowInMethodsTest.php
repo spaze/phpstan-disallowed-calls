@@ -61,7 +61,7 @@ class FunctionCallsAllowInMethodsTest extends RuleTestCase
 				// expect this error message:
 				'Calling sha1() is forbidden.',
 				// on this line:
-				11,
+				14,
 			],
 		]);
 	}

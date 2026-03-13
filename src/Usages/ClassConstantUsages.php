@@ -107,8 +107,7 @@ class ClassConstantUsages implements Rule
 		}
 
 		$usedOnType = $type->getObjectTypeOrClassStringObjectType();
-		$classes = $usedOnType->getObjectClassReflections();
-		$classNames = array_map(fn($class): string => $class->isAnonymous() ? 'class@anonymous' : $class->getName(), $classes);
+		$classNames = $this->typeResolver->getClassNames($usedOnType);
 		$displayName = $classNames ? $this->getFullyQualified($classNames, $constant) : null;
 		if ($usedOnType->getConstantStrings()) {
 			$classNames = array_map(

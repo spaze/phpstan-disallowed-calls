@@ -17,8 +17,16 @@ trait AnotherTrait
 trait YetAnotherTrait
 {
 
-	public static function zzTop(): void
+	protected int $protectedTraitProperty = 1;
+
+	public int $publicTraitProperty = 2;
+
+	public static int $publicStaticTraitProperty = 3;
+
+	public function zzTop(): void
 	{
+		echo $this->protectedTraitProperty;
+		echo $this->publicTraitProperty;
 	}
 
 }

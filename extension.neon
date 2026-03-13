@@ -11,6 +11,7 @@ parameters:
 	disallowedSuperglobals: []
 	disallowedAttributes: []
 	disallowedControlStructures: []
+	disallowedProperties: []
 
 parametersSchema:
 	allowInRootDir: schema(string(), nullable())
@@ -415,6 +416,38 @@ parametersSchema:
 			?errorTip: anyOf(string(), listOf(string())),
 		])
 	)
+	disallowedProperties: listOf(
+		structure([
+			property: anyOf(string(), listOf(string())),
+			?message: string(),
+			?allowIn: listOf(string()),
+			?allowExceptIn: list(string()),
+			?disallowIn: list(string()),
+			?allowInFunctions: listOf(string()),
+			?allowInMethods: listOf(string()),
+			?allowExceptInFunctions: listOf(string()),
+			?allowExceptInMethods: listOf(string()),
+			?disallowInFunctions: listOf(string()),
+			?disallowInMethods: listOf(string()),
+			?allowInInstanceOf: listOf(string()),
+			?allowExceptInInstanceOf: listOf(string()),
+			?disallowInInstanceOf: listOf(string()),
+			?allowInClassWithAttributes: listOf(string()),
+			?allowExceptInClassWithAttributes: listOf(string()),
+			?disallowInClassWithAttributes: listOf(string()),
+			?allowInFunctionsWithAttributes: listOf(string()),
+			?allowInMethodsWithAttributes: listOf(string()),
+			?allowExceptInFunctionsWithAttributes: listOf(string()),
+			?allowExceptInMethodsWithAttributes: listOf(string()),
+			?disallowInFunctionsWithAttributes: listOf(string()),
+			?disallowInMethodsWithAttributes: listOf(string()),
+			?allowInClassWithMethodAttributes: listOf(string()),
+			?allowExceptInClassWithMethodAttributes: listOf(string()),
+			?disallowInClassWithMethodAttributes: listOf(string()),
+			?errorIdentifier: string(),
+			?errorTip: anyOf(string(), listOf(string())),
+		])
+	)
 
 services:
 	- Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed
@@ -426,6 +459,7 @@ services:
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory
+	- Spaze\PHPStan\Rules\Disallowed\DisallowedPropertyFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalFactory
 	- Spaze\PHPStan\Rules\Disallowed\File\FilePath(rootDir: %filesRootDir%)
 	- Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter
@@ -438,6 +472,7 @@ services:
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors
+	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedPropertyRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallsRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedVariableRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorTips
@@ -589,6 +624,14 @@ services:
 			- phpstan.rules.rule
 	-
 		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\WhileControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\Usages\InstancePropertyUsages(disallowedProperties: %disallowedProperties%)
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\Usages\StaticPropertyUsages(disallowedProperties: %disallowedProperties%)
 		tags:
 			- phpstan.rules.rule
 	-

@@ -10,6 +10,7 @@ abstract class Base
 
 	public const BELONG = 'us';
 
+	public string $property = 'proper';
 
 	public function x(): void
 	{

@@ -55,7 +55,7 @@ class DisallowedMethodRuleErrors
 			$calledOnType = $calledOnType->getClassStringObjectType();
 		}
 		$errors = [];
-		foreach ($this->typeResolver->getNamesFromCall($node, $scope) as $name) {
+		foreach ($this->typeResolver->getNames($node, $scope) as $name) {
 			$methodErrors = $this->getErrors($calledOnType, $name->toString(), $node, $scope, $disallowedCalls);
 			if ($methodErrors) {
 				$errors = array_merge($errors, $methodErrors);
@@ -98,7 +98,7 @@ class DisallowedMethodRuleErrors
 
 		$method = $calledOnType->getMethod($methodName, $scope);
 		$declaringClass = $method->getDeclaringClass();
-		$classNames = array_map(fn($class): string => $class->isAnonymous() ? 'class@anonymous' : $class->getName(), $calledOnType->getObjectClassReflections());
+		$classNames = $this->typeResolver->getClassNames($calledOnType);
 		if (count($classNames) === 0) {
 			$calledAs = null;
 		} else {
