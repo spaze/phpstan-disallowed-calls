@@ -67,6 +67,10 @@ jobs:
     - name: Validate composer.json
       run: composer validate --strict --no-interaction
 
+    - name: Remove dead code detector for lowest dependencies
+      if: matrix.update-options == '--prefer-lowest'
+      run: composer remove --dev --no-update shipmonk/dead-code-detector
+
     - name: Install dependencies
       run: composer update --no-progress --no-interaction ${{ matrix.update-options }}
 
