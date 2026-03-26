@@ -44,19 +44,20 @@ class DisallowedCallsRuleErrors
 	 * @param string $name
 	 * @param string|null $displayName
 	 * @param string|null $definedIn
+	 * @param bool $isBuiltIn
 	 * @param list<DisallowedCall> $disallowedCalls
 	 * @param string $identifier
 	 * @param string|null $message
 	 * @return list<IdentifierRuleError>
 	 * @throws ShouldNotHappenException
 	 */
-	public function get(?CallLike $node, Scope $scope, string $name, ?string $displayName, ?string $definedIn, array $disallowedCalls, string $identifier, ?string $message = null): array
+	public function get(?CallLike $node, Scope $scope, string $name, ?string $displayName, ?string $definedIn, bool $isBuiltIn, array $disallowedCalls, string $identifier, ?string $message = null): array
 	{
 		$args = isset($node) && !$node->isFirstClassCallable() ? $node->getArgs() : null;
 		foreach ($disallowedCalls as $disallowedCall) {
 			if (
 				$this->identifier->matches($disallowedCall->getCall(), $name, $disallowedCall->getExcludes())
-				&& $this->definedInMatches($disallowedCall, $definedIn)
+				&& $this->definedInMatches($disallowedCall, $definedIn, $isBuiltIn)
 				&& !$this->allowed->isAllowed($node, $scope, $args, $disallowedCall)
 			) {
 				$errorBuilder = RuleErrorBuilder::message(sprintf(
@@ -76,9 +77,13 @@ class DisallowedCallsRuleErrors
 	}
 
 
-	private function definedInMatches(DisallowedCall $disallowedCall, ?string $definedIn): bool
+	private function definedInMatches(DisallowedCall $disallowedCall, ?string $definedIn, bool $isBuiltIn): bool
 	{
-		if (!$disallowedCall->getDefinedIn() || !$definedIn) {
+		if (!$disallowedCall->getDefinedIn()) {
+			return true;
+		} elseif ($isBuiltIn) {
+			return false;
+		} elseif ($definedIn === null) {
 			return true;
 		}
 		foreach ($disallowedCall->getDefinedIn() as $callDefinedIn) {

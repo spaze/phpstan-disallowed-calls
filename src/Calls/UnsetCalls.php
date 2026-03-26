@@ -54,7 +54,16 @@ class UnsetCalls implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedCallsRuleErrors->get(null, $scope, 'unset', 'unset', null, $this->disallowedCalls, ErrorIdentifiers::DISALLOWED_UNSET);
+		return $this->disallowedCallsRuleErrors->get(
+			null,
+			$scope,
+			'unset',
+			'unset',
+			null,
+			true,
+			$this->disallowedCalls,
+			ErrorIdentifiers::DISALLOWED_UNSET,
+		);
 	}
 
 }

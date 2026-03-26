@@ -129,7 +129,16 @@ class DisallowedMethodRuleErrors
 		foreach ($classes as $class) {
 			if ($class->hasMethod($method->getName())) {
 				$declaredAs = $this->formatter->getFullyQualified($class->getDisplayName(false), $method);
-				$ruleErrors = $this->disallowedCallsRuleErrors->get($node, $scope, $declaredAs, $calledAs, $class->getFileName(), $disallowedCalls, ErrorIdentifiers::DISALLOWED_METHOD);
+				$ruleErrors = $this->disallowedCallsRuleErrors->get(
+					$node,
+					$scope,
+					$declaredAs,
+					$calledAs,
+					$class->getFileName(),
+					$class->isBuiltin(),
+					$disallowedCalls,
+					ErrorIdentifiers::DISALLOWED_METHOD,
+				);
 				if ($ruleErrors) {
 					return $ruleErrors;
 				}

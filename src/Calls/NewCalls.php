@@ -95,10 +95,17 @@ class NewCalls implements Rule
 					$names[] = $interface->getName();
 				}
 			}
-			$definedIn = $reflection ? $reflection->getFileName() : null;
-
 			foreach ($names as $name) {
-				$ruleErrors = $this->disallowedCallsRuleErrors->get($node, $scope, $name . '::' . self::CONSTRUCT, $type->getClassName() . '::' . self::CONSTRUCT, $definedIn, $this->disallowedCalls, ErrorIdentifiers::DISALLOWED_NEW);
+				$ruleErrors = $this->disallowedCallsRuleErrors->get(
+					$node,
+					$scope,
+					$name . '::' . self::CONSTRUCT,
+					$type->getClassName() . '::' . self::CONSTRUCT,
+					$reflection ? $reflection->getFileName() : null,
+					$reflection && $reflection->isBuiltin(),
+					$this->disallowedCalls,
+					ErrorIdentifiers::DISALLOWED_NEW,
+				);
 				$paramErrors = $this->disallowedCallableParameterRuleErrors->getForConstructor(new Name($name), $node, $scope);
 				if ($errors || $ruleErrors || $paramErrors) {
 					$errors = array_merge($errors, $ruleErrors, $paramErrors);
