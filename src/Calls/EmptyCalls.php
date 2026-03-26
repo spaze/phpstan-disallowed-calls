@@ -54,7 +54,16 @@ class EmptyCalls implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedCallsRuleErrors->get(null, $scope, 'empty', 'empty', null, $this->disallowedCalls, ErrorIdentifiers::DISALLOWED_EMPTY);
+		return $this->disallowedCallsRuleErrors->get(
+			null,
+			$scope,
+			'empty',
+			'empty',
+			null,
+			true,
+			$this->disallowedCalls,
+			ErrorIdentifiers::DISALLOWED_EMPTY,
+		);
 	}
 
 }

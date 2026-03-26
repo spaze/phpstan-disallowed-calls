@@ -54,7 +54,16 @@ class IssetCalls implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedCallsRuleErrors->get(null, $scope, 'isset', 'isset', null, $this->disallowedCalls, ErrorIdentifiers::DISALLOWED_ISSET);
+		return $this->disallowedCallsRuleErrors->get(
+			null,
+			$scope,
+			'isset',
+			'isset',
+			null,
+			true,
+			$this->disallowedCalls,
+			ErrorIdentifiers::DISALLOWED_ISSET,
+		);
 	}
 
 }

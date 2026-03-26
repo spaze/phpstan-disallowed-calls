@@ -54,7 +54,16 @@ class EchoCalls implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedCallsRuleErrors->get(null, $scope, 'echo', 'echo', null, $this->disallowedCalls, ErrorIdentifiers::DISALLOWED_ECHO);
+		return $this->disallowedCallsRuleErrors->get(
+			null,
+			$scope,
+			'echo',
+			'echo',
+			null,
+			true,
+			$this->disallowedCalls,
+			ErrorIdentifiers::DISALLOWED_ECHO,
+		);
 	}
 
 }

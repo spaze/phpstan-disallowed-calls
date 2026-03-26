@@ -82,11 +82,22 @@ class DisallowedFunctionRuleErrors
 	{
 		if ($this->reflectionProvider->hasFunction($name, $scope)) {
 			$functionReflection = $this->reflectionProvider->getFunction($name, $scope);
-			$definedIn = $functionReflection->isBuiltin() ? null : $functionReflection->getFileName();
+			$definedIn = $functionReflection->getFileName();
+			$isBuiltIn = $functionReflection->isBuiltin();
 		} else {
 			$definedIn = null;
+			$isBuiltIn = false;
 		}
-		return $this->disallowedCallsRuleErrors->get($node, $scope, (string)$name, (string)($displayName ?? $name), $definedIn, $disallowedCalls, ErrorIdentifiers::DISALLOWED_FUNCTION);
+		return $this->disallowedCallsRuleErrors->get(
+			$node,
+			$scope,
+			(string)$name,
+			(string)($displayName ?? $name),
+			$definedIn,
+			$isBuiltIn,
+			$disallowedCalls,
+			ErrorIdentifiers::DISALLOWED_FUNCTION,
+		);
 	}
 
 }
