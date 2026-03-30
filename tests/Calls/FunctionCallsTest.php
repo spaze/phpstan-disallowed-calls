@@ -219,7 +219,7 @@ class FunctionCallsTest extends RuleTestCase
 					],
 				],
 				[
-					'function' => '\Dom\import_simplexml()',
+					'function' => 'dom_import_simplexml()',
 					'disallowInInstanceOf' => [
 						Bar::class,
 						Stringable::class,
@@ -408,7 +408,7 @@ class FunctionCallsTest extends RuleTestCase
 	{
 		$this->analyse([__DIR__ . '/../src/Bar.php'], [
 			[
-				'Calling Dom\import_simplexml() is forbidden.',
+				'Calling dom_import_simplexml() is forbidden.',
 				38,
 			],
 			[
@@ -416,7 +416,7 @@ class FunctionCallsTest extends RuleTestCase
 				56,
 			],
 			[
-				'Calling Dom\import_simplexml() is forbidden.',
+				'Calling dom_import_simplexml() is forbidden.',
 				76,
 			],
 		]);
