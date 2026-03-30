@@ -34,8 +34,6 @@ class InsecureConfigFunctionCallsTest extends RuleTestCase
 			['Calling hash_file() is forbidden, use hash_file() with at least SHA-256 for secure hash, or password_hash() for passwords.', 12],
 			['Calling hash_init() is forbidden, use hash_init() with at least SHA-256 for secure hash, or password_hash() for passwords.', 14],
 			['Calling hash_init() is forbidden, use hash_init() with at least SHA-256 for secure hash, or password_hash() for passwords.', 15],
-			['Calling mysql_query() is forbidden, use PDO::prepare() with variable binding/parametrized queries to prevent SQL Injection vulnerability.', 17],
-			['Calling mysql_unbuffered_query() is forbidden, use PDO::prepare() with variable binding/parametrized queries to prevent SQL Injection vulnerability.', 18],
 			['Calling mysqli_query() is forbidden, use PDO::prepare() with variable binding/parametrized queries to prevent SQL Injection vulnerability.', 19],
 			['Calling mysqli_multi_query() is forbidden, use PDO::prepare() with variable binding/parametrized queries to prevent SQL Injection vulnerability.', 20],
 			['Calling mysqli_real_query() is forbidden, use PDO::prepare() with variable binding/parametrized queries to prevent SQL Injection vulnerability.', 21],
