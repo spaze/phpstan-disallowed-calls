@@ -1,20 +1,46 @@
 <?php
 declare(strict_types = 1);
 
-function laravel_config_helper()
-{
+namespace {
+
+	function config()
+	{
+	}
+
+	// defined outside definedIn path, should be allowed
+	config();
+
+	// defined in definedIn path, disallowed
+	__();
+	\MyNamespace\__();
+	\Foo\Bar\Waldo\foo('bar');
+	\Foo\Bar\Waldo\config('baz');
+
+	// built-in functions, definitely not defined in definedIn path, should not be disallowed
+	$answer = sprintf('%d', 42);
+	iterator_to_array(new ArrayIterator([]));
+	$length = strlen('42');
+
 }
 
-// defined outside definedIn path, should be allowed
-laravel_config_helper();
+namespace Foo {
 
-// defined in definedIn path, disallowed
-__();
-MyNamespace\__();
-\Foo\Bar\Waldo\foo('bar');
-\Foo\Bar\Waldo\config('baz');
+	function config2()
+	{
+	}
 
-// built-in functions, definitely not defined in definedIn path, should not be disallowed
-$answer = sprintf('%d', 42);
-iterator_to_array(new ArrayIterator([]));
-$length = strlen('42');
+	// defined outside definedIn path, should be allowed
+	config2();
+
+	// defined in definedIn path, disallowed
+	__();
+	\MyNamespace\__();
+	\Foo\Bar\Waldo\foo('bar');
+	\Foo\Bar\Waldo\config('baz');
+
+	// built-in functions, definitely not defined in definedIn path, should not be disallowed
+	$answer = sprintf('%d', 42);
+	iterator_to_array(new \ArrayIterator([]));
+	$length = strlen('42');
+
+}
