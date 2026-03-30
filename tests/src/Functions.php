@@ -86,3 +86,9 @@ function method2(None|Some $union, None $none, Some $some, Blade $foo, $bar): vo
 	new None();
 	new Some(303);
 }
+
+namespace Foo\Bar;
+
+function waldo()
+{
+}
