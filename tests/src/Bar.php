@@ -35,7 +35,7 @@ class BarChild extends Bar
 	public function inInstanceOf(DateTimeZone $a, DateTimeImmutable $b): void
 	{
 		$el = simplexml_load_string('<foo/>');
-		\Dom\import_simplexml($el);
+		dom_import_simplexml($el);
 		$zone = new (DateTimeZone::class)('Europe/Prague');
 		$zone->getLocation();
 		$date = new DateTimeImmutable();
@@ -54,7 +54,7 @@ class Bar2
 	public function inInstanceOf(DateTimeZone $a, DateTimeImmutable $b): void
 	{
 		$el = simplexml_load_string('<foo/>');
-		\Dom\import_simplexml($el);
+		dom_import_simplexml($el);
 		$zone = new DateTimeZone('Europe/Prague');
 		$zone->getLocation();
 		$date = new(DateTimeImmutable::class)();
@@ -73,7 +73,7 @@ class BarInterface implements \Stringable
 	public function inInstanceOf(DateTimeZone $a, DateTimeImmutable $b): void
 	{
 		$el = simplexml_load_string('<foo/>');
-		\Dom\import_simplexml($el);
+		dom_import_simplexml($el);
 		$zone = new (DateTimeZone::class)('Europe/Prague');
 		$zone->getLocation();
 		$date = new DateTimeImmutable();

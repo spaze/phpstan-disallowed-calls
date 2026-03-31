@@ -42,19 +42,35 @@ class Bug383RuleWithDefinedInSkipsBuiltinFunctionsTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/../src/bugs/Bug383RuleWithDefinedInSkipsBuiltinFunctions.php'], [
 			[
 				'Calling __() is forbidden. [__() matches *()]',
-				12,
-			],
-			[
-				'Calling MyNamespace\__() is forbidden. [MyNamespace\__() matches *()]',
-				13,
-			],
-			[
-				'Calling Foo\Bar\Waldo\foo() is forbidden. [Foo\Bar\Waldo\foo() matches *()]',
 				14,
 			],
 			[
-				'Calling Foo\Bar\Waldo\config() is forbidden. [Foo\Bar\Waldo\config() matches *()]',
+				'Calling MyNamespace\__() is forbidden. [MyNamespace\__() matches *()]',
 				15,
+			],
+			[
+				'Calling Foo\Bar\Waldo\foo() is forbidden. [Foo\Bar\Waldo\foo() matches *()]',
+				16,
+			],
+			[
+				'Calling Foo\Bar\Waldo\config() is forbidden. [Foo\Bar\Waldo\config() matches *()]',
+				17,
+			],
+			[
+				'Calling __() is forbidden. [__() matches *()]',
+				36,
+			],
+			[
+				'Calling MyNamespace\__() is forbidden. [MyNamespace\__() matches *()]',
+				37,
+			],
+			[
+				'Calling Foo\Bar\Waldo\foo() is forbidden. [Foo\Bar\Waldo\foo() matches *()]',
+				38,
+			],
+			[
+				'Calling Foo\Bar\Waldo\config() is forbidden. [Foo\Bar\Waldo\config() matches *()]',
+				39,
 			],
 		]);
 	}
