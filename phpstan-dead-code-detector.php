@@ -25,7 +25,7 @@ return [
 				'identifier' => 'shipmonk.deadMethod', // Used in extension.neon
 				'paths' => [
 					__DIR__ . '/src/DisallowedSuperglobalFactory.php',
-					__DIR__ . '/src/DisallowedControlStructureFactory.php',
+					__DIR__ . '/src/DisallowedKeywordFactory.php',
 				],
 			],
 		],

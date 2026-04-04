@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed\ControlStructures;
+namespace Spaze\PHPStan\Rules\Disallowed\Keywords;
 
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
@@ -10,9 +10,9 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedKeywordFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedKeywordRuleErrors;
 
 /**
- * @extends RuleTestCase<ContinueControlStructure>
+ * @extends RuleTestCase<GlobalKeyword>
  */
-class ContinueControlStructureTest extends RuleTestCase
+class GlobalKeywordTest extends RuleTestCase
 {
 
 	/**
@@ -21,11 +21,11 @@ class ContinueControlStructureTest extends RuleTestCase
 	protected function getRule(): Rule
 	{
 		$container = self::getContainer();
-		return new ContinueControlStructure(
+		return new GlobalKeyword(
 			$container->getByType(DisallowedKeywordRuleErrors::class),
 			$container->getByType(DisallowedKeywordFactory::class)->getDisallowedKeywords([
 				[
-					'controlStructure' => 'continue',
+					'keyword' => 'global',
 					'allowIn' => [
 						__DIR__ . '/../src/disallowed-allow/*.php',
 						__DIR__ . '/../src/*-allow/*.*',
@@ -39,39 +39,19 @@ class ContinueControlStructureTest extends RuleTestCase
 	public function testRule(): void
 	{
 		// Based on the configuration above, in this file:
-		$this->analyse([__DIR__ . '/../src/disallowed/controlStructures.php'], [
+		$this->analyse([__DIR__ . '/../src/disallowed/keywords.php'], [
 			[
 				// expect this error message:
-				'Using the continue control structure is forbidden.',
+				'Using the global keyword is forbidden.',
 				// on this line:
-				29,
+				7,
 			],
 			[
-				'Using the continue control structure is forbidden.',
-				39,
-			],
-			[
-				'Using the continue control structure is forbidden.',
-				49,
-			],
-			[
-				'Using the continue control structure is forbidden.',
-				59,
-			],
-			[
-				'Using the continue control structure is forbidden.',
-				69,
-			],
-			[
-				'Using the continue control structure is forbidden.',
-				79,
-			],
-			[
-				'Using the continue control structure is forbidden.',
-				89,
+				'Using the global keyword is forbidden.',
+				8,
 			],
 		]);
-		$this->analyse([__DIR__ . '/../src/disallowed-allow/controlStructures.php'], []);
+		$this->analyse([__DIR__ . '/../src/disallowed-allow/keywords.php'], []);
 	}
 
 

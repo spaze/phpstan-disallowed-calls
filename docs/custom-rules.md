@@ -11,7 +11,8 @@ There are several different types (and configuration keys) that can be disallowe
 7. `disallowedAttributes` - for attributes like `#[Entity(class: Foo::class, something: true)]`
 8. `disallowedEnums` - for enums, both pure & backed, like `Suit::Hearts` (like class constants, enums need to be split to `enum: Suit` & `case: Hearts` in the configuration, see notes below)
 9. `disallowedControlStructures` - for control structures like `if`, `else`, `elseif`, loops, `require` & `include`, and `goto`
-10. `disallowedProperties` - for both instance and static properties (for example `$object->property`, `Class::$property`), and enum properties (e.g. `Suit::Clubs->value`)
+10. `disallowedKeywords` - for selected keywords (currently supported: `global`)
+11. `disallowedProperties` - for both instance and static properties (for example `$object->property`, `Class::$property`), and enum properties (e.g. `Suit::Clubs->value`)
 
 Use them to add rules to your `phpstan.neon` config file. I like to use a separate file (`disallowed-calls.neon`) for these which I'll include later on in the main `phpstan.neon` config file. Here's an example, update to your needs:
 
@@ -244,3 +245,18 @@ parameters:
             allowIn:
                 - 'tests/waldo.php'
 ```
+
+### Keywords
+
+In addition to control structures, you can forbid other selected PHP keywords using `disallowedKeywords`:
+```neon
+parameters:
+    disallowedKeywords:
+        -
+            keyword: 'global'
+            allowIn:
+                - 'legacy/*'
+```
+
+The list of implemented keyword detections is currently very short:
+- `global`

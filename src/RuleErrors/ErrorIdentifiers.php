@@ -26,6 +26,7 @@ class ErrorIdentifiers
 	public const DISALLOWED_FOR = 'disallowed.for';
 	public const DISALLOWED_FOREACH = 'disallowed.foreach';
 	public const DISALLOWED_FUNCTION = 'disallowed.function';
+	public const DISALLOWED_GLOBAL = 'disallowed.global';
 	public const DISALLOWED_GOTO = 'disallowed.goto';
 	public const DISALLOWED_IF = 'disallowed.if';
 	public const DISALLOWED_INCLUDE = 'disallowed.include';

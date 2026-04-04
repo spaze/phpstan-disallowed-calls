@@ -1,10 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace Spaze\PHPStan\Rules\Disallowed\ControlStructures;
+namespace Spaze\PHPStan\Rules\Disallowed\Keywords;
 
 use PhpParser\Node;
-use PhpParser\Node\Stmt\Switch_;
+use PhpParser\Node\Stmt\Global_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
@@ -14,12 +14,12 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedKeywordRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 
 /**
- * Reports on using the switch control structure.
+ * Reports on using the global keyword.
  *
  * @package Spaze\PHPStan\Rules\Disallowed
- * @implements Rule<Switch_>
+ * @implements Rule<Global_>
  */
-class SwitchControlStructure implements Rule
+class GlobalKeyword implements Rule
 {
 
 	private DisallowedKeywordRuleErrors $disallowedKeywordRuleErrors;
@@ -41,19 +41,19 @@ class SwitchControlStructure implements Rule
 
 	public function getNodeType(): string
 	{
-		return Switch_::class;
+		return Global_::class;
 	}
 
 
 	/**
-	 * @param Switch_ $node
+	 * @param Global_ $node
 	 * @param Scope $scope
 	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		return $this->disallowedKeywordRuleErrors->get($node, $scope, 'switch', $this->disallowedKeywords, ErrorIdentifiers::DISALLOWED_SWITCH);
+		return $this->disallowedKeywordRuleErrors->get($node, $scope, 'global', $this->disallowedKeywords, ErrorIdentifiers::DISALLOWED_GLOBAL);
 	}
 
 }
