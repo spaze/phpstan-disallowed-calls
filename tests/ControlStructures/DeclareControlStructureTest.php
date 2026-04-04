@@ -6,8 +6,8 @@ namespace Spaze\PHPStan\Rules\Disallowed\ControlStructures;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
-use Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory;
-use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedControlStructureRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedKeywordFactory;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedKeywordRuleErrors;
 
 /**
  * @extends RuleTestCase<DeclareControlStructure>
@@ -22,8 +22,8 @@ class DeclareControlStructureTest extends RuleTestCase
 	{
 		$container = self::getContainer();
 		return new DeclareControlStructure(
-			$container->getByType(DisallowedControlStructureRuleErrors::class),
-			$container->getByType(DisallowedControlStructureFactory::class)->getDisallowedControlStructures([
+			$container->getByType(DisallowedKeywordRuleErrors::class),
+			$container->getByType(DisallowedKeywordFactory::class)->getDisallowedKeywords([
 				[
 					'controlStructure' => 'declare',
 					'allowIn' => [

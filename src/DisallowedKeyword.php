@@ -5,10 +5,12 @@ namespace Spaze\PHPStan\Rules\Disallowed;
 
 use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedConfig;
 
-class DisallowedControlStructure implements Disallowed
+class DisallowedKeyword implements Disallowed
 {
 
-	private string $controlStructure;
+	private string $keyword;
+
+	private string $keywordDescription;
 
 	private ?string $message;
 
@@ -21,20 +23,23 @@ class DisallowedControlStructure implements Disallowed
 
 
 	/**
-	 * @param string $controlStructure
+	 * @param string $keyword
+	 * @param string $keywordDescription
 	 * @param string|null $message
 	 * @param AllowedConfig $allowedConfig
 	 * @param string|null $errorIdentifier
 	 * @param string|list<string> $errorTip
 	 */
 	public function __construct(
-		string $controlStructure,
+		string $keyword,
+		string $keywordDescription,
 		?string $message,
 		AllowedConfig $allowedConfig,
 		?string $errorIdentifier,
 		$errorTip
 	) {
-		$this->controlStructure = $controlStructure;
+		$this->keyword = $keyword;
+		$this->keywordDescription = $keywordDescription;
 		$this->message = $message;
 		$this->allowedConfig = $allowedConfig;
 		$this->errorIdentifier = $errorIdentifier;
@@ -42,9 +47,15 @@ class DisallowedControlStructure implements Disallowed
 	}
 
 
-	public function getControlStructure(): string
+	public function getKeyword(): string
 	{
-		return $this->controlStructure;
+		return $this->keyword;
+	}
+
+
+	public function getKeywordDescription(): string
+	{
+		return $this->keywordDescription;
 	}
 
 

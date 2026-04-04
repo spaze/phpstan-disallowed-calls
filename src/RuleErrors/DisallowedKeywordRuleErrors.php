@@ -9,10 +9,10 @@ use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
-use Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructure;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedKeyword;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 
-class DisallowedControlStructureRuleErrors
+class DisallowedKeywordRuleErrors
 {
 
 	private Allowed $allowed;
@@ -33,26 +33,27 @@ class DisallowedControlStructureRuleErrors
 	/**
 	 * @param Node $node
 	 * @param Scope $scope
-	 * @param string $controlStructure
-	 * @param list<DisallowedControlStructure> $disallowedControlStructures
+	 * @param string $keyword
+	 * @param list<DisallowedKeyword> $disallowedKeywords
 	 * @param string $identifier
 	 * @return list<RuleError>
 	 * @throws ShouldNotHappenException
 	 */
-	public function get(Node $node, Scope $scope, string $controlStructure, array $disallowedControlStructures, string $identifier): array
+	public function get(Node $node, Scope $scope, string $keyword, array $disallowedKeywords, string $identifier): array
 	{
-		foreach ($disallowedControlStructures as $disallowedControlStructure) {
+		foreach ($disallowedKeywords as $disallowedKeyword) {
 			if (
-				$disallowedControlStructure->getControlStructure() === $controlStructure
-				&& !$this->allowed->isAllowed($node, $scope, null, $disallowedControlStructure)
+				$disallowedKeyword->getKeyword() === $keyword
+				&& !$this->allowed->isAllowed($node, $scope, null, $disallowedKeyword)
 			) {
 				$errorBuilder = RuleErrorBuilder::message(sprintf(
-					'Using the %s control structure is forbidden%s',
-					$controlStructure,
-					$this->formatter->formatDisallowedMessage($disallowedControlStructure->getMessage())
+					'Using the %s %s is forbidden%s',
+					$keyword,
+					$disallowedKeyword->getKeywordDescription(),
+					$this->formatter->formatDisallowedMessage($disallowedKeyword->getMessage())
 				));
-				$errorBuilder->identifier($disallowedControlStructure->getErrorIdentifier() ?? $identifier);
-				$this->errorTips->add($disallowedControlStructure->getErrorTip(), $errorBuilder);
+				$errorBuilder->identifier($disallowedKeyword->getErrorIdentifier() ?? $identifier);
+				$this->errorTips->add($disallowedKeyword->getErrorTip(), $errorBuilder);
 				return [
 					$errorBuilder->build(),
 				];

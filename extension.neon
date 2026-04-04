@@ -11,6 +11,7 @@ parameters:
 	disallowedSuperglobals: []
 	disallowedAttributes: []
 	disallowedControlStructures: []
+	disallowedKeywords: []
 	disallowedProperties: []
 
 parametersSchema:
@@ -387,6 +388,41 @@ parametersSchema:
 		structure([
 			?controlStructure: anyOf(string(), listOf(string())),
 			?structure: anyOf(string(), listOf(string())),
+			?keyword: anyOf(string(), listOf(string())),
+			?message: string(),
+			?allowIn: listOf(string()),
+			?allowExceptIn: list(string()),
+			?disallowIn: list(string()),
+			?allowInFunctions: listOf(string()),
+			?allowInMethods: listOf(string()),
+			?allowExceptInFunctions: listOf(string()),
+			?allowExceptInMethods: listOf(string()),
+			?disallowInFunctions: listOf(string()),
+			?disallowInMethods: listOf(string()),
+			?allowInInstanceOf: listOf(string()),
+			?allowExceptInInstanceOf: listOf(string()),
+			?disallowInInstanceOf: listOf(string()),
+			?allowInClassWithAttributes: listOf(string()),
+			?allowExceptInClassWithAttributes: listOf(string()),
+			?disallowInClassWithAttributes: listOf(string()),
+			?allowInFunctionsWithAttributes: listOf(string()),
+			?allowInMethodsWithAttributes: listOf(string()),
+			?allowExceptInFunctionsWithAttributes: listOf(string()),
+			?allowExceptInMethodsWithAttributes: listOf(string()),
+			?disallowInFunctionsWithAttributes: listOf(string()),
+			?disallowInMethodsWithAttributes: listOf(string()),
+			?allowInClassWithMethodAttributes: listOf(string()),
+			?allowExceptInClassWithMethodAttributes: listOf(string()),
+			?disallowInClassWithMethodAttributes: listOf(string()),
+			?errorIdentifier: string(),
+			?errorTip: anyOf(string(), listOf(string())),
+		])
+	)
+	disallowedKeywords: listOf(
+		structure([
+			?controlStructure: anyOf(string(), listOf(string())),
+			?structure: anyOf(string(), listOf(string())),
+			?keyword: anyOf(string(), listOf(string())),
 			?message: string(),
 			?allowIn: listOf(string()),
 			?allowExceptIn: list(string()),
@@ -457,7 +493,7 @@ services:
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedAttributeFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory
-	- Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory
+	- Spaze\PHPStan\Rules\Disallowed\DisallowedKeywordFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedPropertyFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedSuperglobalFactory
@@ -468,7 +504,7 @@ services:
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedAttributeRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallableParameterRuleErrors(forbiddenFunctionCalls: %disallowedFunctionCalls%, forbiddenMethodCalls: %disallowedMethodCalls%, forbiddenStaticCalls: %disallowedStaticCalls%)
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors
-	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedControlStructureRuleErrors
+	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedKeywordRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedMethodRuleErrors
 	- Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors
@@ -567,63 +603,67 @@ services:
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\BreakControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\BreakControlStructure(disallowedKeywords: @Spaze\PHPStan\Rules\Disallowed\DisallowedKeywordFactory::getDisallowedKeywords(%disallowedControlStructures%))
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\ContinueControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\ContinueControlStructure(disallowedKeywords: @Spaze\PHPStan\Rules\Disallowed\DisallowedKeywordFactory::getDisallowedKeywords(%disallowedControlStructures%))
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\DeclareControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\DeclareControlStructure(disallowedKeywords: @Spaze\PHPStan\Rules\Disallowed\DisallowedKeywordFactory::getDisallowedKeywords(%disallowedControlStructures%))
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\DoWhileControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\DoWhileControlStructure(disallowedKeywords: @Spaze\PHPStan\Rules\Disallowed\DisallowedKeywordFactory::getDisallowedKeywords(%disallowedControlStructures%))
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\ElseControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\ElseControlStructure(disallowedKeywords: @Spaze\PHPStan\Rules\Disallowed\DisallowedKeywordFactory::getDisallowedKeywords(%disallowedControlStructures%))
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\ElseIfControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\ElseIfControlStructure(disallowedKeywords: @Spaze\PHPStan\Rules\Disallowed\DisallowedKeywordFactory::getDisallowedKeywords(%disallowedControlStructures%))
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\ForControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\ForControlStructure(disallowedKeywords: @Spaze\PHPStan\Rules\Disallowed\DisallowedKeywordFactory::getDisallowedKeywords(%disallowedControlStructures%))
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\ForeachControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\ForeachControlStructure(disallowedKeywords: @Spaze\PHPStan\Rules\Disallowed\DisallowedKeywordFactory::getDisallowedKeywords(%disallowedControlStructures%))
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\GotoControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\GotoControlStructure(disallowedKeywords: @Spaze\PHPStan\Rules\Disallowed\DisallowedKeywordFactory::getDisallowedKeywords(%disallowedControlStructures%))
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\IfControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\IfControlStructure(disallowedKeywords: @Spaze\PHPStan\Rules\Disallowed\DisallowedKeywordFactory::getDisallowedKeywords(%disallowedControlStructures%))
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\MatchControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\MatchControlStructure(disallowedKeywords: @Spaze\PHPStan\Rules\Disallowed\DisallowedKeywordFactory::getDisallowedKeywords(%disallowedControlStructures%))
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\RequireIncludeControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\RequireIncludeControlStructure(disallowedKeywords: @Spaze\PHPStan\Rules\Disallowed\DisallowedKeywordFactory::getDisallowedKeywords(%disallowedControlStructures%))
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\ReturnControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\ReturnControlStructure(disallowedKeywords: @Spaze\PHPStan\Rules\Disallowed\DisallowedKeywordFactory::getDisallowedKeywords(%disallowedControlStructures%))
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\SwitchControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\SwitchControlStructure(disallowedKeywords: @Spaze\PHPStan\Rules\Disallowed\DisallowedKeywordFactory::getDisallowedKeywords(%disallowedControlStructures%))
 		tags:
 			- phpstan.rules.rule
 	-
-		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\WhileControlStructure(disallowedControlStructures: @Spaze\PHPStan\Rules\Disallowed\DisallowedControlStructureFactory::getDisallowedControlStructures(%disallowedControlStructures%))
+		factory: Spaze\PHPStan\Rules\Disallowed\ControlStructures\WhileControlStructure(disallowedKeywords: @Spaze\PHPStan\Rules\Disallowed\DisallowedKeywordFactory::getDisallowedKeywords(%disallowedControlStructures%))
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\Keywords\GlobalKeyword(disallowedKeywords: @Spaze\PHPStan\Rules\Disallowed\DisallowedKeywordFactory::getDisallowedKeywords(%disallowedKeywords%))
 		tags:
 			- phpstan.rules.rule
 	-
