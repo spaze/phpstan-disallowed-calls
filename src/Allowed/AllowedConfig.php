@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Allowed;
 
+use Spaze\PHPStan\Rules\Disallowed\Allowed\UsagePosition;
 use Spaze\PHPStan\Rules\Disallowed\Params\Param;
 
 class AllowedConfig
@@ -56,6 +57,14 @@ class AllowedConfig
 	/** @var array<int|string, Param> */
 	private array $allowExceptParams;
 
+	private bool $allowInParamTypes;
+
+	private bool $allowExceptInParamTypes;
+
+	private bool $allowInReturnType;
+
+	private bool $allowExceptInReturnType;
+
 
 	/**
 	 * @param list<string> $allowIn
@@ -91,7 +100,11 @@ class AllowedConfig
 		array $allowParamsInAllowed,
 		array $allowParamsAnywhere,
 		array $allowExceptParamsInAllowed,
-		array $allowExceptParams
+		array $allowExceptParams,
+		bool $allowInParamTypes = false,
+		bool $allowExceptInParamTypes = false,
+		bool $allowInReturnType = false,
+		bool $allowExceptInReturnType = false
 	) {
 		$this->allowIn = $allowIn;
 		$this->allowExceptIn = $allowExceptIn;
@@ -109,6 +122,10 @@ class AllowedConfig
 		$this->allowParamsAnywhere = $allowParamsAnywhere;
 		$this->allowExceptParamsInAllowed = $allowExceptParamsInAllowed;
 		$this->allowExceptParams = $allowExceptParams;
+		$this->allowInParamTypes = $allowInParamTypes;
+		$this->allowExceptInParamTypes = $allowExceptInParamTypes;
+		$this->allowInReturnType = $allowInReturnType;
+		$this->allowExceptInReturnType = $allowExceptInReturnType;
 	}
 
 
@@ -253,6 +270,24 @@ class AllowedConfig
 	public function getAllowExceptParams(): array
 	{
 		return $this->allowExceptParams;
+	}
+
+
+	public function getAllowInPosition(UsagePosition $position): bool
+	{
+		return match ($position) {
+			UsagePosition::ParamType => $this->allowInParamTypes,
+			UsagePosition::ReturnType => $this->allowInReturnType,
+		};
+	}
+
+
+	public function getAllowExceptInPosition(UsagePosition $position): bool
+	{
+		return match ($position) {
+			UsagePosition::ParamType => $this->allowExceptInParamTypes,
+			UsagePosition::ReturnType => $this->allowExceptInReturnType,
+		};
 	}
 
 }

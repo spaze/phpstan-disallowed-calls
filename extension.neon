@@ -42,6 +42,12 @@ parametersSchema:
 			?allowInClassWithMethodAttributes: listOf(string()),
 			?allowExceptInClassWithMethodAttributes: listOf(string()),
 			?disallowInClassWithMethodAttributes: listOf(string()),
+			?allowInParamTypes: bool(),
+			?allowExceptInParamTypes: bool(),
+			?disallowInParamTypes: bool(),
+			?allowInReturnType: bool(),
+			?allowExceptInReturnType: bool(),
+			?disallowInReturnType: bool(),
 			?allowInUse: bool(),
 			?errorIdentifier: string(),
 			?errorTip: anyOf(string(), listOf(string())),
@@ -72,6 +78,12 @@ parametersSchema:
 			?allowInClassWithMethodAttributes: listOf(string()),
 			?allowExceptInClassWithMethodAttributes: listOf(string()),
 			?disallowInClassWithMethodAttributes: listOf(string()),
+			?allowInParamTypes: bool(),
+			?allowExceptInParamTypes: bool(),
+			?disallowInParamTypes: bool(),
+			?allowInReturnType: bool(),
+			?allowExceptInReturnType: bool(),
+			?disallowInReturnType: bool(),
 			?allowInUse: bool(),
 			?errorIdentifier: string(),
 			?errorTip: anyOf(string(), listOf(string())),
@@ -486,6 +498,10 @@ parametersSchema:
 	)
 
 services:
+	-
+		class: Spaze\PHPStan\Rules\Disallowed\Type\TypeHintPositionVisitor
+		tags:
+			- phpstan.parser.richParserNodeVisitor
 	- Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed
 	- Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedConfigFactory
 	- Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath

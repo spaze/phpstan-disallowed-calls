@@ -4,8 +4,9 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed;
 
 use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedConfig;
+use Spaze\PHPStan\Rules\Disallowed\Allowed\UsagePosition;
 
-class DisallowedNamespace implements Disallowed
+class DisallowedNamespace implements DisallowedWithTypeHints
 {
 
 	private string $namespace;
@@ -159,6 +160,18 @@ class DisallowedNamespace implements Disallowed
 	public function getAllowExceptInClassWithMethodAttributes(): array
 	{
 		return $this->allowedConfig->getAllowExceptInClassWithMethodAttributes();
+	}
+
+
+	public function getAllowInPosition(UsagePosition $position): bool
+	{
+		return $this->allowedConfig->getAllowInPosition($position);
+	}
+
+
+	public function getAllowExceptInPosition(UsagePosition $position): bool
+	{
+		return $this->allowedConfig->getAllowExceptInPosition($position);
 	}
 
 

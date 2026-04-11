@@ -8,6 +8,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed;
+use Spaze\PHPStan\Rules\Disallowed\Allowed\UsagePosition;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespace;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
@@ -43,12 +44,12 @@ class DisallowedNamespaceRuleErrors
 	 * @param string $identifier
 	 * @return list<IdentifierRuleError>
 	 */
-	public function getDisallowedMessage(Node $node, NamespaceUsage $namespaceUsage, string $description, Scope $scope, array $disallowedNamespaces, string $identifier): array
+	public function getDisallowedMessage(Node $node, NamespaceUsage $namespaceUsage, string $description, Scope $scope, array $disallowedNamespaces, string $identifier, ?UsagePosition $position = null): array
 	{
 		foreach ($disallowedNamespaces as $disallowedNamespace) {
 			if (
 				!$this->identifier->matches($disallowedNamespace->getNamespace(), $namespaceUsage->getNamespace(), $disallowedNamespace->getExcludes(), $disallowedNamespace->getExcludeWithAttributes())
-				|| $this->allowed->isAllowed($node, $scope, null, $disallowedNamespace)
+				|| $this->allowed->isAllowed($node, $scope, null, $disallowedNamespace, $position)
 				|| ($disallowedNamespace->isAllowInUse() && $namespaceUsage->isUseItem())
 			) {
 				continue;

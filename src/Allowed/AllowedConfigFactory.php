@@ -132,7 +132,11 @@ class AllowedConfigFactory
 			$allowParamsInAllowed,
 			$allowParamsAnywhere,
 			$allowExceptParamsInAllowed,
-			$allowExceptParams
+			$allowExceptParams,
+			$allowed['allowInParamTypes'] ?? false,
+			$allowed['allowExceptInParamTypes'] ?? $allowed['disallowInParamTypes'] ?? false,
+			$allowed['allowInReturnType'] ?? false,
+			$allowed['allowExceptInReturnType'] ?? $allowed['disallowInReturnType'] ?? false
 		);
 	}
 

@@ -18,10 +18,12 @@ use PhpParser\Node\UnionType;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
+use Spaze\PHPStan\Rules\Disallowed\Allowed\UsagePosition;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespace;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
+use Spaze\PHPStan\Rules\Disallowed\Type\TypeHintPositionVisitor;
 use Spaze\PHPStan\Rules\Disallowed\UsageFactory\NamespaceUsageFactory;
 
 /**
@@ -68,14 +70,18 @@ class NamespaceUsages implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
+		$position = null;
+
 		if ($node instanceof FullyQualified) {
 			$description = 'Class';
 			$identifier = ErrorIdentifiers::DISALLOWED_CLASS;
 			$namespaces = [$this->namespaceUsageFactory->create($node->toString())];
+			$position = $this->getPosition($node);
 		} elseif ($node instanceof NullableType && $node->type instanceof FullyQualified) {
 			$description = 'Class';
 			$identifier = ErrorIdentifiers::DISALLOWED_CLASS;
 			$namespaces = [$this->namespaceUsageFactory->create($node->type->toString())];
+			$position = $this->getPosition($node);
 		} elseif ($node instanceof UnionType || $node instanceof IntersectionType) {
 			$description = 'Class';
 			$identifier = ErrorIdentifiers::DISALLOWED_CLASS;
@@ -85,6 +91,7 @@ class NamespaceUsages implements Rule
 					$namespaces[] = $this->namespaceUsageFactory->create($type->toString());
 				}
 			}
+			$position = $this->getPosition($node);
 		} elseif ($node instanceof UseUse) {
 			$namespaces = [$this->namespaceUsageFactory->create($node->name->toString(), true)];
 		} elseif ($node instanceof StaticCall && $node->class instanceof Name) {
@@ -128,7 +135,8 @@ class NamespaceUsages implements Rule
 				$description ?? 'Namespace',
 				$scope,
 				$this->disallowedNamespace,
-				$identifier ?? $identifier = ErrorIdentifiers::DISALLOWED_NAMESPACE
+				$identifier ?? $identifier = ErrorIdentifiers::DISALLOWED_NAMESPACE,
+				$position,
 			);
 			if ($ruleErrors) {
 				$errors = array_merge($errors, $ruleErrors);
@@ -136,6 +144,18 @@ class NamespaceUsages implements Rule
 		}
 
 		return $errors;
+	}
+
+
+	private function getPosition(Node $node): ?UsagePosition
+	{
+		if ($node->getAttribute(TypeHintPositionVisitor::ATTRIBUTE_IN_PARAM_TYPE)) {
+			return UsagePosition::ParamType;
+		}
+		if ($node->getAttribute(TypeHintPositionVisitor::ATTRIBUTE_IN_RETURN_TYPE)) {
+			return UsagePosition::ReturnType;
+		}
+		return null;
 	}
 
 }
