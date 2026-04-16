@@ -12,10 +12,10 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedAttributeFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedAttributeRuleErrors;
 
 /**
- * @requires PHP >= 8.0
+ * @requires PHP >= 8.0.0
  * @extends RuleTestCase<AttributeUsages>
  */
-#[RequiresPhp('>= 8.0')]
+#[RequiresPhp('>= 8.0.0')]
 class AttributeUsagesTest extends RuleTestCase
 {
 
