@@ -14,10 +14,10 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
 /**
- * @requires PHP >= 8.1
+ * @requires PHP >= 8.1.0
  * @extends RuleTestCase<ClassConstantUsages>
  */
-#[RequiresPhp('>= 8.1')]
+#[RequiresPhp('>= 8.1.0')]
 class ClassConstantEnumUsagesTest extends RuleTestCase
 {
 

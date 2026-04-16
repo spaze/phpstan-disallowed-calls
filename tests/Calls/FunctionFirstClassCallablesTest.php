@@ -40,9 +40,9 @@ class FunctionFirstClassCallablesTest extends RuleTestCase
 
 
 	/**
-	 * @requires PHP >= 8.1
+	 * @requires PHP >= 8.1.0
 	 */
-	#[RequiresPhp('>= 8.1')]
+	#[RequiresPhp('>= 8.1.0')]
 	public function testRule(): void
 	{
 		// Based on the configuration above, in this file:

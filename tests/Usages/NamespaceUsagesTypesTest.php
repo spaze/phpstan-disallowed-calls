@@ -11,10 +11,10 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\UsageFactory\NamespaceUsageFactory;
 
 /**
- * @requires PHP >= 8.1
+ * @requires PHP >= 8.1.0
  * @extends RuleTestCase<NamespaceUsages>
  */
-#[RequiresPhp('>= 8.1')]
+#[RequiresPhp('>= 8.1.0')]
 class NamespaceUsagesTypesTest extends RuleTestCase
 {
 

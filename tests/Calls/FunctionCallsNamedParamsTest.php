@@ -12,10 +12,10 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallableParameterRuleErr
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors;
 
 /**
- * @requires PHP >= 8.0
+ * @requires PHP >= 8.0.0
  * @extends RuleTestCase<FunctionCalls>
  */
-#[RequiresPhp('>= 8.0')]
+#[RequiresPhp('>= 8.0.0')]
 class FunctionCallsNamedParamsTest extends RuleTestCase
 {
 
