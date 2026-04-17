@@ -58,6 +58,7 @@ Let's say you have disallowed the `foo()` function (or any other supported items
 - [Allow in class with given attributes](docs/allow-in-class-with-attributes.md)
 - [Allow in methods or functions with given attributes](docs/allow-in-methods.md)
 - [Allow in class with given attributes on any method](docs/allow-in-class-with-method-attributes.md)
+- [Allow in type hint positions](docs/allow-in-type-hint-positions.md) (param types, return types - `disallowedNamespaces` and `disallowedClasses` only)
 
 [Re-allowing attributes](docs/allow-attributes.md) uses a similar [configuration](docs/allow-attributes.md).
 

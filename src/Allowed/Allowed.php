@@ -18,6 +18,7 @@ use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use Spaze\PHPStan\Rules\Disallowed\Disallowed;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedWithParams;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedWithTypeHints;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeException;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
@@ -57,9 +58,10 @@ class Allowed
 	 * @param Scope $scope
 	 * @param array<Arg>|null $args
 	 * @param Disallowed|DisallowedWithParams $disallowed
+	 * @param UsagePosition::*|null $position
 	 * @return bool
 	 */
-	public function isAllowed(?Node $node, Scope $scope, ?array $args, Disallowed $disallowed): bool
+	public function isAllowed(?Node $node, Scope $scope, ?array $args, Disallowed $disallowed, ?int $position = null): bool
 	{
 		$hasParams = $disallowed instanceof DisallowedWithParams;
 		foreach ($disallowed->getAllowInCalls() as $call) {
@@ -84,6 +86,21 @@ class Allowed
 				}
 			}
 			return true;
+		}
+		if ($disallowed instanceof DisallowedWithTypeHints) {
+			if ($position !== null) {
+				if ($disallowed->getAllowInPosition($position)) {
+					return true;
+				}
+				if ($disallowed->getAllowExceptInPosition($position)) {
+					return false;
+				}
+			}
+			foreach ([UsagePosition::PARAM_TYPE, UsagePosition::RETURN_TYPE] as $case) {
+				if ($disallowed->getAllowExceptInPosition($case)) {
+					return true;
+				}
+			}
 		}
 		if ($disallowed->getAllowInInstanceOf()) {
 			return $this->isInstanceOf($scope, $disallowed->getAllowInInstanceOf());

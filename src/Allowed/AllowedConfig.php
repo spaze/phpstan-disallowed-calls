@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Allowed;
 
+use PHPStan\ShouldNotHappenException;
+use Spaze\PHPStan\Rules\Disallowed\Allowed\UsagePosition;
 use Spaze\PHPStan\Rules\Disallowed\Params\Param;
 
 class AllowedConfig
@@ -56,6 +58,14 @@ class AllowedConfig
 	/** @var array<int|string, Param> */
 	private array $allowExceptParams;
 
+	private bool $allowInParamTypes;
+
+	private bool $allowExceptInParamTypes;
+
+	private bool $allowInReturnType;
+
+	private bool $allowExceptInReturnType;
+
 
 	/**
 	 * @param list<string> $allowIn
@@ -91,7 +101,11 @@ class AllowedConfig
 		array $allowParamsInAllowed,
 		array $allowParamsAnywhere,
 		array $allowExceptParamsInAllowed,
-		array $allowExceptParams
+		array $allowExceptParams,
+		bool $allowInParamTypes = false,
+		bool $allowExceptInParamTypes = false,
+		bool $allowInReturnType = false,
+		bool $allowExceptInReturnType = false
 	) {
 		$this->allowIn = $allowIn;
 		$this->allowExceptIn = $allowExceptIn;
@@ -109,6 +123,10 @@ class AllowedConfig
 		$this->allowParamsAnywhere = $allowParamsAnywhere;
 		$this->allowExceptParamsInAllowed = $allowExceptParamsInAllowed;
 		$this->allowExceptParams = $allowExceptParams;
+		$this->allowInParamTypes = $allowInParamTypes;
+		$this->allowExceptInParamTypes = $allowExceptInParamTypes;
+		$this->allowInReturnType = $allowInReturnType;
+		$this->allowExceptInReturnType = $allowExceptInReturnType;
 	}
 
 
@@ -253,6 +271,30 @@ class AllowedConfig
 	public function getAllowExceptParams(): array
 	{
 		return $this->allowExceptParams;
+	}
+
+
+	public function getAllowInPosition(int $position): bool
+	{
+		switch ($position) {
+			case UsagePosition::PARAM_TYPE:
+				return $this->allowInParamTypes;
+			case UsagePosition::RETURN_TYPE:
+				return $this->allowInReturnType;
+		}
+		throw new ShouldNotHappenException("Position {$position} is not supported");
+	}
+
+
+	public function getAllowExceptInPosition(int $position): bool
+	{
+		switch ($position) {
+			case UsagePosition::PARAM_TYPE:
+				return $this->allowExceptInParamTypes;
+			case UsagePosition::RETURN_TYPE:
+				return $this->allowExceptInReturnType;
+		}
+		throw new ShouldNotHappenException("Position {$position} is not supported");
 	}
 
 }
