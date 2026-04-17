@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed;
 
 use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedConfig;
-use Spaze\PHPStan\Rules\Disallowed\Allowed\UsagePosition;
 
 class DisallowedNamespace implements DisallowedWithTypeHints
 {
@@ -163,13 +162,13 @@ class DisallowedNamespace implements DisallowedWithTypeHints
 	}
 
 
-	public function getAllowInPosition(UsagePosition $position): bool
+	public function getAllowInPosition(int $position): bool
 	{
 		return $this->allowedConfig->getAllowInPosition($position);
 	}
 
 
-	public function getAllowExceptInPosition(UsagePosition $position): bool
+	public function getAllowExceptInPosition(int $position): bool
 	{
 		return $this->allowedConfig->getAllowExceptInPosition($position);
 	}

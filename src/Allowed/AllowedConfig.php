@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Allowed;
 
+use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\UsagePosition;
 use Spaze\PHPStan\Rules\Disallowed\Params\Param;
 
@@ -273,21 +274,27 @@ class AllowedConfig
 	}
 
 
-	public function getAllowInPosition(UsagePosition $position): bool
+	public function getAllowInPosition(int $position): bool
 	{
-		return match ($position) {
-			UsagePosition::ParamType => $this->allowInParamTypes,
-			UsagePosition::ReturnType => $this->allowInReturnType,
-		};
+		switch ($position) {
+			case UsagePosition::PARAM_TYPE:
+				return $this->allowInParamTypes;
+			case UsagePosition::RETURN_TYPE:
+				return $this->allowInReturnType;
+		}
+		throw new ShouldNotHappenException("Position {$position} is not supported");
 	}
 
 
-	public function getAllowExceptInPosition(UsagePosition $position): bool
+	public function getAllowExceptInPosition(int $position): bool
 	{
-		return match ($position) {
-			UsagePosition::ParamType => $this->allowExceptInParamTypes,
-			UsagePosition::ReturnType => $this->allowExceptInReturnType,
-		};
+		switch ($position) {
+			case UsagePosition::PARAM_TYPE:
+				return $this->allowExceptInParamTypes;
+			case UsagePosition::RETURN_TYPE:
+				return $this->allowExceptInReturnType;
+		}
+		throw new ShouldNotHappenException("Position {$position} is not supported");
 	}
 
 }

@@ -3,10 +3,10 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Allowed;
 
-enum UsagePosition
+class UsagePosition
 {
 
-	case ParamType;
-	case ReturnType;
+	public const PARAM_TYPE = 1;
+	public const RETURN_TYPE = 2;
 
 }
