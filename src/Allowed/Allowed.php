@@ -8,9 +8,6 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
-use PHPStan\BetterReflection\Reflection\Adapter\FakeReflectionAttribute;
-use PHPStan\BetterReflection\Reflection\Adapter\ReflectionAttribute;
-use PHPStan\BetterReflection\Reflection\ReflectionAttribute as BetterReflectionAttribute;
 use PHPStan\BetterReflection\Reflector\Reflector;
 use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Reflection\MethodReflection;
@@ -23,6 +20,7 @@ use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeException;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 use Spaze\PHPStan\Rules\Disallowed\Params\Param;
+use Spaze\PHPStan\Rules\Disallowed\Type\TypeHintContextVisitor;
 
 class Allowed
 {
@@ -33,8 +31,6 @@ class Allowed
 
 	private Identifier $identifier;
 
-	private GetAttributesWhenInSignature $attributesWhenInSignature;
-
 	private AllowedPath $allowedPath;
 
 
@@ -42,13 +38,11 @@ class Allowed
 		Formatter $formatter,
 		Reflector $reflector,
 		Identifier $identifier,
-		GetAttributesWhenInSignature $attributesWhenInSignature,
 		AllowedPath $allowedPath
 	) {
 		$this->formatter = $formatter;
 		$this->reflector = $reflector;
 		$this->identifier = $identifier;
-		$this->attributesWhenInSignature = $attributesWhenInSignature;
 		$this->allowedPath = $allowedPath;
 	}
 
@@ -220,18 +214,14 @@ class Allowed
 
 
 	/**
-	 * @param list<FakeReflectionAttribute|ReflectionAttribute|BetterReflectionAttribute> $attributes
+	 * @param list<string> $attributeNames
 	 * @param list<string> $allowConfig
 	 * @return bool
 	 */
-	private function hasAllowedAttribute(array $attributes, array $allowConfig): bool
+	private function hasAllowedAttribute(array $attributeNames, array $allowConfig): bool
 	{
-		$names = [];
-		foreach ($attributes as $attribute) {
-			$names[] = $attribute->getName();
-		}
 		foreach ($allowConfig as $allowAttribute) {
-			foreach ($names as $name) {
+			foreach ($attributeNames as $name) {
 				if ($this->identifier->matches($allowAttribute, $name)) {
 					return true;
 				}
@@ -264,35 +254,50 @@ class Allowed
 
 	/**
 	 * @param Scope $scope
-	 * @return list<FakeReflectionAttribute>|list<ReflectionAttribute>
+	 * @return list<string>
 	 */
 	private function getAttributes(Scope $scope): array
 	{
-		return $scope->isInClass() ? $scope->getClassReflection()->getNativeReflection()->getAttributes() : [];
+		if (!$scope->isInClass()) {
+			return [];
+		}
+		return array_map(static fn($a) => $a->getName(), $scope->getClassReflection()->getNativeReflection()->getAttributes());
 	}
 
 
 	/**
 	 * @param Node|null $node
 	 * @param Scope $scope
-	 * @return list<FakeReflectionAttribute|ReflectionAttribute|BetterReflectionAttribute>
+	 * @return list<string>
 	 */
 	private function getCallAttributes(?Node $node, Scope $scope): array
 	{
 		$function = $scope->getFunction();
 		if ($function instanceof MethodReflection) {
-			return $scope->isInClass() ? $scope->getClassReflection()->getNativeReflection()->getMethod($function->getName())->getAttributes() : [];
+			if (!$scope->isInClass()) {
+				return [];
+			}
+			return array_map(static fn($a) => $a->getName(), $scope->getClassReflection()->getNativeReflection()->getMethod($function->getName())->getAttributes());
 		} elseif ($function instanceof FunctionReflection) {
-			return $this->reflector->reflectFunction($function->getName())->getAttributes();
+			return array_map(static fn($a) => $a->getName(), $this->reflector->reflectFunction($function->getName())->getAttributes());
 		} elseif ($function === null) {
 			if ($node instanceof ClassMethod && $scope->isInClass()) {
-				return $scope->getClassReflection()->getNativeReflection()->getMethod($node->name->name)->getAttributes();
+				return array_map(static fn($a) => $a->getName(), $scope->getClassReflection()->getNativeReflection()->getMethod($node->name->name)->getAttributes());
 			} elseif ($node instanceof Function_) {
-				return $this->reflector->reflectFunction($node->name->name)->getAttributes();
+				return array_map(static fn($a) => $a->getName(), $this->reflector->reflectFunction($node->name->name)->getAttributes());
 			}
-			$attributes = $this->attributesWhenInSignature->get($scope);
-			if ($attributes !== null) {
-				return $attributes;
+			// $scope->getFunction() is null in param/return type hints, use the enclosing function attributes stored by TypeHintContextVisitor
+			if ($node !== null) {
+				$names = $node->getAttribute(TypeHintContextVisitor::ATTRIBUTE_ENCLOSING_FUNCTION_ATTR_NAMES);
+				if (is_array($names)) {
+					$result = [];
+					foreach ($names as $name) {
+						if (is_string($name)) {
+							$result[] = $name;
+						}
+					}
+					return $result;
+				}
 			}
 		}
 		return [];
@@ -301,21 +306,20 @@ class Allowed
 
 	/**
 	 * @param Scope $scope
-	 * @return list<FakeReflectionAttribute>|list<ReflectionAttribute>
+	 * @return list<string>
 	 */
 	private function getAllMethodAttributes(Scope $scope): array
 	{
 		if (!$scope->isInClass()) {
 			return [];
 		}
-		$attributes = [];
+		$names = [];
 		foreach ($scope->getClassReflection()->getNativeReflection()->getMethods() as $method) {
-			$methodAttributes = $method->getAttributes();
-			if ($methodAttributes !== []) {
-				$attributes = array_merge($attributes, $methodAttributes);
+			foreach ($method->getAttributes() as $attribute) {
+				$names[] = $attribute->getName();
 			}
 		}
-		return $attributes;
+		return $names;
 	}
 
 }

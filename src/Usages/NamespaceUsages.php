@@ -23,7 +23,7 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespace;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
-use Spaze\PHPStan\Rules\Disallowed\Type\TypeHintPositionVisitor;
+use Spaze\PHPStan\Rules\Disallowed\Type\TypeHintContextVisitor;
 use Spaze\PHPStan\Rules\Disallowed\UsageFactory\NamespaceUsageFactory;
 
 /**
@@ -152,10 +152,10 @@ class NamespaceUsages implements Rule
 	 */
 	private function getPosition(Node $node): ?int
 	{
-		if ($node->getAttribute(TypeHintPositionVisitor::ATTRIBUTE_IN_PARAM_TYPE)) {
+		if ($node->getAttribute(TypeHintContextVisitor::ATTRIBUTE_IN_PARAM_TYPE)) {
 			return UsagePosition::PARAM_TYPE;
 		}
-		if ($node->getAttribute(TypeHintPositionVisitor::ATTRIBUTE_IN_RETURN_TYPE)) {
+		if ($node->getAttribute(TypeHintContextVisitor::ATTRIBUTE_IN_RETURN_TYPE)) {
 			return UsagePosition::RETURN_TYPE;
 		}
 		return null;
