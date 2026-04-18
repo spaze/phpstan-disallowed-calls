@@ -284,7 +284,7 @@ class Allowed
 			if ($node instanceof ClassMethod && $scope->isInClass()) {
 				return array_map(static fn($a) => $a->getName(), $scope->getClassReflection()->getNativeReflection()->getMethod($node->name->name)->getAttributes());
 			} elseif ($node instanceof Function_) {
-				return array_map(static fn($a) => $a->getName(), $this->reflector->reflectFunction($node->name->name)->getAttributes());
+				return array_map(static fn($a) => $a->getName(), $this->reflector->reflectFunction(($node->namespacedName ?? $node->name)->toString())->getAttributes());
 			}
 			// $scope->getFunction() is null in param/return type hints, use the enclosing function attributes stored by TypeHintContextVisitor
 			if ($node !== null) {
