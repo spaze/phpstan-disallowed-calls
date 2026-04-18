@@ -499,13 +499,12 @@ parametersSchema:
 
 services:
 	-
-		class: Spaze\PHPStan\Rules\Disallowed\Type\TypeHintPositionVisitor
+		class: Spaze\PHPStan\Rules\Disallowed\Type\TypeHintContextVisitor
 		tags:
 			- phpstan.parser.richParserNodeVisitor
 	- Spaze\PHPStan\Rules\Disallowed\Allowed\Allowed
 	- Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedConfigFactory
 	- Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedPath
-	- Spaze\PHPStan\Rules\Disallowed\Allowed\GetAttributesWhenInSignature
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedAttributeFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory
 	- Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory
@@ -690,19 +689,4 @@ services:
 		factory: Spaze\PHPStan\Rules\Disallowed\Usages\StaticPropertyUsages(disallowedProperties: %disallowedProperties%)
 		tags:
 			- phpstan.rules.rule
-	-
-		factory: Spaze\PHPStan\Rules\Disallowed\HelperRules\SetCurrentClassMethodNameHelperRule
-		tags:
-			- phpstan.rules.rule
-	-
-		factory: Spaze\PHPStan\Rules\Disallowed\HelperRules\UnsetCurrentClassMethodNameHelperRule
-		tags:
-			- phpstan.rules.rule
-	-
-		factory: Spaze\PHPStan\Rules\Disallowed\HelperRules\SetCurrentFunctionNameHelperRule
-		tags:
-			- phpstan.rules.rule
-	-
-		factory: Spaze\PHPStan\Rules\Disallowed\HelperRules\UnsetCurrentFunctionNameHelperRule
-		tags:
-			- phpstan.rules.rule
+

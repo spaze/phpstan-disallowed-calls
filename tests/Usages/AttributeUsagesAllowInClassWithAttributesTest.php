@@ -124,6 +124,21 @@ class AttributeUsagesAllowInClassWithAttributesTest extends RuleTestCase
 	}
 
 
+	public function testRuleInNamespacedFunctions(): void
+	{
+		$this->analyse([__DIR__ . '/../src/AttributeNamespacedFunctions.php'], [
+			[
+				'Attribute Attribute13 is forbidden.',
+				28,
+			],
+			[
+				'Attribute Attribute12 is forbidden.',
+				34,
+			],
+		]);
+	}
+
+
 	public static function getAdditionalConfigFiles(): array
 	{
 		return [

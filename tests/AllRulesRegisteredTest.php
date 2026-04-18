@@ -12,7 +12,6 @@ class AllRulesRegisteredTest extends PHPStanTestCase
 	private const RULES_DIRS = [
 		'Calls',
 		'Usages',
-		'HelperRules',
 	];
 
 
