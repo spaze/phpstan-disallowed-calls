@@ -44,6 +44,7 @@ class NamespaceUsagesAllowInClassWithAttributesTest extends RuleTestCase
 					'class' => None::class,
 					'allowInMethodsWithAttributes' => [
 						'Attribute10',
+						'Foo\Bar\NamespacedAttribute',
 					],
 					'allowInUse' => true,
 				],
@@ -127,6 +128,10 @@ class NamespaceUsagesAllowInClassWithAttributesTest extends RuleTestCase
 			[
 				'Class PhpOption\Some is forbidden.',
 				156,
+			],
+			[
+				'Class PhpOption\None is forbidden.',
+				189,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/Functions.php'], [
