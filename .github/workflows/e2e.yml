@@ -21,7 +21,16 @@ jobs:
             php-version: "8.5"
             run: composer phpstan
 
+    env:
+      HEAD_REF: ${{ github.head_ref || github.ref_name }}
+
     steps:
+    - name: Validate ref type
+      if: github.event_name == 'workflow_dispatch' && github.ref_type != 'branch'
+      run: |
+        echo "::error::workflow_dispatch must be triggered from a branch, not a tag or other ref. Current ref: ${{ github.ref_name }} (type: ${{ github.ref_type }})"
+        exit 1
+
     - name: Checkout ${{ matrix.repo }}
       uses: actions/checkout@v6
       with:
@@ -47,8 +56,10 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}
 
-    - name: Update the extension to "dev-${{ github.head_ref }} as ${{ steps.latest.outputs.version }}"
-      run: composer require ${{ matrix.composer-params }} --dev "spaze/phpstan-disallowed-calls:dev-${{ github.head_ref }} as ${{ steps.latest.outputs.version }}" --with-all-dependencies
+    - name: Update the extension to "dev-${{ env.HEAD_REF }} as ${{ steps.latest.outputs.version }}"
+      env:
+        LATEST_VERSION: ${{ steps.latest.outputs.version }}
+      run: composer require ${{ matrix.composer-params }} --dev "spaze/phpstan-disallowed-calls:dev-${HEAD_REF} as ${LATEST_VERSION}" --with-all-dependencies
 
     - name: Run tests
       run: ${{ matrix.run }}
