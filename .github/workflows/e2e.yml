@@ -15,7 +15,7 @@ jobs:
             repo: spaze/michalspacek.cz
             php-version: "8.5"
             run: make --directory=app phpstan
-            composer-params: --working-dir=app
+            composer-params: --working-dir=app/vendor-dev
           -
             repo: spaze/security-txt
             php-version: "8.5"
