@@ -9,6 +9,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
 use PHPStan\BetterReflection\Reflector\Reflector;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\Type;
@@ -150,8 +151,31 @@ class Allowed
 	 */
 	private function isInstanceOf(Scope $scope, array $allowConfig): bool
 	{
+		if (!$scope->isInClass()) {
+			return false;
+		}
+		$classReflection = $scope->getClassReflection();
 		foreach ($allowConfig as $allowInstanceOf) {
-			if ($scope->isInClass() && $scope->getClassReflection()->is($allowInstanceOf)) {
+			if ($this->classOrAncestorMatches($classReflection, $allowInstanceOf)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	private function classOrAncestorMatches(ClassReflection $classReflection, string $pattern): bool
+	{
+		if (fnmatch($pattern, $classReflection->getName(), FNM_NOESCAPE | FNM_CASEFOLD)) {
+			return true;
+		}
+		foreach ($classReflection->getParentClassesNames() as $name) {
+			if (fnmatch($pattern, $name, FNM_NOESCAPE | FNM_CASEFOLD)) {
+				return true;
+			}
+		}
+		foreach (array_keys($classReflection->getInterfaces()) as $name) {
+			if (fnmatch($pattern, $name, FNM_NOESCAPE | FNM_CASEFOLD)) {
 				return true;
 			}
 		}
