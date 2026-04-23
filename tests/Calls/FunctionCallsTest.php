@@ -225,6 +225,19 @@ class FunctionCallsTest extends RuleTestCase
 						Stringable::class,
 					],
 				],
+				// test allowed instances with wildcards, intentionally wrong case to test FNM_CASEFOLD
+				[
+					'function' => 'str_pad()',
+					'allowInInstanceOf' => [
+						'waldo\foo\wild*',
+					],
+				],
+				[
+					'function' => 'str_repeat()',
+					'disallowInInstanceOf' => [
+						'Waldo\Foo\Wild*',
+					],
+				],
 			]
 		);
 	}
@@ -418,6 +431,37 @@ class FunctionCallsTest extends RuleTestCase
 			[
 				'Calling dom_import_simplexml() is forbidden.',
 				76,
+			],
+		]);
+	}
+
+
+	public function testAllowInInstanceOfWildcard(): void
+	{
+		$this->analyse([__DIR__ . '/../src/BarWildcard.php'], [
+			[
+				'Calling str_repeat() is forbidden.',
+				16,
+			],
+			[
+				'Calling str_repeat() is forbidden.',
+				27,
+			],
+			[
+				'Calling str_repeat() is forbidden.',
+				38,
+			],
+			[
+				'Calling str_repeat() is forbidden.',
+				49,
+			],
+			[
+				'Calling str_repeat() is forbidden.',
+				60,
+			],
+			[
+				'Calling str_pad() is forbidden.',
+				70,
 			],
 		]);
 	}
