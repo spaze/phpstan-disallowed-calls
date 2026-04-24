@@ -191,6 +191,15 @@ class FunctionCallsTypeStringParamsTest extends RuleTestCase
 					],
 				],
 				[
+					'function' => '\Foo\Bar\Waldo\zeroParam()',
+					'allowParamsAnywhere' => [
+						[
+							'position' => 1,
+							'typeString' => '0',
+						],
+					],
+				],
+				[
 					'function' => '\Foo\Bar\Waldo\mixedParam1()',
 					'allowIn' => [
 						__DIR__ . '/../src/disallowed-allow/*.php',
@@ -292,6 +301,10 @@ class FunctionCallsTypeStringParamsTest extends RuleTestCase
 				'Calling Foo\Bar\Waldo\mixedParam1() is forbidden.',
 				33,
 			],
+			[
+				'Calling Foo\Bar\Waldo\zeroParam() is forbidden.',
+				35,
+			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/functionCallsTypeStringParams.php'], [
 			[
@@ -321,6 +334,10 @@ class FunctionCallsTypeStringParamsTest extends RuleTestCase
 			[
 				'Calling Foo\Bar\Waldo\mixedParam1() is forbidden.',
 				32,
+			],
+			[
+				'Calling Foo\Bar\Waldo\zeroParam() is forbidden.',
+				35,
 			],
 		]);
 	}

@@ -16,7 +16,7 @@ Test classes live in `tests/Calls/`, `tests/Usages/`, `tests/ControlStructures/`
 
 ## Project structure
 
-`extension.neon` is the entry point wiring all rules together. Each feature has its own documentation file in `docs/` — new features get their own doc or extend an existing one.
+`extension.neon` is the entry point wiring all rules together. It also defines the NEON schema for all config options — type declarations like `string()`, `int()`, `bool()` are enforced by NEON at config parse time, before any PHP runs. This means defensive runtime checks for wrong-typed config values (e.g. an array where a string is expected) are unnecessary when using the extension normally through PHPStan. Each feature has its own documentation file in `docs/` — new features get their own doc or extend an existing one.
 
 `disallow*` config keys are generally aliases for their `allowExcept*` counterparts, handled in `AllowedConfigFactory`.
 

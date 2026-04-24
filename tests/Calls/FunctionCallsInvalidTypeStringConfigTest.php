@@ -66,6 +66,56 @@ class FunctionCallsInvalidTypeStringConfigTest extends PHPStanTestCase
 	}
 
 
+	/**
+	 * @throws ShouldNotHappenException
+	 */
+	public function testEmptyTypeStringThrows(): void
+	{
+		$this->expectException(ShouldNotHappenException::class);
+		$this->expectExceptionMessage("foo(): typeString is empty");
+		$container = self::getContainer();
+		new FunctionCalls(
+			$container->getByType(DisallowedFunctionRuleErrors::class),
+			$container->getByType(DisallowedCallableParameterRuleErrors::class),
+			$container->getByType(DisallowedCallFactory::class),
+			[
+				[
+					'function' => 'foo()',
+					'disallowParamsInAllowed' => [
+						1 => [
+							'position' => 1,
+							'typeString' => '',
+						],
+					],
+				],
+			]
+		);
+	}
+
+
+	public function testZeroTypeStringIsValid(): void
+	{
+		$container = self::getContainer();
+		$calls = new FunctionCalls(
+			$container->getByType(DisallowedFunctionRuleErrors::class),
+			$container->getByType(DisallowedCallableParameterRuleErrors::class),
+			$container->getByType(DisallowedCallFactory::class),
+			[
+				[
+					'function' => 'foo()',
+					'disallowParamsInAllowed' => [
+						1 => [
+							'position' => 1,
+							'typeString' => '0',
+						],
+					],
+				],
+			]
+		);
+		$this->assertInstanceOf(FunctionCalls::class, $calls);
+	}
+
+
 	public static function getAdditionalConfigFiles(): array
 	{
 		return [
