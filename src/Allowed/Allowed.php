@@ -98,10 +98,16 @@ class Allowed
 			}
 		}
 		if ($disallowed->getAllowInInstanceOf()) {
-			return $this->isInstanceOf($scope, $disallowed->getAllowInInstanceOf());
+			if (!$this->isInstanceOf($scope, $disallowed->getAllowInInstanceOf())) {
+				return false;
+			}
+			return !$hasParams || $this->hasAllowedParamsInAllowed($scope, $args, $disallowed);
 		}
 		if ($disallowed->getAllowExceptInInstanceOf()) {
-			return !$this->isInstanceOf($scope, $disallowed->getAllowExceptInInstanceOf());
+			if (!$this->isInstanceOf($scope, $disallowed->getAllowExceptInInstanceOf())) {
+				return true;
+			}
+			return $hasParams && $this->hasAllowedParamsInAllowed($scope, $args, $disallowed, false);
 		}
 		if ($hasParams && $disallowed->getAllowExceptParams()) {
 			return $this->hasAllowedParams($scope, $args, $disallowed->getAllowExceptParams(), false);
@@ -223,9 +229,10 @@ class Allowed
 	 * @param Scope $scope
 	 * @param array<Arg>|null $args
 	 * @param DisallowedWithParams $disallowed
+	 * @param bool $defaultResult
 	 * @return bool
 	 */
-	private function hasAllowedParamsInAllowed(Scope $scope, ?array $args, DisallowedWithParams $disallowed): bool
+	private function hasAllowedParamsInAllowed(Scope $scope, ?array $args, DisallowedWithParams $disallowed, bool $defaultResult = true): bool
 	{
 		if ($disallowed->getAllowExceptParamsInAllowed()) {
 			return $this->hasAllowedParams($scope, $args, $disallowed->getAllowExceptParamsInAllowed(), false);
@@ -233,7 +240,7 @@ class Allowed
 		if ($disallowed->getAllowParamsInAllowed()) {
 			return $this->hasAllowedParams($scope, $args, $disallowed->getAllowParamsInAllowed(), true);
 		}
-		return true;
+		return $defaultResult;
 	}
 
 
