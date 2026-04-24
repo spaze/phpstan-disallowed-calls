@@ -13,7 +13,6 @@ use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedProperty;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedPropertyFactory;
-use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeInConfigException;
 use Spaze\PHPStan\Rules\Disallowed\PHPStan1Compatibility;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedPropertyRuleErrors;
 
@@ -34,7 +33,7 @@ class InstancePropertyUsages implements Rule
 
 	/**
 	 * @param array<array{property:string|list<string>, message?:string, errorIdentifier?:string, errorTip?:string|list<string>}> $disallowedProperties + AllowDirectivesConfig
-	 * @throws UnsupportedParamTypeInConfigException
+	 * @throws ShouldNotHappenException
 	 */
 	public function __construct(
 		DisallowedPropertyFactory $disallowedPropertyFactory,

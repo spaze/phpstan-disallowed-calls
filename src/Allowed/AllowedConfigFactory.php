@@ -4,11 +4,14 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed\Allowed;
 
 use PHPStan\PhpDoc\TypeStringResolver;
+use PHPStan\PhpDocParser\Parser\ParserException;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\NullType;
 use PHPStan\Type\VerbosityLevel;
+use Spaze\PHPStan\Rules\Disallowed\Exceptions\InvalidConfigException;
+use Spaze\PHPStan\Rules\Disallowed\Exceptions\InvalidTypeStringInConfigException;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeInConfigException;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\Params\ParamValue;
@@ -42,7 +45,7 @@ class AllowedConfigFactory
 	 * @param array $allowed
 	 * @phpstan-param AllowDirectivesConfig $allowed
 	 * @return AllowedConfig
-	 * @throws UnsupportedParamTypeInConfigException
+	 * @throws InvalidConfigException
 	 */
 	public function getConfig(array $allowed): AllowedConfig
 	{
@@ -147,7 +150,7 @@ class AllowedConfigFactory
 	 * @param int|string $key
 	 * @param int|bool|string|null|array{position:int, value?:int|bool|string, typeString?:string, name?:string} $value
 	 * @return T
-	 * @throws UnsupportedParamTypeInConfigException
+	 * @throws InvalidConfigException
 	 */
 	private function paramFactory(string $class, $key, $value): ParamValue
 	{
@@ -180,7 +183,12 @@ class AllowedConfigFactory
 		}
 
 		if ($typeString) {
-			$type = $this->typeStringResolver->resolve($typeString);
+			try {
+				$type = $this->typeStringResolver->resolve($typeString);
+			} catch (ParserException $e) {
+				$hint = str_contains($typeString, '*') ? ' Wildcards are not supported in typeString.' : '';
+				throw new InvalidTypeStringInConfigException($typeString, $e->getMessage() . $hint, $e);
+			}
 		} elseif (is_int($paramValue)) {
 			$type = new ConstantIntegerType($paramValue);
 		} elseif (is_bool($paramValue)) {

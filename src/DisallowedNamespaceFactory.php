@@ -5,7 +5,7 @@ namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedConfigFactory;
-use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeInConfigException;
+use Spaze\PHPStan\Rules\Disallowed\Exceptions\InvalidConfigException;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 
@@ -64,7 +64,7 @@ class DisallowedNamespaceFactory
 					);
 					$disallowedNamespaces[$disallowedNamespace->getNamespace()] = $disallowedNamespace;
 				}
-			} catch (UnsupportedParamTypeInConfigException $e) {
+			} catch (InvalidConfigException $e) {
 				throw new ShouldNotHappenException(sprintf('%s: %s', $this->formatter->formatIdentifier($namespaces), $e->getMessage()));
 			}
 		}
