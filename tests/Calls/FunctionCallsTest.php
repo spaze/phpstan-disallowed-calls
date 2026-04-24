@@ -225,6 +225,46 @@ class FunctionCallsTest extends RuleTestCase
 						Stringable::class,
 					],
 				],
+				// test allowInInstanceOf + allowExceptParamsInAllowed: allowed in hierarchy except when param is 'forbidden'
+				[
+					'function' => 'str_starts_with()',
+					'allowInInstanceOf' => [
+						'Waldo\Foo\BarBase',
+					],
+					'allowExceptParamsInAllowed' => [
+						2 => 'forbidden',
+					],
+				],
+				// test disallowInInstanceOf + allowExceptParamsInAllowed: disallowed in hierarchy only when param is 'forbidden'
+				[
+					'function' => 'str_ends_with()',
+					'disallowInInstanceOf' => [
+						'Waldo\Foo\BarBase',
+					],
+					'allowExceptParamsInAllowed' => [
+						2 => 'forbidden',
+					],
+				],
+				// test disallowInInstanceOf + allowParamsInAllowed: disallowed in hierarchy unless param is 'allowed_param'
+				[
+					'function' => 'str_contains()',
+					'disallowInInstanceOf' => [
+						'Waldo\Foo\BarBase',
+					],
+					'allowParamsInAllowed' => [
+						2 => 'allowed_param',
+					],
+				],
+				// test allowInInstanceOf + allowParamsInAllowed: allowed in hierarchy only when param is 'allowed_chars'
+				[
+					'function' => 'ltrim()',
+					'allowInInstanceOf' => [
+						'Waldo\Foo\BarBase',
+					],
+					'allowParamsInAllowed' => [
+						2 => 'allowed_chars',
+					],
+				],
 				// test allowed instances with wildcards, intentionally wrong case to test FNM_CASEFOLD
 				[
 					'function' => 'str_pad()',
@@ -462,6 +502,61 @@ class FunctionCallsTest extends RuleTestCase
 			[
 				'Calling str_pad() is forbidden.',
 				70,
+			],
+		]);
+	}
+
+
+	public function testInstanceOfWithParams(): void
+	{
+		$this->analyse([__DIR__ . '/../src/BarInstanceOfWithParams.php'], [
+			[
+				'Calling str_starts_with() is forbidden.',
+				11,
+			],
+			[
+				'Calling str_ends_with() is forbidden.',
+				13,
+			],
+			[
+				'Calling str_contains() is forbidden.',
+				16,
+			],
+			[
+				'Calling str_starts_with() is forbidden.',
+				26,
+			],
+			[
+				'Calling str_ends_with() is forbidden.',
+				28,
+			],
+			[
+				'Calling str_contains() is forbidden.',
+				31,
+			],
+			[
+				'Calling str_starts_with() is forbidden.',
+				42,
+			],
+			[
+				'Calling str_starts_with() is forbidden.',
+				43,
+			],
+			[
+				'Calling ltrim() is forbidden.',
+				59,
+			],
+			[
+				'Calling ltrim() is forbidden.',
+				70,
+			],
+			[
+				'Calling ltrim() is forbidden.',
+				71,
+			],
+			[
+				'Calling ltrim() is forbidden.',
+				82,
 			],
 		]);
 	}

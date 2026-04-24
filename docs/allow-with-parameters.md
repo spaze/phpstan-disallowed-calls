@@ -33,7 +33,7 @@ parameters:
                     value: true
 ```
 
-When using `allowParamsInAllowed`, calls will be allowed only when they are in one of the `allowIn` paths, and are called with all parameters listed in `allowParamsInAllowed`.
+When using `allowParamsInAllowed`, calls will be allowed only when they are in one of the `allowIn` paths (or in a class hierarchy matched by `allowInInstanceOf`), and are called with all parameters listed in `allowParamsInAllowed`.
 With `allowParamsAnywhere`, calls are allowed when called with all parameters listed no matter in which file. In the example above, the `log()` method will be disallowed unless called as:
 - `log(..., true)` (or `log(..., alert: true)`) anywhere
 - `log('foo', true)` (or `log(message: 'foo', alert: true)`) in `another/file.php` or `optional/path/to/log.tests.php`
@@ -115,7 +115,7 @@ parameters:
 ```
 This configuration will disallow calls like `waldo('foo', 'bar')` or `waldo('*', '*')`, but `waldo('foo')` or `waldo()` will be still allowed.
 
-It's also possible to disallow functions and methods previously allowed by path (using `allowIn`) or by function/method name (`allowInMethods`) when they're called with specified parameters, and allow when called with any other parameter. This is done using the `allowExceptParamsInAllowed` config option.
+It's also possible to disallow functions and methods previously allowed by path (using `allowIn`), by function/method name (`allowInMethods`), or by class hierarchy (`allowInInstanceOf`) when they're called with specified parameters, and allow when called with any other parameter. This is done using the `allowExceptParamsInAllowed` config option.
 
 Take this example configuration:
 

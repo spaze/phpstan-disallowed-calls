@@ -40,6 +40,44 @@ parameters:
                 - 'MyInterface'
 ```
 
+### Combining with parameter conditions
+
+Both `allowInInstanceOf` and `disallowInInstanceOf` can be combined with `allowParamsInAllowed` and `allowExceptParamsInAllowed` to add parameter-based conditions within the class hierarchy scope. See [allow with parameters](allow-with-parameters.md) for details on parameter configuration.
+
+For example, to allow `dispatch()` in classes implementing `HandlerInterface` but only when the first argument is of type `SafeEvent`:
+
+```neon
+parameters:
+    disallowedFunctionCalls:
+        -
+            function: 'dispatch()'
+            allowInInstanceOf:
+                - 'App\Handlers\HandlerInterface'
+            allowParamsInAllowed:
+                -
+                    position: 1
+                    name: 'event'
+                    typeString: 'App\Events\SafeEvent'
+```
+
+To disallow `dispatch()` in `HandlerInterface` classes only when the first argument is of type `DangerousEvent`, and allow it with any other argument:
+
+```neon
+parameters:
+    disallowedFunctionCalls:
+        -
+            function: 'dispatch()'
+            disallowInInstanceOf:
+                - 'App\Handlers\HandlerInterface'
+            allowExceptParamsInAllowed:
+                -
+                    position: 1
+                    name: 'event'
+                    typeString: 'App\Events\DangerousEvent'
+```
+
+The `allowExceptParamsInAllowed` counterpart works with `allowInInstanceOf` too (allowed in hierarchy except when the parameter matches), and `allowParamsInAllowed` works with `disallowInInstanceOf` (disallowed in hierarchy unless the parameter matches).
+
 ### Allow in `use` imports
 The `allowInInstanceOf` configuration above will also report an error on the line with the import, if present:
 ```php
