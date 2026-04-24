@@ -3,8 +3,10 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed;
 
+use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedConfigFactory;
-use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeInConfigException;
+use Spaze\PHPStan\Rules\Disallowed\Exceptions\InvalidConfigException;
+use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 
 class DisallowedPropertyFactory
@@ -14,33 +16,40 @@ class DisallowedPropertyFactory
 
 	private Normalizer $normalizer;
 
+	private Formatter $formatter;
 
-	public function __construct(AllowedConfigFactory $allowedConfigFactory, Normalizer $normalizer)
+
+	public function __construct(AllowedConfigFactory $allowedConfigFactory, Normalizer $normalizer, Formatter $formatter)
 	{
 		$this->allowedConfigFactory = $allowedConfigFactory;
 		$this->normalizer = $normalizer;
+		$this->formatter = $formatter;
 	}
 
 
 	/**
 	 * @param array<array{property:string|list<string>, message?:string, errorIdentifier?:string, errorTip?:string|list<string>}> $config + AllowDirectivesConfig
 	 * @return list<DisallowedProperty>
-	 * @throws UnsupportedParamTypeInConfigException
+	 * @throws ShouldNotHappenException
 	 */
 	public function createFromConfig(array $config): array
 	{
 		$disallowedProperties = [];
 		foreach ($config as $disallowed) {
-			$properties = $disallowed['property'];
-			foreach ((array)$properties as $property) {
-				$disallowedProperty = new DisallowedProperty(
-					$this->normalizer->normalizeProperty($property),
-					$disallowed['message'] ?? null,
-					$this->allowedConfigFactory->getConfig($disallowed),
-					$disallowed['errorIdentifier'] ?? null,
-					$disallowed['errorTip'] ?? []
-				);
-				$disallowedProperties[$disallowedProperty->getProperty()] = $disallowedProperty;
+			$properties = (array)$disallowed['property'];
+			try {
+				foreach ($properties as $property) {
+					$disallowedProperty = new DisallowedProperty(
+						$this->normalizer->normalizeProperty($property),
+						$disallowed['message'] ?? null,
+						$this->allowedConfigFactory->getConfig($disallowed),
+						$disallowed['errorIdentifier'] ?? null,
+						$disallowed['errorTip'] ?? []
+					);
+					$disallowedProperties[$disallowedProperty->getProperty()] = $disallowedProperty;
+				}
+			} catch (InvalidConfigException $e) {
+				throw new ShouldNotHappenException(sprintf('%s: %s', $this->formatter->formatIdentifier($properties), $e->getMessage()));
 			}
 		}
 		return array_values($disallowedProperties);

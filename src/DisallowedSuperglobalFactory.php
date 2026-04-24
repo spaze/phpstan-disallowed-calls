@@ -5,7 +5,7 @@ namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\Allowed\AllowedConfigFactory;
-use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeInConfigException;
+use Spaze\PHPStan\Rules\Disallowed\Exceptions\InvalidConfigException;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 
 class DisallowedSuperglobalFactory
@@ -67,7 +67,7 @@ class DisallowedSuperglobalFactory
 					);
 					$disallowedSuperglobals[$disallowedSuperglobal->getVariable()] = $disallowedSuperglobal;
 				}
-			} catch (UnsupportedParamTypeInConfigException $e) {
+			} catch (InvalidConfigException $e) {
 				throw new ShouldNotHappenException(sprintf('%s: %s', $this->formatter->formatIdentifier($superglobals), $e->getMessage()));
 			}
 		}

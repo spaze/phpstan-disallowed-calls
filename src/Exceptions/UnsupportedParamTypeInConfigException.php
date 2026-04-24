@@ -3,10 +3,9 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Exceptions;
 
-use Exception;
 use Throwable;
 
-class UnsupportedParamTypeInConfigException extends Exception
+class UnsupportedParamTypeInConfigException extends InvalidConfigException
 {
 
 	public function __construct(?int $position, ?string $name, string $type, int $code = 0, ?Throwable $previous = null)
