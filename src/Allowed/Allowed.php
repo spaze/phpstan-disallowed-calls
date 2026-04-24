@@ -64,10 +64,13 @@ class Allowed
 				return !$hasParams || $this->hasAllowedParamsInAllowed($scope, $args, $disallowed);
 			}
 		}
-		foreach ($disallowed->getAllowExceptInCalls() as $call) {
-			if (!$this->callMatches($scope, $call)) {
-				return true;
+		if ($disallowed->getAllowExceptInCalls()) {
+			foreach ($disallowed->getAllowExceptInCalls() as $call) {
+				if ($this->callMatches($scope, $call)) {
+					return false;
+				}
 			}
+			return true;
 		}
 		foreach ($disallowed->getAllowIn() as $allowedPath) {
 			if ($this->allowedPath->matches($scope, $allowedPath)) {
