@@ -73,6 +73,14 @@ function zeroParam(int $param): void
 {
 }
 
+function paramsAnywhereAlias(string $param): void
+{
+}
+
+function paramsAnywhereDisallowAlias(string $param): void
+{
+}
+
 use PhpOption\None;
 use PhpOption\Some;
 use Waldo\Quux\Blade;

@@ -18,7 +18,7 @@ Test classes live in `tests/Calls/`, `tests/Usages/`, `tests/ControlStructures/`
 
 `extension.neon` is the entry point wiring all rules together. It also defines the NEON schema for all config options — type declarations like `string()`, `int()`, `bool()` are enforced by NEON at config parse time, before any PHP runs. This means defensive runtime checks for wrong-typed config values (e.g. an array where a string is expected) are unnecessary when using the extension normally through PHPStan. Each feature has its own documentation file in `docs/` — new features get their own doc or extend an existing one.
 
-`disallow*` config keys are generally aliases for their `allowExcept*` counterparts, handled in `AllowedConfigFactory`.
+`disallow*` and `allowExcept*` config keys are equally valid alternatives for the same behaviour, handled in `AllowedConfigFactory`. Config keys follow a `*Anywhere` / `*InAllowed` naming convention — bare names without these suffixes (e.g. `allowExceptParams`, `disallowParams`) are legacy and kept for backwards compatibility; new keys should use the suffixed form (`allowExceptParamsAnywhere` and `disallowParamsAnywhere` are equally valid). Each new alias should have its own test — the schema and factory both use plain strings so a typo wouldn't be caught by PHPStan.
 
 ## Commit message style
 

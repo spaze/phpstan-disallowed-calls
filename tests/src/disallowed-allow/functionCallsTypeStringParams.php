@@ -33,3 +33,7 @@ config(['foo' => 'bar'], ['what' => 'ever']); // allowed by path but param #1 mu
 \Foo\Bar\Waldo\mixedParam1(new Exception); // not a disallowed param
 \Foo\Bar\Waldo\zeroParam(0); // allowed param
 \Foo\Bar\Waldo\zeroParam(1); // disallowed param
+\Foo\Bar\Waldo\paramsAnywhereAlias('forbidden'); // disallowed param
+\Foo\Bar\Waldo\paramsAnywhereAlias('ok'); // allowed param
+\Foo\Bar\Waldo\paramsAnywhereDisallowAlias('forbidden'); // disallowed param
+\Foo\Bar\Waldo\paramsAnywhereDisallowAlias('ok'); // allowed param
