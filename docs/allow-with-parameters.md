@@ -70,7 +70,7 @@ Such configuration only makes sense when both the parameters of `log()` are opti
 Sometimes, it's handy to disallow a function or a method call only when a parameter matches a configured value but allow it otherwise. _Please note that currently only scalar values are supported, not arrays._
 
 For example the `hash()` function, it's fine using it with algorithm families like SHA-2 & SHA-3 (not for passwords though) but you'd like PHPStan to report when it's used with MD5 like `hash('md5', ...)`.
-You can use `allowExceptParams` (or `disallowParams`), `allowExceptCaseInsensitiveParams` (or `disallowCaseInsensitiveParams`), `allowExceptParamsInAllowed` (or `disallowParamsInAllowed`) config options to disallow only some calls:
+You can use `allowExceptParamsAnywhere` (or `disallowParamsAnywhere`), `allowExceptCaseInsensitiveParams` (or `disallowCaseInsensitiveParams`), `allowExceptParamsInAllowed` (or `disallowParamsInAllowed`) config options to disallow only some calls:
 
 ```neon
 parameters:
@@ -85,19 +85,21 @@ parameters:
 ```
 
 This will disallow `hash()` call where the first parameter (or the named parameter `algo`) is `'md5'`. `allowExceptCaseInsensitiveParams` is used because the first parameter of `hash()` is case-insensitive (so you can also use `'MD5'`, or even `'Md5'` & `'mD5'` if you wish).
-To disallow only exact matches, use `allowExceptParams`:
+To disallow only exact matches, use `allowExceptParamsAnywhere` (or `disallowParamsAnywhere`):
 
 ```neon
 parameters:
     disallowedFunctionCalls:
         -
             function: 'foo()'
-            allowExceptParams:
+            allowExceptParamsAnywhere:
                 -
                     position: 2
                     value: 'baz'
 ```
 will disallow `foo('bar', 'baz')` but not `foo('bar', 'BAZ')`.
+
+The older `allowExceptParams` (or `disallowParams`) config option is still supported but new configs should use `allowExceptParamsAnywhere` (or `disallowParamsAnywhere`) as they are more self-describing.
 
 If you don't care about the value but would like to disallow a call based just on the parameter presence, you can use `allowExceptParamsAnyValue` (or `disallowParamsAnyValue`):
 ```neon

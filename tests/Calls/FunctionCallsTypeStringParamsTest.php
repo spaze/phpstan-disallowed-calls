@@ -200,6 +200,24 @@ class FunctionCallsTypeStringParamsTest extends RuleTestCase
 					],
 				],
 				[
+					'function' => '\Foo\Bar\Waldo\paramsAnywhereAlias()',
+					'allowExceptParamsAnywhere' => [
+						[
+							'position' => 1,
+							'typeString' => "'forbidden'",
+						],
+					],
+				],
+				[
+					'function' => '\Foo\Bar\Waldo\paramsAnywhereDisallowAlias()',
+					'disallowParamsAnywhere' => [
+						[
+							'position' => 1,
+							'typeString' => "'forbidden'",
+						],
+					],
+				],
+				[
 					'function' => '\Foo\Bar\Waldo\mixedParam1()',
 					'allowIn' => [
 						__DIR__ . '/../src/disallowed-allow/*.php',
@@ -305,6 +323,14 @@ class FunctionCallsTypeStringParamsTest extends RuleTestCase
 				'Calling Foo\Bar\Waldo\zeroParam() is forbidden.',
 				35,
 			],
+			[
+				'Calling Foo\Bar\Waldo\paramsAnywhereAlias() is forbidden.',
+				36,
+			],
+			[
+				'Calling Foo\Bar\Waldo\paramsAnywhereDisallowAlias() is forbidden.',
+				38,
+			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/functionCallsTypeStringParams.php'], [
 			[
@@ -338,6 +364,14 @@ class FunctionCallsTypeStringParamsTest extends RuleTestCase
 			[
 				'Calling Foo\Bar\Waldo\zeroParam() is forbidden.',
 				35,
+			],
+			[
+				'Calling Foo\Bar\Waldo\paramsAnywhereAlias() is forbidden.',
+				36,
+			],
+			[
+				'Calling Foo\Bar\Waldo\paramsAnywhereDisallowAlias() is forbidden.',
+				38,
 			],
 		]);
 	}

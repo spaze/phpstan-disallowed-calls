@@ -108,7 +108,7 @@ class AllowedConfigFactory
 		foreach ($allowed['allowExceptParamFlagsInAllowed'] ?? $allowed['disallowParamFlagsInAllowed'] ?? [] as $param => $value) {
 			$allowExceptParamsInAllowed[$param] = $this->paramFactory(ParamValueFlagExcept::class, $param, $value);
 		}
-		foreach ($allowed['allowExceptParams'] ?? $allowed['disallowParams'] ?? [] as $param => $value) {
+		foreach ($allowed['allowExceptParamsAnywhere'] ?? $allowed['disallowParamsAnywhere'] ?? $allowed['allowExceptParams'] ?? $allowed['disallowParams'] ?? [] as $param => $value) {
 			$allowExceptParams[$param] = $this->paramFactory(ParamValueExcept::class, $param, $value);
 		}
 		foreach ($allowed['allowExceptParamsAnyValue'] ?? $allowed['disallowParamsAnyValue'] ?? [] as $param => $value) {
