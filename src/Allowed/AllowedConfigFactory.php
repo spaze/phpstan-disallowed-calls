@@ -10,6 +10,7 @@ use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\NullType;
 use PHPStan\Type\VerbosityLevel;
+use Spaze\PHPStan\Rules\Disallowed\Exceptions\EmptyTypeStringInConfigException;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\InvalidConfigException;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\InvalidTypeStringInConfigException;
 use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeInConfigException;
@@ -182,13 +183,15 @@ class AllowedConfigFactory
 			$typeString = null;
 		}
 
-		if ($typeString) {
+		if (is_string($typeString) && $typeString !== '') {
 			try {
 				$type = $this->typeStringResolver->resolve($typeString);
 			} catch (ParserException $e) {
 				$hint = str_contains($typeString, '*') ? ' Wildcards are not supported in typeString.' : '';
 				throw new InvalidTypeStringInConfigException($typeString, $e->getMessage() . $hint, $e);
 			}
+		} elseif ($typeString !== null) {
+			throw new EmptyTypeStringInConfigException();
 		} elseif (is_int($paramValue)) {
 			$type = new ConstantIntegerType($paramValue);
 		} elseif (is_bool($paramValue)) {

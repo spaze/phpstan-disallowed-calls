@@ -69,6 +69,10 @@ function mixedParam1($param): void
 {
 }
 
+function zeroParam(int $param): void
+{
+}
+
 use PhpOption\None;
 use PhpOption\Some;
 use Waldo\Quux\Blade;

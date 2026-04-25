@@ -31,3 +31,5 @@ config(['foo' => 'BAH'], ['waldo' => 'baz', 'pine' => 'apple', 'orly' => [0, -1]
 \Foo\Bar\Waldo\mixedParam1(new DateTime()); // disallowed
 \Foo\Bar\Waldo\mixedParam1(new DateTimeImmutable()); // disallowed
 \Foo\Bar\Waldo\mixedParam1(new Exception); // disallowed
+\Foo\Bar\Waldo\zeroParam(0); // allowed param
+\Foo\Bar\Waldo\zeroParam(1); // disallowed param
