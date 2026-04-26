@@ -78,6 +78,36 @@ parameters:
 
 The `allowExceptParamsInAllowed` counterpart works with `allowInInstanceOf` too (allowed in hierarchy except when the parameter matches), and `allowParamsInAllowed` works with `disallowInInstanceOf` (disallowed in hierarchy unless the parameter matches).
 
+Wildcard patterns in `disallowInInstanceOf` and `classPattern` in parameter conditions combine naturally to express "within module X, this call is only forbidden when the argument also belongs to module X." This is useful when a general-purpose method is fine for cross-module use but should be replaced by a module-specific alternative when used within the same module:
+
+```neon
+parameters:
+    disallowedMethodCalls:
+        -
+            method: 'App\Infrastructure\Processor::process()'
+            message: 'Use the module-specific processor instead'
+            disallowInInstanceOf:
+                - 'App\SomeModule\*'
+            allowExceptParamsInAllowed:
+                -
+                    position: 1
+                    name: 'item'
+                    classPattern: 'App\SomeModule\*'
+```
+
+```php
+// inside App\SomeModule\SomeClass - matches disallowInInstanceOf
+
+// disallowed: use direct module handling instead
+$processor->process(new \App\SomeModule\SomeItem());
+// allowed: module handles its own items directly
+$this->handle(new \App\SomeModule\SomeItem());
+// allowed: item from another module
+$processor->process(new \App\OtherModule\OtherItem());
+```
+
+This disallows `Processor::process()` in any class that is, extends, or implements `App\SomeModule\*` when the argument also comes from `App\SomeModule\*`, but allows it when the argument comes from outside the module. Cross-module calls through the general processor are fine; same-module calls should go through the module-specific alternative.
+
 ### Allow in `use` imports
 The `allowInInstanceOf` configuration above will also report an error on the line with the import, if present:
 ```php
