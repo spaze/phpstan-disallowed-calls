@@ -278,6 +278,26 @@ class FunctionCallsTest extends RuleTestCase
 						'Waldo\Foo\Wild*',
 					],
 				],
+				// test allowExceptIn + allowParamsInAllowed
+				[
+					'function' => 'pow()',
+					'allowExceptIn' => [
+						__DIR__ . '/../src/disallowed-allow/*.php',
+					],
+					'allowParamsInAllowed' => [
+						1 => 2,
+					],
+				],
+				// test allowExceptIn + allowExceptParamsInAllowed
+				[
+					'function' => 'intdiv()',
+					'allowExceptIn' => [
+						__DIR__ . '/../src/disallowed-allow/*.php',
+					],
+					'allowExceptParamsInAllowed' => [
+						1 => 2,
+					],
+				],
 			]
 		);
 	}
@@ -502,6 +522,21 @@ class FunctionCallsTest extends RuleTestCase
 			[
 				'Calling str_pad() is forbidden.',
 				70,
+			],
+		]);
+	}
+
+
+	public function testAllowExceptInWithParams(): void
+	{
+		$this->analyse([__DIR__ . '/../src/disallowed-allow/functionCallsExceptWithParams.php'], [
+			[
+				'Calling pow() is forbidden.',
+				6,
+			],
+			[
+				'Calling intdiv() is forbidden.',
+				10,
 			],
 		]);
 	}
