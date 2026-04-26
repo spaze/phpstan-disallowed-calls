@@ -137,27 +137,27 @@ class NamespaceUsagesAllowInClassWithAttributesTest extends RuleTestCase
 		$this->analyse([__DIR__ . '/../src/Functions.php'], [
 			[
 				'Class PhpOption\None is forbidden.',
-				96,
+				108,
 			],
 			[
 				'Class PhpOption\Some is forbidden.',
-				96,
+				108,
 			],
 			[
 				'Class PhpOption\None is forbidden.',
-				96,
+				108,
 			],
 			[
 				'Class PhpOption\Some is forbidden.',
-				96,
+				108,
 			],
 			[
 				'Class PhpOption\None is forbidden.',
-				98,
+				110,
 			],
 			[
 				'Class PhpOption\Some is forbidden.',
-				99,
+				111,
 			],
 		]);
 	}

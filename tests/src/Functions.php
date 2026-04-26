@@ -81,6 +81,18 @@ function paramsAnywhereDisallowAlias(string $param): void
 {
 }
 
+function classPatternAllowed($param): void
+{
+}
+
+function classPatternDisallowed($param): void
+{
+}
+
+function classPatternPrecedence($param): void
+{
+}
+
 use PhpOption\None;
 use PhpOption\Some;
 use Waldo\Quux\Blade;
