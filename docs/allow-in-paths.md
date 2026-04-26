@@ -43,4 +43,6 @@ parameters:
 ```
 This will disallow `PotentiallyDangerous\Logger::log()` calls in `%rootDir%/../../../path/to/some/dir/*.php`.
 
+Both `allowIn` and `allowExceptIn` can be combined with `allowParamsInAllowed` or `allowExceptParamsInAllowed` (also known as `disallowParamsInAllowed`) to further narrow the allow condition by parameter values - see [allowing with specified parameters](allow-with-parameters.md).
+
 Please note that before version 2.15, `filesRootDir` was called `allowInRootDir` which is still supported, but deprecated.

@@ -25,3 +25,5 @@ parameters:
 ```
 
 The function or method names support [fnmatch()](https://www.php.net/function.fnmatch) patterns.
+
+Both `allowInMethods` and `allowExceptInMethods` can be combined with `allowParamsInAllowed` or `allowExceptParamsInAllowed` (also known as `disallowParamsInAllowed`) to further narrow the allow condition by parameter values - see [allowing with specified parameters](allow-with-parameters.md).
