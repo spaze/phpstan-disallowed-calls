@@ -67,7 +67,7 @@ class Allowed
 		if ($disallowed->getAllowExceptInCalls()) {
 			foreach ($disallowed->getAllowExceptInCalls() as $call) {
 				if ($this->callMatches($scope, $call)) {
-					return false;
+					return $hasParams && $this->hasAllowedParamsInAllowed($scope, $args, $disallowed, false);
 				}
 			}
 			return true;
@@ -80,7 +80,7 @@ class Allowed
 		if ($disallowed->getAllowExceptIn()) {
 			foreach ($disallowed->getAllowExceptIn() as $allowedExceptPath) {
 				if ($this->allowedPath->matches($scope, $allowedExceptPath)) {
-					return false;
+					return $hasParams && $this->hasAllowedParamsInAllowed($scope, $args, $disallowed, false);
 				}
 			}
 			return true;

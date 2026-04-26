@@ -1,0 +1,75 @@
+<?php
+declare(strict_types = 1);
+
+namespace Spaze\PHPStan\Rules\Disallowed\Calls;
+
+use PHPStan\Rules\Rule;
+use PHPStan\ShouldNotHappenException;
+use PHPStan\Testing\RuleTestCase;
+use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallableParameterRuleErrors;
+use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors;
+
+/**
+ * @extends RuleTestCase<FunctionCalls>
+ */
+class FunctionCallsAllowExceptInMethodsWithParamsTest extends RuleTestCase
+{
+
+	/**
+	 * @throws ShouldNotHappenException
+	 */
+	protected function getRule(): Rule
+	{
+		$container = self::getContainer();
+		return new FunctionCalls(
+			$container->getByType(DisallowedFunctionRuleErrors::class),
+			$container->getByType(DisallowedCallableParameterRuleErrors::class),
+			$container->getByType(DisallowedCallFactory::class),
+			[
+				[
+					'function' => 'crc32()',
+					'allowExceptInMethods' => [
+						'Fiction\Pulp\RoyaleExceptWithParams::methodA()',
+					],
+					'allowParamsInAllowed' => [
+						1 => 'a',
+					],
+				],
+				[
+					'function' => 'strtolower()',
+					'allowExceptInMethods' => [
+						'Fiction\Pulp\RoyaleExceptWithParams::methodA()',
+					],
+					'allowExceptParamsInAllowed' => [
+						1 => 'a',
+					],
+				],
+			]
+		);
+	}
+
+
+	public function testRule(): void
+	{
+		$this->analyse([__DIR__ . '/../src/RoyaleExceptWithParams.php'], [
+			[
+				'Calling crc32() is forbidden.',
+				12,
+			],
+			[
+				'Calling strtolower() is forbidden.',
+				13,
+			],
+		]);
+	}
+
+
+	public static function getAdditionalConfigFiles(): array
+	{
+		return [
+			__DIR__ . '/../../extension.neon',
+		];
+	}
+
+}
