@@ -214,3 +214,24 @@ Type string allows you to specify:
 - Any type as [understood by PHPStan](https://phpstan.org/writing-php-code/phpdoc-types), but not everything may make sense in your case
 
 If both `typeString` and `value` directives are specified, the `value` directive is ignored.
+
+### Class name patterns
+
+When you need to match a parameter's class by a wildcard pattern rather than an exact type, use the `classPattern` directive instead of `typeString`. It works with all param directives (`allowParamsAnywhere`, `allowParamsInAllowed`, `allowExceptParamsAnywhere`, `allowExceptParamsInAllowed`, etc.):
+
+```neon
+parameters:
+    disallowedFunctionCalls:
+        -
+            function: 'myFunc()'
+            allowExceptParamsAnywhere:
+                -
+                    position: 1
+                    classPattern: 'Vendor\Contracts\*'
+```
+
+This will disallow `myFunc()` when the first argument is an instance of any class whose fully-qualified name matches `Vendor\Contracts\*`. The pattern uses [`fnmatch`](https://www.php.net/function.fnmatch) syntax.
+
+The matching is done on the argument's **declared class name only** — it does not traverse parent classes or interfaces. An argument typed as `Vendor\Contracts\Foo` matches `Vendor\Contracts\*`, but an argument typed as a subclass defined outside that namespace would not, even if it extends a class inside the namespace. For interface/parent traversal, use `typeString` with a base class or interface name instead. Note also that if PHPStan only knows the argument is `object` (not a specific class), the pattern will not match. The same applies to non-object types such as `int` or `string` — they have no class name, so the pattern never matches.
+
+If both `classPattern` and `typeString` are specified, `classPattern` takes precedence and `typeString` is ignored.
