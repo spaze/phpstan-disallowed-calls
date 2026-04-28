@@ -61,7 +61,7 @@ class Allowed
 		$hasParams = $disallowed instanceof DisallowedWithParams;
 		foreach ($disallowed->getAllowInCalls() as $call) {
 			if ($this->callMatches($scope, $call)) {
-				return !$hasParams || $this->hasAllowedParamsInAllowed($scope, $args, $disallowed);
+				return !$hasParams || $this->hasAllowedParamsInAllowed($scope, $args, $disallowed, true);
 			}
 		}
 		if ($disallowed->getAllowExceptInCalls()) {
@@ -74,7 +74,7 @@ class Allowed
 		}
 		foreach ($disallowed->getAllowIn() as $allowedPath) {
 			if ($this->allowedPath->matches($scope, $allowedPath)) {
-				return !$hasParams || $this->hasAllowedParamsInAllowed($scope, $args, $disallowed);
+				return !$hasParams || $this->hasAllowedParamsInAllowed($scope, $args, $disallowed, true);
 			}
 		}
 		if ($disallowed->getAllowExceptIn()) {
@@ -104,7 +104,7 @@ class Allowed
 			if (!$this->isInstanceOf($scope, $disallowed->getAllowInInstanceOf())) {
 				return false;
 			}
-			return !$hasParams || $this->hasAllowedParamsInAllowed($scope, $args, $disallowed);
+			return !$hasParams || $this->hasAllowedParamsInAllowed($scope, $args, $disallowed, true);
 		}
 		if ($disallowed->getAllowExceptInInstanceOf()) {
 			if (!$this->isInstanceOf($scope, $disallowed->getAllowExceptInInstanceOf())) {
@@ -202,7 +202,7 @@ class Allowed
 	private function hasAllowedParams(Scope $scope, ?array $args, array $allowConfig, bool $paramsRequired): bool
 	{
 		if ($args === null) {
-			return true;
+			return !$paramsRequired;
 		}
 
 		$disallowedParams = false;
@@ -232,18 +232,27 @@ class Allowed
 	 * @param Scope $scope
 	 * @param array<Arg>|null $args
 	 * @param DisallowedWithParams $disallowed
-	 * @param bool $defaultResult
+	 * @param bool $allowedByDefault What to return when no param condition applies
 	 * @return bool
 	 */
-	private function hasAllowedParamsInAllowed(Scope $scope, ?array $args, DisallowedWithParams $disallowed, bool $defaultResult = true): bool
+	private function hasAllowedParamsInAllowed(Scope $scope, ?array $args, DisallowedWithParams $disallowed, bool $allowedByDefault): bool
 	{
+		if ($args === null) {
+			if ($disallowed->getAllowExceptParamsInAllowed()) {
+				return true;
+			}
+			if ($disallowed->getAllowParamsInAllowed()) {
+				return false;
+			}
+			return $allowedByDefault;
+		}
 		if ($disallowed->getAllowExceptParamsInAllowed()) {
 			return $this->hasAllowedParams($scope, $args, $disallowed->getAllowExceptParamsInAllowed(), false);
 		}
 		if ($disallowed->getAllowParamsInAllowed()) {
 			return $this->hasAllowedParams($scope, $args, $disallowed->getAllowParamsInAllowed(), true);
 		}
-		return $defaultResult;
+		return $allowedByDefault;
 	}
 
 

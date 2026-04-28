@@ -208,6 +208,14 @@ parameters:
 
 But because the "positional _or_ named" limitation described above applies here as well, I generally don't recommend using these shortcuts and instead recommend specifying both `position` and `name` keys.
 
+### First-class callables
+
+When a function or method is used as a [first-class callable](https://www.php.net/functions.first_class_callable_syntax) (`strlen(...)`), no arguments are present at the call site - the callable is invoked later with whatever arguments the caller passes. Because parameter conditions that restrict which calls are *allowed* (`allowParamsInAllowed`, `allowParamsInAllowedAnyValue`, `allowParamFlagsInAllowed`, `allowParamsAnywhere`, `allowParamsAnywhereAnyValue`, `allowParamFlagsAnywhere`) cannot be evaluated without arguments, any first-class callable is always reported when such a condition is configured, no matter where in the code it appears.
+
+Conditions that restrict which calls are *disallowed* behave differently - the forbidden parameter condition cannot be triggered without arguments. For the `*Anywhere` variants (`allowExceptParamsAnywhere`, `allowExceptParamsAnyValue`, `allowExceptParamFlags`, `allowExceptCaseInsensitiveParams`, and their aliases), first-class callables are never reported. For the `*InAllowed` variants (`allowExceptParamsInAllowed`, `allowExceptParamFlagsInAllowed`, and their aliases), first-class callables are not reported inside the relevant zone; outside it, the zone rule alone determines whether the call is reported.
+
+To allow a first-class callable of a disallowed function, use a zone-based directive without a parameter condition, for example `allowIn`, `allowInMethods`, or `allowInInstanceOf`. Alternatively, use an anonymous function that calls the function with the required argument: `fn($x) => hash('sha256', $x)` instead of `hash(...)`.
+
 ### PHPDoc type strings
 
 Instead of the `value` directive, you can use the `typeString` directive which allows you to specify arrays, unions, and anything that can be expressed with PHPDoc:
