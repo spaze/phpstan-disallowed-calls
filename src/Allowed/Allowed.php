@@ -196,7 +196,7 @@ class Allowed
 	 * @param Scope $scope
 	 * @param array<Arg>|null $args
 	 * @param array<int|string, Param> $allowConfig
-	 * @param bool $paramsRequired
+	 * @param bool $paramsRequired True to allow only when params match, false to allow unless params match
 	 * @return bool
 	 */
 	private function hasAllowedParams(Scope $scope, ?array $args, array $allowConfig, bool $paramsRequired): bool
