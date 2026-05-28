@@ -114,8 +114,8 @@ match ($true) {
 };
 
 goto main_sub3;
-declare(ticks = 123);
 main_sub3:
+declare(ticks = 123);
 
 require __FILE__;
 include __FILE__;

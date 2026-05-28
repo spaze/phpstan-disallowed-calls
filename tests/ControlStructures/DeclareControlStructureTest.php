@@ -48,7 +48,7 @@ class DeclareControlStructureTest extends RuleTestCase
 			],
 			[
 				'Using the declare control structure is forbidden.',
-				117,
+				118,
 			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/controlStructures.php'], []);
