@@ -1,13 +1,15 @@
 <?php
 declare(strict_types = 1);
 
-if (!\Composer\InstalledVersions::isInstalled('shipmonk/dead-code-detector')) {
+$rulesNeon = __DIR__ . '/vendor/shipmonk/dead-code-detector/rules.neon';
+// Can't use InstalledVersions::isInstalled() because here the InstalledVersions class comes from phpstan.phar, not this project's vendor/
+if (!file_exists($rulesNeon)) {
 	return [];
 }
 
 return [
 	'includes' => [
-		__DIR__ . '/vendor/shipmonk/dead-code-detector/rules.neon',
+		$rulesNeon,
 	],
 	'parameters' => [
 		'shipmonkDeadCode' => [
