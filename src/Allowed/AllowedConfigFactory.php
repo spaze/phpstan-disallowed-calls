@@ -183,7 +183,7 @@ class AllowedConfigFactory
 	 * @template T of ParamValue
 	 * @param class-string<T> $class
 	 * @param int|string $key
-	 * @param int|bool|string|null|array{position:int, value?:int|bool|string, typeString?:string, name?:string} $value
+	 * @param int|bool|string|null|array{position:int, value?:int|bool|string, typeString?:string, classPattern?:string, name?:string} $value
 	 * @return T
 	 * @throws InvalidConfigException
 	 */
