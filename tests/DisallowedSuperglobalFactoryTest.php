@@ -18,11 +18,11 @@ class DisallowedSuperglobalFactoryTest extends PHPStanTestCase
 	 * @throws ShouldNotHappenException
 	 */
 	#[DataProvider('superglobalsProvider')]
-	public function testNonSuperglobalInConfig(string $superglobal, ?string $exceptionClass): void
+	public function testNonSuperglobalInConfig(string $superglobal, string $superglobalQuoted, ?string $exceptionClass): void
 	{
 		if ($exceptionClass) {
 			$this->expectException($exceptionClass);
-			$this->expectExceptionMessage("{$superglobal} is not a superglobal variable");
+			$this->expectExceptionMessageMatches("~{$superglobalQuoted} is not a superglobal variable~");
 		} else {
 			$this->expectNotToPerformAssertions();
 		}
@@ -31,20 +31,20 @@ class DisallowedSuperglobalFactoryTest extends PHPStanTestCase
 
 
 	/**
-	 * @return Generator<int, array{0:string, class-string<ShouldNotHappenException>|null}>
+	 * @return Generator<int, array{0:string, 1:string, class-string<ShouldNotHappenException>|null}>
 	 */
 	public static function superglobalsProvider(): Generator
 	{
-		yield ['$GLOBALS', null];
-		yield ['$_SERVER', null];
-		yield ['$_GET', null];
-		yield ['$_POST', null];
-		yield ['$_FILES', null];
-		yield ['$_COOKIE', null];
-		yield ['$_SESSION', null];
-		yield ['$_REQUEST', null];
-		yield ['$_ENV', null];
-		yield ['$foo', ShouldNotHappenException::class];
+		yield ['$GLOBALS', '\$GLOBALS', null];
+		yield ['$_SERVER', '\$_SERVER', null];
+		yield ['$_GET', '\$_GET', null];
+		yield ['$_POST', '\$_POST', null];
+		yield ['$_FILES', '\$_FILES', null];
+		yield ['$_COOKIE', '\$_COOKIE', null];
+		yield ['$_SESSION', '\$_SESSION', null];
+		yield ['$_REQUEST', '\$_REQUEST', null];
+		yield ['$_ENV', '\$_ENV', null];
+		yield ['$foo', '\$foo', ShouldNotHappenException::class];
 	}
 
 

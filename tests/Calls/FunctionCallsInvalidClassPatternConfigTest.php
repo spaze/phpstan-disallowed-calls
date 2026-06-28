@@ -18,7 +18,7 @@ class FunctionCallsInvalidClassPatternConfigTest extends PHPStanTestCase
 	public function testEmptyClassPatternThrows(): void
 	{
 		$this->expectException(ShouldNotHappenException::class);
-		$this->expectExceptionMessage("foo(): classPattern is empty");
+		$this->expectExceptionMessageMatches('~foo\(\): classPattern is empty~');
 		$container = self::getContainer();
 		new FunctionCalls(
 			$container->getByType(DisallowedFunctionRuleErrors::class),
@@ -45,7 +45,7 @@ class FunctionCallsInvalidClassPatternConfigTest extends PHPStanTestCase
 	public function testBackslashOnlyClassPatternThrows(): void
 	{
 		$this->expectException(ShouldNotHappenException::class);
-		$this->expectExceptionMessage("foo(): classPattern is empty");
+		$this->expectExceptionMessageMatches('~foo\(\): classPattern is empty~');
 		$container = self::getContainer();
 		new FunctionCalls(
 			$container->getByType(DisallowedFunctionRuleErrors::class),

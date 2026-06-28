@@ -18,7 +18,7 @@ class FunctionCallsTypeStringParamsInvalidFlagsConfigTest extends PHPStanTestCas
 	public function testException(): void
 	{
 		$this->expectException(ShouldNotHappenException::class);
-		$this->expectExceptionMessage("Foo\Bar\Waldo\intParam1(): Parameter #1 has an unsupported type string of 2|'bruh' specified in configuration");
+		$this->expectExceptionMessageMatches("~Foo\\\\Bar\\\\Waldo\\\\intParam1\\(\\): Parameter #1 has an unsupported type string of 2\\|'bruh' specified in configuration~");
 		$container = self::getContainer();
 		new FunctionCalls(
 			$container->getByType(DisallowedFunctionRuleErrors::class),

@@ -18,7 +18,7 @@ class FunctionCallsUnsupportedParamConfigTest extends PHPStanTestCase
 	public function testUnsupportedArrayInParamConfig(): void
 	{
 		$this->expectException(ShouldNotHappenException::class);
-		$this->expectExceptionMessage('{foo(),bar()}: Parameter #2 $definitelyNotScalar has an unsupported type array specified in configuration');
+		$this->expectExceptionMessageMatches('~{foo\(\),bar\(\)}: Parameter #2 \$definitelyNotScalar has an unsupported type array specified in configuration~');
 		$container = self::getContainer();
 		new FunctionCalls(
 			$container->getByType(DisallowedFunctionRuleErrors::class),

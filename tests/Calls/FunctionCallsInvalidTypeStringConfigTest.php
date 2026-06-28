@@ -45,7 +45,7 @@ class FunctionCallsInvalidTypeStringConfigTest extends PHPStanTestCase
 	public function testInvalidTypeStringWithoutWildcard(): void
 	{
 		$this->expectException(ShouldNotHappenException::class);
-		$this->expectExceptionMessage("foo(): Invalid typeString 'array<int':");
+		$this->expectExceptionMessageMatches("~foo\(\): Invalid typeString 'array<int':~");
 		$container = self::getContainer();
 		new FunctionCalls(
 			$container->getByType(DisallowedFunctionRuleErrors::class),
@@ -72,7 +72,7 @@ class FunctionCallsInvalidTypeStringConfigTest extends PHPStanTestCase
 	public function testEmptyTypeStringThrows(): void
 	{
 		$this->expectException(ShouldNotHappenException::class);
-		$this->expectExceptionMessage("foo(): typeString is empty");
+		$this->expectExceptionMessageMatches('~foo\(\): typeString is empty~');
 		$container = self::getContainer();
 		new FunctionCalls(
 			$container->getByType(DisallowedFunctionRuleErrors::class),
