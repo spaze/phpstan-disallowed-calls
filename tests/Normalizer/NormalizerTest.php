@@ -62,19 +62,19 @@ class NormalizerTest extends PHPStanTestCase
 	{
 		yield [
 			'foo',
-			"Property 'foo' is invalid, use 'Namespace\\Class::\$property' syntax",
+			"~Property 'foo' is invalid, use 'Namespace\\\\Class::\\\$property' syntax~",
 		];
 		yield [
 			'\\foo',
-			"Property '\\foo' is invalid, use 'Namespace\\Class::\$property' syntax",
+			"~Property '\\\\foo' is invalid, use 'Namespace\\\\Class::\\\$property' syntax~",
 		];
 		yield [
 			'foo:$bar',
-			"Property 'foo:\$bar' is invalid, use 'Namespace\\Class::\$property' syntax",
+			"~Property 'foo:\\\$bar' is invalid, use 'Namespace\\\\Class::\\\$property' syntax~",
 		];
 		yield [
 			'foo:$bar:baz',
-			"Property 'foo:\$bar:baz' is invalid, use 'Namespace\\Class::\$property' syntax",
+			"~Property 'foo:\\\$bar:baz' is invalid, use 'Namespace\\\\Class::\\\$property' syntax~",
 		];
 	}
 
@@ -86,7 +86,7 @@ class NormalizerTest extends PHPStanTestCase
 	public function testNormalizeInvalidProperty(string $property, string $exceptionMessage): void
 	{
 		$this->expectException(ShouldNotHappenException::class);
-		$this->expectExceptionMessage($exceptionMessage);
+		$this->expectExceptionMessageMatches($exceptionMessage);
 		$this->normalizer->normalizeProperty($property);
 	}
 

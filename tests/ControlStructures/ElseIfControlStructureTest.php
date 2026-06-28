@@ -61,7 +61,7 @@ class ElseIfControlStructureTest extends RuleTestCase
 	public function testElseSpaceIfException(): void
 	{
 		$this->expectException(ShouldNotHappenException::class);
-		$this->expectExceptionMessage("Use 'elseif' instead of 'else if', because 'else if' is parsed as 'else' followed by 'if' and the behaviour may be unexpected if using 'else if' in the configuration");
+		$this->expectExceptionMessageMatches("~Use 'elseif' instead of 'else if', because 'else if' is parsed as 'else' followed by 'if' and the behaviour may be unexpected if using 'else if' in the configuration~");
 		$container = self::getContainer();
 		/** @phpstan-ignore new.resultUnused (Throws an exception, which is tested) */
 		new ElseIfControlStructure(
