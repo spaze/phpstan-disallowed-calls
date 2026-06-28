@@ -48,7 +48,7 @@ jobs:
             run: composer lint-8.2
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
 
     - name: OS info
       run: cat /etc/os-release
@@ -92,7 +92,7 @@ jobs:
           - "--prefer-lowest"
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: "Install PHP"
         uses: shivammathur/setup-php@v2
@@ -132,7 +132,7 @@ jobs:
           - "--prefer-lowest"
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: "Install PHP"
         uses: shivammathur/setup-php@v2
