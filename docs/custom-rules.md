@@ -196,7 +196,11 @@ parameters:
 
 Relative paths in `definedIn` are resolved based on the current working directory. When running PHPStan from a directory or subdirectory which is not your "root" directory, the paths will probably not work.
 Use `filesRootDir` in that case to specify an absolute root directory, you can use [`%rootDir%`](https://phpstan.org/config-reference#expanding-paths) to start with PHPStan's root directory (usually `/something/something/vendor/phpstan/phpstan`) and then `..` from there to your "root" directory.
-`filesRootDir` is also used to configure all `allowIn` directives, see below. The extension supports multiple directives you can use to re-allow a previously disallowed items.
+`filesRootDir` is also used to configure all `allowIn` directives, see below.
+
+The extension supports multiple directives you can use to re-allow previously disallowed items. The item is allowed as soon as one of the allow directives in a config entry matches (a match can be further narrowed by [parameter conditions](allow-with-parameters.md)).
+The `allowExceptIn*` directives (also known as `disallowIn*`) decide the result on their own despite the name - a match reports the item, no match allows it - and so do the `allowExceptParams`-family [parameter conditions](allow-with-parameters.md) without the `InAllowed` suffix.
+A config entry also replaces any previous entry for the same item (for calls, the `allowExceptParams` values have to match, too), which is how the [bundled config](configuration-bundled.md) entries can be customized.
 
 ### Language constructs and constructors
 
