@@ -60,6 +60,12 @@ Let's say you have disallowed the `foo()` function (or any other supported items
 - [Allow in class with given attributes on any method](docs/allow-in-class-with-method-attributes.md)
 - [Allow in type hint positions](docs/allow-in-type-hint-positions.md) (param types, return types - `disallowedNamespaces` and `disallowedClasses` only)
 
+These directives can be combined in one configuration entry and are evaluated one after another - the item is allowed as soon as one of the allow directives matches (a match can be further narrowed by [parameter conditions](docs/allow-with-parameters.md)).
+The `allowExceptIn*` directives (also known as `disallowIn*`) are not "allow" directives despite the name - when present, the item is reported when a pattern matches and allowed when it doesn't, and directives evaluated after them are not consulted.
+The `allowExceptParams`-family [parameter conditions](docs/allow-with-parameters.md) (those without the `InAllowed` suffix) behave the same way.
+
+A config entry also replaces any previous entry for the same disallowed item (for calls, the `allowExceptParams` values have to match, too), which is how entries from the [bundled configurations](docs/configuration-bundled.md) can be customized.
+
 [Re-allowing attributes](docs/allow-attributes.md) uses a similar [configuration](docs/allow-attributes.md).
 
 

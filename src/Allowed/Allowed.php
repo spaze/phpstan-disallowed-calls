@@ -100,10 +100,7 @@ class Allowed
 				}
 			}
 		}
-		if ($disallowed->getAllowInInstanceOf()) {
-			if (!$this->isInstanceOf($scope, $disallowed->getAllowInInstanceOf())) {
-				return false;
-			}
+		if ($disallowed->getAllowInInstanceOf() && $this->isInstanceOf($scope, $disallowed->getAllowInInstanceOf())) {
 			return !$hasParams || $this->hasAllowedParamsInAllowed($scope, $args, $disallowed, true);
 		}
 		if ($disallowed->getAllowExceptInInstanceOf()) {
@@ -115,23 +112,36 @@ class Allowed
 		if ($hasParams && $disallowed->getAllowExceptParams()) {
 			return $this->hasAllowedParams($scope, $args, $disallowed->getAllowExceptParams(), false);
 		}
-		if ($hasParams && $disallowed->getAllowParamsAnywhere()) {
-			return $this->hasAllowedParams($scope, $args, $disallowed->getAllowParamsAnywhere(), true);
+		if (
+			$hasParams
+			&& $disallowed->getAllowParamsAnywhere()
+			&& $this->hasAllowedParams($scope, $args, $disallowed->getAllowParamsAnywhere(), true)
+		) {
+			return true;
 		}
-		if ($disallowed->getAllowInClassWithAttributes()) {
-			return $this->hasAllowedAttribute($this->getAttributes($scope), $disallowed->getAllowInClassWithAttributes());
+		if (
+			$disallowed->getAllowInClassWithAttributes()
+			&& $this->hasAllowedAttribute($this->getAttributes($scope), $disallowed->getAllowInClassWithAttributes())
+		) {
+			return true;
 		}
 		if ($disallowed->getAllowExceptInClassWithAttributes()) {
 			return !$this->hasAllowedAttribute($this->getAttributes($scope), $disallowed->getAllowExceptInClassWithAttributes());
 		}
-		if ($disallowed->getAllowInCallsWithAttributes()) {
-			return $this->hasAllowedAttribute($this->getCallAttributes($node, $scope), $disallowed->getAllowInCallsWithAttributes());
+		if (
+			$disallowed->getAllowInCallsWithAttributes()
+			&& $this->hasAllowedAttribute($this->getCallAttributes($node, $scope), $disallowed->getAllowInCallsWithAttributes())
+		) {
+			return true;
 		}
 		if ($disallowed->getAllowExceptInCallsWithAttributes()) {
 			return !$this->hasAllowedAttribute($this->getCallAttributes($node, $scope), $disallowed->getAllowExceptInCallsWithAttributes());
 		}
-		if ($disallowed->getAllowInClassWithMethodAttributes()) {
-			return $this->hasAllowedAttribute($this->getAllMethodAttributes($scope), $disallowed->getAllowInClassWithMethodAttributes());
+		if (
+			$disallowed->getAllowInClassWithMethodAttributes()
+			&& $this->hasAllowedAttribute($this->getAllMethodAttributes($scope), $disallowed->getAllowInClassWithMethodAttributes())
+		) {
+			return true;
 		}
 		if ($disallowed->getAllowExceptInClassWithMethodAttributes()) {
 			return !$this->hasAllowedAttribute($this->getAllMethodAttributes($scope), $disallowed->getAllowExceptInClassWithMethodAttributes());
