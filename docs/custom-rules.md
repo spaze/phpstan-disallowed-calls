@@ -202,6 +202,8 @@ The extension supports multiple directives you can use to re-allow previously di
 The `allowExceptIn*` directives (also known as `disallowIn*`) decide the result on their own despite the name - a match reports the item, no match allows it - and so do the `allowExceptParams`-family [parameter conditions](allow-with-parameters.md) without the `InAllowed` suffix.
 A config entry also replaces any previous entry for the same item (for calls, the `allowExceptParams` values have to match, too), which is how the [bundled config](configuration-bundled.md) entries can be customized.
 
+Many directives have aliases (`disallowInMethods` is `allowExceptInMethods`, `disallowParamsAnywhere` is `allowExceptParams` etc.) which all refer to one single directive, so when a config entry sets multiple aliases of the same directive, only one of them is used.
+
 ### Language constructs and constructors
 
 You can treat some language constructs as functions and disallow it in `disallowedFunctionCalls`. Currently detected language constructs are:

@@ -26,6 +26,9 @@ parameters:
 
 The function or method names support [fnmatch()](https://www.php.net/function.fnmatch) patterns.
 
+`allowInFunctions` and `allowInMethods` are aliases for one list of patterns matched against both method and function names - when one config entry sets both keys, only `allowInFunctions` is used, so put all the patterns in a list under one of the keys.
+The same applies to `allowExceptInFunctions` and its aliases.
+
 Both `allowInMethods` and `allowExceptInMethods` can be combined with `allowParamsInAllowed` or `allowExceptParamsInAllowed` (also known as `disallowParamsInAllowed`) to further narrow the allow condition by parameter values - see [allowing with specified parameters](allow-with-parameters.md).
 
 ### Attributes on methods
