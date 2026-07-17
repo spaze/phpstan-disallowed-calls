@@ -60,13 +60,13 @@ class Allowed
 	{
 		$hasParams = $disallowed instanceof DisallowedWithParams;
 		foreach ($disallowed->getAllowInCalls() as $call) {
-			if ($this->callMatches($scope, $call)) {
+			if ($this->callMatches($node, $scope, $call)) {
 				return !$hasParams || $this->hasAllowedParamsInAllowed($scope, $args, $disallowed, true);
 			}
 		}
 		if ($disallowed->getAllowExceptInCalls()) {
 			foreach ($disallowed->getAllowExceptInCalls() as $call) {
-				if ($this->callMatches($scope, $call)) {
+				if ($this->callMatches($node, $scope, $call)) {
 					return $hasParams && $this->hasAllowedParamsInAllowed($scope, $args, $disallowed, false);
 				}
 			}
@@ -140,12 +140,16 @@ class Allowed
 	}
 
 
-	private function callMatches(Scope $scope, string $call): bool
+	private function callMatches(?Node $node, Scope $scope, string $call): bool
 	{
 		if ($scope->getFunction() instanceof MethodReflection) {
 			$name = $this->formatter->getFullyQualified($scope->getFunction()->getDeclaringClass()->getDisplayName(false), $scope->getFunction());
 		} elseif ($scope->getFunction() instanceof FunctionReflection) {
 			$name = $scope->getFunction()->getName();
+		} elseif ($node instanceof ClassMethod && $scope->isInClass()) {
+			$name = sprintf('%s::%s', $scope->getClassReflection()->getDisplayName(false), $node->name->name);
+		} elseif ($node instanceof Function_) {
+			$name = ($node->namespacedName ?? $node->name)->toString();
 		} else {
 			$name = '';
 		}
