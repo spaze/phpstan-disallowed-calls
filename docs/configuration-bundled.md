@@ -32,14 +32,17 @@ includes:
     - vendor/spaze/phpstan-disallowed-calls/disallowed-insecure-calls.neon
 ```
 
-Some function calls are better when done for example with some parameters set to a defined value ("strict calls"). For example `in_array()` better also check for types to prevent some type juggling bugs. Include `disallowed-loose-calls.neon` to disallow calls without such parameters set ("loose calls").
+Some function calls are better when done for example with some parameters set to a defined value ("strict calls").
+For example `in_array()` should also check for types to prevent some type juggling bugs.
+Include `disallowed-loose-calls.neon` to disallow calls without such parameters set ("loose calls").
 
 ```neon
 includes:
     - vendor/spaze/phpstan-disallowed-calls/disallowed-loose-calls.neon
 ```
 
-For code that works with keys, tokens, passwords, and other secrets: encoding functions whose runtime depends on the processed bytes and can leak information about them. Include `disallowed-non-timing-safe-calls.neon` to disallow these calls.
+For code that works with keys, tokens, passwords, and other secrets: the runtime of some encoding functions depends on the processed bytes and can leak information about them.
+Include `disallowed-non-timing-safe-calls.neon` to disallow these calls.
 
 ```neon
 includes:
