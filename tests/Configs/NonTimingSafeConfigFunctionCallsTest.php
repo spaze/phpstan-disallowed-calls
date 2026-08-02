@@ -10,7 +10,7 @@ use Spaze\PHPStan\Rules\Disallowed\Calls\FunctionCalls;
 /**
  * @extends RuleTestCase<FunctionCalls>
  */
-class NonTimingSafeCallsConfigTest extends RuleTestCase
+class NonTimingSafeConfigFunctionCallsTest extends RuleTestCase
 {
 
 	protected function getRule(): Rule
