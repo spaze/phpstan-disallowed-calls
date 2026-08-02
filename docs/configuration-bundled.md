@@ -38,3 +38,10 @@ Some function calls are better when done for example with some parameters set to
 includes:
     - vendor/spaze/phpstan-disallowed-calls/disallowed-loose-calls.neon
 ```
+
+For code that works with keys, tokens, passwords, and other secrets: encoding functions whose runtime depends on the processed bytes and can leak information about them. Include `disallowed-non-timing-safe-calls.neon` to disallow these calls.
+
+```neon
+includes:
+    - vendor/spaze/phpstan-disallowed-calls/disallowed-non-timing-safe-calls.neon
+```
