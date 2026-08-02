@@ -33,3 +33,4 @@ includes:
 	- disallowed-execution-calls.neon
 	- disallowed-insecure-calls.neon
 	- disallowed-loose-calls.neon
+	# disallowed-non-timing-safe-calls.neon is not included intentionally, it's scoped to code that handles secrets, and this project handles none
