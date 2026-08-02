@@ -1,0 +1,20 @@
+# For code that handles secrets: byte encoding should go through constant-time functions, enforced by the rules below.
+# Comparing secrets and digests is the other half: use hash_equals(), not === (which is an operator, so no rule here can catch it).
+parameters:
+	disallowedFunctionCalls:
+		-
+			function: 'hex2bin()'
+			message: 'it is not timing-safe, use sodium_hex2bin() instead'
+			errorTip: 'ext-sodium is bundled with PHP since 7.2 but not always enabled, use ParagonIE\ConstantTime\Hex::decode() if not available'
+		-
+			function: 'bin2hex()'
+			message: 'it is not timing-safe, use sodium_bin2hex() instead'
+			errorTip: 'ext-sodium is bundled with PHP since 7.2 but not always enabled, use ParagonIE\ConstantTime\Hex::encode() if not available'
+		-
+			function: 'base64_decode()'
+			message: 'it is not timing-safe, use sodium_base642bin() instead'
+			errorTip: 'ext-sodium is bundled with PHP since 7.2 but not always enabled, use ParagonIE\ConstantTime\Base64::decode() if not available'
+		-
+			function: 'base64_encode()'
+			message: 'it is not timing-safe, use sodium_bin2base64() instead'
+			errorTip: 'ext-sodium is bundled with PHP since 7.2 but not always enabled, use ParagonIE\ConstantTime\Base64::encode() if not available'
