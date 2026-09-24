@@ -21,6 +21,7 @@ jobs:
           - "8.3"
           - "8.4"
           - "8.5"
+          - "8.6"
         run:
           - composer lint
           - composer phpcs
@@ -87,6 +88,7 @@ jobs:
           - "8.3"
           - "8.4"
           - "8.5"
+          - "8.6"
         update-options:
           - ""
           - "--prefer-lowest"
@@ -124,6 +126,7 @@ jobs:
           - "8.3"
           - "8.4"
           - "8.5"
+          - "8.6"
         operating-system:
           - ubuntu-latest
           - windows-latest
