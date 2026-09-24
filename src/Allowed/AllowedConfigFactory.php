@@ -221,7 +221,7 @@ class AllowedConfigFactory
 			try {
 				$type = $this->typeStringResolver->resolve($typeString);
 			} catch (ParserException $e) {
-				$hint = str_contains($typeString, '*') ? ' Wildcards are not supported in typeString.' : '';
+				$hint = strpos($typeString, '*') !== false ? ' Wildcards are not supported in typeString.' : '';
 				throw new InvalidTypeStringInConfigException($typeString, $e->getMessage() . $hint, $e);
 			}
 		} elseif ($typeString !== null) {
