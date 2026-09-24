@@ -35,7 +35,7 @@ class Normalizer
 		if (substr_count($property, '::') !== 1) {
 			throw new ShouldNotHappenException("Property '{$property}' is invalid, use 'Namespace\\Class::\$property' syntax");
 		}
-		if (!str_contains($property, '::$')) {
+		if (strpos($property, '::$') === false) {
 			$property = str_replace('::', '::$', $property);
 		}
 		return $this->normalizeNamespace($property);
