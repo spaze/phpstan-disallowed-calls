@@ -9,7 +9,6 @@ use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallableParameterRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors;
-use Stringable;
 use Waldo\Foo\Bar;
 use Waldo\Quux\Blade;
 
@@ -215,14 +214,14 @@ class FunctionCallsTest extends RuleTestCase
 					'function' => 'simplexml_load_string',
 					'allowInInstanceOf' => [
 						Bar::class,
-						Stringable::class,
+						'Stringable',
 					],
 				],
 				[
 					'function' => 'dom_import_simplexml()',
 					'disallowInInstanceOf' => [
 						Bar::class,
-						Stringable::class,
+						'Stringable',
 					],
 				],
 				// test allowInInstanceOf + allowExceptParamsInAllowed: allowed in hierarchy except when param is 'forbidden'
