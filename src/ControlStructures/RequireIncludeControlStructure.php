@@ -53,7 +53,6 @@ class RequireIncludeControlStructure implements Rule
 	 */
 	public function processNode(Node $node, Scope $scope): array
 	{
-		$type = $identifier = null;
 		switch ($node->type) {
 			case Include_::TYPE_INCLUDE:
 				$type = 'include';

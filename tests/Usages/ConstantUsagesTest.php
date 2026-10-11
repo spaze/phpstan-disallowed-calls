@@ -7,7 +7,6 @@ use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedConstantFactory;
-use Spaze\PHPStan\Rules\Disallowed\Normalizer\Normalizer;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedConstantRuleErrors;
 
 /**
@@ -21,7 +20,6 @@ class ConstantUsagesTest extends RuleTestCase
 	 */
 	protected function getRule(): Rule
 	{
-		$normalizer = new Normalizer();
 		$container = self::getContainer();
 		return new ConstantUsages(
 			$container->getByType(DisallowedConstantRuleErrors::class),
