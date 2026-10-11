@@ -8,12 +8,18 @@ class NamespaceUsage
 
 	private string $namespace;
 
+	private string $description;
+
+	private string $identifier;
+
 	private bool $isUseItem;
 
 
-	public function __construct(string $namespace, bool $isUseItem = false)
+	public function __construct(string $namespace, string $description, string $identifier, bool $isUseItem = false)
 	{
 		$this->namespace = $namespace;
+		$this->description = $description;
+		$this->identifier = $identifier;
 		$this->isUseItem = $isUseItem;
 	}
 
@@ -21,6 +27,18 @@ class NamespaceUsage
 	public function getNamespace(): string
 	{
 		return $this->namespace;
+	}
+
+
+	public function getDescription(): string
+	{
+		return $this->description;
+	}
+
+
+	public function getIdentifier(): string
+	{
+		return $this->identifier;
 	}
 
 

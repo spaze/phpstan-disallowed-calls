@@ -38,14 +38,12 @@ class DisallowedNamespaceRuleErrors
 	/**
 	 * @param Node $node
 	 * @param NamespaceUsage $namespaceUsage
-	 * @param string $description
 	 * @param Scope $scope
 	 * @param list<DisallowedNamespace> $disallowedNamespaces
-	 * @param string $identifier
 	 * @param UsagePosition::*|null $position
 	 * @return list<IdentifierRuleError>
 	 */
-	public function getDisallowedMessage(Node $node, NamespaceUsage $namespaceUsage, string $description, Scope $scope, array $disallowedNamespaces, string $identifier, ?int $position = null): array
+	public function getDisallowedMessage(Node $node, NamespaceUsage $namespaceUsage, Scope $scope, array $disallowedNamespaces, ?int $position = null): array
 	{
 		foreach ($disallowedNamespaces as $disallowedNamespace) {
 			if (
@@ -58,12 +56,12 @@ class DisallowedNamespaceRuleErrors
 
 			$errorBuilder = RuleErrorBuilder::message(sprintf(
 				'%s %s is forbidden%s%s',
-				$description,
+				$namespaceUsage->getDescription(),
 				$namespaceUsage->getNamespace(),
 				$this->formatter->formatDisallowedMessage($disallowedNamespace->getMessage()),
 				$disallowedNamespace->getNamespace() !== $namespaceUsage->getNamespace() ? " [{$namespaceUsage->getNamespace()} matches {$disallowedNamespace->getNamespace()}]" : ''
 			));
-			$errorBuilder->identifier($disallowedNamespace->getErrorIdentifier() ?? $identifier);
+			$errorBuilder->identifier($disallowedNamespace->getErrorIdentifier() ?? $namespaceUsage->getIdentifier());
 			$this->errorTips->add($disallowedNamespace->getErrorTip(), $errorBuilder);
 			return [
 				$errorBuilder->build(),

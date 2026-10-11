@@ -32,3 +32,11 @@ BackedEnum::ENUM_CONST;
 BackedEnum::Waldo;
 BackedEnum::Quux;
 BackedEnum::Fred;
+
+function enumTypeHints(
+	Enum $enum,
+	?BackedEnum $backedEnum,
+	Enum|\DateTimeImmutable $union,
+): ?Enum {
+	return null;
+}
