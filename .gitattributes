@@ -8,6 +8,5 @@ phpstan.neon export-ignore
 phpstan-attributes.php export-ignore
 phpstan-dead-code-detector.php export-ignore
 phpstan-exclude-paths.php export-ignore
-phpstan-ignore-errors.php export-ignore
 phpunit.xml export-ignore
 tests/ export-ignore

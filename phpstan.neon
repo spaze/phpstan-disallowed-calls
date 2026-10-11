@@ -21,10 +21,17 @@ parameters:
 			- tests/src
 	bootstrapFiles:
 		- phpstan-attributes.php
+	ignoreErrors:
+		-
+			# Reported when analysing for PHP 7.4 (https://github.com/phpstan/phpstan/discussions/12888),
+			# which PHPStan 2.3+ does on any PHP version because composer.json allows 7.4 (https://github.com/phpstan/phpstan-src/pull/6476)
+			# Try removing when PHP 7.4 support is dropped
+			message: '#^Call to method PHPStan\\Reflection\\ClassReflection::isEnum\(\) will always evaluate to false\.$#'
+			path: src/Usages/NamespaceUsages.php
+			reportUnmatched: false
 
 includes:
 	- phpstan-exclude-paths.php
-	- phpstan-ignore-errors.php
 	- phpstan-dead-code-detector.php
 	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
 	- vendor/phpstan/phpstan-deprecation-rules/rules.neon
