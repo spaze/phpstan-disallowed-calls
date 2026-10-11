@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\IntersectionType;
@@ -24,6 +23,7 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 use Spaze\PHPStan\Rules\Disallowed\Type\TypeHintContextVisitor;
+use Spaze\PHPStan\Rules\Disallowed\UsageFactory\NamespaceUsage;
 use Spaze\PHPStan\Rules\Disallowed\UsageFactory\NamespaceUsageFactory;
 
 /**
@@ -73,55 +73,37 @@ class NamespaceUsages implements Rule
 		$position = null;
 
 		if ($node instanceof FullyQualified) {
-			$description = 'Class';
-			$identifier = ErrorIdentifiers::DISALLOWED_CLASS;
-			$namespaces = [$this->namespaceUsageFactory->create($node->toString())];
+			$namespaces = [$this->createClassUsage($node, $scope)];
 			$position = $this->getPosition($node);
 		} elseif ($node instanceof NullableType && $node->type instanceof FullyQualified) {
-			$description = 'Class';
-			$identifier = ErrorIdentifiers::DISALLOWED_CLASS;
-			$namespaces = [$this->namespaceUsageFactory->create($node->type->toString())];
+			$namespaces = [$this->createClassUsage($node->type, $scope)];
 			$position = $this->getPosition($node);
 		} elseif ($node instanceof UnionType || $node instanceof IntersectionType) {
-			$description = 'Class';
-			$identifier = ErrorIdentifiers::DISALLOWED_CLASS;
 			$namespaces = [];
 			foreach ($node->types as $type) {
 				if ($type instanceof FullyQualified) {
-					$namespaces[] = $this->namespaceUsageFactory->create($type->toString());
+					$namespaces[] = $this->createClassUsage($type, $scope);
 				}
 			}
 			$position = $this->getPosition($node);
 		} elseif ($node instanceof UseUse) {
-			$namespaces = [$this->namespaceUsageFactory->create($node->name->toString(), true)];
+			$namespaces = [$this->namespaceUsageFactory->create($node->name->toString(), 'Namespace', ErrorIdentifiers::DISALLOWED_NAMESPACE, true)];
 		} elseif ($node instanceof StaticCall && $node->class instanceof Name) {
-			$namespaces = [$this->namespaceUsageFactory->create($node->class->toString())];
-		} elseif ($node instanceof ClassConstFetch && $node->class instanceof Name) {
-			$namespaces = [];
-			$classReflection = $scope->resolveTypeByName($node->class)->getClassReflection();
-			if ($classReflection && $classReflection->isEnum()) {
-				$description = 'Enum';
-				$identifier = ErrorIdentifiers::DISALLOWED_ENUM;
-				$namespaces = [$this->namespaceUsageFactory->create($node->class->toString())];
-			}
+			$namespaces = [$this->namespaceUsageFactory->create($node->class->toString(), 'Namespace', ErrorIdentifiers::DISALLOWED_NAMESPACE)];
 		} elseif ($node instanceof Class_ && ($node->extends !== null || count($node->implements) > 0)) {
 			$namespaces = [];
 			if ($node->extends !== null) {
-				$namespaces[] = $this->namespaceUsageFactory->create($node->extends->toString());
+				$namespaces[] = $this->namespaceUsageFactory->create($node->extends->toString(), 'Namespace', ErrorIdentifiers::DISALLOWED_NAMESPACE);
 			}
 			foreach ($node->implements as $implement) {
-				$namespaces[] = $this->namespaceUsageFactory->create($implement->toString());
+				$namespaces[] = $this->namespaceUsageFactory->create($implement->toString(), 'Namespace', ErrorIdentifiers::DISALLOWED_NAMESPACE);
 			}
 		} elseif ($node instanceof New_ && $node->class instanceof Name) {
-			$description = 'Class';
-			$identifier = ErrorIdentifiers::DISALLOWED_CLASS;
-			$namespaces = [$this->namespaceUsageFactory->create($node->class->toString())];
+			$namespaces = [$this->namespaceUsageFactory->create($node->class->toString(), 'Class', ErrorIdentifiers::DISALLOWED_CLASS)];
 		} elseif ($node instanceof TraitUse) {
-			$description = 'Trait';
-			$identifier = ErrorIdentifiers::DISALLOWED_TRAIT;
 			$namespaces = [];
 			foreach ($node->traits as $trait) {
-				$namespaces[] = $this->namespaceUsageFactory->create($trait->toString());
+				$namespaces[] = $this->namespaceUsageFactory->create($trait->toString(), 'Trait', ErrorIdentifiers::DISALLOWED_TRAIT);
 			}
 		} else {
 			return [];
@@ -132,10 +114,8 @@ class NamespaceUsages implements Rule
 			$ruleErrors = $this->disallowedNamespaceRuleErrors->getDisallowedMessage(
 				$node,
 				$namespaceUsage,
-				$description ?? 'Namespace',
 				$scope,
 				$this->disallowedNamespace,
-				$identifier ?? $identifier = ErrorIdentifiers::DISALLOWED_NAMESPACE,
 				$position,
 			);
 			if ($ruleErrors) {
@@ -144,6 +124,16 @@ class NamespaceUsages implements Rule
 		}
 
 		return $errors;
+	}
+
+
+	private function createClassUsage(FullyQualified $name, Scope $scope): NamespaceUsage
+	{
+		$classReflection = $scope->resolveTypeByName($name)->getClassReflection();
+		if ($classReflection !== null && $classReflection->isEnum()) {
+			return $this->namespaceUsageFactory->create($name->toString(), 'Enum', ErrorIdentifiers::DISALLOWED_ENUM);
+		}
+		return $this->namespaceUsageFactory->create($name->toString(), 'Class', ErrorIdentifiers::DISALLOWED_CLASS);
 	}
 
 

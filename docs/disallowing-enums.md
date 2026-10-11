@@ -16,3 +16,6 @@ parameters:
 This is to prevent the enum case being treated like a real enum by the config parser.
 
 Both pure enums and backed enums are supported.
+
+When an enum is disallowed with `disallowedClasses` or `disallowedNamespaces`, its cases, constants and type declarations are reported as `Enum Suit is forbidden.` with the `disallowed.enum` error identifier.
+Other classes are reported as `Class ... is forbidden.` with `disallowed.class`, see [error identifiers](custom-rules.md#error-identifiers).

@@ -18,9 +18,9 @@ class NamespaceUsageFactory
 	}
 
 
-	public function create(string $namespace, bool $isUseItem = false): NamespaceUsage
+	public function create(string $namespace, string $description, string $identifier, bool $isUseItem = false): NamespaceUsage
 	{
-		return new NamespaceUsage($this->normalizer->normalizeNamespace($namespace), $isUseItem);
+		return new NamespaceUsage($this->normalizer->normalizeNamespace($namespace), $description, $identifier, $isUseItem);
 	}
 
 }
