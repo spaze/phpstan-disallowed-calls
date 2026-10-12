@@ -51,3 +51,12 @@ function enumInstanceof(object $object): bool
 {
 	return $object instanceof Enum;
 }
+
+interface EnumInterface
+{
+}
+
+enum InterfaceEnum implements EnumInterface
+{
+	case Foo;
+}

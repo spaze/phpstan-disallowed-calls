@@ -12,6 +12,8 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\Enum_;
+use PhpParser\Node\Stmt\Interface_;
 use PhpParser\Node\Stmt\TraitUse;
 use PhpParser\Node\Stmt\UseUse;
 use PhpParser\Node\UnionType;
@@ -96,6 +98,20 @@ class NamespaceUsages implements Rule
 			if ($node->extends instanceof FullyQualified) {
 				$namespaces[] = $this->createClassUsage($node->extends, $scope);
 			}
+			foreach ($node->implements as $implement) {
+				if ($implement instanceof FullyQualified) {
+					$namespaces[] = $this->createClassUsage($implement, $scope);
+				}
+			}
+		} elseif ($node instanceof Interface_ && count($node->extends) > 0) {
+			$namespaces = [];
+			foreach ($node->extends as $extend) {
+				if ($extend instanceof FullyQualified) {
+					$namespaces[] = $this->createClassUsage($extend, $scope);
+				}
+			}
+		} elseif ($node instanceof Enum_ && count($node->implements) > 0) {
+			$namespaces = [];
 			foreach ($node->implements as $implement) {
 				if ($implement instanceof FullyQualified) {
 					$namespaces[] = $this->createClassUsage($implement, $scope);

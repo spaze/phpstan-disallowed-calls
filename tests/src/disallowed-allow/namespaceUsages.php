@@ -63,3 +63,7 @@ class Service extends Base implements SomeInterface
 	}
 
 }
+
+interface ServiceInterface extends SomeInterface
+{
+}

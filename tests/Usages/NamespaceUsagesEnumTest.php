@@ -36,6 +36,9 @@ class NamespaceUsagesEnumTest extends RuleTestCase
 				[
 					'class' => 'DateTimeImmutable',
 				],
+				[
+					'class' => 'Enums\EnumInterface',
+				],
 			]
 		);
 	}
@@ -108,6 +111,10 @@ class NamespaceUsagesEnumTest extends RuleTestCase
 				'Enum Enums\Enum is forbidden.',
 				52,
 			],
+			[
+				'Interface Enums\EnumInterface is forbidden.',
+				59,
+			],
 		]);
 	}
 
@@ -136,6 +143,7 @@ class NamespaceUsagesEnumTest extends RuleTestCase
 			[46, 'Enum Enums\Enum is forbidden.', ErrorIdentifiers::DISALLOWED_ENUM],
 			[47, 'Enum Enums\BackedEnum is forbidden.', ErrorIdentifiers::DISALLOWED_ENUM],
 			[52, 'Enum Enums\Enum is forbidden.', ErrorIdentifiers::DISALLOWED_ENUM],
+			[59, 'Interface Enums\EnumInterface is forbidden.', ErrorIdentifiers::DISALLOWED_INTERFACE],
 		], $errors);
 	}
 
