@@ -8,6 +8,7 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
+use PHPStan\BetterReflection\Reflector\Exception\IdentifierNotFound;
 use PHPStan\BetterReflection\Reflector\Reflector;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\FunctionReflection;
@@ -342,7 +343,12 @@ class Allowed
 			}
 			return array_map(static fn($a) => $a->getName(), $scope->getClassReflection()->getNativeReflection()->getMethod($function->getName())->getAttributes());
 		} elseif ($function instanceof FunctionReflection) {
-			return array_map(static fn($a) => $a->getName(), $this->reflector->reflectFunction($function->getName())->getAttributes());
+			try {
+				return array_map(static fn($a) => $a->getName(), $this->reflector->reflectFunction($function->getName())->getAttributes());
+			} catch (IdentifierNotFound $e) {
+				// Named functions declared inside other functions or methods can't be reflected, PHPStan doesn't support them anyway
+				return [];
+			}
 		} elseif ($function === null) {
 			if ($node instanceof ClassMethod && $scope->isInClass()) {
 				return array_map(static fn($a) => $a->getName(), $scope->getClassReflection()->getNativeReflection()->getMethod($node->name->name)->getAttributes());
