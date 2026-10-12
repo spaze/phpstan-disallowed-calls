@@ -60,6 +60,18 @@ class FunctionCallsInPropertyHooksTest extends RuleTestCase
 						'PropertyHooks\DenyStrlen',
 					],
 				],
+				[
+					'function' => 'ucfirst()',
+					'allowInMethods' => [
+						'PropertyHooks\NamedHooks::$named::get()',
+					],
+				],
+				[
+					'function' => 'lcfirst()',
+					'allowExceptInMethods' => [
+						'PropertyHooks\*::$named::set()',
+					],
+				],
 			]
 		);
 	}
@@ -91,6 +103,14 @@ class FunctionCallsInPropertyHooksTest extends RuleTestCase
 			[
 				'Calling crc32() is forbidden.',
 				97,
+			],
+			[
+				'Calling ucfirst() is forbidden.',
+				112,
+			],
+			[
+				'Calling lcfirst() is forbidden.',
+				113,
 			],
 		]);
 	}

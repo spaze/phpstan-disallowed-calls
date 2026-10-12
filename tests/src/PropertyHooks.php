@@ -99,3 +99,19 @@ class HookWithoutClassMethodAttributes
 	}
 
 }
+
+class NamedHooks
+{
+
+	public string $named {
+		get {
+			ucfirst('allowed, the hook name matches');
+			return lcfirst('allowed, the hook name does not match the pattern');
+		}
+		set(string $value) {
+			ucfirst('disallowed, a different hook');
+			lcfirst('disallowed, the hook name matches the pattern');
+		}
+	}
+
+}
