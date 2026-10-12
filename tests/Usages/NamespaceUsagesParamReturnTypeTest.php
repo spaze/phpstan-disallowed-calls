@@ -105,6 +105,17 @@ class NamespaceUsagesParamReturnTypeTest extends RuleTestCase
 	}
 
 
+	/**
+	 * @requires PHP >= 8.3.0
+	 */
+	#[RequiresPhp('>= 8.3.0')]
+	public function testTypedClassConstants(): void
+	{
+		// With disallowInParamTypes: true, types of class constants are allowed, they're not param types
+		$this->analyse([__DIR__ . '/../src/TypedClassConstants.php'], []);
+	}
+
+
 	public static function getAdditionalConfigFiles(): array
 	{
 		return [

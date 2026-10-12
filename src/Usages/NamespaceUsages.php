@@ -12,6 +12,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\Enum_;
 use PhpParser\Node\Stmt\Interface_;
 use PhpParser\Node\Stmt\TraitUse;
@@ -84,6 +85,8 @@ class NamespaceUsages implements Rule
 		} elseif ($node instanceof UnionType || $node instanceof IntersectionType) {
 			$namespaces = $this->createTypeUsages($node, $scope);
 			$position = $this->getPosition($node);
+		} elseif ($node instanceof ClassConst && $node->type !== null) {
+			$namespaces = $this->createTypeUsages($node->type, $scope);
 		} elseif ($node instanceof UseUse) {
 			$namespaces = [$this->namespaceUsageFactory->create($node->name->toString(), 'Namespace', ErrorIdentifiers::DISALLOWED_NAMESPACE, true)];
 		} elseif ($node instanceof StaticCall && $node->class instanceof FullyQualified) {
@@ -150,6 +153,8 @@ class NamespaceUsages implements Rule
 	{
 		if ($type instanceof FullyQualified) {
 			return [$this->namespaceUsageFactory->createClassUsage($type, $scope)];
+		} elseif ($type instanceof NullableType) {
+			return $this->createTypeUsages($type->type, $scope);
 		} elseif ($type instanceof UnionType || $type instanceof IntersectionType) {
 			// The types can be nested, like in DNF types `(A&B)|null`
 			$usages = [];

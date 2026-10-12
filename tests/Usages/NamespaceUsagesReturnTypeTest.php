@@ -84,6 +84,17 @@ class NamespaceUsagesReturnTypeTest extends RuleTestCase
 	}
 
 
+	/**
+	 * @requires PHP >= 8.3.0
+	 */
+	#[RequiresPhp('>= 8.3.0')]
+	public function testTypedClassConstants(): void
+	{
+		// With disallowInReturnType: true, types of class constants are allowed, they're not return types
+		$this->analyse([__DIR__ . '/../src/TypedClassConstants.php'], []);
+	}
+
+
 	public static function getAdditionalConfigFiles(): array
 	{
 		return [
