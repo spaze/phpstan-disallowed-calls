@@ -46,3 +46,8 @@ function enumStaticCalls(): void
 	Enum::cases();
 	BackedEnum::from(1);
 }
+
+function enumInstanceof(object $object): bool
+{
+	return $object instanceof Enum;
+}

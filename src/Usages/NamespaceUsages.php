@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\IntersectionType;
@@ -102,6 +103,8 @@ class NamespaceUsages implements Rule
 			}
 		} elseif ($node instanceof New_ && $node->class instanceof Name) {
 			$namespaces = [$this->namespaceUsageFactory->create($node->class->toString(), 'Class', ErrorIdentifiers::DISALLOWED_CLASS)];
+		} elseif ($node instanceof Instanceof_ && $node->class instanceof FullyQualified) {
+			$namespaces = [$this->createClassUsage($node->class, $scope)];
 		} elseif ($node instanceof TraitUse) {
 			$namespaces = [];
 			foreach ($node->traits as $trait) {
