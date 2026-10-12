@@ -17,7 +17,7 @@ parameters:
 		AllowDirectivesConfig: 'array{%typeAliases.AllowDirectives%, ...}' # Unsealed array because the method where this alias is used only cares about some directives, but the array contains other directives as well
 	excludePaths:
 		analyse:
-			- src/PHPStan1Compatibility.php
+			- src/PHPStanCompatibility.php
 			- tests/src
 	bootstrapFiles:
 		- phpstan-attributes.php
