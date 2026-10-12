@@ -26,6 +26,7 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\ErrorIdentifiers;
 use Spaze\PHPStan\Rules\Disallowed\Type\TypeHintContextVisitor;
+use Spaze\PHPStan\Rules\Disallowed\UsageFactory\NamespaceUsage;
 use Spaze\PHPStan\Rules\Disallowed\UsageFactory\NamespaceUsageFactory;
 
 /**
@@ -81,12 +82,7 @@ class NamespaceUsages implements Rule
 			$namespaces = [$this->namespaceUsageFactory->createClassUsage($node->type, $scope)];
 			$position = $this->getPosition($node);
 		} elseif ($node instanceof UnionType || $node instanceof IntersectionType) {
-			$namespaces = [];
-			foreach ($node->types as $type) {
-				if ($type instanceof FullyQualified) {
-					$namespaces[] = $this->namespaceUsageFactory->createClassUsage($type, $scope);
-				}
-			}
+			$namespaces = $this->createTypeUsages($node, $scope);
 			$position = $this->getPosition($node);
 		} elseif ($node instanceof UseUse) {
 			$namespaces = [$this->namespaceUsageFactory->create($node->name->toString(), 'Namespace', ErrorIdentifiers::DISALLOWED_NAMESPACE, true)];
@@ -144,6 +140,25 @@ class NamespaceUsages implements Rule
 		}
 
 		return $errors;
+	}
+
+
+	/**
+	 * @return list<NamespaceUsage>
+	 */
+	private function createTypeUsages(Node $type, Scope $scope): array
+	{
+		if ($type instanceof FullyQualified) {
+			return [$this->namespaceUsageFactory->createClassUsage($type, $scope)];
+		} elseif ($type instanceof UnionType || $type instanceof IntersectionType) {
+			// The types can be nested, like in DNF types `(A&B)|null`
+			$usages = [];
+			foreach ($type->types as $innerType) {
+				$usages = array_merge($usages, $this->createTypeUsages($innerType, $scope));
+			}
+			return $usages;
+		}
+		return [];
 	}
 
 

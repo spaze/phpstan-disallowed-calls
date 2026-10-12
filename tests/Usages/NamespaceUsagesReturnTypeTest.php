@@ -6,6 +6,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\UsageFactory\NamespaceUsageFactory;
@@ -62,6 +63,22 @@ class NamespaceUsagesReturnTypeTest extends RuleTestCase
 				// intersection return type
 				'Class Waldo\Quux\Blade is forbidden, do androids dream of electric sheep?',
 				47,
+			],
+		]);
+	}
+
+
+	/**
+	 * @requires PHP >= 8.2.0
+	 */
+	#[RequiresPhp('>= 8.2.0')]
+	public function testDnfTypes(): void
+	{
+		// With disallowInReturnType: true, only DNF types in the return type position are flagged
+		$this->analyse([__DIR__ . '/../src/DnfTypesEverywhere.php'], [
+			[
+				'Class Waldo\Quux\Blade is forbidden, do androids dream of electric sheep?',
+				23,
 			],
 		]);
 	}

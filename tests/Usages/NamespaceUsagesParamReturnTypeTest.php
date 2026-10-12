@@ -6,6 +6,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\UsageFactory\NamespaceUsageFactory;
@@ -79,6 +80,26 @@ class NamespaceUsagesParamReturnTypeTest extends RuleTestCase
 				// intersection method param type
 				'Class Waldo\Quux\Blade is forbidden, do androids dream of electric sheep?',
 				46,
+			],
+		]);
+	}
+
+
+	/**
+	 * @requires PHP >= 8.2.0
+	 */
+	#[RequiresPhp('>= 8.2.0')]
+	public function testDnfTypes(): void
+	{
+		// With disallowInParamTypes: true, only DNF types in param positions are flagged
+		$this->analyse([__DIR__ . '/../src/DnfTypesEverywhere.php'], [
+			[
+				'Class Waldo\Quux\Blade is forbidden, do androids dream of electric sheep?',
+				16,
+			],
+			[
+				'Class Waldo\Quux\Blade is forbidden, do androids dream of electric sheep?',
+				22,
 			],
 		]);
 	}
