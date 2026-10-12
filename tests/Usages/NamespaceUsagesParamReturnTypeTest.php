@@ -6,6 +6,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\UsageFactory\NamespaceUsageFactory;
@@ -81,6 +82,37 @@ class NamespaceUsagesParamReturnTypeTest extends RuleTestCase
 				46,
 			],
 		]);
+	}
+
+
+	/**
+	 * @requires PHP >= 8.2.0
+	 */
+	#[RequiresPhp('>= 8.2.0')]
+	public function testDnfTypes(): void
+	{
+		// With disallowInParamTypes: true, only DNF types in param positions are flagged
+		$this->analyse([__DIR__ . '/../src/DnfTypesEverywhere.php'], [
+			[
+				'Class Waldo\Quux\Blade is forbidden, do androids dream of electric sheep?',
+				16,
+			],
+			[
+				'Class Waldo\Quux\Blade is forbidden, do androids dream of electric sheep?',
+				22,
+			],
+		]);
+	}
+
+
+	/**
+	 * @requires PHP >= 8.3.0
+	 */
+	#[RequiresPhp('>= 8.3.0')]
+	public function testTypedClassConstants(): void
+	{
+		// With disallowInParamTypes: true, types of class constants are allowed, they're not param types
+		$this->analyse([__DIR__ . '/../src/TypedClassConstants.php'], []);
 	}
 
 

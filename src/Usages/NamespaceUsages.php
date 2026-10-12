@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\IntersectionType;
@@ -11,6 +12,9 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassConst;
+use PhpParser\Node\Stmt\Enum_;
+use PhpParser\Node\Stmt\Interface_;
 use PhpParser\Node\Stmt\TraitUse;
 use PhpParser\Node\Stmt\UseUse;
 use PhpParser\Node\UnionType;
@@ -73,35 +77,48 @@ class NamespaceUsages implements Rule
 		$position = null;
 
 		if ($node instanceof FullyQualified) {
-			$namespaces = [$this->createClassUsage($node, $scope)];
+			$namespaces = [$this->namespaceUsageFactory->createClassUsage($node, $scope)];
 			$position = $this->getPosition($node);
 		} elseif ($node instanceof NullableType && $node->type instanceof FullyQualified) {
-			$namespaces = [$this->createClassUsage($node->type, $scope)];
+			$namespaces = [$this->namespaceUsageFactory->createClassUsage($node->type, $scope)];
 			$position = $this->getPosition($node);
 		} elseif ($node instanceof UnionType || $node instanceof IntersectionType) {
-			$namespaces = [];
-			foreach ($node->types as $type) {
-				if ($type instanceof FullyQualified) {
-					$namespaces[] = $this->createClassUsage($type, $scope);
-				}
-			}
+			$namespaces = $this->createTypeUsages($node, $scope);
 			$position = $this->getPosition($node);
+		} elseif ($node instanceof ClassConst && $node->type !== null) {
+			$namespaces = $this->createTypeUsages($node->type, $scope);
 		} elseif ($node instanceof UseUse) {
 			$namespaces = [$this->namespaceUsageFactory->create($node->name->toString(), 'Namespace', ErrorIdentifiers::DISALLOWED_NAMESPACE, true)];
 		} elseif ($node instanceof StaticCall && $node->class instanceof FullyQualified) {
-			$namespaces = [$this->createClassUsage($node->class, $scope)];
+			$namespaces = [$this->namespaceUsageFactory->createClassUsage($node->class, $scope)];
 		} elseif ($node instanceof Class_ && ($node->extends !== null || count($node->implements) > 0)) {
 			$namespaces = [];
 			if ($node->extends instanceof FullyQualified) {
-				$namespaces[] = $this->createClassUsage($node->extends, $scope);
+				$namespaces[] = $this->namespaceUsageFactory->createClassUsage($node->extends, $scope);
 			}
 			foreach ($node->implements as $implement) {
 				if ($implement instanceof FullyQualified) {
-					$namespaces[] = $this->createClassUsage($implement, $scope);
+					$namespaces[] = $this->namespaceUsageFactory->createClassUsage($implement, $scope);
+				}
+			}
+		} elseif ($node instanceof Interface_ && count($node->extends) > 0) {
+			$namespaces = [];
+			foreach ($node->extends as $extend) {
+				if ($extend instanceof FullyQualified) {
+					$namespaces[] = $this->namespaceUsageFactory->createClassUsage($extend, $scope);
+				}
+			}
+		} elseif ($node instanceof Enum_ && count($node->implements) > 0) {
+			$namespaces = [];
+			foreach ($node->implements as $implement) {
+				if ($implement instanceof FullyQualified) {
+					$namespaces[] = $this->namespaceUsageFactory->createClassUsage($implement, $scope);
 				}
 			}
 		} elseif ($node instanceof New_ && $node->class instanceof Name) {
 			$namespaces = [$this->namespaceUsageFactory->create($node->class->toString(), 'Class', ErrorIdentifiers::DISALLOWED_CLASS)];
+		} elseif ($node instanceof Instanceof_ && $node->class instanceof FullyQualified) {
+			$namespaces = [$this->namespaceUsageFactory->createClassUsage($node->class, $scope)];
 		} elseif ($node instanceof TraitUse) {
 			$namespaces = [];
 			foreach ($node->traits as $trait) {
@@ -129,19 +146,24 @@ class NamespaceUsages implements Rule
 	}
 
 
-	private function createClassUsage(FullyQualified $name, Scope $scope): NamespaceUsage
+	/**
+	 * @return list<NamespaceUsage>
+	 */
+	private function createTypeUsages(Node $type, Scope $scope): array
 	{
-		$classReflection = $scope->resolveTypeByName($name)->getClassReflection();
-		if ($classReflection !== null) {
-			if ($classReflection->isEnum()) {
-				return $this->namespaceUsageFactory->create($name->toString(), 'Enum', ErrorIdentifiers::DISALLOWED_ENUM);
-			} elseif ($classReflection->isInterface()) {
-				return $this->namespaceUsageFactory->create($name->toString(), 'Interface', ErrorIdentifiers::DISALLOWED_INTERFACE);
-			} elseif ($classReflection->isTrait()) {
-				return $this->namespaceUsageFactory->create($name->toString(), 'Trait', ErrorIdentifiers::DISALLOWED_TRAIT);
+		if ($type instanceof FullyQualified) {
+			return [$this->namespaceUsageFactory->createClassUsage($type, $scope)];
+		} elseif ($type instanceof NullableType) {
+			return $this->createTypeUsages($type->type, $scope);
+		} elseif ($type instanceof UnionType || $type instanceof IntersectionType) {
+			// The types can be nested, like in DNF types `(A&B)|null`
+			$usages = [];
+			foreach ($type->types as $innerType) {
+				$usages = array_merge($usages, $this->createTypeUsages($innerType, $scope));
 			}
+			return $usages;
 		}
-		return $this->namespaceUsageFactory->create($name->toString(), 'Class', ErrorIdentifiers::DISALLOWED_CLASS);
+		return [];
 	}
 
 

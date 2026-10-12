@@ -6,6 +6,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\UsageFactory\NamespaceUsageFactory;
@@ -64,6 +65,33 @@ class NamespaceUsagesReturnTypeTest extends RuleTestCase
 				47,
 			],
 		]);
+	}
+
+
+	/**
+	 * @requires PHP >= 8.2.0
+	 */
+	#[RequiresPhp('>= 8.2.0')]
+	public function testDnfTypes(): void
+	{
+		// With disallowInReturnType: true, only DNF types in the return type position are flagged
+		$this->analyse([__DIR__ . '/../src/DnfTypesEverywhere.php'], [
+			[
+				'Class Waldo\Quux\Blade is forbidden, do androids dream of electric sheep?',
+				23,
+			],
+		]);
+	}
+
+
+	/**
+	 * @requires PHP >= 8.3.0
+	 */
+	#[RequiresPhp('>= 8.3.0')]
+	public function testTypedClassConstants(): void
+	{
+		// With disallowInReturnType: true, types of class constants are allowed, they're not return types
+		$this->analyse([__DIR__ . '/../src/TypedClassConstants.php'], []);
 	}
 
 

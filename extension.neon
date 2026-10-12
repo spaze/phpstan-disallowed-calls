@@ -546,6 +546,14 @@ services:
 		tags:
 			- phpstan.rules.rule
 	-
+		factory: Spaze\PHPStan\Rules\Disallowed\Usages\NamespaceFirstClassCallableUsages(forbiddenNamespaces: %disallowedNamespaces%)
+		tags:
+			- phpstan.rules.rule
+	-
+		factory: Spaze\PHPStan\Rules\Disallowed\Usages\NamespaceFirstClassCallableUsages(forbiddenNamespaces: %disallowedClasses%)
+		tags:
+			- phpstan.rules.rule
+	-
 		factory: Spaze\PHPStan\Rules\Disallowed\Calls\MethodCalls(forbiddenCalls: %disallowedMethodCalls%)
 		tags:
 			- phpstan.rules.rule

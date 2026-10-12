@@ -113,6 +113,66 @@ class NamespaceUsagesTypesTest extends RuleTestCase
 	}
 
 
+	/**
+	 * @requires PHP >= 8.2.0
+	 */
+	#[RequiresPhp('>= 8.2.0')]
+	public function testDnfTypes(): void
+	{
+		// Members of DNF types like (A&B)|null are reported in all positions
+		$this->analyse([__DIR__ . '/../src/DnfTypesEverywhere.php'], [
+			[
+				'Namespace Waldo\Quux\Blade is forbidden, do androids dream of electric sheep?',
+				7,
+			],
+			[
+				'Class Waldo\Quux\Blade is forbidden, do androids dream of electric sheep?',
+				12,
+			],
+			[
+				'Class Waldo\Quux\Blade is forbidden, do androids dream of electric sheep?',
+				16,
+			],
+			[
+				'Class Waldo\Quux\Blade is forbidden, do androids dream of electric sheep?',
+				22,
+			],
+			[
+				'Class Waldo\Quux\Blade is forbidden, do androids dream of electric sheep?',
+				23,
+			],
+		]);
+	}
+
+
+	/**
+	 * @requires PHP >= 8.3.0
+	 */
+	#[RequiresPhp('>= 8.3.0')]
+	public function testTypedClassConstants(): void
+	{
+		// Types of class constants are reported too
+		$this->analyse([__DIR__ . '/../src/TypedClassConstants.php'], [
+			[
+				'Namespace Waldo\Quux\Blade is forbidden, do androids dream of electric sheep?',
+				7,
+			],
+			[
+				'Class Waldo\Quux\Blade is forbidden, do androids dream of electric sheep?',
+				12,
+			],
+			[
+				'Class Waldo\Quux\Blade is forbidden, do androids dream of electric sheep?',
+				13,
+			],
+			[
+				'Class Waldo\Quux\Blade is forbidden, do androids dream of electric sheep?',
+				14,
+			],
+		]);
+	}
+
+
 	public static function getAdditionalConfigFiles(): array
 	{
 		return [

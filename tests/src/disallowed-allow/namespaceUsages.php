@@ -56,4 +56,14 @@ class Service extends Base implements SomeInterface
 		return new class extends Base {};
 	}
 
+
+	public function checkInstanceof(object $object): bool
+	{
+		return $object instanceof Bar;
+	}
+
+}
+
+interface ServiceInterface extends SomeInterface
+{
 }

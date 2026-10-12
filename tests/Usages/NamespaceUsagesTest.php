@@ -175,6 +175,15 @@ class NamespaceUsagesTest extends RuleTestCase
 				'Class Inheritance\Base is forbidden, no inheritance sub base.',
 				56,
 			],
+			[
+				'Class Waldo\Foo\Bar is forbidden, no FooBar. [Waldo\Foo\Bar matches Waldo\Foo\bar]',
+				62,
+			],
+			[
+				'Interface Framework\SomeInterface is forbidden, no framework some. [Framework\SomeInterface matches Framew*rk\Some*]',
+				67,
+				'Work more on your frames',
+			],
 		]);
 		$this->analyse([__DIR__ . '/../src/disallowed-allow/namespaceUsages.php'], []);
 	}
