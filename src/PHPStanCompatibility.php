@@ -121,4 +121,25 @@ class PHPStanCompatibility
 		return $names;
 	}
 
+
+	/**
+	 * @return list<string>
+	 */
+	public static function getAllPropertyHookAttributes(ClassReflection $class): array
+	{
+		if (!class_exists(PropertyHook::class)) {
+			// PHPStan 1.x, its php-parser doesn't know property hooks, and PHP 8.4's own getHooks() can't be called on its reflection adapter
+			return [];
+		}
+		$names = [];
+		foreach ($class->getNativeReflection()->getProperties() as $property) {
+			foreach ($property->getHooks() as $hook) {
+				foreach ($hook->getAttributes() as $attribute) {
+					$names[] = $attribute->getName();
+				}
+			}
+		}
+		return $names;
+	}
+
 }

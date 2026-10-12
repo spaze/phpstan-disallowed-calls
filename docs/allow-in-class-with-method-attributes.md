@@ -33,3 +33,5 @@ class Waldo
 ```
 
 The attribute names support [fnmatch()](https://www.php.net/function.fnmatch) patterns, and only one needs to match if multiple are specified.
+
+Attributes on property hooks count too, a `get` or a `set` hook is treated like any other method here.

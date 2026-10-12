@@ -48,6 +48,18 @@ class FunctionCallsInPropertyHooksTest extends RuleTestCase
 						'PropertyHooks\DisallowSha1',
 					],
 				],
+				[
+					'function' => 'crc32()',
+					'allowInClassWithMethodAttributes' => [
+						'PropertyHooks\AllowCrc32',
+					],
+				],
+				[
+					'function' => 'strlen()',
+					'allowExceptInClassWithMethodAttributes' => [
+						'PropertyHooks\DenyStrlen',
+					],
+				],
 			]
 		);
 	}
@@ -71,6 +83,14 @@ class FunctionCallsInPropertyHooksTest extends RuleTestCase
 			[
 				'Calling md5() is forbidden.',
 				31,
+			],
+			[
+				'Calling strlen() is forbidden.',
+				82,
+			],
+			[
+				'Calling crc32() is forbidden.',
+				97,
 			],
 		]);
 	}

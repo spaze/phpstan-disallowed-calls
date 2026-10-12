@@ -65,3 +65,37 @@ class AttributesOnHooks
 	}
 
 }
+
+class HookWithClassMethodAttributes
+{
+
+	public string $hooked {
+		#[AllowCrc32]
+		#[DenyStrlen]
+		get => 'hooked';
+	}
+
+
+	public function method(): void
+	{
+		crc32('allowed, a hook in the class has AllowCrc32');
+		strlen('disallowed, a hook in the class has DenyStrlen');
+	}
+
+}
+
+class HookWithoutClassMethodAttributes
+{
+
+	public string $hooked {
+		get => 'hooked';
+	}
+
+
+	public function method(): void
+	{
+		crc32('disallowed, nothing in the class has AllowCrc32');
+		strlen('allowed, nothing in the class has DenyStrlen');
+	}
+
+}

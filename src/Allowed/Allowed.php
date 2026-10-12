@@ -393,7 +393,7 @@ class Allowed
 				$names[] = $attribute->getName();
 			}
 		}
-		return $names;
+		return array_merge($names, PHPStanCompatibility::getAllPropertyHookAttributes($scope->getClassReflection()));
 	}
 
 }
