@@ -13,7 +13,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedProperty;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedPropertyFactory;
-use Spaze\PHPStan\Rules\Disallowed\PHPStan1Compatibility;
+use Spaze\PHPStan\Rules\Disallowed\PHPStanCompatibility;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedPropertyRuleErrors;
 
 /**
@@ -66,10 +66,10 @@ class StaticPropertyUsages implements Rule
 			$node->class,
 			$node,
 			$scope,
-			fn(string $property, ClassReflection $class): bool => PHPStan1Compatibility::hasStaticProperty($property, $class),
-			fn(string $property, ClassReflection $class, Scope $scope): PropertyReflection => PHPStan1Compatibility::getStaticProperty($property, $class, $scope),
-			fn(string $property, ClassReflection $trait): bool => PHPStan1Compatibility::hasStaticProperty($property, $trait),
-			fn(string $property, ClassReflection $trait, Scope $scope): PropertyReflection => PHPStan1Compatibility::getStaticProperty($property, $trait, $scope),
+			fn(string $property, ClassReflection $class): bool => PHPStanCompatibility::hasStaticProperty($property, $class),
+			fn(string $property, ClassReflection $class, Scope $scope): PropertyReflection => PHPStanCompatibility::getStaticProperty($property, $class, $scope),
+			fn(string $property, ClassReflection $trait): bool => PHPStanCompatibility::hasStaticProperty($property, $trait),
+			fn(string $property, ClassReflection $trait, Scope $scope): PropertyReflection => PHPStanCompatibility::getStaticProperty($property, $trait, $scope),
 			$this->disallowedProperties
 		);
 	}
