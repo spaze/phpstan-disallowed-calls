@@ -60,3 +60,10 @@ enum InterfaceEnum implements EnumInterface
 {
 	case Foo;
 }
+
+function firstClassCallables(): void
+{
+	$cases = Enum::cases(...);
+	$from = BackedEnum::from(...);
+	$createFromFormat = \DateTimeImmutable::createFromFormat(...);
+}
