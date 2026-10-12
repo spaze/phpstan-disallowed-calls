@@ -132,8 +132,14 @@ class NamespaceUsages implements Rule
 	private function createClassUsage(FullyQualified $name, Scope $scope): NamespaceUsage
 	{
 		$classReflection = $scope->resolveTypeByName($name)->getClassReflection();
-		if ($classReflection !== null && $classReflection->isEnum()) {
-			return $this->namespaceUsageFactory->create($name->toString(), 'Enum', ErrorIdentifiers::DISALLOWED_ENUM);
+		if ($classReflection !== null) {
+			if ($classReflection->isEnum()) {
+				return $this->namespaceUsageFactory->create($name->toString(), 'Enum', ErrorIdentifiers::DISALLOWED_ENUM);
+			} elseif ($classReflection->isInterface()) {
+				return $this->namespaceUsageFactory->create($name->toString(), 'Interface', ErrorIdentifiers::DISALLOWED_INTERFACE);
+			} elseif ($classReflection->isTrait()) {
+				return $this->namespaceUsageFactory->create($name->toString(), 'Trait', ErrorIdentifiers::DISALLOWED_TRAIT);
+			}
 		}
 		return $this->namespaceUsageFactory->create($name->toString(), 'Class', ErrorIdentifiers::DISALLOWED_CLASS);
 	}

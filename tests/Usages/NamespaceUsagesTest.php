@@ -142,7 +142,7 @@ class NamespaceUsagesTest extends RuleTestCase
 				14,
 			],
 			[
-				'Class Framework\SomeInterface is forbidden, no framework some. [Framework\SomeInterface matches Framew*rk\Some*]',
+				'Interface Framework\SomeInterface is forbidden, no framework some. [Framework\SomeInterface matches Framew*rk\Some*]',
 				14,
 				'Work more on your frames',
 			],
