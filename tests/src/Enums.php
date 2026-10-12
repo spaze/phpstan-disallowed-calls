@@ -40,3 +40,9 @@ function enumTypeHints(
 ): ?Enum {
 	return null;
 }
+
+function enumStaticCalls(): void
+{
+	Enum::cases();
+	BackedEnum::from(1);
+}

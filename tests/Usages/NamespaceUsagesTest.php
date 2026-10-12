@@ -138,11 +138,11 @@ class NamespaceUsagesTest extends RuleTestCase
 				12,
 			],
 			[
-				'Namespace Inheritance\Base is forbidden, no inheritance sub base.',
+				'Class Inheritance\Base is forbidden, no inheritance sub base.',
 				14,
 			],
 			[
-				'Namespace Framework\SomeInterface is forbidden, no framework some. [Framework\SomeInterface matches Framew*rk\Some*]',
+				'Interface Framework\SomeInterface is forbidden, no framework some. [Framework\SomeInterface matches Framew*rk\Some*]',
 				14,
 				'Work more on your frames',
 			],
@@ -156,7 +156,7 @@ class NamespaceUsagesTest extends RuleTestCase
 				"• Dexempo\n• Vederex",
 			],
 			[
-				'Namespace Inheritance\Sub is forbidden, no inheritance sub base.',
+				'Class Inheritance\Sub is forbidden, no inheritance sub base.',
 				32,
 			],
 			[
@@ -172,7 +172,7 @@ class NamespaceUsagesTest extends RuleTestCase
 				50,
 			],
 			[
-				'Namespace Inheritance\Base is forbidden, no inheritance sub base.',
+				'Class Inheritance\Base is forbidden, no inheritance sub base.',
 				56,
 			],
 		]);

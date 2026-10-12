@@ -88,15 +88,17 @@ class NamespaceUsages implements Rule
 			$position = $this->getPosition($node);
 		} elseif ($node instanceof UseUse) {
 			$namespaces = [$this->namespaceUsageFactory->create($node->name->toString(), 'Namespace', ErrorIdentifiers::DISALLOWED_NAMESPACE, true)];
-		} elseif ($node instanceof StaticCall && $node->class instanceof Name) {
-			$namespaces = [$this->namespaceUsageFactory->create($node->class->toString(), 'Namespace', ErrorIdentifiers::DISALLOWED_NAMESPACE)];
+		} elseif ($node instanceof StaticCall && $node->class instanceof FullyQualified) {
+			$namespaces = [$this->createClassUsage($node->class, $scope)];
 		} elseif ($node instanceof Class_ && ($node->extends !== null || count($node->implements) > 0)) {
 			$namespaces = [];
-			if ($node->extends !== null) {
-				$namespaces[] = $this->namespaceUsageFactory->create($node->extends->toString(), 'Namespace', ErrorIdentifiers::DISALLOWED_NAMESPACE);
+			if ($node->extends instanceof FullyQualified) {
+				$namespaces[] = $this->createClassUsage($node->extends, $scope);
 			}
 			foreach ($node->implements as $implement) {
-				$namespaces[] = $this->namespaceUsageFactory->create($implement->toString(), 'Namespace', ErrorIdentifiers::DISALLOWED_NAMESPACE);
+				if ($implement instanceof FullyQualified) {
+					$namespaces[] = $this->createClassUsage($implement, $scope);
+				}
 			}
 		} elseif ($node instanceof New_ && $node->class instanceof Name) {
 			$namespaces = [$this->namespaceUsageFactory->create($node->class->toString(), 'Class', ErrorIdentifiers::DISALLOWED_CLASS)];
@@ -130,8 +132,14 @@ class NamespaceUsages implements Rule
 	private function createClassUsage(FullyQualified $name, Scope $scope): NamespaceUsage
 	{
 		$classReflection = $scope->resolveTypeByName($name)->getClassReflection();
-		if ($classReflection !== null && $classReflection->isEnum()) {
-			return $this->namespaceUsageFactory->create($name->toString(), 'Enum', ErrorIdentifiers::DISALLOWED_ENUM);
+		if ($classReflection !== null) {
+			if ($classReflection->isEnum()) {
+				return $this->namespaceUsageFactory->create($name->toString(), 'Enum', ErrorIdentifiers::DISALLOWED_ENUM);
+			} elseif ($classReflection->isInterface()) {
+				return $this->namespaceUsageFactory->create($name->toString(), 'Interface', ErrorIdentifiers::DISALLOWED_INTERFACE);
+			} elseif ($classReflection->isTrait()) {
+				return $this->namespaceUsageFactory->create($name->toString(), 'Trait', ErrorIdentifiers::DISALLOWED_TRAIT);
+			}
 		}
 		return $this->namespaceUsageFactory->create($name->toString(), 'Class', ErrorIdentifiers::DISALLOWED_CLASS);
 	}
