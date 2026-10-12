@@ -40,3 +40,28 @@ class PropertyHooks
 	}
 
 }
+
+class AttributesOnHooks
+{
+
+	public string $allowed {
+		#[DisallowedAttribute]
+		#[AllowAttribute]
+		get => 'allowed';
+	}
+
+	public string $disallowed {
+		#[DisallowedAttribute]
+		get => 'disallowed';
+	}
+
+	public string $allowedExcept {
+		#[AllowedExceptAttribute]
+		#[DenyAttribute]
+		get => 'disallowed';
+		#[AllowedExceptAttribute]
+		set(string $value) {
+		}
+	}
+
+}
