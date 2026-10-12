@@ -5,6 +5,7 @@ namespace Spaze\PHPStan\Rules\Disallowed;
 
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
+use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\PropertyReflection;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\Type;
@@ -76,6 +77,25 @@ class PHPStanCompatibility
 		} else {
 			// PHPStan 2.1.26+
 			return $class->getStaticProperty($property);
+		}
+	}
+
+
+	/**
+	 * @return list<string>|null null if the method is not a property hook
+	 */
+	public static function getPropertyHookAttributes(MethodReflection $method, ClassReflection $class): ?array
+	{
+		if (!method_exists($method, 'isPropertyHook')) {
+			// PHPStan < 2.1.0, which doesn't analyse property hooks
+			return null;
+		} else {
+			// PHPStan 2.1.0+
+			if (!$method->isPropertyHook()) {
+				return null;
+			}
+			$hook = $class->getNativeReflection()->getProperty($method->getHookedPropertyName())->getHooks()[$method->getPropertyHookName()] ?? null;
+			return $hook !== null ? array_map(static fn($a) => $a->getName(), $hook->getAttributes()) : [];
 		}
 	}
 

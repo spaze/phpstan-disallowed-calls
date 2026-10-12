@@ -57,3 +57,27 @@ parameters:
 ```
 
 No error would be reported for `Attribute1` as it is used "in" a method with `Attribute2`.
+
+### Property hooks
+
+Code in a `get` or a `set` property hook is allowed or disallowed by the attributes on the hook itself, not by the attributes on the property.
+This needs PHPStan 2.1.0 or newer, because older versions don't analyse property hooks.
+
+```php
+class Foo
+{
+
+    private PotentiallyDangerous\Logger $logger;
+
+    public string $bar {
+        #[MyAttribute]
+        set(string $value) {
+            $this->logger->log($value);
+            $this->bar = $value;
+        }
+    }
+
+}
+```
+
+With the first configuration above, no error would be reported for the `log()` call, because it's in a hook with `MyAttribute`.

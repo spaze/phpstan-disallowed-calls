@@ -21,6 +21,7 @@ use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeException;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 use Spaze\PHPStan\Rules\Disallowed\Params\Param;
+use Spaze\PHPStan\Rules\Disallowed\PHPStanCompatibility;
 use Spaze\PHPStan\Rules\Disallowed\Type\TypeHintContextVisitor;
 
 class Allowed
@@ -333,6 +334,11 @@ class Allowed
 		if ($function instanceof MethodReflection) {
 			if (!$scope->isInClass()) {
 				return [];
+			}
+			// Property hooks can't be looked up with getMethod(), their names are like `$property::get`
+			$hookAttributes = PHPStanCompatibility::getPropertyHookAttributes($function, $scope->getClassReflection());
+			if ($hookAttributes !== null) {
+				return $hookAttributes;
 			}
 			return array_map(static fn($a) => $a->getName(), $scope->getClassReflection()->getNativeReflection()->getMethod($function->getName())->getAttributes());
 		} elseif ($function instanceof FunctionReflection) {
