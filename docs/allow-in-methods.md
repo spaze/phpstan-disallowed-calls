@@ -61,3 +61,10 @@ No error would be reported for `CrossOriginRedirect` as it is used "in" a method
 The same applies to `allowExceptInMethods` (and the aliases): an attribute placed on a method or a function whose name matches one of the patterns will be reported.
 
 For a named function declared inside a method or another function, the enclosing method or function is the one matched against the patterns, the same way `allowInMethodsWithAttributes` uses the enclosing method's or function's attributes.
+
+### Property hooks
+
+Property hooks can be specified like methods named after the property and the hook, for example `Foo\Bar::$baz::get()` or `Foo\Bar::$baz::set()`, and [fnmatch()](https://www.php.net/function.fnmatch) patterns like `Foo\Bar::$baz::*()` work too.
+This needs PHPStan 2.1.0 or newer, because older versions don't analyse property hooks.
+
+Unlike with methods, attributes placed on a hook are not considered to be used in the hook when matching by name.

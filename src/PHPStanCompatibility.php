@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed;
 
+use PhpParser\Node;
+use PhpParser\Node\PropertyHook;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\MethodReflection;
@@ -97,6 +99,47 @@ class PHPStanCompatibility
 			$hook = $class->getNativeReflection()->getProperty($method->getHookedPropertyName())->getHooks()[$method->getPropertyHookName()] ?? null;
 			return $hook !== null ? array_map(static fn($a) => $a->getName(), $hook->getAttributes()) : [];
 		}
+	}
+
+
+	/**
+	 * Always null with PHPStan 1.x, its php-parser doesn't know property hooks.
+	 *
+	 * @return list<string>|null null if the node is not a property hook
+	 */
+	public static function getPropertyHookNodeAttributes(?Node $node): ?array
+	{
+		if (!$node instanceof PropertyHook) {
+			return null;
+		}
+		$names = [];
+		foreach ($node->attrGroups as $attrGroup) {
+			foreach ($attrGroup->attrs as $attr) {
+				$names[] = $attr->name->toString();
+			}
+		}
+		return $names;
+	}
+
+
+	/**
+	 * @return list<string>
+	 */
+	public static function getAllPropertyHookAttributes(ClassReflection $class): array
+	{
+		if (!class_exists(PropertyHook::class)) {
+			// PHPStan 1.x, its php-parser doesn't know property hooks, and PHP 8.4's own getHooks() can't be called on its reflection adapter
+			return [];
+		}
+		$names = [];
+		foreach ($class->getNativeReflection()->getProperties() as $property) {
+			foreach ($property->getHooks() as $hook) {
+				foreach ($hook->getAttributes() as $attribute) {
+					$names[] = $attribute->getName();
+				}
+			}
+		}
+		return $names;
 	}
 
 }

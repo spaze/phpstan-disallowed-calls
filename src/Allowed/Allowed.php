@@ -355,6 +355,11 @@ class Allowed
 			} elseif ($node instanceof Function_) {
 				return array_map(static fn($a) => $a->getName(), $this->reflector->reflectFunction(($node->namespacedName ?? $node->name)->toString())->getAttributes());
 			}
+			// Attributes placed on a property hook are checked in the class scope, use the hook's own attributes like for methods
+			$hookAttributes = PHPStanCompatibility::getPropertyHookNodeAttributes($node);
+			if ($hookAttributes !== null) {
+				return $hookAttributes;
+			}
 			// $scope->getFunction() is null in param/return type hints, use the enclosing function attributes stored by TypeHintContextVisitor
 			if ($node !== null) {
 				$names = $node->getAttribute(TypeHintContextVisitor::ATTRIBUTE_ENCLOSING_FUNCTION_ATTR_NAMES);
@@ -388,7 +393,7 @@ class Allowed
 				$names[] = $attribute->getName();
 			}
 		}
-		return $names;
+		return array_merge($names, PHPStanCompatibility::getAllPropertyHookAttributes($scope->getClassReflection()));
 	}
 
 }
