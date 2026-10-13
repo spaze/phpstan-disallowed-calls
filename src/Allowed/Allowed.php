@@ -374,16 +374,21 @@ class Allowed
 		if (!$scope->isInClass()) {
 			return [];
 		}
+		// PHPStan's ClassReflection can't list methods or properties, so their names come from the native reflection
+		$classReflection = $scope->getClassReflection();
 		$names = [];
-		foreach ($scope->getClassReflection()->getNativeReflection()->getMethods() as $method) {
-			foreach ($method->getAttributes() as $attribute) {
+		foreach ($classReflection->getNativeReflection()->getMethods() as $method) {
+			foreach ($classReflection->getNativeMethod($method->getName())->getAttributes() as $attribute) {
 				$names[] = $attribute->getName();
 			}
 		}
-		foreach ($scope->getClassReflection()->getNativeReflection()->getProperties() as $property) {
-			foreach ($property->getHooks() as $hook) {
-				foreach ($hook->getAttributes() as $attribute) {
-					$names[] = $attribute->getName();
+		foreach ($classReflection->getNativeReflection()->getProperties() as $property) {
+			$propertyReflection = $classReflection->getNativeProperty($property->getName());
+			foreach (['get', 'set'] as $hookType) {
+				if ($propertyReflection->hasHook($hookType)) {
+					foreach ($propertyReflection->getHook($hookType)->getAttributes() as $attribute) {
+						$names[] = $attribute->getName();
+					}
 				}
 			}
 		}
