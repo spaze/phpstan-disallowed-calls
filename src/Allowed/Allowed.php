@@ -5,6 +5,7 @@ namespace Spaze\PHPStan\Rules\Disallowed\Allowed;
 
 use PhpParser\Node;
 use PhpParser\Node\Arg;
+use PhpParser\Node\PropertyHook;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
@@ -22,7 +23,6 @@ use Spaze\PHPStan\Rules\Disallowed\Exceptions\UnsupportedParamTypeException;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
 use Spaze\PHPStan\Rules\Disallowed\Identifier\Identifier;
 use Spaze\PHPStan\Rules\Disallowed\Params\Param;
-use Spaze\PHPStan\Rules\Disallowed\PHPStanCompatibility;
 use Spaze\PHPStan\Rules\Disallowed\Type\TypeHintContextVisitor;
 
 class Allowed
@@ -337,9 +337,9 @@ class Allowed
 				return [];
 			}
 			// Property hooks can't be looked up with getMethod(), their names are like `$property::get`
-			$hookAttributes = PHPStanCompatibility::getPropertyHookAttributes($function, $scope->getClassReflection());
-			if ($hookAttributes !== null) {
-				return $hookAttributes;
+			if (preg_match('/^\$(.+)::(get|set)$/i', $function->getName(), $matches) === 1) {
+				$hook = $scope->getClassReflection()->getNativeReflection()->getProperty($matches[1])->getHooks()[strtolower($matches[2])] ?? null;
+				return $hook !== null ? array_map(static fn($a) => $a->getName(), $hook->getAttributes()) : [];
 			}
 			return array_map(static fn($a) => $a->getName(), $scope->getClassReflection()->getNativeReflection()->getMethod($function->getName())->getAttributes());
 		} elseif ($function instanceof FunctionReflection) {
@@ -356,9 +356,14 @@ class Allowed
 				return array_map(static fn($a) => $a->getName(), $this->reflector->reflectFunction(($node->namespacedName ?? $node->name)->toString())->getAttributes());
 			}
 			// Attributes placed on a property hook are checked in the class scope, use the hook's own attributes like for methods
-			$hookAttributes = PHPStanCompatibility::getPropertyHookNodeAttributes($node);
-			if ($hookAttributes !== null) {
-				return $hookAttributes;
+			if ($node instanceof PropertyHook) {
+				$names = [];
+				foreach ($node->attrGroups as $attrGroup) {
+					foreach ($attrGroup->attrs as $attr) {
+						$names[] = $attr->name->toString();
+					}
+				}
+				return $names;
 			}
 			// $scope->getFunction() is null in param/return type hints, use the enclosing function attributes stored by TypeHintContextVisitor
 			if ($node !== null) {
@@ -393,7 +398,14 @@ class Allowed
 				$names[] = $attribute->getName();
 			}
 		}
-		return array_merge($names, PHPStanCompatibility::getAllPropertyHookAttributes($scope->getClassReflection()));
+		foreach ($scope->getClassReflection()->getNativeReflection()->getProperties() as $property) {
+			foreach ($property->getHooks() as $hook) {
+				foreach ($hook->getAttributes() as $attribute) {
+					$names[] = $attribute->getName();
+				}
+			}
+		}
+		return $names;
 	}
 
 }

@@ -65,6 +65,5 @@ For a named function declared inside a method or another function, the enclosing
 ### Property hooks
 
 Property hooks can be specified like methods named after the property and the hook, for example `Foo\Bar::$baz::get()` or `Foo\Bar::$baz::set()`, and [fnmatch()](https://www.php.net/function.fnmatch) patterns like `Foo\Bar::$baz::*()` work too.
-This needs PHPStan 2.1.0 or newer, because older versions don't analyse property hooks.
 
 Unlike with methods, attributes placed on a hook are not considered to be used in the hook when matching by name.

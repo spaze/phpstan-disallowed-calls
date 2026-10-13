@@ -62,7 +62,6 @@ No error would be reported for `Attribute1` as it is used "in" a method with `At
 
 Code in a `get` or a `set` property hook is allowed or disallowed by the attributes on the hook itself, not by the attributes on the property.
 Like with methods, an attribute placed on a hook is also considered to be used in the hook, so for example a disallowed attribute on a hook can be re-allowed by another attribute on the same hook.
-This needs PHPStan 2.1.0 or newer, because older versions don't analyse property hooks.
 
 ```php
 class Foo

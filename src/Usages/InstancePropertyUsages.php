@@ -13,7 +13,6 @@ use PHPStan\Rules\RuleError;
 use PHPStan\ShouldNotHappenException;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedProperty;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedPropertyFactory;
-use Spaze\PHPStan\Rules\Disallowed\PHPStanCompatibility;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedPropertyRuleErrors;
 
 /**
@@ -66,10 +65,10 @@ class InstancePropertyUsages implements Rule
 			$node->var,
 			$node,
 			$scope,
-			fn(string $property, ClassReflection $class): bool => PHPStanCompatibility::hasInstanceProperty($property, $class),
-			fn(string $property, ClassReflection $class, Scope $scope): PropertyReflection => PHPStanCompatibility::getInstanceProperty($property, $class, $scope),
-			fn(string $property, ClassReflection $trait): bool => PHPStanCompatibility::hasInstanceProperty($property, $trait),
-			fn(string $property, ClassReflection $trait, Scope $scope): PropertyReflection => PHPStanCompatibility::getInstanceProperty($property, $trait, $scope),
+			fn(string $property, ClassReflection $class): bool => $class->hasInstanceProperty($property),
+			fn(string $property, ClassReflection $class, Scope $scope): PropertyReflection => $class->getInstanceProperty($property, $scope),
+			fn(string $property, ClassReflection $trait): bool => $trait->hasInstanceProperty($property),
+			fn(string $property, ClassReflection $trait, Scope $scope): PropertyReflection => $trait->getInstanceProperty($property, $scope),
 			$this->disallowedProperties
 		);
 	}
