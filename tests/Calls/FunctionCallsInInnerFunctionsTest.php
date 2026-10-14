@@ -46,15 +46,15 @@ class FunctionCallsInInnerFunctionsTest extends RuleTestCase
 
 	public function testRule(): void
 	{
-		// Inner named functions are not supported by PHPStan and are treated as having no attributes
+		// Inner named functions are not supported by PHPStan, but their own attributes are used like for any other function
 		$this->analyse([__DIR__ . '/../src/InnerFunctions.php'], [
 			[
 				'Calling md5() is forbidden.',
 				13,
 			],
 			[
-				'Calling md5() is forbidden.',
-				26,
+				'Calling sha1() is forbidden.',
+				27,
 			],
 			[
 				'Calling sha1() is forbidden.',
