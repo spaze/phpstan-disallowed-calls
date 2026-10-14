@@ -26,17 +26,6 @@ namespace PHPUnit\Framework\Attributes {
 
 		}
 
-
-		#[\Attribute]
-		final class RequiresMethod
-		{
-
-			public function __construct(string $className, string $methodName)
-			{
-			}
-
-		}
-
 	}
 
 }

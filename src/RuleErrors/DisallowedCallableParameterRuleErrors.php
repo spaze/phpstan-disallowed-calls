@@ -21,7 +21,6 @@ use PHPStan\Type\TypeCombinator;
 use Spaze\PHPStan\Rules\Disallowed\Calls\NewCalls;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
-use Spaze\PHPStan\Rules\Disallowed\PHPStanCompatibility;
 use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
 class DisallowedCallableParameterRuleErrors
@@ -138,7 +137,7 @@ class DisallowedCallableParameterRuleErrors
 	{
 		$ruleErrors = [];
 		$classType = $this->typeResolver->getType($class, $scope);
-		if (PHPStanCompatibility::isClassString($classType)->yes()) {
+		if ($classType->isClassString()->yes()) {
 			$classType = $classType->getClassStringObjectType();
 		}
 		foreach ($classType->getObjectTypeOrClassStringObjectType()->getObjectClassNames() as $className) {

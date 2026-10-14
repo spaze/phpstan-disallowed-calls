@@ -3,25 +3,19 @@ declare(strict_types = 1);
 
 namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 
-use PHPStan\Reflection\Php\PhpMethodFromParserNodeReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
-use PHPUnit\Framework\Attributes\RequiresMethod;
 use PHPUnit\Framework\Attributes\RequiresPhp;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallableParameterRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors;
 
 /**
- * Property hooks are analysed since PHPStan 2.1.0
- *
  * @requires PHP >= 8.4.0
- * @requires function PHPStan\Reflection\Php\PhpMethodFromParserNodeReflection::isPropertyHook
  * @extends RuleTestCase<FunctionCalls>
  */
 #[RequiresPhp('>= 8.4.0')]
-#[RequiresMethod(PhpMethodFromParserNodeReflection::class, 'isPropertyHook')]
 class FunctionCallsInPropertyHooksTest extends RuleTestCase
 {
 

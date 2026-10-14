@@ -16,7 +16,6 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Type;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCall;
 use Spaze\PHPStan\Rules\Disallowed\Formatter\Formatter;
-use Spaze\PHPStan\Rules\Disallowed\PHPStanCompatibility;
 use Spaze\PHPStan\Rules\Disallowed\Type\TypeResolver;
 
 class DisallowedMethodRuleErrors
@@ -51,7 +50,7 @@ class DisallowedMethodRuleErrors
 	public function get($class, CallLike $node, Scope $scope, array $disallowedCalls): array
 	{
 		$calledOnType = $this->typeResolver->getType($class, $scope);
-		if (PHPStanCompatibility::isClassString($calledOnType)->yes()) {
+		if ($calledOnType->isClassString()->yes()) {
 			$calledOnType = $calledOnType->getClassStringObjectType();
 		}
 		$errors = [];
