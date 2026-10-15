@@ -8,15 +8,9 @@ use Spaze\PHPStan\Rules\Disallowed\Allowed\UsagePosition;
 interface DisallowedWithTypeHints extends Disallowed
 {
 
-	/**
-	 * @param UsagePosition::* $position
-	 */
-	public function getAllowInPosition(int $position): bool;
+	public function getAllowInPosition(UsagePosition $position): bool;
 
 
-	/**
-	 * @param UsagePosition::* $position
-	 */
-	public function getAllowExceptInPosition(int $position): bool;
+	public function getAllowExceptInPosition(UsagePosition $position): bool;
 
 }

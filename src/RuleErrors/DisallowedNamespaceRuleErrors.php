@@ -40,10 +40,9 @@ class DisallowedNamespaceRuleErrors
 	 * @param NamespaceUsage $namespaceUsage
 	 * @param Scope $scope
 	 * @param list<DisallowedNamespace> $disallowedNamespaces
-	 * @param UsagePosition::*|null $position
 	 * @return list<IdentifierRuleError>
 	 */
-	public function getDisallowedMessage(Node $node, NamespaceUsage $namespaceUsage, Scope $scope, array $disallowedNamespaces, ?int $position = null): array
+	public function getDisallowedMessage(Node $node, NamespaceUsage $namespaceUsage, Scope $scope, array $disallowedNamespaces, ?UsagePosition $position = null): array
 	{
 		foreach ($disallowedNamespaces as $disallowedNamespace) {
 			if (
