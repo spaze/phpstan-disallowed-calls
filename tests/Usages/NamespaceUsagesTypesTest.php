@@ -11,10 +11,8 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\UsageFactory\NamespaceUsageFactory;
 
 /**
- * @requires PHP >= 8.1.0
  * @extends RuleTestCase<NamespaceUsages>
  */
-#[RequiresPhp('>= 8.1.0')]
 class NamespaceUsagesTypesTest extends RuleTestCase
 {
 
@@ -113,9 +111,6 @@ class NamespaceUsagesTypesTest extends RuleTestCase
 	}
 
 
-	/**
-	 * @requires PHP >= 8.2.0
-	 */
 	#[RequiresPhp('>= 8.2.0')]
 	public function testDnfTypes(): void
 	{
@@ -145,9 +140,6 @@ class NamespaceUsagesTypesTest extends RuleTestCase
 	}
 
 
-	/**
-	 * @requires PHP >= 8.3.0
-	 */
 	#[RequiresPhp('>= 8.3.0')]
 	public function testTypedClassConstants(): void
 	{

@@ -5,16 +5,13 @@ namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use PHPUnit\Framework\Attributes\RequiresPhp;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedNamespaceFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedNamespaceRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\UsageFactory\NamespaceUsageFactory;
 
 /**
- * @requires PHP >= 8.1.0
  * @extends RuleTestCase<NamespaceFirstClassCallableUsages>
  */
-#[RequiresPhp('>= 8.1.0')]
 class NamespaceFirstClassCallableUsagesTest extends RuleTestCase
 {
 

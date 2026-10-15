@@ -6,16 +6,13 @@ namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
-use PHPUnit\Framework\Attributes\RequiresPhp;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallableParameterRuleErrors;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors;
 
 /**
- * @requires PHP >= 8.0.0
  * @extends RuleTestCase<FunctionCalls>
  */
-#[RequiresPhp('>= 8.0.0')]
 class FunctionCallsNamedParamsTest extends RuleTestCase
 {
 

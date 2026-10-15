@@ -6,7 +6,6 @@ namespace Spaze\PHPStan\Rules\Disallowed\Usages;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
-use PHPUnit\Framework\Attributes\RequiresPhp;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedPropertyFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedPropertyRuleErrors;
 
@@ -38,10 +37,6 @@ class EnumPropertyUsagesTest extends RuleTestCase
 	}
 
 
-	/**
-	 * @requires PHP >= 8.1.0
-	 */
-	#[RequiresPhp('>= 8.1.0')]
 	public function testRule(): void
 	{
 		// Based on the configuration above, in this file:

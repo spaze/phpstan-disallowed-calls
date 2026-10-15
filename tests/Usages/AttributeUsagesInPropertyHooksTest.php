@@ -10,7 +10,6 @@ use Spaze\PHPStan\Rules\Disallowed\DisallowedAttributeFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedAttributeRuleErrors;
 
 /**
- * @requires PHP >= 8.4.0
  * @extends RuleTestCase<AttributeUsages>
  */
 #[RequiresPhp('>= 8.4.0')]

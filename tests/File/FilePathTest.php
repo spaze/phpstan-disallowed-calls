@@ -25,9 +25,6 @@ class FilePathTest extends PHPStanTestCase
 	}
 
 
-	/**
-	 * @dataProvider pathProvider
-	 */
 	#[DataProvider('pathProvider')]
 	public function testFnMatch(string $path, string $file, string $fileWithRootDir): void
 	{

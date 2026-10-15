@@ -14,8 +14,6 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "7.4"
-          - "8.0"
           - "8.1"
           - "8.2"
           - "8.3"
@@ -30,10 +28,6 @@ jobs:
           - ""
           - "--prefer-lowest"
         exclude:
-          - php-version: "7.4"
-            run: composer lint
-          - php-version: "8.0"
-            run: composer lint
           - php-version: "8.1"
             run: composer lint
           - php-version: "8.2"
@@ -41,10 +35,6 @@ jobs:
           - php-version: "8.3"
             run: composer lint
         include:
-          - php-version: "7.4"
-            run: composer lint-7.x
-          - php-version: "8.0"
-            run: composer lint-8.0
           - php-version: "8.1"
             run: composer lint-8.1
           - php-version: "8.2"
@@ -72,8 +62,8 @@ jobs:
     - name: Validate composer.json
       run: composer validate --strict --no-interaction
 
-    - name: Remove dead code detector for lowest and unsupported dependencies
-      if: matrix.update-options == '--prefer-lowest' || fromJSON(matrix.php-version) < 8.1
+    - name: Remove dead code detector for lowest dependencies
+      if: matrix.update-options == '--prefer-lowest'
       run: composer remove --dev --no-update shipmonk/dead-code-detector
 
     - name: Install dependencies
@@ -123,8 +113,6 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "7.4"
-          - "8.0"
           - "8.1"
           - "8.2"
           - "8.3"
@@ -152,8 +140,8 @@ jobs:
           php -v
           php -m
 
-      - name: Remove dead code detector for lowest and unsupported dependencies
-        if: matrix.update-options == '--prefer-lowest' || fromJSON(matrix.php-version) < 8.1
+      - name: Remove dead code detector for lowest dependencies
+        if: matrix.update-options == '--prefer-lowest'
         run: composer remove --dev --no-update shipmonk/dead-code-detector
 
       - name: Install dependencies

@@ -6,7 +6,6 @@ namespace Spaze\PHPStan\Rules\Disallowed\Calls;
 use PHPStan\Rules\Rule;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Testing\RuleTestCase;
-use PHPUnit\Framework\Attributes\RequiresPhp;
 use Spaze\PHPStan\Rules\Disallowed\DisallowedCallFactory;
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors;
 
@@ -49,10 +48,6 @@ class FunctionFirstClassCallablesAllowExceptInMethodsWithParamsTest extends Rule
 	}
 
 
-	/**
-	 * @requires PHP >= 8.1.0
-	 */
-	#[RequiresPhp('>= 8.1.0')]
 	public function testRule(): void
 	{
 		$this->analyse([__DIR__ . '/../src/RoyaleExceptFirstClassCallable.php'], [
