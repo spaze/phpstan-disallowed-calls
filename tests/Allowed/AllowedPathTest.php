@@ -39,9 +39,6 @@ class AllowedPathTest extends PHPStanTestCase
 	}
 
 
-	/**
-	 * @dataProvider pathProvider
-	 */
 	#[DataProvider('pathProvider')]
 	public function testMatches(string $allowedPath, string $file, string $fileWithRootDir): void
 	{

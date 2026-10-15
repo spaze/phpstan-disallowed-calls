@@ -24,7 +24,6 @@ class IdentifierTest extends PHPStanTestCase
 	 * @param string $value
 	 * @param list<string> $excludes
 	 * @return void
-	 * @dataProvider matchesProvider
 	 */
 	#[DataProvider('matchesProvider')]
 	public function testMatches(string $pattern, string $value, array $excludes): void
@@ -38,7 +37,6 @@ class IdentifierTest extends PHPStanTestCase
 	 * @param string $value
 	 * @param list<string> $excludes
 	 * @return void
-	 * @dataProvider doesNotMatchProvider
 	 */
 	#[DataProvider('doesNotMatchProvider')]
 	public function testDoesNotMatch(string $pattern, string $value, array $excludes): void

@@ -12,7 +12,6 @@ use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedCallableParameterRuleErr
 use Spaze\PHPStan\Rules\Disallowed\RuleErrors\DisallowedFunctionRuleErrors;
 
 /**
- * @requires PHP >= 8.4.0
  * @extends RuleTestCase<FunctionCalls>
  */
 #[RequiresPhp('>= 8.4.0')]

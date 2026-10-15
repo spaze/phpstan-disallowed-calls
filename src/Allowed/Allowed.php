@@ -54,10 +54,9 @@ class Allowed
 	 * @param Scope $scope
 	 * @param array<Arg>|null $args
 	 * @param Disallowed|DisallowedWithParams $disallowed
-	 * @param UsagePosition::*|null $position
 	 * @return bool
 	 */
-	public function isAllowed(?Node $node, Scope $scope, ?array $args, Disallowed $disallowed, ?int $position = null): bool
+	public function isAllowed(?Node $node, Scope $scope, ?array $args, Disallowed $disallowed, ?UsagePosition $position = null): bool
 	{
 		$hasParams = $disallowed instanceof DisallowedWithParams;
 		foreach ($disallowed->getAllowInCalls() as $call) {
@@ -95,7 +94,7 @@ class Allowed
 					return false;
 				}
 			}
-			foreach ([UsagePosition::PARAM_TYPE, UsagePosition::RETURN_TYPE] as $case) {
+			foreach (UsagePosition::cases() as $case) {
 				if ($disallowed->getAllowExceptInPosition($case)) {
 					return true;
 				}

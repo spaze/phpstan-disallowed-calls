@@ -85,9 +85,6 @@ class NamespaceUsagesParamReturnTypeTest extends RuleTestCase
 	}
 
 
-	/**
-	 * @requires PHP >= 8.2.0
-	 */
 	#[RequiresPhp('>= 8.2.0')]
 	public function testDnfTypes(): void
 	{
@@ -105,9 +102,6 @@ class NamespaceUsagesParamReturnTypeTest extends RuleTestCase
 	}
 
 
-	/**
-	 * @requires PHP >= 8.3.0
-	 */
 	#[RequiresPhp('>= 8.3.0')]
 	public function testTypedClassConstants(): void
 	{

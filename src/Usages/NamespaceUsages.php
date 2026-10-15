@@ -167,16 +167,13 @@ class NamespaceUsages implements Rule
 	}
 
 
-	/**
-	 * @return UsagePosition::*|null
-	 */
-	private function getPosition(Node $node): ?int
+	private function getPosition(Node $node): ?UsagePosition
 	{
 		if ($node->getAttribute(TypeHintContextVisitor::ATTRIBUTE_IN_PARAM_TYPE)) {
-			return UsagePosition::PARAM_TYPE;
+			return UsagePosition::ParamType;
 		}
 		if ($node->getAttribute(TypeHintContextVisitor::ATTRIBUTE_IN_RETURN_TYPE)) {
-			return UsagePosition::RETURN_TYPE;
+			return UsagePosition::ReturnType;
 		}
 		return null;
 	}

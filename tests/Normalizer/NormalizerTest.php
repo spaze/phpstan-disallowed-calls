@@ -79,9 +79,6 @@ class NormalizerTest extends PHPStanTestCase
 	}
 
 
-	/**
-	 * @dataProvider propertyProvider
-	 */
 	#[DataProvider('propertyProvider')]
 	public function testNormalizeInvalidProperty(string $property, string $exceptionMessage): void
 	{
