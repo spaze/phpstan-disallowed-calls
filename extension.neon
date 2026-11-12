@@ -291,6 +291,7 @@ parametersSchema:
 		structure([
 			enum: string(),
 			case: anyOf(string(), listOf(string())),
+			?message: string(),
 			?allowIn: listOf(string()),
 			?allowExceptIn: listOf(string()),
 			?disallowIn: listOf(string()),

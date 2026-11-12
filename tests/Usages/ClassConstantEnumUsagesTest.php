@@ -37,6 +37,7 @@ class ClassConstantEnumUsagesTest extends RuleTestCase
 				[
 					'enum' => Enum::class,
 					'case' => 'Foo',
+					'message' => 'use Baz instead',
 				],
 				[
 					'class' => Enum::class,
@@ -70,7 +71,7 @@ class ClassConstantEnumUsagesTest extends RuleTestCase
 				16,
 			],
 			[
-				'Using Enums\Enum::Foo is forbidden.',
+				'Using Enums\Enum::Foo is forbidden, use Baz instead.',
 				17,
 			],
 			[
